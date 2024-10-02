@@ -4,12 +4,13 @@ import App from './App.jsx'
 import './index.css'
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 import Home from './pages/Home.jsx'
-
+import LoginRegister from './components/login_register/LoginRegister.jsx'
 createRoot(document.getElementById('root')).render(
   <StrictMode>
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path='/' element={<LoginRegister/>} />
+        {/* <Route path="/" element={<Home />} /> */}
       </Routes>
     </BrowserRouter>
   </StrictMode>,
