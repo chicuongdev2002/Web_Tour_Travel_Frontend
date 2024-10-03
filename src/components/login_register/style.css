@@ -332,3 +332,30 @@ form .linkTxt {
 .popup button:hover {
   background-color: #0056b3;
 }
+.error-message {
+    color: red;
+    /* Màu chữ đỏ để nổi bật */
+    /* background-color: #ffe6e6; */
+    /* Nền màu nhạt để dễ nhìn */
+    /* border: 1px solid red;
+    /* Đường viền đỏ */
+    /* padding: 10px; */ 
+    /* Khoảng cách bên trong */
+    /* margin-top: 10px; */
+    /* Khoảng cách phía trên */
+    border-radius: 5px;
+    /* Bo tròn góc */
+    font-size: 13px;
+    /* Kích thước chữ */
+    display: flex;
+    /* Flexbox để căn chỉnh nội dung */
+    align-items: center;
+    /* Căn giữa theo chiều dọc */
+}
+
+.error-message::before {
+    content: "⚠️";
+    /* Biểu tượng cảnh báo */
+    margin-right: 5px;
+    /* Khoảng cách giữa biểu tượng và chữ */
+}

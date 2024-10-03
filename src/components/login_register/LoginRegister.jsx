@@ -19,7 +19,30 @@ const LoginRegister = () => {
   const [isVerificationSent, setIsVerificationSent] = useState(false); // Trạng thái kiểm tra mã xác thực
   const [countdown, setCountdown] = useState(10); // Thời gian đếm ngược
   const [showCountDown, setShowCountdown] = useState(false); // Thời gian đếm ngược
+  const [accountExists, setAccountExists] = useState(false); // Trạng thái kiểm tra tài khoản
+  const [checkAccountError, setCheckAccountError] = useState("");
   const navigate = useNavigate();
+  // Hàm kiểm tra tài khoản tồn tại
+// Hàm kiểm tra tài khoản tồn tại
+const checkAccountExists = async (username) => {
+  if (!username) {
+    setAccountExists(false);
+    setCheckAccountError("");
+    return;
+  }
+
+  try {
+    const response = await fetch(`http://localhost:8080/api/accounts/exists/${username}`);
+    if (!response.ok) {
+      throw new Error("Không thể kiểm tra tài khoản.");
+    }
+    const exists = await response.json();
+    setAccountExists(exists);
+    setCheckAccountError(exists ? "Tài khoản đã tồn tại." : ""); // Hiển thị thông báo nếu tài khoản tồn tại
+  } catch (error) {
+    setCheckAccountError(error.message);
+  }
+};
   // Hàm thay đổi trạng thái đăng kí
   const handleRegisterClick = () => {
     setIsActive(true);
@@ -77,6 +100,11 @@ const LoginRegister = () => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
+       // Kiểm tra xem tài khoản đã tồn tại hay chưa
+     await checkAccountExists(username);
+     if (accountExists) {
+      throw new Error("Tài khoản đã tồn tại. Vui lòng chọn tên tài khoản khác.");
+    }
       // Gửi mã xác thực đến email
       const isCodeSent = await sendVerificationCode(email);
       if (!isCodeSent) {
@@ -286,9 +314,14 @@ const LoginRegister = () => {
               type="text"
               required
               value={username}
-              onChange={(e) => setUsername(e.target.value)}
+              onChange={(e) => {
+                setUsername(e.target.value);
+                checkAccountExists(e.target.value); // Gọi hàm kiểm tra tài khoản
+              }}
             />
             <label>Username</label>
+              {/* Hiển thị thông báo lỗi nếu có */}
+             {checkAccountError && <p className="error-message">{checkAccountError}</p>}
             <i className="bx bxs-user"></i>
           </div>
           <div className="input-box animation" style={{ "--i": 20, "--j": 3 }}>
