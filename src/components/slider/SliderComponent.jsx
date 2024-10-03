@@ -1,10 +1,10 @@
 // SliderComponent.js
-import React from 'react';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import React from "react";
+import Slider from "react-slick";
+import "slick-carousel/slick/slick.css";
+import "slick-carousel/slick/slick-theme.css";
 
-const SliderComponent = ({quantity, images}) => {
+const SliderComponent = ({ quantity, images }) => {
   const settings = {
     dots: true,
     infinite: true,
@@ -16,11 +16,18 @@ const SliderComponent = ({quantity, images}) => {
   };
 
   return (
-    <div className="slider-container" style={{ width: '100%', margin: '0 auto' }}>
+    <div
+      className="slider-container"
+      style={{ width: "100%", margin: "0 auto" }}
+    >
       <Slider {...settings}>
         {images.map((image, index) => (
           <div key={index}>
-            <img src={image} alt={`Ad ${index + 1}`} style={{ width: '100%' }} />
+            <img
+              src={image}
+              alt={`Ad ${index + 1}`}
+              style={{ width: "100%" }}
+            />
           </div>
         ))}
       </Slider>

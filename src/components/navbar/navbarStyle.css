@@ -1,15 +1,15 @@
 .navbarElement:hover {
-    background-color: green;
+  background-color: green;
 }
 
 .custom-dropdown:hover .dropdown-menu {
-    display: block;
+  display: block;
 }
 
 .custom-dropdown .dropdown-toggle::after {
-    display: none;
+  display: none;
 }
 
 .selected {
-    background-color: green;
+  background-color: green;
 }

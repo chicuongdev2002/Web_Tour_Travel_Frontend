@@ -13,7 +13,7 @@ function Slider({ children, quantity }) {
         setTimeout(() => {
           slideNext();
           setSlideDone(true);
-        }, 2000)
+        }, 2000),
       );
     }
   }, [slideDone]);
@@ -59,42 +59,47 @@ function Slider({ children, quantity }) {
     >
       {children.map((item, index) => {
         return (
-          <div style={{ display: 'flex', flexDirection: 'row', width: '100%',
-          transform: `translateX(-${activeIndex * 100/quantity}%)`
-           }}
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              width: "100%",
+              transform: `translateX(-${(activeIndex * 100) / quantity}%)`,
+            }}
             className={"slider__item"}
             key={index}
           >
-            {
-              quantity === 1 ?
-                <div style={{ width: '100%' }}>{item}</div> :
-              quantity === 2 ?
-                index === 0 ?
-                  <>
-                    <div style={{ width: '50%' }}>{item}</div>
-                    <div style={{ width: '50%', float: 'left' }}>{children[index + 1]}</div>
-                  </> :
-                  index <= children.length - quantity ?
-                    <>
-                      <div style={{ width: '50%' }}>{children[2 * index]}</div>
-                      <div style={{ width: '50%' }}>{children[2 * index + 1]}</div>
-                    </> : null
-                    : 
-                  index === 0 ?
-                  <>
-                    <div style={{ width: '33.33%' }}>{item}</div>
-                    <div style={{ width: '33.33%' }}>{children[index + 1]}</div>
-                    <div style={{ width: '33.33%' }}>{children[index + 2]}</div>
-                  </>
-                  : index <= children.length - quantity ?
-                    <>
-                      <div style={{ width: '33.33%' }}>{children[3 * index]}</div>
-                      <div style={{ width: '33.33%' }}>{children[3 * index + 1]}</div>
-                      <div style={{ width: '33.33%' }}>{children[3 * index + 2]}</div>
-                    </> : null
-            }
+            {quantity === 1 ? (
+              <div style={{ width: "100%" }}>{item}</div>
+            ) : quantity === 2 ? (
+              index === 0 ? (
+                <>
+                  <div style={{ width: "50%" }}>{item}</div>
+                  <div style={{ width: "50%", float: "left" }}>
+                    {children[index + 1]}
+                  </div>
+                </>
+              ) : index <= children.length - quantity ? (
+                <>
+                  <div style={{ width: "50%" }}>{children[2 * index]}</div>
+                  <div style={{ width: "50%" }}>{children[2 * index + 1]}</div>
+                </>
+              ) : null
+            ) : index === 0 ? (
+              <>
+                <div style={{ width: "33.33%" }}>{item}</div>
+                <div style={{ width: "33.33%" }}>{children[index + 1]}</div>
+                <div style={{ width: "33.33%" }}>{children[index + 2]}</div>
+              </>
+            ) : index <= children.length - quantity ? (
+              <>
+                <div style={{ width: "33.33%" }}>{children[3 * index]}</div>
+                <div style={{ width: "33.33%" }}>{children[3 * index + 1]}</div>
+                <div style={{ width: "33.33%" }}>{children[3 * index + 2]}</div>
+              </>
+            ) : null}
           </div>
-        )
+        );
       })}
 
       <div className="container__slider__links">
@@ -112,7 +117,7 @@ function Slider({ children, quantity }) {
                 setActiveIndex(index);
               }}
             ></button>
-          )
+          );
         })}
       </div>
 

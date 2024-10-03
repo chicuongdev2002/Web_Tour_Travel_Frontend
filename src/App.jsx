@@ -1,13 +1,13 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import 'bootstrap/dist/css/bootstrap.css'
-import './App.css'
-import { useNavigate } from 'react-router-dom'
+import { useState } from "react";
+import reactLogo from "./assets/react.svg";
+import viteLogo from "/vite.svg";
+import "bootstrap/dist/css/bootstrap.css";
+import "./App.css";
+import { useNavigate } from "react-router-dom";
 
 function App() {
-  const [count, setCount] = useState(0)
-  let navigate = useNavigate()
+  const [count, setCount] = useState(0);
+  let navigate = useNavigate();
 
   return (
     <>
@@ -19,9 +19,9 @@ function App() {
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
       </div>
-      <h1 className='text-success'>Vite + React</h1>
+      <h1 className="text-success">Vite + React</h1>
       <div className="card">
-        <button onClick={() => navigate("/a", {state: "abc"})}>
+        <button onClick={() => navigate("/a", { state: "abc" })}>
           count is {count}
         </button>
         <p>
@@ -32,7 +32,7 @@ function App() {
         Click on the Vite and React logos to learn more
       </p>
     </>
-  )
+  );
 }
 
-export default App
+export default App;
