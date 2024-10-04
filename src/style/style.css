@@ -1,0 +1,13 @@
+.divRow {
+    display: flex;
+    flex-direction: row;
+}
+.divCenter {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.textInfo {
+    font-size: 18px;
+    margin: 0 0 0 10px;
+}

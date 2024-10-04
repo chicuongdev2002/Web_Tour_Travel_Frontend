@@ -237,7 +237,8 @@ const checkAccountExists = async (username) => {
     console.log("Login Failed:", response);
   };
   return (
-    <div className={`wrapper ${isActive ? "active" : ""}`}>
+    <div className="divCenter">
+      <div className={`wrapper ${isActive ? "active" : ""}`}>
       <span className="rotate-bg"></span>
       <span className="rotate-bg2"></span>
 
@@ -255,7 +256,7 @@ const checkAccountExists = async (username) => {
               onChange={(e) => setUsername(e.target.value)}
             />
             <label>Username</label>
-            <i className="bx bxs-user"></i>
+            {/* <i className="bx bxs-user"></i> */}
           </div>
           <div className="input-box animation" style={{ "--i": 2, "--j": 23 }}>
             <input
@@ -265,7 +266,7 @@ const checkAccountExists = async (username) => {
               onChange={(e) => setPassword(e.target.value)}
             />
             <label>Password</label>
-            <i className="bx bxs-lock-alt"></i>
+            {/* <i className="bx bxs-lock-alt"></i> */}
           </div>
           <button
             type="submit"
@@ -416,6 +417,7 @@ const checkAccountExists = async (username) => {
           Enter your personal details and start journey with us
         </p>
       </div>
+    </div>
     </div>
   );
 };

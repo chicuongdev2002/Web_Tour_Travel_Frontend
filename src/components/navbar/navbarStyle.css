@@ -6,6 +6,10 @@
   display: block;
 }
 
+.nav-link {
+  color: black !important;
+}
+
 .custom-dropdown .dropdown-toggle::after {
   display: none;
 }
