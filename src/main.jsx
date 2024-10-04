@@ -13,8 +13,9 @@ createRoot(document.getElementById("root")).render(
     <GoogleOAuthProvider clientId={YOUR_GOOGLE_CLIENT_ID}>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LoginRegister />} />
-          <Route path="/home" element={<Home />} />
+          <Route path="/" element={<Home />} />
+          <Route path="/login-register" element={<LoginRegister />} />
+          <Route path="/app" element={<App />} />
         </Routes>
       </BrowserRouter>
     </GoogleOAuthProvider>
