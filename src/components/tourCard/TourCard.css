@@ -7,6 +7,15 @@
     min-width: 300px;
     position: relative;
     text-align: start;
+    transition: transform 0.3s, box-shadow 0.3s;
+    /* Thêm hiệu ứng chuyển tiếp */
+}
+
+.tour-card:hover {
+    transform: translateY(-5px);
+    /* Nâng cao khi hover */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+    /* Tăng bóng đổ khi hover */
 }
 
 .tour-image {
@@ -59,6 +68,13 @@
     border-radius: 5px;
     cursor: pointer;
     width: 100%;
+    transition: background-color 0.3s;
+    /* Thêm hiệu ứng chuyển tiếp cho nút */
+}
+
+.book-now:hover {
+    background-color: #2980b9;
+    /* Tối màu khi hover */
 }
 
 .countdown {
@@ -69,4 +85,42 @@
     color: white;
     padding: 5px;
     border-radius: 5px;
+}
+
+body {
+    background-color: #f8f9fa;
+    font-family: 'Arial', sans-serif;
+}
+
+.container {
+    background-color: white;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    padding: 2rem;
+}
+
+h1 {
+    color: #007bff;
+    font-weight: bold;
+}
+
+.card {
+    transition: transform 0.3s ease-in-out;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.btn-outline-primary {
+    border-width: 2px;
+}
+
+.btn-outline-primary:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+.pagination {
+    font-weight: bold;
 }

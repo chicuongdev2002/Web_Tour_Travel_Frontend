@@ -1,43 +1,90 @@
-import { useState, useEffect, useRef } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import 'bootstrap/dist/css/bootstrap.css'
-import './App.css'
-import { useNavigate } from 'react-router-dom'
-import TourCard from './components/tourCard/TourCard'
-import image from './assets/logo.png'
-import axios from 'axios'
-import { getAllTour } from './functions/getTour'
+import React, { useState, useEffect } from 'react';
+import 'bootstrap/dist/css/bootstrap.css';
+import { Container, Row, Col, Button, Spinner } from 'react-bootstrap';
+import { getAllTour } from './functions/getTour';
+import TourCard from './components/tourCard/TourCard';
 
-function App() {
+const App = () => {
   const [dataCard, setDataCard] = useState([]);
-  useEffect(() => {
-    getAllTour(0,20).then((data) => {
-      console.log(data);
-      setDataCard(data);
-    })
-  }, [])
-  return (
-    <div className='divRow' style={{ flexWrap: 'wrap'}}>
-      {dataCard.map((tour, index) => (
-          <div key={index} className='ml-2 mt-2'>
-            <TourCard tour={{
-            image: image,
-            title: tour.tourName,
-            description: tour.tourDescription,
-            departureCity: 'TP. Hồ Chí Minh',
-            startDate: '02/10/2024',
-            duration: tour.duration + 'N' + (tour.duration - 1) + 'Đ',
-            originalPrice: '8,490,000',
-            discountedPrice: tour.price,
-            countdown: '19:43:49',
-          }}
-          />
-          </div>
-        )
-      )}
-    </div>
-  )
-}
+  const [page, setPage] = useState(0);
+  const [pageSize] = useState(8); // Increased page size for better grid layout
+  const [totalPages, setTotalPages] = useState(1);
+  const [loading, setLoading] = useState(false);
 
-export default App
+  const fetchTours = async (page) => {
+    setLoading(true);
+    const data = await getAllTour(page, pageSize);
+    setDataCard(data.content);
+    setTotalPages(data.page.totalPages);
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    fetchTours(page);
+  }, [page]);
+
+  const handlePageChange = (direction) => {
+    if (direction === 'next' && page < totalPages - 1) {
+      setPage((prev) => prev + 1);
+    } else if (direction === 'prev' && page > 0) {
+      setPage((prev) => prev - 1);
+    }
+  };
+
+  return (
+    <Container fluid className="py-5 px-4">
+      <h1 className="text-center mb-5">Tour Nổi Bật</h1>
+      {loading ? (
+        <div className="text-center">
+          <Spinner animation="border" role="status">
+            <span className="visually-hidden">Loading...</span>
+          </Spinner>
+        </div>
+      ) : (
+        <Row className="tour-grid g-4">
+          {dataCard.map((tour, index) => (
+            <Col key={index} xs={12} sm={6} md={4} lg={3} className="d-flex align-items-stretch">
+              <TourCard
+                tour={{
+                  image: tour.imageUrl,
+                  title: tour.tourName,
+                  description: tour.tourDescription,
+                  departureCity: tour.startLocation,
+                  startDate: tour.startDate,
+                  duration: `${tour.duration}N${tour.duration - 1}Đ`,
+                  originalPrice: '8,490,000',
+                  availableSeats: tour.availableSeats,
+                  discountedPrice: tour.price,
+                  countdown: '19:43:49',
+                }}
+              />
+            </Col>
+          ))}
+        </Row>
+      )}
+      <div className="d-flex justify-content-center align-items-center mt-4">
+        <Button
+          variant="outline-primary"
+          onClick={() => handlePageChange('prev')}
+          disabled={page === 0}
+          className="me-2"
+        >
+          Previous
+        </Button>
+        <span className="mx-3">
+          Page {page + 1} of {totalPages}
+        </span>
+        <Button
+          variant="outline-primary"
+          onClick={() => handlePageChange('next')}
+          disabled={page >= totalPages - 1}
+          className="ms-2"
+        >
+          Next
+        </Button>
+      </div>
+    </Container>
+  );
+};
+
+export default App;

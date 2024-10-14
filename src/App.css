@@ -40,3 +40,39 @@
 .read-the-docs {
   color: #888;
 }
+.btn-outline-primary {
+  border-width: 2px;
+}
+
+.btn-outline-primary:hover {
+  background-color: #007bff;
+  color: white;
+}
+
+.pagination {
+  font-weight: bold;
+}
+
+@media (max-width: 576px) {
+  .tour-card {
+    max-width: 100%;
+  }
+}
+
+@media (min-width: 577px) and (max-width: 768px) {
+  .tour-card {
+    max-width: calc(50% - 1rem);
+  }
+}
+
+@media (min-width: 769px) and (max-width: 992px) {
+  .tour-card {
+    max-width: calc(33.333% - 1rem);
+  }
+}
+
+@media (min-width: 993px) {
+  .tour-card {
+    max-width: calc(25% - 1rem);
+  }
+}
