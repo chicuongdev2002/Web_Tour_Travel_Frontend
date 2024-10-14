@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./style.css";
 import { useNavigate } from "react-router-dom";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import { FaUser, FaEye } from "react-icons/fa";
 const LoginRegister = () => {
   const [isActive, setIsActive] = useState(false);
   const [username, setUsername] = useState("");
@@ -15,7 +16,7 @@ const LoginRegister = () => {
   const [showPopup, setShowPopup] = useState(false); // Trạng thái cho popup
   const [showVerify, setShowVerify] = useState(false); // Trạng thái cho popup
   const [popupMessage, setPopupMessage] = useState(""); // Thông điệp popup
-  const [verificationCode, setVerificationCode] = useState(""); 
+  const [verificationCode, setVerificationCode] = useState("");
   const [isVerificationSent, setIsVerificationSent] = useState(false); // Trạng thái kiểm tra mã xác thực
   const [countdown, setCountdown] = useState(10); // Thời gian đếm ngược
   const [showCountDown, setShowCountdown] = useState(false); // Thời gian đếm ngược
@@ -23,26 +24,26 @@ const LoginRegister = () => {
   const [checkAccountError, setCheckAccountError] = useState("");
   const navigate = useNavigate();
   // Hàm kiểm tra tài khoản tồn tại
-// Hàm kiểm tra tài khoản tồn tại
-const checkAccountExists = async (username) => {
-  if (!username) {
-    setAccountExists(false);
-    setCheckAccountError("");
-    return;
-  }
-
-  try {
-    const response = await fetch(`http://localhost:8080/api/accounts/exists/${username}`);
-    if (!response.ok) {
-      throw new Error("Không thể kiểm tra tài khoản.");
+  // Hàm kiểm tra tài khoản tồn tại
+  const checkAccountExists = async (username) => {
+    if (!username) {
+      setAccountExists(false);
+      setCheckAccountError("");
+      return;
     }
-    const exists = await response.json();
-    setAccountExists(exists);
-    setCheckAccountError(exists ? "Tài khoản đã tồn tại." : ""); // Hiển thị thông báo nếu tài khoản tồn tại
-  } catch (error) {
-    setCheckAccountError(error.message);
-  }
-};
+
+    try {
+      const response = await fetch(`http://localhost:8080/api/accounts/exists/${username}`);
+      if (!response.ok) {
+        throw new Error("Không thể kiểm tra tài khoản.");
+      }
+      const exists = await response.json();
+      setAccountExists(exists);
+      setCheckAccountError(exists ? "Tài khoản đã tồn tại." : ""); // Hiển thị thông báo nếu tài khoản tồn tại
+    } catch (error) {
+      setCheckAccountError(error.message);
+    }
+  };
   // Hàm thay đổi trạng thái đăng kí
   const handleRegisterClick = () => {
     setIsActive(true);
@@ -76,7 +77,7 @@ const checkAccountExists = async (username) => {
       setError(err.message);
     }
   };
- // Hàm gửi mã xác thực email
+  // Hàm gửi mã xác thực email
   const sendVerificationCode = async (email) => {
     const response = await fetch("http://localhost:8080/api/verification/send-code", {
       method: "POST",
@@ -100,11 +101,11 @@ const checkAccountExists = async (username) => {
   const handleRegister = async (e) => {
     e.preventDefault();
     try {
-       // Kiểm tra xem tài khoản đã tồn tại hay chưa
-     await checkAccountExists(username);
-     if (accountExists) {
-      throw new Error("Tài khoản đã tồn tại. Vui lòng chọn tên tài khoản khác.");
-    }
+      // Kiểm tra xem tài khoản đã tồn tại hay chưa
+      await checkAccountExists(username);
+      if (accountExists) {
+        throw new Error("Tài khoản đã tồn tại. Vui lòng chọn tên tài khoản khác.");
+      }
       // Gửi mã xác thực đến email
       const isCodeSent = await sendVerificationCode(email);
       if (!isCodeSent) {
@@ -148,7 +149,7 @@ const checkAccountExists = async (username) => {
       if (!isCodeValid) {
         throw new Error("Mã xác thực không hợp lệ. Vui lòng kiểm tra lại.");
       }
-      console.log("Mã xác thực hợp lệ",isCodeValid);
+      console.log("Mã xác thực hợp lệ", isCodeValid);
       // Nếu mã xác thực hợp lệ, tiến hành đăng ký tài khoản
       const response = await fetch(
         `http://localhost:8080/api/accounts/register?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`,
@@ -171,7 +172,7 @@ const checkAccountExists = async (username) => {
         }
         throw new Error(errorMessage);
       }
-      console.log("Đăng ký thành công",response);
+      console.log("Đăng ký thành công", response);
       setPopupMessage("Đăng ký thành công!");
       setShowPopup(true);
       setTimeout(() => {
@@ -239,185 +240,182 @@ const checkAccountExists = async (username) => {
   return (
     <div className="divCenter">
       <div className={`wrapper ${isActive ? "active" : ""}`}>
-      <span className="rotate-bg"></span>
-      <span className="rotate-bg2"></span>
+        <span className="rotate-bg"></span>
+        <span className="rotate-bg2"></span>
 
-      {/* Login Form */}
-      <div className="form-box login">
-        <h2 className="title animation" style={{ "--i": 0, "--j": 21 }}>
-          <button onClick={handleSwitchToLogin}>Login</button>
-        </h2>
-        <form onSubmit={handleLogin}>
-          <div className="input-box animation" style={{ "--i": 1, "--j": 22 }}>
-            <input
-              type="text"
-              required
-              value={username}
-              onChange={(e) => setUsername(e.target.value)}
-            />
-            <label>Username</label>
-            {/* <i className="bx bxs-user"></i> */}
-          </div>
-          <div className="input-box animation" style={{ "--i": 2, "--j": 23 }}>
-            <input
-              type="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <label>Password</label>
-            {/* <i className="bx bxs-lock-alt"></i> */}
-          </div>
-          <button
-            type="submit"
-            className="btn animation"
-            style={{ "--i": 3, "--j": 24 }}
-          >
-            Login
-          </button>
-          {/* {error && <p className="error-message">{error}</p>} */}
-          <div className="linkTxt animation" style={{ "--i": 5, "--j": 25 }}>
-            <p>
-              Don't have an account?{" "}
-              <a
-                href="#"
-                className="register-link"
-                onClick={handleRegisterClick}
-              >
-                Sign Up
-              </a>
-            </p>
-            <GoogleLogin
-              onSuccess={handleLoginSuccess}
-              onFailure={handleLoginFailure}
-            />
-          </div>
-        </form>
-      </div>
+        {/* Login Form */}
+        <div className="form-box login">
+          <h2 className="animation" style={{ "--i": 0, "--j": 21 }}>
+            <button onClick={handleSwitchToLogin}>Login</button>
+          </h2>
+          <form onSubmit={handleLogin}>
+            <div className="input-box animation" style={{ "--i": 1, "--j": 22 }}>
+              <input
+                type="text"
+                required
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              />
+              <label>Username</label>
+              <FaUser className="iconUser" size={30}/>
+            </div>
+            <div className="input-box animation" style={{ "--i": 2, "--j": 23 }}>
+              <input
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <label>Password</label>
+              <FaEye className="iconEye" size={30}/>
+            </div>
+            <button
+              type="submit"
+              className="animation"
+              style={{ "--i": 3, "--j": 24 }}
+            >
+              Login
+            </button>
+            {/* {error && <p className="error-message">{error}</p>} */}
+            <div className="linkTxt animation" style={{ "--i": 5, "--j": 25 }}>
+              <p>
+                Don't have an account?{" "}
+                <a
+                  href="#"
+                  onClick={handleRegisterClick}
+                >
+                  Sign Up
+                </a>
+              </p>
+              <GoogleLogin
+                onSuccess={handleLoginSuccess}
+                onFailure={handleLoginFailure}
+              />
+            </div>
+          </form>
+        </div>
 
-      {/* Info Text for Login */}
-      <div className="info-text login">
-        <h2 className="animation" style={{ "--i": 0, "--j": 20 }}>
-          Xuyên Việt Tour
-        </h2>
-        <p className="animation" style={{ "--i": 1, "--j": 21 }}>
-          Welcome Back!
-        </p>
-      </div>
-      {/* Register Form */}
-      <div className="form-box register">
-        <h2 className="title animation" style={{ "--i": 17, "--j": 0 }}>
-          Sign Up
-        </h2>
-        <form onSubmit={handleRegister}>
-          <div className="input-box animation" style={{ "--i": 18, "--j": 1 }}>
-            <input
-              type="text"
-              required
-              value={username}
-              onChange={(e) => {
-                setUsername(e.target.value);
-                checkAccountExists(e.target.value); // Gọi hàm kiểm tra tài khoản
-              }}
-            />
-            <label>Username</label>
-              {/* Hiển thị thông báo lỗi nếu có */}
-             {checkAccountError && <p className="error-message">{checkAccountError}</p>}
-            <i className="bx bxs-user"></i>
-          </div>
-          <div className="input-box animation" style={{ "--i": 20, "--j": 3 }}>
-            <input
-              type="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <label>Password</label>
-            <i className="bx bxs-lock-alt"></i>
-          </div>
-          <div className="input-box animation" style={{ "--i": 18, "--j": 1 }}>
-            <input
-              type="text"
-              required
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-            />
-            <label>FullName</label>
-            <i className="bx bxs-user"></i>
-          </div>
-          <div className="input-box animation" style={{ "--i": 18, "--j": 1 }}>
-            <input
-              type="tel" 
-              required
-              value={phone}
-              onChange={(e) => setPhone(e.target.value)}
-              pattern="[0-9]{10,}"
-              placeholder="Phone"
-            />
-            <label>Phone</label>
-            <i className="bx bxs-user"></i>
-          </div>
-          <div className="input-box animation" style={{ "--i": 18, "--j": 1 }}>
-            <input
-              type="email"
-              required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-            <label>Email</label>
-            <i className="bx bxs-user"></i>
-          </div>
-          {/* Trường nhập mã xác thực */}
-          {showVerify && (
+        {/* Info Text for Login */}
+        <div className="info-text login">
+          <h2 className="animation" style={{ "--i": 0, "--j": 20 }}>
+            Xuyên Việt Tour
+          </h2>
+          <p className="animation" style={{ "--i": 1, "--j": 21 }}>
+            Welcome Back!
+          </p>
+        </div>
+        {/* Register Form */}
+        <div className="form-box register">
+          <h2 className="animation" style={{ "--i": 17, "--j": 0 }}>
+            Sign Up
+          </h2>
+          <form onSubmit={handleRegister}>
             <div className="input-box animation" style={{ "--i": 18, "--j": 1 }}>
               <input
                 type="text"
-                value={verificationCode}
-                onChange={(e) => setVerificationCode(e.target.value)}
-                placeholder="Nhập mã xác thực"
+                required
+                value={username}
+                onChange={(e) => {
+                  setUsername(e.target.value);
+                  checkAccountExists(e.target.value); // Gọi hàm kiểm tra tài khoản
+                }}
               />
-              <label>Mã xác thực</label>
-              {showCountDown && <p>Thời gian còn lại: {countdown} giây</p>}
+              <label>Username</label>
+              {/* Hiển thị thông báo lỗi nếu có */}
+              {checkAccountError && <p className="error-message">{checkAccountError}</p>}
               <i className="bx bxs-user"></i>
             </div>
-          
-          )}
-          <button
-            type="submit"
-            className="btn animation"
-            style={{ "--i": 21, "--j": 4 }}
-            onClick={isVerificationSent  ? handleVerifyAndRegister : handleRegister}
-          >
-            {isVerificationSent  ? "Xác thực và Đăng ký" : "Gửi mã xác thực"}
-          </button>
-          <div className="linkTxt animation" style={{ "--i": 22, "--j": 5 }}>
-            <p>
-              Already have an account?{" "}
-              <a href="#" className="login-link" onClick={() => setIsActive(false)}>
-                Login
-              </a>
-            </p>
-          </div>
-        </form>
-        {/* Popup thông báo */}
-        {showPopup && (
-          <div className="popup">
-            <p>{popupMessage}</p>
-            <button onClick={() => setShowPopup(false)}>Đóng</button>
-          </div>
-        )}
-      </div>
+            <div className="input-box animation" style={{ "--i": 20, "--j": 3 }}>
+              <input
+                type="password"
+                required
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
+              <label>Password</label>
+              <i className="bx bxs-lock-alt"></i>
+            </div>
+            <div className="input-box animation" style={{ "--i": 18, "--j": 1 }}>
+              <input
+                type="text"
+                required
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+              />
+              <label>FullName</label>
+              <i className="bx bxs-user"></i>
+            </div>
+            <div className="input-box animation" style={{ "--i": 18, "--j": 1 }}>
+              <input
+                type="tel"
+                required
+                value={phone}
+                onChange={(e) => setPhone(e.target.value)}
+                pattern="[0-9]{10,}"
+              />
+              <label>Phone</label>
+            </div>
+            <div className="input-box animation" style={{ "--i": 18, "--j": 1 }}>
+              <input
+                type="email"
+                required
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+              <label>Email</label>
+              <i className="bx bxs-user"></i>
+            </div>
+            {/* Trường nhập mã xác thực */}
+            {showVerify && (
+              <div className="input-box animation" style={{ "--i": 18, "--j": 1 }}>
+                <input
+                  type="text"
+                  value={verificationCode}
+                  onChange={(e) => setVerificationCode(e.target.value)}
+                  placeholder="Nhập mã xác thực"
+                />
+                <label>Mã xác thực</label>
+                {showCountDown && <p>Thời gian còn lại: {countdown} giây</p>}
+                <i className="bx bxs-user"></i>
+              </div>
 
-      {/* Info Text for Register */}
-      <div className="info-text register">
-        <h2 className="animation" style={{ "--i": 17, "--j": 0 }}>
-          Welcome Back!
-        </h2>
-        <p className="animation" style={{ "--i": 18, "--j": 1 }}>
-          Enter your personal details and start journey with us
-        </p>
+            )}
+            <button
+              type="submit"
+              className="btn animation"
+              style={{ "--i": 21, "--j": 4 }}
+              onClick={isVerificationSent ? handleVerifyAndRegister : handleRegister}
+            >
+              {isVerificationSent ? "Xác thực và Đăng ký" : "Gửi mã xác thực"}
+            </button>
+            <div className="linkTxt animation" style={{ "--i": 22, "--j": 5 }}>
+              <p>
+                Already have an account?{" "}
+                <a href="#" className="login-link" onClick={() => setIsActive(false)}>
+                  Login
+                </a>
+              </p>
+            </div>
+          </form>
+          {/* Popup thông báo */}
+          {showPopup && (
+            <div className="popup">
+              <p>{popupMessage}</p>
+              <button onClick={() => setShowPopup(false)}>Đóng</button>
+            </div>
+          )}
+        </div>
+
+        {/* Info Text for Register */}
+        <div className="info-text register">
+          <h2 className="animation" style={{ "--i": 17, "--j": 0 }}>
+            Welcome Back!
+          </h2>
+          <p className="animation" style={{ "--i": 18, "--j": 1 }}>
+            Enter your personal details and start journey with us
+          </p>
+        </div>
       </div>
-    </div>
     </div>
   );
 };

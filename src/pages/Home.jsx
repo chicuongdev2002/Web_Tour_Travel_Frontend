@@ -36,7 +36,7 @@ function Home() {
         </div>
       </div>
       <div className='divRow'>
-      <div className='d-flex bg-warning' style={{ width: '40%', flexDirection: 'column', justifyContent: 'space-between'}}>
+      <div className='d-flex w-25' style={{ flexDirection: 'column', justifyContent: 'space-between'}}>
             <div className='divRow mt-2 p-3'>
               <input className='form-control' type='text' placeholder='Tìm kiếm' />
               <button className='ml-2 bg-success'>Search</button>
