@@ -479,7 +479,8 @@ const checkEmailNonExists = async (email) => {
     }
   };
   return (
-    <div className={`wrapper ${isActive ? "active" : ""}`}>
+    <div className="divCenter">
+      <div className={`wrapper ${isActive ? "active" : ""}`}>
       <span className="rotate-bg"></span>
       <span className="rotate-bg2"></span>
 
@@ -779,6 +780,7 @@ const checkEmailNonExists = async (email) => {
           Enter your personal details and start journey with us
         </p>
       </div>
+    </div>
     </div>
   );
 };

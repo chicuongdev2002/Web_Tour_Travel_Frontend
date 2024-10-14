@@ -16,17 +16,14 @@ const SliderComponent = ({ quantity, images }) => {
   };
 
   return (
-    <div
-      className="slider-container"
-      style={{ width: "100%", margin: "0 auto" }}
-    >
+    <div className="slider-container" style={{width:'60%'}}>
       <Slider {...settings}>
         {images.map((image, index) => (
           <div key={index}>
             <img
               src={image}
               alt={`Ad ${index + 1}`}
-              style={{ width: "100%" }}
+              style={{ width: '100%' }}
             />
           </div>
         ))}
