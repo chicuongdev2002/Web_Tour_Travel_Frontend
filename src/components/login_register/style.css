@@ -7,6 +7,8 @@
   box-shadow: 0 0 20px #000;
   overflow: hidden;
   z-index: 1;
+  min-width: 700px;
+  min-height: 300px;
 }
 
 .wrapper .form-box {
@@ -59,10 +61,10 @@
 {
   border-bottom-color: #17a;
 }
-.input-box input:invalid
+/* .input-box input:invalid
 {
   border-bottom-color: red;
-}
+} */
 
 .input-box label {
   position: absolute;
@@ -81,11 +83,11 @@
   color: #17a;
 }
 
-input:invalid ~ label 
+/* input:invalid ~ label 
 {
   top: -5px;
   color: red;
-}
+} */
 
 .iconUser, .iconEye {
   position: absolute;

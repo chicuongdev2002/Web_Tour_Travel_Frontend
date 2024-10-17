@@ -68,6 +68,13 @@ footer {
     margin: 20px auto;
 }
 
+.divRowBetween {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
 .divCenter {
     display: flex;
     justify-content: center;
@@ -97,4 +104,12 @@ footer {
         width: 100%;
         margin: 5px 0;
     }
+}
+
+.w-60{
+    width: 60%;
+}
+
+.w-40{
+    width: 40%;
 }
