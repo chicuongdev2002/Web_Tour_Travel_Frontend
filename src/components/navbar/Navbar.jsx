@@ -3,8 +3,8 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import './navbarStyle.css';
+import title from '../../assets/title.png'
 import React, { useState } from 'react';
-import brand from '../../assets/logo.png';
 function NavbarComp() {
   const [showDropdown, setShowDropdown] = useState(null);
 
@@ -32,21 +32,32 @@ function NavbarComp() {
     );
   }
 
+  function CustomNavBarItem({item}){
+    return (
+      <Nav.Link className='navbarElement' href="#home">
+        <div className='divCenter' style={{ width: 120 }}>
+          <p className='divCenter' style={{ fontSize: 25, margin: 0, color: 'white', fontWeight: 400 }}>{item}</p>
+        </div>
+      </Nav.Link>
+    );
+  }
+
   return (
-    <Navbar expand="lg" className="bg-light shadow-sm">
-      <Container>
-        <Navbar.Brand href="#home" className="brand-title">
-            <img src={brand} alt="Brand Logo" style={{ width: 100, height: 100 }} />
+    <Navbar expand="lg" className="bg-body-tertiary">
+      <Container style={{ margin: 0}}>
+        <Navbar.Brand href="#home">
+          <img src={title} style={{width: 200, height:30}}/>
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <Nav.Link href="#home">Trang Chủ</Nav.Link>
+            <CustomNavBarItem item='Home'/>
+            <CustomNavBarItem item='Giới thiệu'/>
             <CustomDropdown title='Miền Bắc' items={regions['Miền Bắc']} />
             <CustomDropdown title='Miền Trung' items={regions['Miền Trung']} />
             <CustomDropdown title='Miền Nam' items={regions['Miền Nam']} />
-            <Nav.Link href="#price">Bảng Giá</Nav.Link>
-            <Nav.Link href="#contact">Liên Hệ</Nav.Link>
+            <CustomNavBarItem item='Bảng giá'/>
+            <CustomNavBarItem item='Đặt tour'/>
           </Nav>
         </Navbar.Collapse>
       </Container>
