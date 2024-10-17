@@ -3,59 +3,50 @@ import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
 import NavDropdown from 'react-bootstrap/NavDropdown';
 import './navbarStyle.css';
-import '../../style/style.css';
 import React, { useState } from 'react';
-
+import brand from '../../assets/logo.png';
 function NavbarComp() {
   const [showDropdown, setShowDropdown] = useState(null);
 
-  function CustomDropdown({ title, list }) {
+  const regions = {
+    'Miền Bắc': ['Hà Nội', 'Hạ Long', 'Sapa', 'Ninh Bình'],
+    'Miền Trung': ['Đà Nẵng', 'Huế', 'Nha Trang', 'Phú Yên'],
+    'Miền Nam': ['TP. Hồ Chí Minh', 'Phú Quốc', 'Cần Thơ', 'Vũng Tàu'],
+  };
+
+  function CustomDropdown({ title, items }) {
     return (
-      <NavDropdown show={showDropdown === title} style={{ width: 120, fontSize: 25 }}
+      <NavDropdown
+        show={showDropdown === title}
         onMouseEnter={() => setShowDropdown(title)}
         onMouseLeave={() => setShowDropdown(null)}
-        className="custom-dropdown navbarElement" title={title}>
-        {
-          list.map((item, index) => (
-            <NavDropdown.Item key={index} href={item.url}>{item.title}</NavDropdown.Item>
-          ))
-        }
+        className="custom-dropdown"
+        title={title}
+      >
+        {items.map((item, index) => (
+          <NavDropdown.Item key={index} href={`#${item}`} className="dropdown-item">
+            {item}
+          </NavDropdown.Item>
+        ))}
       </NavDropdown>
     );
   }
 
-  function CustomNavBarItem({item}){
-    return (
-      <Nav.Link className='navbarElement' href="#home">
-        <div className='divCenter' style={{ width: 120 }}>
-          <p className='divCenter' style={{ fontSize: 25, margin: 0, color: 'black' }}>{item}</p>
-        </div>
-      </Nav.Link>
-    );
-  }
-
   return (
-    <Navbar expand="lg" className="bg-body-tertiary">
-      <Container style={{ margin: 0}}>
-        <Navbar.Brand href="#home">
-          <p>Tour Xuyên Việt</p>
+    <Navbar expand="lg" className="bg-light shadow-sm">
+      <Container>
+        <Navbar.Brand href="#home" className="brand-title">
+            <img src={brand} alt="Brand Logo" style={{ width: 100, height: 100 }} />
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="basic-navbar-nav" />
         <Navbar.Collapse id="basic-navbar-nav">
           <Nav className="me-auto">
-            <CustomNavBarItem item='Home'/>
-            <CustomNavBarItem item='Giới thiệu'/>
-            <CustomDropdown title='Tour' list={
-              [
-                { title: 'Miền Bắc', url: '/item1' },
-                { title: 'Miền Trung', url: '/item2' },
-                { title: 'Miền Nam', url: '/item3' },
-              ]
-            } />
-            <CustomNavBarItem item='Bảng giá'/>
-            <CustomNavBarItem item='Đặt tour'/>
-            <CustomNavBarItem item='Hình ảnh'/>
-            <CustomNavBarItem item='Liên hệ'/>
+            <Nav.Link href="#home">Trang Chủ</Nav.Link>
+            <CustomDropdown title='Miền Bắc' items={regions['Miền Bắc']} />
+            <CustomDropdown title='Miền Trung' items={regions['Miền Trung']} />
+            <CustomDropdown title='Miền Nam' items={regions['Miền Nam']} />
+            <Nav.Link href="#price">Bảng Giá</Nav.Link>
+            <Nav.Link href="#contact">Liên Hệ</Nav.Link>
           </Nav>
         </Navbar.Collapse>
       </Container>

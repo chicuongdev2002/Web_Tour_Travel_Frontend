@@ -1,32 +1,10 @@
-@import url("https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap");
-:root {
-  --white: #fff;
-  --black: #000;
-  --lightBulue: #17a;
-}
-
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-  font-family: "Poppins", sans-serif;
-}
-
-body {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  min-height: 100vh;
-}
-
 .wrapper {
   position: relative;
   width: 900px;
   height: 550px;
-  background: var(--white);
-  border: 2px solid var(--black);
+  border: 2px solid #000;
   border-radius: 10px;
-  box-shadow: 0 0 20px var(--black);
+  box-shadow: 0 0 20px #000;
   overflow: hidden;
   z-index: 1;
 }
@@ -47,14 +25,6 @@ body {
   padding: 0 60px 0 40px;
 }
 
-.form-box h2 {
-  margin-bottom: 10px;
-  position: relative;
-  font-size: 32px;
-  color: var(--black);
-  text-align: center;
-}
-
 .form-box h2::after {
   content: "";
   position: absolute;
@@ -63,12 +33,10 @@ body {
   transform: translateX(-50%);
   width: 40px;
   height: 4px;
-  background: var(--black);
+  background: #000;
 }
 
 .form-box .input-box {
-  position: relative;
-  width: 100%;
   height: 50px;
   margin: 25px 0;
 }
@@ -77,38 +45,49 @@ body {
   width: 100%;
   height: 100%;
   background: transparent;
-  color: var(--black);
-  font-size: 16px;
+  color: #000;
   font-weight: 500;
   border: none;
   outline: none;
-  border-bottom: 2px solid var(--black);
+  border-bottom: 2px solid #000;
   transition: 0.5s;
-  padding-right: 23px;
+  padding-right: 32px;
 }
 
 .input-box input:focus,
-.input-box input:valid {
-  border-bottom-color: var(--lightBulue);
+.input-box input:valid
+{
+  border-bottom-color: #17a;
 }
+.input-box input:invalid
+{
+  border-bottom-color: red;
+}
+
 .input-box label {
   position: absolute;
   top: 50%;
   left: 0;
   transform: translateY(-50%);
-  font-size: 16px;
-  color: var(--black);
+  color: #000;
   pointer-events: none;
   transition: 0.5s;
 }
 
 .input-box input:focus ~ label,
-.input-box input:valid ~ label {
+.input-box input:valid ~ label 
+{
   top: -5px;
-  color: var(--lightBulue);
+  color: #17a;
 }
 
-.input-box i {
+input:invalid ~ label 
+{
+  top: -5px;
+  color: red;
+}
+
+.iconUser, .iconEye {
   position: absolute;
   top: 50%;
   right: 0;
@@ -117,19 +96,22 @@ body {
   transition: 0.5s;
 }
 
-.input-box input:focus ~ i,
-.input-box input:valid ~ i {
-  color: var(--lightBulue);
-}
+.input-box input:focus ~ .iconUser,
+.input-box input:focus ~ .iconEye,
+.input-box input:valid ~ .iconUser,
+.input-box input:valid ~ .iconEye
+{
+  color: #17a;
+} 
 
 form button {
   width: 100%;
   height: 45px;
-  background-color: var(--black) !important;
-  color: var(--white) !important;
+  background-color: #000 ;
+  color: #fff;
   border: none;
   outline: none;
-  border-radius: 40px !important;
+  border-radius: 40px;
   cursor: pointer;
   font-size: 16px;
   font-weight: 600;
@@ -137,20 +119,12 @@ form button {
 }
 
 form button:hover {
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.8);
+  box-shadow: 0 0 10px #17a;
 }
 
 form .linkTxt {
   font-size: 14px;
-  color: var(--black);
-  text-align: center;
   margin: 20px 0 10px;
-}
-
-.linkTxt p a {
-  color: blue;
-  text-decoration: none;
-  font-weight: 600;
 }
 
 .wrapper .form-box.login .animation {
@@ -186,14 +160,14 @@ form .linkTxt {
 
 .wrapper .info-text h2 {
   font-size: 36px;
-  color: var(--white);
+  color: #fff;
   line-height: 1.3;
   text-transform: uppercase;
 }
 
 .wrapper .info-text p {
   font-size: 16px;
-  color: var(--white);
+  color: #fff;
 }
 
 .wrapper .info-text.login .animation {
@@ -287,7 +261,7 @@ form .linkTxt {
   left: 250px;
   width: 850px;
   height: 700px;
-  background: var(--white);
+  background: #fff;
   transform: rotate(0) skewY(0);
   transform-origin: bottom left;
   transition: 1.5s ease;

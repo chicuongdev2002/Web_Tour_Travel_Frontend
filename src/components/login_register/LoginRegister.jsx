@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import "./style.css";
 import { useNavigate } from "react-router-dom";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
+import { FaUser, FaEye } from "react-icons/fa";
 const LoginRegister = () => {
   const [isActive, setIsActive] = useState(false);
   const [username, setUsername] = useState("");
@@ -166,6 +167,7 @@ const checkEmailNonExists = async (email) => {
       setError(err.message);
     }
   };
+  // Hàm gửi mã xác thực email
   // Hàm gửi mã xác thực email
   const sendVerificationCode = async (email) => {
     const response = await fetch(
@@ -481,8 +483,8 @@ const checkEmailNonExists = async (email) => {
   return (
     <div className="divCenter">
       <div className={`wrapper ${isActive ? "active" : ""}`}>
-      <span className="rotate-bg"></span>
-      <span className="rotate-bg2"></span>
+        <span className="rotate-bg"></span>
+        <span className="rotate-bg2"></span>
 
       {/* Login Form */}
       <div className="form-box login">
@@ -771,16 +773,16 @@ const checkEmailNonExists = async (email) => {
         )}
       </div>
 
-      {/* Info Text for Register */}
-      <div className="info-text register">
-        <h2 className="animation" style={{ "--i": 17, "--j": 0 }}>
-          Welcome Back!
-        </h2>
-        <p className="animation" style={{ "--i": 18, "--j": 1 }}>
-          Enter your personal details and start journey with us
-        </p>
+        {/* Info Text for Register */}
+        <div className="info-text register">
+          <h2 className="animation" style={{ "--i": 17, "--j": 0 }}>
+            Welcome Back!
+          </h2>
+          <p className="animation" style={{ "--i": 18, "--j": 1 }}>
+            Enter your personal details and start journey with us
+          </p>
+        </div>
       </div>
-    </div>
     </div>
   );
 };

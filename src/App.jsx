@@ -1,90 +1,20 @@
-import React, { useState, useEffect } from 'react';
-import 'bootstrap/dist/css/bootstrap.css';
-import { Container, Row, Col, Button, Spinner } from 'react-bootstrap';
-import { getAllTour } from './functions/getTour';
-import TourCard from './components/tourCard/TourCard';
+import './App.css'
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Home from "./pages/Home.jsx";
+import LoginRegister from "./components/login_register/LoginRegister.jsx";
+import TourList from "./pages/TourList.jsx";
 
-const App = () => {
-  const [dataCard, setDataCard] = useState([]);
-  const [page, setPage] = useState(0);
-  const [pageSize] = useState(8); // Increased page size for better grid layout
-  const [totalPages, setTotalPages] = useState(1);
-  const [loading, setLoading] = useState(false);
-
-  const fetchTours = async (page) => {
-    setLoading(true);
-    const data = await getAllTour(page, pageSize);
-    setDataCard(data.content);
-    setTotalPages(data.page.totalPages);
-    setLoading(false);
-  };
-
-  useEffect(() => {
-    fetchTours(page);
-  }, [page]);
-
-  const handlePageChange = (direction) => {
-    if (direction === 'next' && page < totalPages - 1) {
-      setPage((prev) => prev + 1);
-    } else if (direction === 'prev' && page > 0) {
-      setPage((prev) => prev - 1);
-    }
-  };
-
+function App() {
   return (
-    <Container fluid className="py-5 px-4">
-      <h1 className="text-center mb-5">Tour Nổi Bật</h1>
-      {loading ? (
-        <div className="text-center">
-          <Spinner animation="border" role="status">
-            <span className="visually-hidden">Loading...</span>
-          </Spinner>
-        </div>
-      ) : (
-        <Row className="tour-grid g-4">
-          {dataCard.map((tour, index) => (
-            <Col key={index} xs={12} sm={6} md={4} lg={3} className="d-flex align-items-stretch">
-              <TourCard
-                tour={{
-                  image: tour.imageUrl,
-                  title: tour.tourName,
-                  description: tour.tourDescription,
-                  departureCity: tour.startLocation,
-                  startDate: tour.startDate,
-                  duration: `${tour.duration}N${tour.duration - 1}Đ`,
-                  originalPrice: '8,490,000',
-                  availableSeats: tour.availableSeats,
-                  discountedPrice: tour.price,
-                  countdown: '19:43:49',
-                }}
-              />
-            </Col>
-          ))}
-        </Row>
-      )}
-      <div className="d-flex justify-content-center align-items-center mt-4">
-        <Button
-          variant="outline-primary"
-          onClick={() => handlePageChange('prev')}
-          disabled={page === 0}
-          className="me-2"
-        >
-          Previous
-        </Button>
-        <span className="mx-3">
-          Page {page + 1} of {totalPages}
-        </span>
-        <Button
-          variant="outline-primary"
-          onClick={() => handlePageChange('next')}
-          disabled={page >= totalPages - 1}
-          className="ms-2"
-        >
-          Next
-        </Button>
-      </div>
-    </Container>
-  );
-};
+    <BrowserRouter>
+    <Routes>
+      <Route path="/" element={<TourList />} />
+      <Route path="/login-register" element={<LoginRegister />} />
+      {/* <Route path="/app" element={<App />} /> */}
+        <Route path="/home" element={<Home />} />
+    </Routes>
+  </BrowserRouter>
+  )
+}
 
-export default App;
+export default App
