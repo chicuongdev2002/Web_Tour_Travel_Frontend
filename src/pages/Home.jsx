@@ -1,68 +1,69 @@
-import React from 'react'
-import NavbarComp from '../components/navbar/Navbar'
-import images from '../components/slider/images'
-import SliderComponent from '../components/slider/SliderComponent'
-import brand from '../assets/logo.png'
-import '../style/style.css'
+import React, { useState, useEffect } from 'react';
+import NavbarComp from '../components/navbar/Navbar';
+import images from '../components/slider/images';
+import SliderComponent from '../components/slider/SliderComponent';
+import TourList from './TourList';
+import brand from '../assets/logo.png';
+import '../style/style.css';
 import { useNavigate } from 'react-router-dom';
-
+import SearchInput from '../functions/SearchInput';
 function Home() {
   const navigate = useNavigate();
+    const [searchParams, setSearchParams] = useState({
+    keyword: '',
+    startLocation: '',
+    tourType: '',
+    participantType: '',
+  });
   const goToLogin = () => {
     navigate('/login-register');
   };
   const goToApp = () => {
     navigate('/app');
-  }
+  };
+  const handleSearch = (params) => {
+    setSearchParams(params);
+  };
 
   return (
-    <div style={{ backgroundColor: 'lightgray'}}>
-      <div className='d-flex pl-5 p-2 divCenter'>
-        <img src={brand} style={{ width: 120, height: 120 }} />
-        <div style={{ flexGrow: 1 }}>
-          <div className='w-75 ml-5 d-flex justify-content-between'>
-            <div className='divRow'>
-              <input className='form-control' type='text' placeholder='Tìm kiếm' />
-              <button className='ml-2 bg-success'>Search</button>
-            </div>
+    <div style={{ backgroundColor: '#f8f9fa', minHeight: '100vh', paddingBottom: '50px' }}>
+      <header className='d-flex justify-content-between align-items-center p-3'>
+        <div style={{ flexGrow: 1, marginLeft: '20px' }}>
+          <div className='d-flex justify-content-between'>
+            <div></div>
             <div>
-            <button className='ml-2 bg-primary' onClick={goToLogin}>Login</button>
-            <button className='ml-2 bg-success' onClick={goToApp}>Xem Tour</button>
+             <button className='btn btn-primary ml-2' onClick={goToLogin}>
+                <i className="fas fa-sign-in-alt"></i> Đăng nhập
+              </button>
+              <button className='btn btn-success ml-2' onClick={goToApp}>Xem Tour</button>
             </div>
           </div>
-          <div>
           <NavbarComp />
-          </div>
-        </div>
-      </div>
-      <div className='divRow'>
-      <div className='d-flex w-25' style={{ flexDirection: 'column', justifyContent: 'space-between'}}>
-            <div className='divRow mt-2 p-3'>
-              <input className='form-control' type='text' placeholder='Tìm kiếm' />
-              <button className='ml-2 bg-success'>Search</button>
+           <div className=' justify-content-center align-items-center p-3'>
+          <SearchInput onSearch={handleSearch} />  
             </div>
-            <h5>Tour gia đình</h5>
-            <h5>Tour theo đoàn</h5>
-            <h5>Tour tỉnh</h5>
-            <h5>Tour nghỉ dưỡng</h5>
-            <h5>Tour team building</h5>
-            <h5>Tour trải nghiệm</h5>
-            <h5>Tour cá nhân</h5>
-            <h5>Tour học sinh</h5>
-            <h5>Tour sinh viên</h5>
-            <h5>Tour người cao tuổi</h5>
-            <h5>Tour người độc thân</h5>
-      </div>
-      <SliderComponent quantity={1} images={images}/>
-      </div>
-      <div style={{ display: 'flex', flexDirection: 'column', marginTop: 100, justifyContent: 'center', alignItems: 'center'}}>
-        <h1>Tour nổi bật trong tháng</h1>
-        <div style={{ display: 'flex', width: '70%', justifyContent: 'center', alignItems: 'center'}}>
-        <SliderComponent quantity={3} images={images}/>
+       
         </div>
-      </div>
+      </header>
+
+      <main className='text-center' style={{ marginTop: '70px' }}>
+          <div className="d-flex justify-content-center">
+          <TourList searchParams={searchParams} />
+         </div>
+        <SliderComponent quantity={1} images={images} />
+        <section style={{ marginTop: '100px' }}>
+          <h1 className='mb-4'>Tour nổi bật trong tháng</h1>
+          <div className='d-flex justify-content-center'>
+            <SliderComponent quantity={3} images={images} />
+          </div>
+        </section>
+      </main>
+
+      <footer style={{ backgroundColor: '#343a40', color: 'white', padding: '20px', textAlign: 'center' }}>
+        <p>&copy; 2024 Your Company Name. All rights reserved.</p>
+      </footer>
     </div>
-  )
+  );
 }
 
-export default Home
+export default Home;

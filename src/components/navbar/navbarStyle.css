@@ -1,19 +1,55 @@
-.navbarElement:hover {
-  background-color: green;
+
+.navbar {
+  background-color: #ffffff;
+  /* Màu nền của navbar */
+  transition: background-color 0.3s ease;
+  position: fixed;
+  /* Giữ navbar cố định ở đầu trang */
+  top: 0;
+  /* Đặt navbar ở vị trí trên cùng */
+  width: 100%;
+  /* Chiếm toàn bộ chiều rộng */
+  z-index: 1000;
+  /* Đảm bảo navbar nằm trên các phần tử khác */
+}
+.navbar:hover {
+  background-color: #f8f9fa;
+  /* Màu nền khi hover */
+}
+
+.dropdown-item {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.dropdown-item:hover {
+  background-color: #28a745;
+  /* Màu nền khi hover */
+  color: white;
+  /* Màu chữ khi hover */
+}
+
+.custom-dropdown .dropdown-menu {
+  background-color: #ffffff;
+  /* Màu nền của dropdown */
+  border-radius: 0;
+  /* Bo góc */
 }
 
 .custom-dropdown:hover .dropdown-menu {
   display: block;
+  /* Hiển thị dropdown khi hover */
 }
 
-.nav-link {
-  color: black !important;
+.brand-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #343a40;
 }
 
-.custom-dropdown .dropdown-toggle::after {
-  display: none;
-}
-
-.selected {
-  background-color: green;
+/* Responsive design */
+@media (max-width: 768px) {
+  .navbar {
+    font-size: 14px;
+    /* Điều chỉnh kích thước font cho mobile */
+  }
 }

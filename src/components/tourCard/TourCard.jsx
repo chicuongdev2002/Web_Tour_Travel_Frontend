@@ -18,15 +18,15 @@ const TourCard = ({ tour }) => {
               <PiCalendarDotsFill size={30} />
               <p className='textInfo'>{tour.startDate}</p>
             </div>
-            <div className='divRow mb-1 justify-content-between' style={{ alignItems: 'center' }}>
+            {/* <div className='divRow mb-1 justify-content-between' style={{ alignItems: 'center' }}> */}
               <div className='divRow align-items-center'>
                 <PiClockCountdownFill size={30} />
                 <p className='textInfo'>{tour.duration}</p>
               </div>
               <div className='divRow align-items-center'>
                 <PiChairBold size={30} />
-                <p className='textInfo'>Số chỗ trống: 10</p>
-              </div>
+                <p className='textInfo'>Số chỗ trống:{tour.availableSeats}</p>
+              {/* </div> */}
             </div>
           </div>
           <div className="tour-pricing">

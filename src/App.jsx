@@ -11,6 +11,7 @@ function App() {
       <Route path="/" element={<TourList />} />
       <Route path="/login-register" element={<LoginRegister />} />
       {/* <Route path="/app" element={<App />} /> */}
+        <Route path="/home" element={<Home />} />
     </Routes>
   </BrowserRouter>
   )
