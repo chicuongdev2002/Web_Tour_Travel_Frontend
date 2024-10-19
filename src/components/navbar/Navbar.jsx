@@ -44,7 +44,7 @@ function NavbarComp() {
 
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
-      <Container style={{ margin: 0}}>
+      <Container className='containerCustom border-top border-bottom'>
         <Navbar.Brand href="#home">
           <img src={title} style={{width: 200, height:30}}/>
         </Navbar.Brand>
