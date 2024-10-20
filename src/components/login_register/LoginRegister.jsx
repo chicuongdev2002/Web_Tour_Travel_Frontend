@@ -3,6 +3,14 @@ import "./style.css";
 import { useNavigate } from "react-router-dom";
 import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
 import { FaUser, FaEye } from "react-icons/fa";
+// import * as authApi from '../../functions/authApi';
+import checkEmailExists from '../../functions/checkEmailExsist';
+import checkAccountExists from '../../functions/checkAccount';
+import sendVerificationCode from '../../functions/sendVerificationCode';
+import verifyCode from '../../functions/verifyCode';
+import login from '../../functions/login';
+import register from '../../functions/register';
+import resetPassword from '../../functions/resetPassword';
 const LoginRegister = () => {
   const [isActive, setIsActive] = useState(false);
   const [username, setUsername] = useState("");
@@ -37,239 +45,121 @@ const LoginRegister = () => {
    const [isForgotPasswordActive, setIsForgotPasswordActive] = useState(false);
   const [showErrorMailForget, setShowErrorMailForget] = useState("");
   const navigate = useNavigate();
+
   // Hàm kiểm tra email tồn tại
-const checkEmailExists = async (email) => {
-  if (!email) {
-     setEmailExists(false);
-    setCheckEmailError("");
-    return;
-  }
-
-  try {
-    const response = await fetch(
-      `http://localhost:8080/api/users/exists/${email}`,
-    );
-    if (!response.ok) {
-      setShowErrorRegisterr(true);
-      setErrorRegister("Không thể kiểm tra email.");
-    }
-    const exists = await response.json();
-    setEmailExists(exists);
-    setCheckEmailError(exists ? "Email đã tồn tại." : "");
-  } catch (error) {
-    setCheckEmailError(error.message);
-  }
-};
-// Hàm kiểm tra email không tồn tại
-const checkEmailNonExists = async (email) => {
-  if (!email) {
-    setShowMailForget(false);
-    setShowErrorMailForget("");
-    return;
-  }
-
-  try {
-    const response = await fetch(
-      `http://localhost:8080/api/users/exists/${email}`,
-    );
-    if (!response.ok) {
-      setShowMailForget(true);
-      setShowErrorMailForget("Không thể kiểm tra email.");
-    }
-    const exists = await response.json();
-    console.log("Email tồn tại:", exists);
-    if(!exists){
-    setShowMailForget(true);
-    setShowErrorMailForget("Email không tồn tại trong hệ thống");
-    }else{
-    setShowMailForget(false);
-    setShowErrorMailForget("");
-    }
-  } catch (error) {
-    setShowErrorMailForget(error.message);
-  }
-};
-  // Hàm kiểm tra tài khoản tồn tại
-  const checkAccountExists = async (username) => {
-    if (!username) {
-      setAccountExists(false);
-      setCheckAccountError("");
-      return;
-    }
-
-    try {
-      const response = await fetch(
-        `http://localhost:8080/api/accounts/exists/${username}`,
-      );
-      if (!response.ok) {
-        setError("Không thể kiểm tra tài khoản.");
-      }
-      const exists = await response.json();
-      setAccountExists(exists);
-      setCheckAccountError(exists ? "Tài khoản đã tồn tại." : "");
-    } catch (error) {
-      setCheckAccountError(error.message);
-    }
+ const checkEmailExistsHandler = async (email) => {
+    const result = await checkEmailExists(email);
+    setEmailExists(result.emailExists);
+    setCheckEmailError(result.checkEmailError);
+    return result.emailExists;
   };
-  // Hàm thay đổi trạng thái đăng kí
+
+  const checkEmailNonExists = async (email) => {
+    const result = await checkEmailExists(email);
+    setShowMailForget(!result.emailExists);
+    setShowErrorMailForget(result.emailExists ? "" : "Email không tồn tại trong hệ thống");
+  };
+
+  const checkAccountExistsHandler = async (username) => {
+    const result = await checkAccountExists(username);
+    setAccountExists(result.accountExists);
+    setCheckAccountError(result.checkAccountError);
+    return result.accountExists;
+  };
+
   const handleRegisterClick = () => {
     setIsActive(true);
     setError("");
   };
-   const handleForgetPasswordClick = () => {
+
+  const handleForgetPasswordClick = () => {
     setShowEmailInput(true);
     setFailedLoginAttempts(3);
     setIsForgotPasswordActive(true);
   };
-  // Hàm thay đổi trạng thái đăng nhập
+
   const handleLoginClick = () => {
     setIsActive(false);
   };
-  //  Hàm đăng nhập
+
   const handleLogin = async (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch(
-        `http://localhost:8080/api/accounts/login?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-        },
-      );
-      //  if (!response.ok) {
-      //   const data = await response.json();
-      //   throw new Error(data.message);
-      // }
-      if (response.status === 401) {
+    const result = await login(username, password);
+    if (result.isLoginSuccessful) {
+      console.log("Đăng nhập thành công:", result.userData);
+      navigate("/");
+    } else {
+      if (result.loginError === "Mật khẩu không chính xác") {
         setFailedLoginAttempts((prev) => prev + 1);
         setError("Mật khẩu không chính xác");
         if (failedLoginAttempts >= 2) {
           setShowEmailInput(true);
-          setError(
-            "Bạn đã nhập sai mật khẩu quá 3 lần. Xin vui lòng nhập email để nhận mã xác thực.",
-          );
-          return;
+          setError("Bạn đã nhập sai mật khẩu quá 3 lần. Xin vui lòng nhập email để nhận mã xác thực.");
         }
-      } 
-       else if (response.status === 404) {
-        setError("Tài khoản không tồn tại");
-          return;
-      }else if (response.ok) {
-        // Reset số lần thất bại khi đăng nhập thành công
-        setFailedLoginAttempts(0);
-        const data = await response.json();
-        console.log("Đăng nhập thành công:", data);
-        navigate("/home");
       } else {
-        setError("Đã xảy ra lỗi vui long thử lại");
+        setError(result.loginError);
       }
-    } catch (err) {
-      setError(err.message);
     }
   };
-  // Hàm gửi mã xác thực email
-  // Hàm gửi mã xác thực email
-  const sendVerificationCode = async (email) => {
-    const response = await fetch(
-      "http://localhost:8080/api/verification/send-code",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email }),
-      },
-    );
-    return response.ok;
-  };
-  // Hàm xác thực mã xác thực
-  const verifyCode = async (code) => {
-    const response = await fetch(
-      "http://localhost:8080/api/verification/verify-code",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, code }),
-      },
-    );
-    return response.ok;
-  };
-  // Hàm đăng ký tài khoản
+
   const handleRegister = async (e) => {
     e.preventDefault();
-    // Kiểm tra các trường bắt buộc
-  if (!fullName.trim()) {
-  
-    setErrorRegister("Họ và tên không được bỏ trống.");
-    setShowErrorRegisterr(true);
-    return;
-  }
-  if (!phoneNumber.trim()) {
-    setErrorRegister("Số điện thoại không được bỏ trống.");
-    setShowErrorRegisterr(true);
-    return;
-  }
-  if (!email.trim()) {
-    setErrorRegister("Email không được bỏ trống.");
-     setShowErrorRegisterr(true);
-    return;
-  }
-    // Kiểm tra định dạng số điện thoại
-  const phoneRegex = /^[0-9]{10,}$/; // Chỉ cho phép số, ít nhất 10 chữ số
-  if (!phoneRegex.test(phoneNumber)) {
-    setErrorRegister("Số điện thoại không hợp lệ. Vui lòng nhập lại.");
-     setShowErrorRegisterr(true);
-    return;
-  }
-  // Kiểm tra định dạng email
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-  if (!emailRegex.test(email)) {
-    setErrorRegister("Email không hợp lệ.");
-    setShowErrorRegisterr(true);
-    return;
-  }
+    
+    if (!fullName.trim() || !phoneNumber.trim() || !email.trim()) {
+        setErrorRegister("Vui lòng điền đầy đủ thông tin.");
+        setShowErrorRegisterr(true);
+        return;
+    }
+
+    const phoneRegex = /^[0-9]{10,}$/;
+    if (!phoneRegex.test(phoneNumber)) {
+        setErrorRegister("Số điện thoại không hợp lệ. Vui lòng nhập lại.");
+        setShowErrorRegisterr(true);
+        return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        setErrorRegister("Email không hợp lệ.");
+        setShowErrorRegisterr(true);
+        return;
+    }
+
     try {
-      // Kiểm tra xem tài khoản đã tồn tại hay chưa
-      await checkAccountExists(username);
-      if (accountExists) {
-        setErrorRegister(
-          "Tài khoản đã tồn tại không thể gửi form",
-        );
-          setShowErrorRegisterr(true);
-      }
-      await checkEmailExists(email);
-      if (emailExists) {
-       setErrorRegister(
-          "Email đã tồn tại không thể gửi form",
-        );
-          setShowErrorRegisterr(true);
-      }
-      // Gửi mã xác thực đến email
-      const isCodeSent = await sendVerificationCode(email);
-      if (!isCodeSent) {
-        setErrorRegister(
-          "Không thể gửi mã xác thực đến email",
-        );
-       
+      const accountExistsResult = await checkAccountExists(username);
+      const emailExistsResult = await checkEmailExists(email);
+
+      if (accountExistsResult.accountExists || emailExistsResult.emailExists) {
+        setErrorRegister(accountExistsResult.accountExists ? accountExistsResult.checkAccountError : emailExistsResult.checkEmailError);
+        setShowErrorRegisterr(true);
+        return;
       }
 
-      setIsVerificationSent(true);
       setShowErrorRegisterr(false);
-      setShowVerify(true); // Hiển thị trường nhập mã xác thực
-      setCountdown(5); // Đặt thời gian đếm ngược
-      setShowCountdown(true); // Hiển thị thời gian đếm ngược
-      // Bắt đầu đếm ngược
-      const endTime = Date.now() + countdown * 1000; // Thời gian kết thúc
-      const countdownInterval = setInterval(() => {
-        const remainingTime = Math.ceil((endTime - Date.now()) / 1000);
-        if (remainingTime <= 0) {
-          clearInterval(countdownInterval);
-          setPopupMessage("Mã xác thực đã được gửi đến email của bạn.");
-          setShowPopup(true);
-          setCountdown(0);
-          setShowCountdown(false);
-        } else {
-          setCountdown(remainingTime);
-        }
-      }, 1000);
+
+      const sendCodeResult = await sendVerificationCode(email);
+      if (sendCodeResult.isCodeSent) {
+        setIsVerificationSent(true);
+        setShowVerify(true);
+        setCountdown(5);
+        setShowCountdown(true);
+
+        const endTime = Date.now() + 5000;
+        const countdownInterval = setInterval(() => {
+            const remainingTime = Math.ceil((endTime - Date.now()) / 1000);
+            if (remainingTime <= 0) {
+                clearInterval(countdownInterval);
+                setPopupMessage("Mã xác thực đã được gửi đến email của bạn.");
+                setShowPopup(true);
+                setCountdown(0);
+                setShowCountdown(false);
+            } else {
+                setCountdown(remainingTime);
+            }
+        }, 1000);
+      } else {
+        setErrorRegister(sendCodeResult.sendCodeError);
+      }
     } catch (err) {
       setError(err.message);
       setPopupMessage(err.message);
@@ -279,48 +169,27 @@ const checkEmailNonExists = async (email) => {
       }, 3000);
     }
   };
-  // Hàm gửi thông tin đăng ký sau khi xác thực mã
+
   const handleVerifyAndRegister = async (e) => {
     e.preventDefault();
-    try {
-      // Xác thực mã xác thực
-      const isCodeValid = await verifyCode(verificationCode);
-      if (!isCodeValid) {
-        throw new Error("Mã xác thực không hợp lệ. Vui lòng kiểm tra lại.");
-      }
-      console.log("Mã xác thực hợp lệ", isCodeValid);
-      // Nếu mã xác thực hợp lệ, tiến hành đăng ký tài khoản
-      const response = await fetch(
-        `http://localhost:8080/api/accounts/register?username=${encodeURIComponent(username)}&password=${encodeURIComponent(password)}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ fullName, phoneNumber, email }),
-        },
-      );
+    const verifyResult = await verifyCode(email, verificationCode);
+    if (!verifyResult.isCodeValid) {
+      setError(verifyResult.verifyCodeError);
+      return;
+    }
 
-      if (!response.ok) {
-        const contentType = response.headers.get("content-type");
-        let errorMessage = "Đã xảy ra lỗi. Vui lòng thử lại.";
-
-        if (contentType && contentType.includes("application/json")) {
-          const data = await response.json();
-          errorMessage = data.message;
-        } else {
-          errorMessage = await response.text();
-        }
-        throw new Error(errorMessage);
-      }
-      console.log("Đăng ký thành công", response);
+    const registerResult = await register(username, password, fullName, phoneNumber, email);
+    if (registerResult.isRegisterSuccessful) {
+      console.log("Đăng ký thành công", registerResult.userData);
       setPopupMessage("Đăng ký thành công!");
       setShowPopup(true);
       setTimeout(() => {
         setShowPopup(false);
         setIsActive(false);
       }, 3000);
-    } catch (err) {
-      setError(err.message);
-      setPopupMessage(err.message);
+    } else {
+      setError(registerResult.registerError);
+      setPopupMessage(registerResult.registerError);
       setShowPopup(true);
       setTimeout(() => {
         setShowPopup(false);
@@ -328,9 +197,6 @@ const checkEmailNonExists = async (email) => {
     }
   };
 
-  const handleSwitchToLogin = () => {
-    setSuccessMessage("");
-  };
   const decodeJwt = (token) => {
     try {
       const base64Url = token.split(".")[1];
@@ -341,7 +207,7 @@ const checkEmailNonExists = async (email) => {
           .map(function (c) {
             return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
           })
-          .join(""),
+          .join("")
       );
       return JSON.parse(jsonPayload);
     } catch (error) {
@@ -349,13 +215,9 @@ const checkEmailNonExists = async (email) => {
       return null;
     }
   };
-  // Hàm login success với google
-  const handleLoginSuccess = async (credentialResponse) => {
+    const handleLoginSuccess = async (credentialResponse) => {
     try {
-      // const jwtDecode = (await import('jwt-decode')).default;
-      const credentialResponseDecoded = decodeJwt(
-        credentialResponse.credential,
-      );
+      const credentialResponseDecoded = decodeJwt(credentialResponse.credential);
       console.log("Decoded Google User:", credentialResponseDecoded);
 
       const googleUser = {
@@ -366,118 +228,69 @@ const checkEmailNonExists = async (email) => {
 
       setUser(googleUser);
       localStorage.setItem("user", JSON.stringify(googleUser));
-      // navigate('/home');
     } catch (error) {
       console.error("Error decoding Google credential:", error);
       setError("Đăng nhập bằng Google thất bại. Vui lòng thử lại.");
     }
   };
-  // Hàm login faild google
+
   const handleLoginFailure = (response) => {
     console.log("Login Failed:", response);
   };
-  // Hàm gửi yêu cầu mã xác thực để đặt lại mật khẩu
   const handleSendResetCode = async (e) => {
     e.preventDefault();
-    if(showEmailForget){
-    return;
+    if (showEmailForget) {
+      return;
     }
-    try {
-      const response = await fetch(
-        "http://localhost:8080/api/verification/send-code",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ email: resetEmail }),
-        },
-      );
-
-      if (!response.ok) {
-        setError("Không thể gửi mã xác thực. Vui lòng thử lại.");
-      }
-
+    const result = await sendVerificationCode(resetEmail);
+    if (result.isCodeSent) {
       setIsResetCodeSent(true);
       setResetError("");
       setError("");
       setPopupMessage("Mã xác thực đã được gửi đến email của bạn.");
       setShowPopup(true);
-    } catch (err) {
-      setResetError(err.message);
+    } else {
+      setResetError(result.sendCodeError);
     }
   };
 
-  // Hàm xác thực mã
   const handleVerifyResetCode = async (e) => {
     e.preventDefault();
-    try {
-      const response = await fetch(
-        "http://localhost:8080/api/verification/verify-code",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            email: resetEmail,
-            code: resetVerificationCode,
-          }),
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error("Mã xác thực không hợp lệ. Vui lòng thử lại.");
-      }
-
+    const result = await verifyCode(resetEmail, resetVerificationCode);
+    if (result.isCodeValid) {
       setIsResetCodeVerified(true);
       setResetError("");
       setError("");
       setPopupMessage("Mã xác thực hợp lệ. Vui lòng nhập mật khẩu mới.");
       setShowPopup(true);
-    } catch (err) {
-      setResetError(err.message);
+    } else {
+      setResetError(result.verifyCodeError);
     }
   };
 
-  // Hàm đặt lại mật khẩu
   const handleResetPassword = async (e) => {
     e.preventDefault();
-    try {
-      if (newPassword !== confirmNewPassword) {
-        setError("Mật khẩu mới không khớp. Vui lòng nhập lại.");
-      }
+    if (newPassword !== confirmNewPassword) {
+      setError("Mật khẩu mới không khớp. Vui lòng nhập lại.");
+      return;
+    }
 
-      const params = new URLSearchParams({
-        email: resetEmail,
-        newPassword: newPassword,
-      });
-
-      const response = await fetch(
-        `http://localhost:8080/api/accounts/reset-password?${params.toString()}`,
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-        },
-      );
-
-      if (response.status === 204) {
-        setPopupMessage(
-          "Mật khẩu đã được đặt lại thành công. Vui lòng đăng nhập lại.",
-        );
-        setShowPopup(true);
-        setIsActive(false); // Chuyển về form đăng nhập
-        setShowEmailInput(false);
-        setFailedLoginAttempts(0);
-        // Reset các state liên quan đến việc đặt lại mật khẩu
-        setResetEmail("");
-        setResetVerificationCode("");
-        setNewPassword("");
-        setConfirmNewPassword("");
-        setIsResetCodeSent(false);
-        setIsResetCodeVerified(false);
-        setError("");
-      } else {
-        setError("Đã xảy ra lỗi vui long thử lại");
-      }
-    } catch (err) {
-      setResetError(err.message);
+    const result = await resetPassword(resetEmail, newPassword);
+    if (result.isResetSuccessful) {
+      setPopupMessage("Mật khẩu đã được đặt lại thành công. Vui lòng đăng nhập lại.");
+      setShowPopup(true);
+      setIsActive(false);
+      setShowEmailInput(false);
+      setFailedLoginAttempts(0);
+      setResetEmail("");
+      setResetVerificationCode("");
+      setNewPassword("");
+      setConfirmNewPassword("");
+      setIsResetCodeSent(false);
+      setIsResetCodeVerified(false);
+      setError("");
+    } else {
+      setResetError(result.resetError);
     }
   };
   return (
@@ -489,7 +302,7 @@ const checkEmailNonExists = async (email) => {
       {/* Login Form */}
       <div className="form-box login">
         <h2 className="title animation" style={{ "--i": 0, "--j": 21 }}>
-          <button onClick={handleSwitchToLogin}>Đăng nhâp</button>
+          <button onClick={handleLogin}>Đăng nhâp</button>
         </h2>
         <form onSubmit={handleLogin}>
           {!showEmailInput && failedLoginAttempts < 3 && (
@@ -666,7 +479,7 @@ const checkEmailNonExists = async (email) => {
               value={username}
               onChange={(e) => {
                 setUsername(e.target.value);
-                checkAccountExists(e.target.value); // Gọi hàm kiểm tra tài khoản
+                // checkAccountExists(e.target.value); // Gọi hàm kiểm tra tài khoản
               }}
             />
             <label>Tài khoản</label>
@@ -714,13 +527,13 @@ const checkEmailNonExists = async (email) => {
               required
               value={email}
               onChange={(e) => {
-                checkEmailExists(e.target.value);
+                // checkEmailExists(e.target.value);
                 setEmail(e.target.value)}}
             />
             <label>Email</label>
-              {checkEmailError && (
+              {/* {checkEmailError && (
               <p className="error-message">{checkEmailError}</p>
-            )}
+            )} */}
             <i className="bx bxs-user"></i>
           </div>
           {showErrorRegister && <p className="error-message">{errorRegister}</p>}
