@@ -4,7 +4,7 @@ import images from '../components/slider/images'
 import SliderComponent from '../components/slider/SliderComponent'
 import brand from '../assets/logo.png'
 import '../style/style.css'
-
+import TourList from './TourList'
 import { useNavigate } from 'react-router-dom';
 import SearchInput from '../functions/SearchInput';
 
@@ -49,6 +49,9 @@ function Home() {
           <SliderComponent quantity={3} images={images} />
         </div>
       </div> */}
+    <div>
+      {/* <TourList searchParams={searchParams} /> */}
+    </div>
     </div>
   );
 }
