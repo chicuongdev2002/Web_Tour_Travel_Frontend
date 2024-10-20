@@ -4,28 +4,19 @@ import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 
-const SliderComponent = ({ quantity, images }) => {
-  const settings = {
-    dots: true,
-    infinite: true,
-    speed: 500,
-    slidesToShow: quantity,
-    slidesToScroll: 1,
-    autoplay: true,
-    autoplaySpeed: 2000,
-  };
-
+const SliderComponent = ({ images, settings, callBack }) => {
+  // <div key={index}>
+  //   <img
+  //     src={image}
+  //     alt={`Ad ${index + 1}`}
+  //     style={{ width: '100%' }}
+  //   />
+  // </div>
   return (
-    <div className="slider-container w-75">
+    <div className="slider-container">
       <Slider {...settings}>
         {images.map((image, index) => (
-          <div key={index}>
-            <img
-              src={image}
-              alt={`Ad ${index + 1}`}
-              style={{ width: '100%' }}
-            />
-          </div>
+          <div key={index}>{callBack(image)}</div>
         ))}
       </Slider>
     </div>

@@ -1,6 +1,9 @@
 import React from 'react'
 import '../style/style.css'
 import { useNavigate } from 'react-router-dom';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
 
 function Booking() {
     const navigate = useNavigate();
@@ -29,13 +32,15 @@ function Booking() {
                 </div>
             </div>
             <div className='w-40 border border-warning m-2'>
-                <h2 className='bg-warning'>Thông tin liên lạc</h2>
-                <p>Họ và tên</p>
-                <p>Email</p>
-                <p>Số điện thoại</p>
-                <p>Địa chỉ</p>
-                <p>Yêu cầu khác</p>
-                <button className='btn btn-primary'>Xác nhận</button>
+                <h2 className='bg-warning text-light'>Thông tin liên lạc</h2>
+                <div className='px-3'>
+                    <TextField className='w-100 mb-3' id="standard-basic" label="Họ tên" variant="standard" />
+                    <TextField className='w-100 mb-3' id="standard-basic" label="Điện thoại" variant="standard" />
+                    <TextField className='w-100 mb-3' id="standard-basic" label="Email" variant="standard" />
+                    <TextField className='w-100 mb-3' id="standard-basic" label="Địa chỉ" variant="standard" />
+                    <TextField className='w-100 mb-3' id="standard-basic" label="Ghi chú" variant="standard" multiline/>
+                    <Button className='w-100 mb-3' variant="contained">Contained</Button>
+                </div>
             </div>
         </div>
     )

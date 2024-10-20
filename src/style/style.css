@@ -16,7 +16,7 @@ h1 {
     margin: 2rem 0;
 }
 
-input[type="text"] {
+/* input[type="text"] {
     border-radius: 25px;
     border: 1px solid #ced4da;
     padding: 10px 15px;
@@ -26,7 +26,7 @@ input[type="text"] {
 input[type="text"]:focus {
     border-color: #80bdff;
     outline: none;
-}
+} */
 
 .btn {
     border-radius: 25px;
@@ -71,6 +71,13 @@ footer {
 .divRowBetween {
     display: flex;
     flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.divColumnBetween {
+    display: flex;
+    flex-direction: column;
     justify-content: space-between;
     align-items: center;
 }
