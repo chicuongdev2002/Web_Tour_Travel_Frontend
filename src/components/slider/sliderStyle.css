@@ -11,6 +11,17 @@
   background-color: black;
 }
 
+li {
+  width: auto !important;
+}
+
+.slider-container {
+  margin: 0 auto ;
+}
+
+.slick-dots {
+  position: static;
+}
 .container__slider > button {
   background-color: transparent;
   outline: none;
