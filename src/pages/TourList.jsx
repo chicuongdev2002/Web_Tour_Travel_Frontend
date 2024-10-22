@@ -58,6 +58,7 @@ const TourList = ({ searchParams }) => {
                 <Col key={index} xs={12} sm={6} md={4} lg={3} className="d-flex align-items-stretch">
                   <TourCard
                     tour={{
+                      tourId: tour.tourId,
                       image: tour.imageUrl,
                       title: tour.tourName,
                       description: tour.tourDescription,

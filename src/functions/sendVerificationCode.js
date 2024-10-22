@@ -14,6 +14,8 @@ const sendVerificationCode = async (email) => {
             result = { isCodeSent: false, sendCodeError: "Không thể gửi mã xác thực." };
         } else {
             result = { isCodeSent: true, sendCodeError: "" };
+            console.log("Gửi mã xác thực thành công",result);
+            
         }
     } catch (error) {
         result = { isCodeSent: false, sendCodeError: error.message };

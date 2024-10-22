@@ -2,7 +2,13 @@ import React from 'react';
 import './TourCard.css';
 import { FaMapMarkedAlt } from "react-icons/fa";
 import { PiCalendarDotsFill, PiClockCountdownFill, PiChairBold } from "react-icons/pi";
+import { useNavigate } from 'react-router-dom';
 const TourCard = ({ tour }) => {
+    const navigate = useNavigate(); 
+
+    const handleViewDetail = () => {
+        navigate(`/tour-details/${tour.tourId}`); 
+    };
   return (
       <div className="tour-card">
         <img src={tour.image} alt={tour.title} className="tour-image" />
@@ -33,7 +39,7 @@ const TourCard = ({ tour }) => {
             <p className="original-price">{tour.originalPrice} đ</p>
             <p className="discounted-price">{tour.discountedPrice} đ</p>
           </div>
-          <button className="book-now">Đặt ngay</button>
+           <button className="book-now" onClick={handleViewDetail}>Xem chi tiết</button>
         </div>
         {/* <div className="countdown">{tour.countdown}</div> */}
       </div>
