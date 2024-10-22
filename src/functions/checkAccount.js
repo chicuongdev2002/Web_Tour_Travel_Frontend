@@ -11,6 +11,8 @@ const checkAccountExists = async (username) => {
         const response = await fetch(`${API_URL}/accounts/exists/${username}`);
         if (!response.ok) {
             result = { accountExists: false, checkAccountError: "Không thể kiểm tra tài khoản." };
+            console.log(result);
+            
         } else {
             const exists = await response.json();
             result.accountExists = exists;
@@ -20,6 +22,7 @@ const checkAccountExists = async (username) => {
         }
     } catch (error) {
         result.checkAccountError = error.message;
+        console.log(result);
     }
     return result;
 };
