@@ -1,11 +1,9 @@
-import host from '../config/host';
-
-const API_URL = `${host}/api`;
+import { VERIFY_CODE} from '../config/host';
 
 const verifyCode = async (email, code) => {
     let result = {};
     try {
-        const response = await fetch(`${API_URL}/verification/verify-code`, {
+        const response = await fetch(VERIFY_CODE, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, code }),

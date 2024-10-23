@@ -1,6 +1,4 @@
-import host from '../config/host';
-
-const API_URL = `${host}/api`;
+import { CHECK_ACCOUNT_EXISTS, getAPI } from '../config/host';
 
 const checkAccountExists = async (username) => {
     if (!username) {
@@ -8,7 +6,7 @@ const checkAccountExists = async (username) => {
     }
     let result = {};
     try {
-        const response = await fetch(`${API_URL}/accounts/exists/${username}`);
+        const response = await fetch(getAPI(CHECK_ACCOUNT_EXISTS, null, username));
         if (!response.ok) {
             result = { accountExists: false, checkAccountError: "Không thể kiểm tra tài khoản." };
             console.log(result);

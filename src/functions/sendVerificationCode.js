@@ -1,11 +1,9 @@
-import host from '../config/host';
-
-const API_URL = `${host}/api`;
+import { SEND_CODE_VERIFYCATION } from '../config/host';
 
 const sendVerificationCode = async (email) => {
     let result = {};
     try {
-        const response = await fetch(`${API_URL}/verification/send-code`, {
+        const response = await fetch(SEND_CODE_VERIFYCATION, {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email }),

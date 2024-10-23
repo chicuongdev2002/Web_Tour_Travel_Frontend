@@ -1,10 +1,8 @@
 import React, { useState } from 'react'
 import NavbarComp from '../components/navbar/Navbar'
 import images from '../components/slider/images'
-import SliderComponent from '../components/slider/SliderComponent'
 import brand from '../assets/logo.png'
 import '../style/style.css'
-import TourList from './TourList'
 import { useNavigate } from 'react-router-dom';
 import SearchInput from '../functions/SearchInput';
 
@@ -21,6 +19,9 @@ function Home() {
   const goToLogin = () => {
     navigate('/login-register');
   };
+  const goToTourList = () => {
+    navigate('/tour-list');
+  };
   const handleSearch = (params) => {
     setSearchParams(params);
   };
@@ -36,6 +37,9 @@ function Home() {
             </div>
             <div>
               <button className='ml-2 bg-primary' onClick={goToLogin}>Login</button>
+            </div>
+            <div>
+              <button className='ml-2 bg-success' onClick={goToTourList}>Tour List</button>
             </div>
           </div>
         </div>

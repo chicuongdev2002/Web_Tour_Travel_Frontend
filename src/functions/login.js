@@ -1,11 +1,9 @@
-import host from '../config/host';
-
-const API_URL = `${host}/api`;
+import { LOGIN } from '../config/host';
 
 const login = async (username, password) => {
     let result = {};
     try {
-        const response = await fetch(`${API_URL}/accounts/login?username=${username}&password=${password}`, {
+        const response = await fetch(getAPI(LOGIN, {username, password}), {
             method: 'POST',
         });
         if (!response.ok) {

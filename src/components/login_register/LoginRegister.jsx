@@ -1,9 +1,7 @@
 import React, { useState } from "react";
 import "./style.css";
 import { useNavigate } from "react-router-dom";
-import { GoogleOAuthProvider, GoogleLogin } from "@react-oauth/google";
-import { FaUser, FaEye } from "react-icons/fa";
-// import * as authApi from '../../functions/authApi';
+import { GoogleLogin } from "@react-oauth/google";
 import checkEmailExists from '../../functions/checkEmailExsist';
 import checkAccountExists from '../../functions/checkAccount';
 import sendVerificationCode from '../../functions/sendVerificationCode';
@@ -11,6 +9,8 @@ import verifyCode from '../../functions/verifyCode';
 import login from '../../functions/login';
 import register from '../../functions/register';
 import resetPassword from '../../functions/resetPassword';
+import InputPassword from "../inputText/InputPassword";
+import InputText from "../inputText/InputText";
 const LoginRegister = () => {
   const [isActive, setIsActive] = useState(false);
   const [username, setUsername] = useState("");
@@ -308,96 +308,58 @@ const LoginRegister = () => {
           {!showEmailInput && failedLoginAttempts < 3 && (
             <>
               <div
-                className="input-box animation"
-                style={{ "--i": 1, "--j": 22 }}
+                className="animation"
+                style={{ "--i": 1, "--j": 22, height: 50, marginBottom: 25, marginTop: 25 }}
               >
-                <input
-                  type="text"
-                  required
-                  value={username}
-                  onChange={(e) => setUsername(e.target.value)}
-                />
-                <label>Tài khoản</label>
-                <i className="bx bxs-user"></i>
+                <InputText id="login-userName" label="Tài khoản" value={username} onChange={(e) => setUsername(e.target.value)}/>
               </div>
               <div
-                className="input-box animation"
+                className="animation"
                 style={{ "--i": 2, "--j": 23 }}
               >
-                <input
-                  type="password"
-                  required
-                  value={password}
-                  onChange={(e) => setPassword(e.target.value)}
-                />
-                <label>Mật khẩu</label>
-                <i className="bx bxs-lock-alt"></i>
+                <InputPassword id="login-password" label="Mật khẩu" value={password} onChange={(e) => setPassword(e.target.value)}/>
               </div>
             </>
           )}
           {showEmailInput && (
             <>
               <div
-                className="input-box animation"
+                className="animation"
                 style={{ "--i": 1, "--j": 22 }}
               >
-                <input
-                  type="email"
-                  required
-                  value={resetEmail}
+                <InputText id="login-email" type="email" label="Email" value={resetEmail} 
                   onChange={(e) => {
                     checkEmailNonExists(e.target.value);
-                    setResetEmail(e.target.value)}
-                  }
-                />
-                <label>Email</label>
+                    setResetEmail(e.target.value)
+                  }}/>
                   {showEmailForget && (
-              <p className="error-message">{showErrorMailForget}</p>
+                <p className="error-message">{showErrorMailForget}</p>
             )}
-                <i className="bx bxs-envelope"></i>
               </div>
               {isResetCodeSent && !isResetCodeVerified && (
                 <div
-                  className="input-box animation"
+                  className="animation"
                   style={{ "--i": 2, "--j": 23 }}
                 >
-                  <input
-                    type="text"
-                    required
-                    value={resetVerificationCode}
-                    onChange={(e) => setResetVerificationCode(e.target.value)}
-                  />
-                  <label>Mã xác thực</label>
-                  <i className="bx bxs-lock-alt"></i>
+                  <InputText id="forgot-code" label="Mã xác thực" value={resetVerificationCode} 
+                    onChange={(e) => setResetVerificationCode(e.target.value)}/>
                 </div>
               )}
               {isResetCodeVerified && (
                 <>
                   <div
-                    className="input-box animation"
+                    className="animation"
                     style={{ "--i": 3, "--j": 24 }}
                   >
-                    <input
-                      type="password"
-                      required
-                      value={newPassword}
-                      onChange={(e) => setNewPassword(e.target.value)}
-                    />
-                    <label>Mật khẩu mới</label>
-                    <i className="bx bxs-lock-alt"></i>
+                    <InputPassword id="forgot-password" label="Mật khẩu mới" 
+                      value={newPassword} onChange={(e) => setNewPassword(e.target.value)}/>
                   </div>
                   <div
-                    className="input-box animation"
+                    className="animation"
                     style={{ "--i": 4, "--j": 25 }}
                   >
-                    <input
-                      type="password"
-                      required
-                      value={confirmNewPassword}
-                      onChange={(e) => setConfirmNewPassword(e.target.value)}
-                    />
-                    <label>Nhập lại mật khẩu</label>
-                    <i className="bx bxs-lock-alt"></i>
+                    <InputPassword id="forgot-confirm-password" label="Nhập lại mật khẩu"
+                      value={confirmNewPassword} onChange={(e) => setConfirmNewPassword(e.target.value)}/>
                   </div>
                 </>
               )}
@@ -408,7 +370,7 @@ const LoginRegister = () => {
           <button
             type="submit"
             className="btn animation"
-            style={{ "--i": 5, "--j": 26 }}
+            style={{ "--i": 5, "--j": 26, marginTop: 20 }}
             onClick={
               showEmailInput
                 ? isResetCodeSent
@@ -472,86 +434,35 @@ const LoginRegister = () => {
           Đăng kí
         </h2>
         <form onSubmit={handleRegister}>
-          <div className="input-box animation" style={{ "--i": 18, "--j": 1 }}>
-            <input
-              type="text"
-              required
-              value={username}
-              onChange={(e) => {
-                setUsername(e.target.value);
-                // checkAccountExists(e.target.value); // Gọi hàm kiểm tra tài khoản
-              }}
-            />
-            <label>Tài khoản</label>
+          <div className="animation" style={{ "--i": 18, "--j": 1 }}>
+            <InputText id="register-userName" label="Tài khoản" value={username} onChange={(e) => setUsername(e.target.value)}/>
             {/* Hiển thị thông báo lỗi nếu có */}
             {checkAccountError && (
               <p className="error-message">{checkAccountError}</p>
             )}
-            <i className="bx bxs-user"></i>
           </div>
-          <div className="input-box animation" style={{ "--i": 20, "--j": 3 }}>
-            <input
-              type="password"
-              required
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-            <label>Mật khẩu</label>
-            <i className="bx bxs-lock-alt"></i>
+          <div className="animation" style={{ "--i": 20, "--j": 3 }}>
+            <InputPassword id="register-password" label="Mật khẩu" value={password} onChange={(e) => setPassword(e.target.value)}/>
           </div>
-          <div className="input-box animation" style={{ "--i": 18, "--j": 1 }}>
-            <input
-              type="text"
-              required
-              value={fullName}
-              onChange={(e) => setFullName(e.target.value)}
-            />
-            <label>Họ và tên</label>
-            <i className="bx bxs-user"></i>
+          <div className="animation" style={{ "--i": 18, "--j": 1 }}>
+            <InputText id="register-fullName" label="Họ và tên" value={fullName} onChange={(e) => setFullName(e.target.value)}/>
           </div>
-          <div className="input-box animation" style={{ "--i": 18, "--j": 1 }}>
-            <input
-              type="tel"
-              required
-              value={phoneNumber}
-              onChange={(e) => setPhone(e.target.value)}
-              pattern="[0-9]{10,}"
-              // placeholder="Số điện thoại"
-            />
-            <label>Số điện thoại</label>
-            <i className="bx bxs-user"></i>
+          <div className="animation" style={{ "--i": 18, "--j": 1 }}>
+            <InputText id="register-phone" type="tel" label="Số điện thoại" value={phoneNumber} onChange={(e) => setPhone(e.target.value)}/>
           </div>
-          <div className="input-box animation" style={{ "--i": 18, "--j": 1 }}>
-            <input
-              type="email"
-              required
-              value={email}
-              onChange={(e) => {
-                // checkEmailExists(e.target.value);
-                setEmail(e.target.value)}}
-            />
-            <label>Email</label>
-              {/* {checkEmailError && (
-              <p className="error-message">{checkEmailError}</p>
-            )} */}
-            <i className="bx bxs-user"></i>
+          <div className="animation" style={{ "--i": 18, "--j": 1 }}>
+            <InputText id="register-email" label="Email" value={email} onChange={(e) => setEmail(e.target.value)}/>
           </div>
           {showErrorRegister && <p className="error-message">{errorRegister}</p>}
           {/* Trường nhập mã xác thực */}
           {showVerify && (
             <div
-              className="input-box animation"
+              className="animation"
               style={{ "--i": 18, "--j": 1 }}
             >
-              <input
-                type="text"
-                value={verificationCode}
-                onChange={(e) => setVerificationCode(e.target.value)}
-                placeholder="Nhập mã xác thực"
-              />
-              <label>Mã xác thực</label>
+              <InputText id="register-email" label="Mã xác thực" value={verificationCode} 
+                onChange={(e) => setVerificationCode(e.target.value)}/>
               {showCountDown && <p>Thời gian còn lại: {countdown} giây</p>}
-              <i className="bx bxs-user"></i>
             </div>
           )}
           <button
