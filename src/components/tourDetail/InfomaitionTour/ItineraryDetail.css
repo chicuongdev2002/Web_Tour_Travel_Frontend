@@ -1,0 +1,98 @@
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f9f9f9;
+}
+
+.itinerary-container {
+    max-width: 1000px;
+    margin: 20px auto;
+}
+
+.destination-card {
+    background-color: white;
+    border-radius: 8px;
+    border-left: 5px solid #d5006d;
+    /* Pink border */
+    margin-bottom: 20px;
+    padding: 15px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transition: box-shadow 0.3s ease;
+}
+
+.destination-card:hover {
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    background-color: #d5006d;
+    /* Pink background */
+    color: white;
+    padding: 15px;
+    border-radius: 8px 8px 0 0;
+}
+
+.header h4 {
+    font-size: 1.2rem;
+    margin: 0;
+    font-weight: bold;
+}
+
+.header-info {
+    margin-left: auto;
+    font-size: 0.9rem;
+}
+
+.content {
+    padding: 15px;
+}
+
+.content p {
+    color: #333;
+    line-height: 1.6;
+}
+
+.toggle-button {
+    background-color: #d5006d;
+    /* Pink background */
+    color: white;
+    border: none;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+    margin-top: 10px;
+    text-align: center;
+}
+
+.toggle-button:hover {
+    background-color: #b0003a;
+    /* Darker pink on hover */
+}
+
+.footer {
+    display: flex;
+    justify-content: space-around;
+    padding: 10px 0;
+    border-top: 1px solid #eee;
+}
+
+.footer-button {
+    background: none;
+    border: none;
+    color: #757575;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    transition: color 0.3s;
+}
+
+.footer-button:hover {
+    color: #d5006d;
+    /* Pink color on hover */
+}
+
+.footer-button .icon {
+    margin-right: 5px;
+}
