@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import TourDetailComponent from '../components/tourDetail/TourDetailComponent';
-
+import { getTourDetail } from '../functions/getTourDetails';
 function TourDetails() {
     const { id } = useParams();
     const [tourData, setTourData] = useState(null);
@@ -12,11 +12,7 @@ function TourDetails() {
         const fetchTourDetail = async () => {
             try {
                 setLoading(true);
-                const response = await fetch(`http://localhost:8080/api/tours/${id}`); // Fetch tour details
-                if (!response.ok) {
-                    throw new Error('Không thể tải thông tin tour');
-                }
-                const data = await response.json();
+                const data = await getTourDetail(id);
                 setTourData(data);
             } catch (err) {
                 setError(err.message);

@@ -61,7 +61,7 @@ const TourList = ({ searchParams }) => {
                       tourId: tour.tourId,
                       image: tour.imageUrl,
                       title: tour.tourName,
-                      description: tour.tourDescription,
+                      // description: tour.tourDescription,
                       departureCity: tour.startLocation,
                       startDate: tour.startDate,
                       duration: `${tour.duration}N${tour.duration - 1}Đ`,
