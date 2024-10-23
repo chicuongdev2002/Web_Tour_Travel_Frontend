@@ -1,11 +1,10 @@
-import { LOGIN } from '../config/host';
+import axios from "axios";
+import { LOGIN,getAPI } from '../config/host';
 
 const login = async (username, password) => {
     let result = {};
     try {
-        const response = await fetch(getAPI(LOGIN, {username, password}), {
-            method: 'POST',
-        });
+        const response = await axios.post(getAPI(LOGIN, {username, password}));
         if (!response.ok) {
             if (response.status === 401) {
                 result = { isLoginSuccessful: false, loginError: "Mật khẩu không chính xác" };
