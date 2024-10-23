@@ -15,6 +15,8 @@ const register = async (username, password, fullName, phoneNumber, email) => {
         } else {
             const data = await response.json();
             result = { isRegisterSuccessful: true, registerError: "", userData: data };
+            console.log("Đang ký thành công",result);
+            
         }
     } catch (error) {
         result = { isRegisterSuccessful: false, registerError: error.message };

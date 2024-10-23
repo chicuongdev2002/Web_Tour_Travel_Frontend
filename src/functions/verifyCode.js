@@ -14,6 +14,8 @@ const verifyCode = async (email, code) => {
             result = { isCodeValid: false, verifyCodeError: "Mã xác thực không hợp lệ." };
         } else {
             result = { isCodeValid: true, verifyCodeError: "" };
+            console.log("Xác thực mã thành công",result);
+            
         }
     } catch (error) {
         result = { isCodeValid: false, verifyCodeError: error.message };
