@@ -53,9 +53,9 @@ function NavbarComp() {
           <Nav className="me-auto">
             <CustomNavBarItem item='Home'/>
             <CustomNavBarItem item='Giới thiệu'/>
-            <CustomDropdown title='Miền Bắc' items={regions['Miền Bắc']} />
+            {/* <CustomDropdown title='Miền Bắc' items={regions['Miền Bắc']} />
             <CustomDropdown title='Miền Trung' items={regions['Miền Trung']} />
-            <CustomDropdown title='Miền Nam' items={regions['Miền Nam']} />
+            <CustomDropdown title='Miền Nam' items={regions['Miền Nam']} /> */}
             <CustomNavBarItem item='Bảng giá'/>
             <CustomNavBarItem item='Đặt tour'/>
           </Nav>
