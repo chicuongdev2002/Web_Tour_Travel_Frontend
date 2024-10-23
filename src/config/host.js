@@ -8,7 +8,7 @@ const LOGIN = REACT_APP_HOST + "/accounts/login"
 const REGISTER = REACT_APP_HOST + "/accounts/register"
 const RESET_PASSWORD = REACT_APP_HOST + "/accounts/reset-password"
 const SEARCH = REACT_APP_HOST + "/api/tours/search"
-
+const GET_TOUR_DETAIL = REACT_APP_HOST + '/api/tours';
 const getAPI = (api, params, paramId) => {
     if(paramId) {
         return api + '/' + paramId;
@@ -21,5 +21,5 @@ const getAPI = (api, params, paramId) => {
 }
 export default REACT_APP_HOST
 export { GET_ALL_TOUR, CHECK_ACCOUNT_EXISTS, CHECK_USER_EXISTS, 
-    SEND_CODE_VERIFYCATION, VERIFY_CODE, LOGIN, REGISTER, RESET_PASSWORD, SEARCH, 
+    SEND_CODE_VERIFYCATION, VERIFY_CODE, LOGIN, REGISTER, RESET_PASSWORD, SEARCH, GET_TOUR_DETAIL,
     getAPI };

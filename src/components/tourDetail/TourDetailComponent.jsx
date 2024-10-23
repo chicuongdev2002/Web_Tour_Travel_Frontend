@@ -1,13 +1,21 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './TourDetailComponent.css';
 import { useNavigate } from 'react-router-dom';
-import { Star } from 'lucide-react';
+import { Star, ChevronRight, ChevronLeft, Calendar } from 'lucide-react';
 import SliderPaging from '../slider/SliderPaging';
 import '../slider/sliderStyle.css';
+// import Calendar from 'react-calendar';
+import TourCalendar from './Calendar/TourCalendar';
+import DepartureDates from './Calendar/DepartureDates';
+import ItineraryDetail from './InfomaitionTour/ItineraryDetail';
 const TourDetailComponent = ({ tourData }) => {
   const navigate = useNavigate();
-  
-  // Main image và thumbnail dimensions
+  const [selectedDeparture, setSelectedDeparture] = useState(tourData.departures[0]);
+  const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+
+    const toggleDescription = () => {
+        setIsDescriptionExpanded(prev => !prev);
+    };
   const mainImgDimension = {
     width: 750,
     height: 500
@@ -18,24 +26,26 @@ const TourDetailComponent = ({ tourData }) => {
     height: 70
   };
 
-  // Calculate average rating
   const averageRating = tourData.reviews.reduce((acc, review) => acc + review.rating, 0) / tourData.reviews.length;
 
-  // Get adult price from first departure
-  const adultPrice = tourData.departures[0]?.tourPricing.find(
-    price => price.participantType === "ADULTS"
-  )?.price || 0;
 
-  // Format price to VND currency
   const formatPrice = (price) => {
     return new Intl.NumberFormat('vi-VN', {
       style: 'currency',
       currency: 'VND'
     }).format(price);
   };
-
-  // Extract image URLs from tourData
+   const handleDateSelect = (departure) => {
+    console.log('Selected departure:', departure);
+  };
   const imageUrls = tourData.images.map(img => img.imageUrl);
+
+
+  const participantTypeTranslation = {
+    ADULTS: 'Người lớn',
+    CHILDREN: 'Trẻ em',
+    ELDERLY: 'Người cao tuổi'
+  };
 
   return (
     <div className="w-full max-w-7xl mx-auto p-4">
@@ -47,30 +57,51 @@ const TourDetailComponent = ({ tourData }) => {
             mainImgDimension={mainImgDimension}
             thumbImgDimension={thumbImgDimension}
           />
+           {/* Tour Description Section */}
+                    <div className="description-section">
+                        <h3 className="font-semibold mb-2 ">Bạn sẽ trải nghiệm</h3>
+                        <p className="description-text">
+                            {isDescriptionExpanded ? tourData.tourDescription : `${tourData.tourDescription.substring(0, 100)}...`}
+                        </p>
+                        <button onClick={toggleDescription} className="text-blue-600 hover:underline mt-2">
+                            {isDescriptionExpanded ? 'Xem ít hơn' : 'Xem thêm'}
+                        </button>
+                    </div>
         </div>
-
+       
         {/* Tour Information Section */}
         <div className="md:w-1/2">
           <div className="border rounded-lg shadow-lg p-6 h-full">
-            <h1 className="text-3xl font-bold mb-4">{tourData.tourName}</h1>
-            <p className="text-gray-600 mb-4">{tourData.tourDescription}</p>
+          <h1 className="text-3xl font-bold mb-4 tour-name">{tourData.tourName}</h1>
+            {/* <p className="text-gray-600 mb-4">{tourData.tourDescription}</p> */}
 
             {/* Price Section */}
             <div className="mb-4">
-              <s className="text-xl text-gray-500">{formatPrice(adultPrice * 1.2)}</s>
-              <div className="text-2xl font-bold text-red-600">{formatPrice(adultPrice)}</div>
+              <h3 className="font-semibold text-center">Giá</h3>
+              <div className="space-y-2 text-center">
+                {selectedDeparture.tourPricing.map((price) => {
+                  const translatedType = participantTypeTranslation[price.participantType] || price.participantType;
+
+                  return (
+                    <div key={price.participantType} className="flex justify-center">
+                      <span>{translatedType}:</span>
+                      <span className="font-bold text-red-600 ml-2">{formatPrice(price.price)}</span>
+                    </div>
+                  );
+                })}
+              </div>
             </div>
 
             {/* Tour Details */}
             <div className="space-y-4 mb-6">
               <div className="flex items-center gap-2">
-                <span className="font-semibold">Thời gian:</span>
+                <span className="font-semibold">Thời gian</span>
                 <span>{tourData.duration} ngày</span>
               </div>
 
               {/* Rating Section */}
               <div className="flex items-center gap-2">
-                <span className="font-semibold">Đánh giá:</span>
+                <span className="font-semibold">Đánh giá</span>
                 <div className="flex items-center">
                   {[...Array(5)].map((_, index) => (
                     <Star
@@ -85,7 +116,7 @@ const TourDetailComponent = ({ tourData }) => {
 
               {/* Destinations Section */}
               <div>
-                <h3 className="font-semibold mb-2">Lịch trình:</h3>
+                <h3 className="font-semibold mb-2">Lịch trình</h3>
                 <div className="space-y-2">
                   {tourData.destinations.map((dest, index) => (
                     <div key={dest.destinationId} className="flex items-center gap-2">
@@ -96,29 +127,16 @@ const TourDetailComponent = ({ tourData }) => {
                   ))}
                 </div>
               </div>
-
-              {/* Departures Section */}
-              <div>
-                <h3 className="font-semibold mb-2">Lịch khởi hành sắp tới:</h3>
-                <div className="space-y-2">
-                  {tourData.departures.map(departure => (
-                    <div key={departure.departureId} className="p-2 bg-gray-50 rounded-lg">
-                      <div className="flex justify-between items-center">
-                        <span className="font-medium">
-                          {new Date(departure.startDate).toLocaleDateString('vi-VN')}
-                        </span>
-                        <span className={`${
-                          departure.availableSeats <= 3 ? 'text-red-600' : 'text-green-600'
-                        } font-medium`}>
-                          Còn {departure.availableSeats}/{departure.maxParticipants} chỗ
-                        </span>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-
+<div>
+   <h3 className="font-semibold mb-2">Có vé trống cho bạn</h3>
+   <div className="flex-container">
+    <TourCalendar departures={tourData.departures} onDateSelect={handleDateSelect} />
+        <DepartureDates departures={tourData.departures} onDateSelect={handleDateSelect} />
+      </div>
+</div>
+</div>
+             
+  
             {/* Booking Button */}
             <button
               onClick={() => navigate('/booking')}
@@ -129,7 +147,10 @@ const TourDetailComponent = ({ tourData }) => {
           </div>
         </div>
       </div>
-
+      <div>
+        <h2 className="text-2xl font-bold mb-4">Lịch trình chi tiết</h2>
+  <ItineraryDetail destinations={tourData.destinations} />
+</div>
       {/* Reviews Section */}
       <div className="mt-8">
         <h2 className="text-2xl font-bold mb-4">Đánh giá từ khách hàng</h2>

@@ -14,7 +14,7 @@ const TourCard = ({ tour }) => {
         <img src={tour.image} alt={tour.title} className="tour-image" />
         <div className="tour-details">
           <h3 className="tour-title">{tour.title}</h3>
-          <p className="tour-description">{tour.description}</p>
+          {/* <p className="tour-description">{tour.description}</p> */}
           <div className="tour-info">
             <div className='divRow mb-1 align-items-center'>
               <FaMapMarkedAlt size={30} />

@@ -1,0 +1,295 @@
+.departure-dates {
+    display: flex;
+    /* Use flexbox for horizontal layout */
+    align-items: center;
+    /* Center items vertically */
+    justify-content: flex-start;
+    /* Align items to the start */
+    background-color: #f5f6f7;
+    /* Background color */
+    padding: 10px;
+    /* Padding for the container */
+    border-radius: 5px;
+    /* Rounded corners */
+    overflow-x: auto;
+    /* Allow scrolling if necessary */
+    white-space: nowrap;
+    /* Prevent wrapping of items */
+}
+
+.departure-date-box {
+    background: white;
+    /* Box background color */
+    border: 1px solid #ccc;
+    /* Border color */
+    border-radius: 5px;
+    /* Rounded corners */
+    margin: 0 5px;
+    /* Space between boxes */
+    padding: 5px;
+    /* Padding inside the box */
+    text-align: center;
+    /* Center text */
+    cursor: pointer;
+    /* Pointer on hover */
+    transition: box-shadow 0.2s;
+    /* Transition for shadow effect */
+    width: 100px;
+    /* Fixed width for uniformity */
+    display: flex;
+    /* Flexbox for alignment */
+    flex-direction: column;
+    /* Stack items vertically */
+    justify-content: center;
+    /* Center items vertically */
+    position: relative;
+    /* Necessary for positioning the banner */
+    min-width: 80px;
+    /* Minimum width to prevent boxes from being too narrow */
+}
+
+.view-calendar {
+    /* display: flex; */
+    /* Flexbox for icon and text */
+    align-items: center;
+    color: blue;
+    /* Icon and text color */
+    margin-right: 20px;
+    /* Space to the first box */
+    font-weight: bold;
+    /* Bold text */
+}
+.fully-booked-banner {
+    position: absolute;
+    /* Position the banner absolutely */
+    top: 0;
+    /* Align to the top */
+    left: 0;
+    /* Align to the left */
+    right: 0;
+    /* Stretch to the right */
+    background-color: rgba(255, 165, 0, 0.7);
+    /* Semi-transparent orange background */
+    color: white;
+    /* White text color */
+    text-align: center;
+    /* Center the text */
+    padding: 5px;
+    /* Padding for the banner */
+    font-weight: bold;
+    /* Bold text */
+    border-radius: 5px;
+    /* Rounded corners */
+}
+.expired-banner {
+    position: absolute;
+    /* Position the banner absolutely */
+    top: 0;
+    /* Align to the top */
+    left: 0;
+    /* Align to the left */
+    right: 0;
+    /* Stretch to the right */
+    background-color: rgba(255, 0, 0, 0.7);
+    /* Semi-transparent red background */
+    color: white;
+    /* White text color */
+    text-align: center;
+    /* Center the text */
+    padding: 5px;
+    /* Padding for the banner */
+    font-weight: bold;
+    /* Bold text */
+    border-radius: 5px;
+    /* Rounded corners */
+}
+.departure-date-box:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    /* Shadow effect on hover */
+}
+
+.date {
+    font-size: 1.1em;
+    /* Date font size */
+    font-weight: bold;
+    /* Bold date */
+    /* display: flex; */
+    /* Flexbox for inline display */
+    justify-content: center;
+    /* Center the content */
+}
+
+.day {
+    font-size: 0.9em;
+    /* Smaller font for day */
+    color: #555;
+    /* Darker color for day text */
+    margin-right: 2px;
+    /* Space between day and date */
+}
+
+.month-year {
+    font-size: 0.9em;
+    /* Font size for month and year */
+    color: #555;
+    /* Darker color for month/year text */
+}
+
+.next-day {
+    display: flex;
+    align-items: center;
+    color: blue;
+    /* Next button color */
+    cursor: pointer;
+    /* Pointer on hover */
+    margin-left: 10px;
+    /* Space from the last box */
+}
+.departure-details {
+    background-color: white;
+    /* Background for detail view */
+    padding: 20px;
+    /* Padding */
+    border: 1px solid #eaeaea;
+    /* Light border */
+    border-radius: 8px;
+    /* Rounded corners */
+    margin-top: 20px;
+    /* Space above */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    /* Light shadow */
+}
+
+.departure-details h2 {
+    margin: 0 0 10px;
+    /* Space below heading */
+}
+
+.departure-details button {
+    background-color: #3182ce;
+    /* Button color */
+    color: white;
+    /* Button text color */
+    padding: 8px 16px;
+    /* Button padding */
+    border: none;
+    /* No border */
+    border-radius: 4px;
+    /* Rounded corners */
+    cursor: pointer;
+    /* Pointer cursor */
+}
+
+.departure-details button:hover {
+    background-color: #2b6cb0;
+    /* Darker on hover */
+}
+.departure-container {
+    width: 100%;
+    padding: 1rem;
+    background: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.departure-title {
+    margin-bottom: 1rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+}
+
+.departure-dates-scroll {
+    width: 100%;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+    margin-bottom: 1rem;
+}
+
+.departure-dates-wrapper {
+    display: flex;
+    gap: 1rem;
+    padding: 0.5rem;
+    min-width: min-content;
+}
+
+.departure-card {
+    flex: 0 0 auto;
+    width: 120px;
+    background: #f8f9fa;
+    border: 1px solid #e9ecef;
+    border-radius: 8px;
+    padding: 0.75rem;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.departure-card:hover:not(.inactive) {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+.departure-card.inactive {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+.departure-card-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.day-name {
+    font-size: 0.875rem;
+    color: #6c757d;
+}
+
+.departure-date {
+    font-weight: 600;
+    color: #212529;
+}
+
+.departure-status {
+    font-size: 0.75rem;
+    padding: 0.25rem 0.5rem;
+    border-radius: 4px;
+}
+
+.departure-status.available {
+    background: #e3f2fd;
+    color: #0d47a1;
+}
+
+.departure-status.expired,
+.departure-status.fully-booked {
+    background: #ffebee;
+    color: #c62828;
+}
+
+/* Tùy chỉnh thanh cuộn */
+.departure-dates-scroll::-webkit-scrollbar {
+    height: 6px;
+}
+
+.departure-dates-scroll::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 3px;
+}
+
+.departure-dates-scroll::-webkit-scrollbar-thumb {
+    background: #888;
+    border-radius: 3px;
+}
+
+.departure-dates-scroll::-webkit-scrollbar-thumb:hover {
+    background: #555;
+}
+
+/* Đảm bảo responsive */
+@media (max-width: 768px) {
+    .departure-card {
+        width: 100px;
+    }
+}
