@@ -85,6 +85,7 @@ const LoginRegister = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     const result = await login(username, password);
+    console.log(result);
     if (result.isLoginSuccessful) {
       console.log("Đăng nhập thành công:", result.userData);
       navigate("/");
