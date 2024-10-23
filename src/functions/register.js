@@ -1,11 +1,9 @@
-import host from '../config/host';
-
-const API_URL = `${host}/api`;
+import { REGISTER, getAPI } from '../config/host';
 
 const register = async (username, password, fullName, phoneNumber, email) => {
     let result = {};
     try {
-        const response = await fetch(`${API_URL}/accounts/register?username=${username}&password=${password}`, {
+        const response = await fetch(getAPI(REGISTER, {username, password}), {
             method: 'POST',
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ fullName, phoneNumber, email }),

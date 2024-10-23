@@ -1,11 +1,9 @@
-import host from '../config/host';
-
-const API_URL = `${host}/api`;
+import { RESET_PASSWORD, getAPI } from '../config/host';
 
 const resetPassword = async (email, newPassword) => {
     let result = {};
     try {
-        const response = await fetch(`${API_URL}/accounts/reset-password?email=${email}&newPassword=${newPassword}`, {
+        const response = await fetch(getAPI(RESET_PASSWORD, {email, newPassword}), {
             method: 'POST',
         });
         if (!response.ok) {

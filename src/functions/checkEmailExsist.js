@@ -1,6 +1,4 @@
-import host from '../config/host';
-
-const API_URL = `${host}/api`;
+import { CHECK_USER_EXISTS, getAPI } from '../config/host';
 
 const checkEmailExists = async (email) => {
     if (!email) {
@@ -8,7 +6,7 @@ const checkEmailExists = async (email) => {
     }
     let result = {};
     try {
-        const response = await fetch(`${API_URL}/users/exists/${email}`);
+        const response = await fetch(getAPI(CHECK_USER_EXISTS, null, email));
         if (!response.ok) {
             result = { emailExists: false, checkEmailError: "Không thể kiểm tra email." };
         } else {
