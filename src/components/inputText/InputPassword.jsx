@@ -37,7 +37,7 @@ function InputPassword({ id, label, value, onChange }) {
               onClick={handleClickShowPassword}
               onMouseDown={handleMouseDownPassword}
               onMouseUp={handleMouseUpPassword}
-              style={{ color: 'black' }}
+              style={{ color: focus ? 'blue' : 'black' }}
               size='large'
             >
               {showPassword ? <VisibilityOff /> : <Visibility />}
