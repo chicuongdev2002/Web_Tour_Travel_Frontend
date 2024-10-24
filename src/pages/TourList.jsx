@@ -14,12 +14,11 @@ const TourList = ({ searchParams }) => {
   const fetchTours = async (currentPage) => {
     setLoading(true);
     const data = await getAllTour({
-      ...searchParams,
+      // ...searchParams,
       page: currentPage,
       size: pageSize
     });
     console.log(data);
-    
     setDataCard(data.content);
     setTotalPages(data.page.totalPages);
     setLoading(false);
