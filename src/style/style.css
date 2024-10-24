@@ -31,7 +31,7 @@ input[type="text"]:focus {
 .btn {
     border-radius: 25px;
     padding: 10px 20px;
-    transition: background-color 0.3s, transform 0.3s;
+    transition: transform 0.3s;
 }
 
 .btn-primary {
@@ -75,6 +75,12 @@ footer {
     align-items: center;
 }
 
+.divRow {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
 .divColumnBetween {
     display: flex;
     flex-direction: column;
@@ -95,6 +101,11 @@ footer {
 .textInfo {
     font-size: 18px;
     margin-left: 10px;
+}
+
+.formBooking > *:nth-child(n+2){
+    text-align: start;
+    margin-left: 15px;
 }
 
 @media (max-width: 768px) {

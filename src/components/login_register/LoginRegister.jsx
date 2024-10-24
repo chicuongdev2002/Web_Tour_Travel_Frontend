@@ -12,6 +12,10 @@ import getEmailFromUsername from "../../functions/getMail";
 import resetPassword from '../../functions/resetPassword';
 import InputPassword from "../inputText/InputPassword";
 import InputText from "../inputText/InputText";
+import PersonIcon from '@mui/icons-material/Person';
+import EditNoteIcon from '@mui/icons-material/EditNote';
+import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
+import EmailIcon from '@mui/icons-material/Email';
 const LoginRegister = () => {
   const [isActive, setIsActive] = useState(false);
   const [username, setUsername] = useState("");
@@ -19,7 +23,7 @@ const LoginRegister = () => {
   const [phoneNumber, setPhone] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState(""); 
+  const [error, setError] = useState("");
   const [errorRegister, setErrorRegister] = useState("");
   const [showErrorRegister, setShowErrorRegisterr] = useState(false);
   const [showPopup, setShowPopup] = useState(false); // Trạng thái cho popup
@@ -41,20 +45,12 @@ const LoginRegister = () => {
   const [resetError, setResetError] = useState("");
   const [isResetCodeVerified, setIsResetCodeVerified] = useState(false);
   const [showEmailForget, setShowMailForget] = useState(false);
-   const [isForgotPasswordActive, setIsForgotPasswordActive] = useState(false);
+  const [isForgotPasswordActive, setIsForgotPasswordActive] = useState(false);
   const [showErrorMailForget, setShowErrorMailForget] = useState("");
-   const [resetIdentifier, setResetIdentifier] = useState(""); // email hoặc username
+  const [resetIdentifier, setResetIdentifier] = useState(""); // email hoặc username
   const [isUsername, setIsUsername] = useState(false); // kiểm tra input là username hay email
   const [userEmail, setUserEmail] = useState(""); // email lấy được từ username
-
   const navigate = useNavigate();
-  // const checkEmailNonExists = async (email) => {
-  //   const result = await checkEmailExists(email);
-  //   setShowMailForget(!result.emailExists);
-  //   setShowErrorMailForget(result.emailExists ? "" : "Email không tồn tại trong hệ thống");
-  // };
-
-
   const handleRegisterClick = () => {
     setIsActive(true);
     setError("");
@@ -83,65 +79,61 @@ const LoginRegister = () => {
       } else {
         setError(result.loginError);
         console.log(result);
-        
+
       }
     }
   };
 
   const handleRegister = async (e) => {
     e.preventDefault();
-    
+
     if (!fullName.trim() || !phoneNumber.trim() || !email.trim()) {
-        setErrorRegister("Vui lòng điền đầy đủ thông tin.");
-        setShowErrorRegisterr(true);
-        return;
+      setErrorRegister("Vui lòng điền đầy đủ thông tin.");
+      setShowErrorRegisterr(true);
+      return;
     }
 
     const phoneRegex = /^[0-9]{10,}$/;
     if (!phoneRegex.test(phoneNumber)) {
-        setErrorRegister("Số điện thoại không hợp lệ. Vui lòng nhập lại.");
-        setShowErrorRegisterr(true);
-        return;
+      setErrorRegister("Số điện thoại không hợp lệ. Vui lòng nhập lại.");
+      setShowErrorRegisterr(true);
+      return;
     }
 
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(email)) {
-        setErrorRegister("Email không hợp lệ.");
-        setShowErrorRegisterr(true);
-        return;
+      setErrorRegister("Email không hợp lệ.");
+      setShowErrorRegisterr(true);
+      return;
     }
 
     try {
       const accountExistsResult = await checkAccountExists(username);
       const emailExistsResult = await checkEmailExists(email);
-
       if (accountExistsResult.accountExists || emailExistsResult.emailExists) {
         setErrorRegister(accountExistsResult.accountExists ? accountExistsResult.checkAccountError : emailExistsResult.checkEmailError);
         setShowErrorRegisterr(true);
         return;
       }
-
       setShowErrorRegisterr(false);
-
       const sendCodeResult = await sendVerificationCode(email);
       if (sendCodeResult.isCodeSent) {
         setIsVerificationSent(true);
         setShowVerify(true);
         setCountdown(5);
         setShowCountdown(true);
-
         const endTime = Date.now() + 5000;
         const countdownInterval = setInterval(() => {
-            const remainingTime = Math.ceil((endTime - Date.now()) / 1000);
-            if (remainingTime <= 0) {
-                clearInterval(countdownInterval);
-                setPopupMessage("Mã xác thực đã được gửi đến email của bạn.");
-                setShowPopup(true);
-                setCountdown(0);
-                setShowCountdown(false);
-            } else {
-                setCountdown(remainingTime);
-            }
+          const remainingTime = Math.ceil((endTime - Date.now()) / 1000);
+          if (remainingTime <= 0) {
+            clearInterval(countdownInterval);
+            setPopupMessage("Mã xác thực đã được gửi đến email của bạn.");
+            setShowPopup(true);
+            setCountdown(0);
+            setShowCountdown(false);
+          } else {
+            setCountdown(remainingTime);
+          }
         }, 1000);
       } else {
         setErrorRegister(sendCodeResult.sendCodeError);
@@ -201,7 +193,7 @@ const LoginRegister = () => {
       return null;
     }
   };
-    const handleLoginSuccess = async (credentialResponse) => {
+  const handleLoginSuccess = async (credentialResponse) => {
     try {
       const credentialResponseDecoded = decodeJwt(credentialResponse.credential);
       console.log("Decoded Google User:", credentialResponseDecoded);
@@ -223,27 +215,12 @@ const LoginRegister = () => {
   const handleLoginFailure = (response) => {
     console.log("Login Failed:", response);
   };
-   // Hàm kiểm tra định dạng email
+  // Hàm kiểm tra định dạng email
   const isValidEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
-//   //Hàm gửi code khi quên mật khẩu
-// const getEmailFromUsername = async (username) => {
-//   try {
-//     const response = await fetch(`http://localhost:8080/api/accounts/email/${username}`);
-//     const email = await response.text(); // API trả về trực tiếp email dạng text
-//     if (!email) {
-//       throw new Error('Không tìm thấy email');
-//     }
-//     console.log("Email tìm được:", email);
-    
-//     return email;
-//   } catch (error) {
-//     throw new Error('Không tìm thấy tài khoản với tên đăng nhập này');
-//   }
-// };
-const handleSendResetCode = async (e) => {
+  const handleSendResetCode = async (e) => {
     e.preventDefault();
     if (showEmailForget) {
       return;
@@ -281,7 +258,7 @@ const handleSendResetCode = async (e) => {
         const maskedEmail = emailToVerify.email.replace(/(\w{3})[\w.-]+@([\w.]+)/g, '$1***@$2');
         setPopupMessage(`Mã xác thực đã được gửi đến email ${maskedEmail} của bạn.`);
         setShowPopup(true);
-        setResetEmail(emailToVerify.email); 
+        setResetEmail(emailToVerify.email);
       } else {
         setResetError(result.sendCodeError);
       }
@@ -303,7 +280,7 @@ const handleSendResetCode = async (e) => {
       setResetError(result.verifyCodeError);
     }
   };
-   // Hàm xử lý khi người dùng nhập identifier (email hoặc username)
+  // Hàm xử lý khi người dùng nhập identifier (email hoặc username)
   const handleIdentifierChange = (e) => {
     const value = e.target.value;
     setResetIdentifier(value);
@@ -341,205 +318,216 @@ const handleSendResetCode = async (e) => {
       <div className={`wrapper ${isActive ? "active" : ""}`}>
         <span className="rotate-bg"></span>
         <span className="rotate-bg2"></span>
-
-      {/* Login Form */}
-      <div className="form-box login">
-        <h2 className="title animation" style={{ "--i": 0, "--j": 21 }}>
-          <button onClick={handleLogin}>Đăng nhâp</button>
-        </h2>
-        <form onSubmit={handleLogin}>
-          {!showEmailInput && failedLoginAttempts < 3 && (
-            <>
-              <div
-                className="animation"
-                style={{ "--i": 1, "--j": 22, height: 50, marginBottom: 25, marginTop: 25 }}
-              >
-                <InputText id="login-userName" label="Tài khoản" value={username} onChange={(e) => setUsername(e.target.value)}/>
-              </div>
-              <div
-                className="animation"
-                style={{ "--i": 2, "--j": 23 }}
-              >
-                <InputPassword id="login-password" label="Mật khẩu" value={password} onChange={(e) => setPassword(e.target.value)}/>
-              </div>
-            </>
-          )}
-          {showEmailInput && (
-            <>
-              <div
-                className="animation"
-                style={{ "--i": 1, "--j": 22 }}
-              >
-                 <InputText 
-              id="login-identifier" 
-              label="Email hoặc tên tài khoản" 
-              value={resetIdentifier}
-              onChange={handleIdentifierChange}
-            />
-                  {showEmailForget && (
-                <p className="error-message">{showErrorMailForget}</p>
-            )}
-              </div>
-              {isResetCodeSent && !isResetCodeVerified && (
+        {/* Login Form */}
+        <div className="form-box login">
+          <h2 className="title animation" style={{ "--i": 0, "--j": 21 }}>
+            <button onClick={handleLogin}>Đăng nhâp</button>
+          </h2>
+          <form onSubmit={handleLogin}>
+            {!showEmailInput && failedLoginAttempts < 3 && (
+              <>
+                <div
+                  className="animation"
+                  style={{ "--i": 1, "--j": 22, height: 50, marginBottom: 25, marginTop: 25 }}
+                >
+                  <InputText id="login-userName" label="Tài khoản" value={username} onChange={(e) => setUsername(e.target.value)}>
+                    <PersonIcon />
+                  </InputText>
+                </div>
                 <div
                   className="animation"
                   style={{ "--i": 2, "--j": 23 }}
                 >
-                  <InputText id="forgot-code" label="Mã xác thực" value={resetVerificationCode} 
-                    onChange={(e) => setResetVerificationCode(e.target.value)}/>
+                  <InputPassword id="login-password" label="Mật khẩu" value={password} onChange={(e) => setPassword(e.target.value)} />
                 </div>
-              )}
-              {isResetCodeVerified && (
-                <>
+              </>
+            )}
+            {showEmailInput && (
+              <>
+                <div
+                  className="animation"
+                  style={{ "--i": 1, "--j": 22 }}
+                >
+                  <InputText
+                    id="login-identifier"
+                    label="Email hoặc tên tài khoản"
+                    value={resetIdentifier}
+                    onChange={handleIdentifierChange}
+                  >
+                    <EmailIcon />
+                  </InputText>
+                  {showEmailForget && (
+                    <p className="error-message">{showErrorMailForget}</p>
+                  )}
+                </div>
+                {isResetCodeSent && !isResetCodeVerified && (
                   <div
                     className="animation"
-                    style={{ "--i": 3, "--j": 24 }}
+                    style={{ "--i": 2, "--j": 23 }}
                   >
-                    <InputPassword id="forgot-password" label="Mật khẩu mới" 
-                      value={newPassword} onChange={(e) => setNewPassword(e.target.value)}/>
+                    <InputText id="forgot-code" label="Mã xác thực" value={resetVerificationCode}
+                      onChange={(e) => setResetVerificationCode(e.target.value)} />
                   </div>
-                  <div
-                    className="animation"
-                    style={{ "--i": 4, "--j": 25 }}
-                  >
-                    <InputPassword id="forgot-confirm-password" label="Nhập lại mật khẩu"
-                      value={confirmNewPassword} onChange={(e) => setConfirmNewPassword(e.target.value)}/>
-                  </div>
-                </>
-              )}
-            </>
-          )}
-          {error && <p className="error-message">{error}</p>}
-          {resetError && <p className="error-message">{resetError}</p>}
-          <button
-            type="submit"
-            className="btn animation"
-            style={{ "--i": 5, "--j": 26, marginTop: 20 }}
-            onClick={
-              showEmailInput
+                )}
+                {isResetCodeVerified && (
+                  <>
+                    <div
+                      className="animation"
+                      style={{ "--i": 3, "--j": 24 }}
+                    >
+                      <InputPassword id="forgot-password" label="Mật khẩu mới"
+                        value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+                    </div>
+                    <div
+                      className="animation"
+                      style={{ "--i": 4, "--j": 25 }}
+                    >
+                      <InputPassword id="forgot-confirm-password" label="Nhập lại mật khẩu"
+                        value={confirmNewPassword} onChange={(e) => setConfirmNewPassword(e.target.value)} />
+                    </div>
+                  </>
+                )}
+              </>
+            )}
+            {error && <p className="error-message">{error}</p>}
+            {resetError && <p className="error-message">{resetError}</p>}
+            <button
+              type="submit"
+              className="btn animation"
+              style={{ "--i": 5, "--j": 26, marginTop: 20 }}
+              onClick={
+                showEmailInput
+                  ? isResetCodeSent
+                    ? isResetCodeVerified
+                      ? handleResetPassword
+                      : handleVerifyResetCode
+                    : handleSendResetCode
+                  : handleLogin
+              }
+            >
+              {showEmailInput
                 ? isResetCodeSent
                   ? isResetCodeVerified
-                    ? handleResetPassword
-                    : handleVerifyResetCode
-                  : handleSendResetCode
-                : handleLogin
-            }
-          >
-            {showEmailInput
-              ? isResetCodeSent
-                ? isResetCodeVerified
-                  ? "Đặt lại mật khẩu"
-                  : "Xác minh mã"
-                : "Gửi mã xác minh"
-              : "Đăng nhập"}
-          </button>
-          <div className="linkTxt animation" style={{ "--i": 5, "--j": 25 }}>
-            <p>
-              Bạn chưa có tài khoản?{" "}
-              <a
-                href="#"
-                className="register-link"
-                onClick={handleRegisterClick}
-              >
-                Đăng kí
-              </a>
-            </p>
+                    ? "Đặt lại mật khẩu"
+                    : "Xác minh mã"
+                  : "Gửi mã xác minh"
+                : "Đăng nhập"}
+            </button>
+            <div className="linkTxt animation" style={{ "--i": 5, "--j": 25 }}>
+              <p>
+                Bạn chưa có tài khoản?{" "}
+                <a
+                  href="#"
+                  className="register-link"
+                  onClick={handleRegisterClick}
+                >
+                  Đăng kí
+                </a>
+              </p>
               {!isForgotPasswordActive && (
-            <p>
-              <a
-                href="#"
-                className="register-link"
-                onClick={handleForgetPasswordClick}
+                <p>
+                  <a
+                    href="#"
+                    className="register-link"
+                    onClick={handleForgetPasswordClick}
+                  >
+                    Bạn quên mật khẩu ư?
+                  </a>
+                </p>
+              )}
+              <GoogleLogin
+                onSuccess={handleLoginSuccess}
+                onFailure={handleLoginFailure}
+              />
+            </div>
+          </form>
+        </div>
+
+        {/* Info Text for Login */}
+        <div className="info-text login">
+          <h2 className="animation" style={{ "--i": 0, "--j": 20 }}>
+            Xuyên Việt Tour
+          </h2>
+          <p className="animation" style={{ "--i": 1, "--j": 21 }}>
+            Welcome Back!
+          </p>
+        </div>
+        {/* Register Form */}
+        <div className="form-box register">
+          <h2 className="title animation" style={{ "--i": 17, "--j": 0 }}>
+            Đăng kí
+          </h2>
+          <form onSubmit={handleRegister}>
+            <div className="animation" style={{ "--i": 18, "--j": 1 }}>
+              <InputText id="register-userName" label="Tài khoản" value={username} onChange={(e) => setUsername(e.target.value)}>
+                <PersonIcon />
+              </InputText>
+              {/* Hiển thị thông báo lỗi nếu có */}
+              {checkAccountError && (
+                <p className="error-message">{checkAccountError}</p>
+              )}
+            </div>
+            <div className="animation" style={{ "--i": 20, "--j": 3 }}>
+              <InputPassword id="register-password" label="Mật khẩu" value={password} onChange={(e) => setPassword(e.target.value)} />
+            </div>
+            <div className="animation" style={{ "--i": 18, "--j": 1 }}>
+              <InputText id="register-fullName" label="Họ và tên" value={fullName} onChange={(e) => setFullName(e.target.value)}>
+                <EditNoteIcon />
+              </InputText>
+            </div>
+            <div className="animation" style={{ "--i": 18, "--j": 1 }}>
+              <InputText id="register-phone" type="tel" label="Số điện thoại" value={phoneNumber} onChange={(e) => setPhone(e.target.value)}>
+                <PhoneAndroidIcon />
+              </InputText>
+            </div>
+            <div className="animation" style={{ "--i": 18, "--j": 1 }}>
+              <InputText id="register-email" label="Email" value={email} onChange={(e) => setEmail(e.target.value)}>
+                <EmailIcon />
+              </InputText>
+            </div>
+            {showErrorRegister && <p className="error-message">{errorRegister}</p>}
+            {/* Trường nhập mã xác thực */}
+            {showVerify && (
+              <div
+                className="animation"
+                style={{ "--i": 18, "--j": 1 }}
               >
-                Bạn quên mật khẩu ư?
-              </a>
-            </p>
-          )}
-            <GoogleLogin
-              onSuccess={handleLoginSuccess}
-              onFailure={handleLoginFailure}
-            />
-          </div>
-        </form>
-      </div>
-  
-      {/* Info Text for Login */}
-      <div className="info-text login">
-        <h2 className="animation" style={{ "--i": 0, "--j": 20 }}>
-          Xuyên Việt Tour
-        </h2>
-        <p className="animation" style={{ "--i": 1, "--j": 21 }}>
-          Welcome Back!
-        </p>
-      </div>
-      {/* Register Form */}
-      <div className="form-box register">
-        <h2 className="title animation" style={{ "--i": 17, "--j": 0 }}>
-          Đăng kí
-        </h2>
-        <form onSubmit={handleRegister}>
-          <div className="animation" style={{ "--i": 18, "--j": 1 }}>
-            <InputText id="register-userName" label="Tài khoản" value={username} onChange={(e) => setUsername(e.target.value)}/>
-            {/* Hiển thị thông báo lỗi nếu có */}
-            {checkAccountError && (
-              <p className="error-message">{checkAccountError}</p>
+                <InputText id="register-email" label="Mã xác thực" value={verificationCode}
+                  onChange={(e) => setVerificationCode(e.target.value)} />
+                {showCountDown && <p>Thời gian còn lại: {countdown} giây</p>}
+              </div>
             )}
-          </div>
-          <div className="animation" style={{ "--i": 20, "--j": 3 }}>
-            <InputPassword id="register-password" label="Mật khẩu" value={password} onChange={(e) => setPassword(e.target.value)}/>
-          </div>
-          <div className="animation" style={{ "--i": 18, "--j": 1 }}>
-            <InputText id="register-fullName" label="Họ và tên" value={fullName} onChange={(e) => setFullName(e.target.value)}/>
-          </div>
-          <div className="animation" style={{ "--i": 18, "--j": 1 }}>
-            <InputText id="register-phone" type="tel" label="Số điện thoại" value={phoneNumber} onChange={(e) => setPhone(e.target.value)}/>
-          </div>
-          <div className="animation" style={{ "--i": 18, "--j": 1 }}>
-            <InputText id="register-email" label="Email" value={email} onChange={(e) => setEmail(e.target.value)}/>
-          </div>
-          {showErrorRegister && <p className="error-message">{errorRegister}</p>}
-          {/* Trường nhập mã xác thực */}
-          {showVerify && (
-            <div
-              className="animation"
-              style={{ "--i": 18, "--j": 1 }}
+            <button
+              type="submit"
+              className="btn animation"
+              style={{ "--i": 21, "--j": 4 }}
+              onClick={
+                isVerificationSent ? handleVerifyAndRegister : handleRegister
+              }
             >
-              <InputText id="register-email" label="Mã xác thực" value={verificationCode} 
-                onChange={(e) => setVerificationCode(e.target.value)}/>
-              {showCountDown && <p>Thời gian còn lại: {countdown} giây</p>}
+              {isVerificationSent ? "Xác thực và Đăng ký" : "Gửi mã xác thực"}
+            </button>
+            <div className="linkTxt animation" style={{ "--i": 22, "--j": 5 }}>
+              <p>
+                Đã có tài khoản?{" "}
+                <a
+                  href="#"
+                  className="login-link"
+                  onClick={() => setIsActive(false)}
+                >
+                  Đăng nhập
+                </a>
+              </p>
+            </div>
+          </form>
+          {/* Popup thông báo */}
+          {showPopup && (
+            <div className="popup">
+              <p>{popupMessage}</p>
+              <button onClick={() => setShowPopup(false)}>Đóng</button>
             </div>
           )}
-          <button
-            type="submit"
-            className="btn animation"
-            style={{ "--i": 21, "--j": 4 }}
-            onClick={
-              isVerificationSent ? handleVerifyAndRegister : handleRegister
-            }
-          >
-            {isVerificationSent ? "Xác thực và Đăng ký" : "Gửi mã xác thực"}
-          </button>
-          <div className="linkTxt animation" style={{ "--i": 22, "--j": 5 }}>
-            <p>
-              Đã có tài khoản?{" "}
-              <a
-                href="#"
-                className="login-link"
-                onClick={() => setIsActive(false)}
-              >
-                Đăng nhập
-              </a>
-            </p>
-          </div>
-        </form>
-        {/* Popup thông báo */}
-        {showPopup && (
-          <div className="popup">
-            <p>{popupMessage}</p>
-            <button onClick={() => setShowPopup(false)}>Đóng</button>
-          </div>
-        )}
-      </div>
+        </div>
 
         {/* Info Text for Register */}
         <div className="info-text register">
