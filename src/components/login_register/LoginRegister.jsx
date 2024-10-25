@@ -220,7 +220,8 @@ const LoginRegister = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
-  const handleSendResetCode = async (e) => {
+
+const handleSendResetCode = async (e) => {
     e.preventDefault();
     if (showEmailForget) {
       return;
