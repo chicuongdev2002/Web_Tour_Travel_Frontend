@@ -26,6 +26,7 @@ function SliderPaging({ images, mainImgDimension, thumbImgDimension }) {
     slidesToScroll: 1
   };
   const callBack = (image) => (
+    // <p>Hello</p>
     <img style={{ width: mainImgDimension.width, height: mainImgDimension.height }} src={image} />
   )
   return (

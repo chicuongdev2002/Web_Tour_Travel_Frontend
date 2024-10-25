@@ -3,7 +3,7 @@ import { GET_TOUR_DETAIL, getAPI } from "../config/host";
 
 const getTourDetail = async (id) => {
     try {
-        const url = getAPI(`${GET_TOUR_DETAIL}/${id}`, {});
+        const url = getAPI(GET_TOUR_DETAIL, null, id);
         const response = await axios.get(url);
         return response.data;
     } catch (error) {

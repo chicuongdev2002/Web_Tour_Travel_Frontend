@@ -3,8 +3,10 @@ import 'bootstrap/dist/css/bootstrap.css';
 import { Container, Row, Col, Button, Spinner } from 'react-bootstrap';
 import { getAllTour } from '../functions/getTour';
 import TourCard from '../components/tourCard/TourCard';
+import { useNavigate } from 'react-router-dom';
 
 const TourList = ({ searchParams }) => {
+  const navigate = useNavigate(); 
   const [dataCard, setDataCard] = useState([]);
   const [page, setPage] = useState(0);
   const [pageSize] = useState(8);
@@ -46,6 +48,7 @@ const TourList = ({ searchParams }) => {
         </div>
       ) : (
         <>
+          <button onClick={() => navigate(`/add-tour`) }>Thêm tour</button>
           {dataCard.length === 0 ? (
             <div className="text-center mt-4">
               <h5>Không có kết quả</h5>
