@@ -5,7 +5,6 @@ import brand from '../assets/logo.png'
 import '../style/style.css'
 import { useNavigate } from 'react-router-dom';
 import SearchInput from '../functions/SearchInput';
-
 import DivSliderBackground from '../components/divCustom/DivSliderBackground'
 
 function Home() {
@@ -20,7 +19,7 @@ function Home() {
     navigate('/login-register');
   };
   const goToTourList = () => {
-    navigate('/tour-list');
+    navigate('/tour-list', searchParams);
   };
   const handleSearch = (params) => {
     setSearchParams(params);
