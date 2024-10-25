@@ -5,15 +5,8 @@ import TourList from "./pages/TourList.jsx";
 import Login from './pages/Login.jsx';
 import TourDetails from './pages/TourDetails.jsx';
 import Booking from './pages/Booking.jsx';
-
+import AddTour from './pages/AddTour.jsx';
 function App() {
-  const images = [
-    "https://tourxuyenviet.s3.amazonaws.com/610-Vi-the-du-lich-Viet-Nam-da-thuc-su-thay-doi.jpg",
-    "https://tourxuyenviet.s3.amazonaws.com/anhdepphuyen29-4137.jpg",
-    "https://tourxuyenviet.s3.amazonaws.com/cu-lao-thoi-son-du-lich-viet.jpg",
-    "https://tourxuyenviet.s3.amazonaws.com/phu-yen-02-min-8918.jpg",
-    "https://tourxuyenviet.s3.amazonaws.com/tf_240925031851_167685_Bana+Hill+(2).jpg",
-  ]
   return (
     <BrowserRouter>
     <Routes>
@@ -22,6 +15,7 @@ function App() {
       <Route path="/login-register" element={<Login />} />
       <Route path="/tour-list" element={<TourList />} />
       <Route path="/booking" element={<Booking />} />
+      <Route path="/add-tour" element={<AddTour />} />
     </Routes>
   </BrowserRouter>
   )

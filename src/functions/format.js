@@ -1,3 +1,6 @@
+import { format } from 'date-fns';
+import { vi } from 'date-fns/locale';
+
 const formatMoney = (amount) => {
     amountString = amount + ''
     if (amountString.length <= 3) {
@@ -5,4 +8,9 @@ const formatMoney = (amount) => {
     }
     return `${(amount / 100).toFixed(2)}`;
 }
-export { formatMoney }
+
+const formatDate = (date) => {
+    const formattedDate = format(new Date(date), "HH:mm eeee, 'ngày' dd 'tháng' MM 'năm' yyyy", { locale: vi });
+    return formattedDate;
+}
+export { formatMoney, formatDate }

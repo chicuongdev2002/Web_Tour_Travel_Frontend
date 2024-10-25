@@ -12,6 +12,7 @@ const SliderComponent = ({ images, settings, callBack }) => {
   //     style={{ width: '100%' }}
   //   />
   // </div>
+  console.log('images', images);
   return (
     <div className="slider-container">
       <Slider {...settings}>
