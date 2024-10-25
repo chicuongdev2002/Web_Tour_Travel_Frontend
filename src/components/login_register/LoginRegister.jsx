@@ -228,21 +228,7 @@ const LoginRegister = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     return emailRegex.test(email);
   };
-//   //Hàm gửi code khi quên mật khẩu
-// const getEmailFromUsername = async (username) => {
-//   try {
-//     const response = await fetch(`http://localhost:8080/api/accounts/email/${username}`);
-//     const email = await response.text(); // API trả về trực tiếp email dạng text
-//     if (!email) {
-//       throw new Error('Không tìm thấy email');
-//     }
-//     console.log("Email tìm được:", email);
-    
-//     return email;
-//   } catch (error) {
-//     throw new Error('Không tìm thấy tài khoản với tên đăng nhập này');
-//   }
-// };
+
 const handleSendResetCode = async (e) => {
     e.preventDefault();
     if (showEmailForget) {
