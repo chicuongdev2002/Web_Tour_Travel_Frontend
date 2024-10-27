@@ -8,6 +8,7 @@ import '../slider/sliderStyle.css';
 import TourCalendar from './Calendar/TourCalendar';
 import DepartureDates from './Calendar/DepartureDates';
 import ItineraryDetail from './InfomaitionTour/ItineraryDetail';
+import TourMap from './map/TourMap';
 const TourDetailComponent = ({ tourData }) => {
   const navigate = useNavigate();
   const [selectedDeparture, setSelectedDeparture] = useState(tourData.departures[0]);
@@ -67,6 +68,11 @@ const TourDetailComponent = ({ tourData }) => {
                             {isDescriptionExpanded ? 'Xem ít hơn' : 'Xem thêm'}
                         </button>
                     </div>
+                    {/* Tour Map Section */}
+<div className="mt-6">
+  <h3 className="font-semibold mb-2">Bản đồ lộ trình</h3>
+  <TourMap destinations={tourData.destinations} />
+</div>
         </div>
        
         {/* Tour Information Section */}

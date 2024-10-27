@@ -10,7 +10,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     padding: 20px;
     z-index: 1000;
-    width: 600px;
+    width: 100%;
     /* Adjust width as needed */
     border-radius: 5px;
     /* Rounded corners */
@@ -98,7 +98,7 @@ button:hover .view-calendar {
 
 .calendar-modal-content {
     padding: 20px;
-    max-width: 800px;
+    max-width: 100%;
     width: 90vw;
     background: white;
     border-radius: 12px;
@@ -112,38 +112,51 @@ button:hover .view-calendar {
 }
 
 .calendar-wrapper {
-    display: flex;
+display: flex;
+    flex-direction: row;
+    /* Đảm bảo hai lịch nằm ngang */
     gap: 20px;
-    flex-wrap: wrap;
+    /* Khoảng cách giữa các lịch */
     justify-content: center;
+    /* Căn giữa các lịch */
+    flex-wrap: nowrap;
+    /* Không cho phép cuộn */
 }
 
 /* Calendar customization */
 .react-calendar {
-    border: none !important;
+border: none !important;
     background-color: white;
     padding: 10px;
     border-radius: 8px;
     box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    width: 350px !important;
+    width: 150px !important;
+    /* Adjust width to fit your design */
 }
 
-.highlight {
+.highlight-1 {
     background-color: #e3f2fd !important;
     color: #1976d2 !important;
     font-weight: bold;
 }
 
-.normal-day {
+.normal-day-1 {
     color: #757575;
 }
 
-.tile-content {
+.tile-content-1 {
     font-size: 0.8em;
     color: #2196f3;
     margin-top: 4px;
 }
-
+.highlight-today {
+    background-color: rgb(238, 242, 19);
+    /* Màu nền đỏ */
+    color: white;
+    /* Màu chữ trắng */
+    border-radius: 5px;
+    /* Bo góc */
+}
 /* Responsive adjustments */
 @media (max-width: 768px) {
     .calendar-modal-content {

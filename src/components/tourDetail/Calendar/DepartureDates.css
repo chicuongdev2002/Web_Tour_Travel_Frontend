@@ -293,3 +293,383 @@
         width: 100px;
     }
 }
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, 0.5);
+    /* Màu nền tối với độ trong suốt */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    /* Đảm bảo modal nằm trên các phần tử khác */
+}
+
+.modal-content {
+    padding: 20px;
+    background: linear-gradient(135deg, #0099ff, #00ccff);
+    /* Gradient xanh biển */
+    border-radius: 8px;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 1;
+    /* Đảm bảo opacity là 1 */
+    transform: translateY(0);
+    border-radius: 8px;
+        /* Bo tròn các góc */
+     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        /* Thêm bóng cho modal */
+    max-width: 100%;
+        /* Giới hạn chiều rộng tối đa của modal */
+    margin: 0 auto;
+        /* Căn giữa modal */
+}
+h2 {
+    margin-bottom: 15px;
+    /* Khoảng cách dưới tiêu đề */
+    color: #333;
+    /* Màu chữ tiêu đề */
+    text-align: center;
+    /* Căn giữa tiêu đề */
+}
+
+.guides-list {
+    margin-bottom: 20px;
+    /* Khoảng cách dưới danh sách hướng dẫn viên */
+}
+
+.guides-list ul {
+    list-style-type: none;
+    /* Bỏ dấu chấm đầu dòng */
+    padding: 0;
+}
+
+.guides-list li {
+    padding: 5px 0;
+    /* Khoảng cách giữa các dòng */
+    border-bottom: 1px solid #ddd;
+    /* Đường kẻ dưới mỗi hướng dẫn viên */
+}
+
+.pricing-list {
+    margin-bottom: 20px;
+    /* Khoảng cách dưới danh sách giá */
+}
+
+.participant-info {
+    display: flex;
+    /* Sử dụng flexbox để căn chỉnh */
+    justify-content: space-between;
+    /* Căn giữa không gian */
+    padding: 5px 0;
+    /* Khoảng cách giữa các dòng */
+}
+
+strong {
+    color: #555;
+    /* Màu chữ nhấn mạnh */
+}
+
+p {
+    margin: 10px 0;
+    /* Khoảng cách giữa các đoạn văn */
+    line-height: 1.5;
+    /* Khoảng cách giữa các dòng */
+}
+.select-group {
+    margin: 15px 0;
+}
+
+.select-group label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #fff;
+    /* Màu chữ trắng để nổi bật trên nền gradient */
+}
+
+.select-group select {
+    width: 100%;
+    padding: 10px;
+    /* Tăng padding để ô chọn dễ sử dụng */
+    border: 1px solid #007bff;
+    /* Màu viền xanh */
+    border-radius: 4px;
+    font-size: 1em;
+    background-color: #f0f8ff;
+    /* Màu nền sáng cho ô chọn */
+    color: #333;
+    /* Màu chữ đen để dễ đọc */
+    transition: border-color 0.3s ease;
+    /* Hiệu ứng chuyển màu viền */
+}
+
+.select-group select:focus {
+    border-color: #0056b3;
+    /* Màu viền khi ô chọn được chú ý */
+    outline: none;
+    /* Bỏ outline khi tập trung */
+}
+
+.select-group select option {
+    color: #000;
+    /* Màu chữ cho lựa chọn trong dropdown */
+}
+
+.modal-content h2 {
+    margin-bottom: 15px;
+}
+.highlight {
+    background-color: red;
+    /* Màu nền đỏ cho các ngày trong khoảng */
+    color: white;
+    /* Màu chữ trắng */
+    border-radius: 50%;
+    /* Bo tròn */
+}
+
+.today {
+    background-color: red;
+    /* Màu nền đỏ cho ngày hiện tại */
+    color: white;
+    /* Màu chữ trắng */
+    border-radius: 50%;
+    /* Bo tròn */
+}
+.normal-day {
+    /* Hoặc màu nền mong muốn */
+    color: black;
+    /* Màu chữ đen cho các ngày bình thường */
+}
+/* Existing styles ... */
+
+/* Calendar tile content styles */
+.tile-content {
+    position: absolute;
+    bottom: 2px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.tile-content small {
+    font-size: 0.6rem;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 1px 4px;
+    border-radius: 8px;
+    white-space: nowrap;
+}
+
+/* Existing styles ... */
+
+/* Calendar container styles */
+.calendar-wide-container {
+    margin: 1rem -1rem;
+    padding: 1rem;
+    background: #f8f9fa;
+    border-radius: 8px;
+}
+
+/* Make calendar wider and adjust layout */
+.react-calendar {
+    width: 100% !important;
+    max-width: none !important;
+    background: white;
+    border: none;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 1rem;
+}
+
+/* Adjust the double view layout */
+.react-calendar__viewContainer {
+    display: flex;
+    gap: 2rem;
+    padding: 0 1rem;
+}
+
+/* Style for month view */
+.react-calendar__month-view {
+    flex: 1;
+}
+
+/* Header styling */
+.react-calendar__navigation {
+    margin-bottom: 1rem;
+    background: #f8f9fa;
+    padding: 0.5rem;
+    border-radius: 8px;
+}
+
+.react-calendar__navigation button {
+    min-width: 44px;
+    background: none;
+    font-size: 1rem;
+    color: #333;
+}
+
+.react-calendar__navigation button:enabled:hover,
+.react-calendar__navigation button:enabled:focus {
+    background-color: #e9ecef;
+}
+
+/* Weekday header styling */
+.react-calendar__month-view__weekdays {
+    text-align: center;
+    font-weight: bold;
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    color: #666;
+    margin-bottom: 0.5rem;
+}
+
+/* Calendar tile content styles */
+.tile-content {
+    position: absolute;
+    bottom: 2px;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+}
+
+.tile-content small {
+    font-size: 0.65rem;
+    background: rgba(0, 0, 0, 0.6);
+    color: white;
+    padding: 1px 4px;
+    border-radius: 8px;
+    white-space: nowrap;
+}
+
+/* Make calendar tiles taller to accommodate labels */
+.react-calendar__month-view__days__day {
+    position: relative;
+    height: 60px !important;
+    padding-bottom: 20px !important;
+    aspect-ratio: 1.2;
+}
+
+/* Date styles */
+.today {
+    background-color: #ffeb3b !important;
+    color: #000 !important;
+}
+
+.start-date {
+    background-color: #4caf50 !important;
+    color: white !important;
+    border-radius: 8px;
+}
+
+.end-date {
+    background-color: #f44336 !important;
+    color: white !important;
+    border-radius: 8px;
+}
+
+.highlight {
+    background-color: #2196f3 !important;
+    color: white !important;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .react-calendar {
+        font-size: 0.875rem;
+    }
+
+    .react-calendar__viewContainer {
+        flex-direction: column;
+        gap: 1rem;
+    }
+
+    .react-calendar__month-view__days__day {
+        height: 50px !important;
+    }
+
+    .tile-content small {
+        font-size: 0.6rem;
+    }
+}
+ .calendar-wide-container {
+     margin: 1rem 0;
+     padding: 1rem;
+     background: #f8f9fa;
+     border-radius: 8px;
+ }
+
+ .react-calendar {
+     width: 100% !important;
+     border: none;
+     font-family: system-ui, -apple-system;
+ }
+
+ .react-calendar__navigation {
+     margin-bottom: 1rem;
+ }
+
+ .react-calendar__month-view__days__day {
+     position: relative;
+     height: 60px !important;
+     padding-bottom: 20px !important;
+     aspect-ratio: 1.2;
+ }
+
+ .tile-content {
+     position: absolute;
+     bottom: 2px;
+     left: 0;
+     right: 0;
+     display: flex;
+     justify-content: center;
+ }
+
+ .tile-content small {
+     font-size: 0.65rem;
+     background: rgba(0, 0, 0, 0.6);
+     color: white;
+     padding: 1px 4px;
+     border-radius: 8px;
+     white-space: nowrap;
+ }
+
+ .today {
+     background-color: #ffeb3b !important;
+     color: #000 !important;
+ }
+
+ .start-date {
+     background-color: #4caf50 !important;
+     color: white !important;
+     border-radius: 8px;
+ }
+
+ .end-date {
+     background-color: #f44336 !important;
+     color: white !important;
+     border-radius: 8px;
+ }
+
+ .highlight {
+     background-color: #2196f3 !important;
+     color: white !important;
+ }
+
+ @media (max-width: 768px) {
+     .react-calendar {
+         font-size: 0.875rem;
+     }
+
+     .react-calendar__month-view__days__day {
+         height: 50px !important;
+     }
+
+     .tile-content small {
+         font-size: 0.6rem;
+     }
+ }
+
