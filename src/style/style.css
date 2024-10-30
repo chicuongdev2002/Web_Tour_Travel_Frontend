@@ -82,6 +82,20 @@ footer {
     align-items: center;
 }
 
+.divCenterColumn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.divCenterColumnBetween {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+}
+
 .input-group {
     margin-top: 20px;
 }
@@ -93,7 +107,8 @@ footer {
 
 .formBooking > *:nth-child(n+2){
     text-align: start;
-    margin-left: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 @media (max-width: 768px) {

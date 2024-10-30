@@ -53,6 +53,9 @@ button {
   cursor: pointer;
   transition: border-color 0.25s;
 }
+.css-1wnsr1i {
+  width: auto !important;
+}
 button:hover {
   border-color: #646cff;
 }
