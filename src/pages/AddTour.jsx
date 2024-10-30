@@ -3,7 +3,11 @@ import AddTourComponent from '../components/crudTour/AddTourComponent'
 
 function AddTour() {
   return (
-      <AddTourComponent/>
+    <div className='divCenter'>
+      <div className='w-50'>
+        <AddTourComponent />
+      </div>
+    </div>
   )
 }
 

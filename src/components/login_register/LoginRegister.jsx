@@ -67,6 +67,7 @@ const LoginRegister = () => {
     console.log(result);
     if (result.isLoginSuccessful) {
       console.log("Đăng nhập thành công:", result.userData);
+      sessionStorage.setItem("user", JSON.stringify(result.userData));
       navigate("/");
     } else {
       if (!result.isLoginSuccessful) {
