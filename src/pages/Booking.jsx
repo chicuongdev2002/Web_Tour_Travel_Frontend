@@ -10,10 +10,10 @@ function Booking() {
     const location = useLocation();
     let tourDetail = useRef(location.state).current;
     let user = useRef(sessionStorage.getItem("user")? 
-        sessionStorage.getItem("user") : 
+        JSON.parse(sessionStorage.getItem("user")) : 
         {   id: 1,
-            name:"Nguyễn Thanh Sơn",
-            phone: "0923465232",
+            fullName:"Nguyễn Thanh Sơn",
+            phoneNumber: "0923465232",
             email: "son1105@gmail.com",
             address: "TP.HCM"
         }).current;
@@ -42,10 +42,10 @@ function Booking() {
             <div className='w-40 border border-warning m-2 formBooking'>
                 <h2 className='bg-warning text-light'>Thông tin liên lạc</h2>
                 <div className='px-3'>
-                    <p>Họ và tên: {user.name}</p>
-                    <p>Điện thoại: {user.phone}</p>
+                    <p>Họ và tên: {user.fullName}</p>
+                    <p>Điện thoại: {user.phoneNumber}</p>
                     <p>Email: {user.email}</p>
-                    <p>Địa chỉ: {user.address}</p>
+                    {/* <p>Địa chỉ: {user.address}</p> */}
                     <TextField className='w-100 mb-3' id="standard-basic" label="Ghi chú" variant="standard" multiline/>
                     <Button className='w-100 mb-3' variant="contained"
                         onClick={() => bookingTour({ userId: user.id, departureId: 1, participants: '0,1,0'})}>
