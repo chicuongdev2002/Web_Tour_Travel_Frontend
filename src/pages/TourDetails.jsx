@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import TourDetailComponent from '../components/tourDetail/TourDetailComponent';
 import { getTourDetail } from '../functions/getTourDetails';
+import NavHeader from '../components/navbar/NavHeader';
 function TourDetails() {
     const { id } = useParams();
     const [tourData, setTourData] = useState(null);
@@ -54,7 +55,10 @@ function TourDetails() {
         );
     }
 
-    return <TourDetailComponent tourData={tourData} />;
+    return <div>
+        <NavHeader textColor="black" />
+        <TourDetailComponent tourData={tourData} />
+    </div>;
 };
 
 export default TourDetails;

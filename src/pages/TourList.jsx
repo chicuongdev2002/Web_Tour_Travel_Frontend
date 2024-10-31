@@ -4,6 +4,7 @@ import { Container, Row, Col, Button, Spinner } from 'react-bootstrap';
 import { getAllTour } from '../functions/getTour';
 import TourCard from '../components/tourCard/TourCard';
 import { useNavigate } from 'react-router-dom';
+import NavHeader from '../components/navbar/NavHeader'
 
 const TourList = ({ searchParams }) => {
   const navigate = useNavigate(); 
@@ -39,9 +40,10 @@ const TourList = ({ searchParams }) => {
   };
 
   return (
-    <Container fluid className="py-5 px-4">
+    <Container fluid className="px-4">
+      <NavHeader textColor="black"/>
       {loading ? (
-        <div className="text-center">
+        <div className="text-center" style={{ height: '100vh' }}>
           <Spinner animation="border" role="status">
             {/* <span className="visually-hidden">Loading...</span> */}
           </Spinner>

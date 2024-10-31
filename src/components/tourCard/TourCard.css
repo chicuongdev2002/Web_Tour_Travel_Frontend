@@ -92,13 +92,6 @@ body {
     font-family: 'Arial', sans-serif;
 }
 
-.container {
-    background-color: white;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    padding: 2rem;
-}
-
 h1 {
     color: #007bff;
     font-weight: bold;

@@ -6,13 +6,15 @@
   width: 100%;
   z-index: 1000;
 }
-.navbar:hover {
-  /* background-color: #f8f9fa; */
-}
+/* .navbar:hover {
+  background-color: #f8f9fa;
+} */
 
 .containerCustom {
   margin: 0;
-  background-color: transparent !important;
+  background-color: transparent;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  padding: 10px
 }
 
 .dropdown-item {
