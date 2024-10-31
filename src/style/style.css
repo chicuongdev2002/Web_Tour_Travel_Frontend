@@ -63,6 +63,12 @@ footer {
     align-items: center;
 }
 
+.divRowBetweenNotAlign {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 .divRow {
     display: flex;
     flex-direction: row;
@@ -133,4 +139,14 @@ footer {
 
 .w-40{
     width: 40%;
+}
+
+.w-30{
+    width: 30%;
+}
+
+.one-line-text {
+    white-space: nowrap;       /* Không xuống dòng */
+    overflow: hidden;          /* Ẩn phần tràn ra ngoài */
+    text-overflow: ellipsis;   /* Thêm dấu "..." khi bị cắt */
 }
