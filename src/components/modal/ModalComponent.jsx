@@ -29,9 +29,9 @@ function ModalComponent({ children, open, onclose, title }) {
           { title && <Typography id="modal-modal-title" className='text-center' variant="h3" component="h2">
             {title}
           </Typography>}
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
+          <div id="modal-modal-description" sx={{ mt: 2 }}>
             {children}
-          </Typography>
+          </div>
         </Box>
       </Modal>
     </div>
