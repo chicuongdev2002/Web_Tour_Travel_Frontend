@@ -14,21 +14,20 @@ const TourDetailComponent = ({ tourData }) => {
   const [selectedDeparture, setSelectedDeparture] = useState(tourData.departures[0]);
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
 
-    const toggleDescription = () => {
-        setIsDescriptionExpanded(prev => !prev);
-    };
+  const toggleDescription = () => {
+    setIsDescriptionExpanded(prev => !prev);
+  };
   const mainImgDimension = {
     width: 750,
     height: 500
   };
-  
+
   const thumbImgDimension = {
     width: 70,
     height: 70
   };
-
+  console.log('tourData', tourData);
   const averageRating = tourData.reviews.reduce((acc, review) => acc + review.rating, 0) / tourData.reviews.length;
-
 
   const formatPrice = (price) => {
     return new Intl.NumberFormat('vi-VN', {
@@ -36,11 +35,10 @@ const TourDetailComponent = ({ tourData }) => {
       currency: 'VND'
     }).format(price);
   };
-   const handleDateSelect = (departure) => {
+  const handleDateSelect = (departure) => {
     console.log('Selected departure:', departure);
   };
   const imageUrls = tourData.images.map(img => img.imageUrl);
-
 
   const participantTypeTranslation = {
     ADULTS: 'Người lớn',
@@ -58,6 +56,7 @@ const TourDetailComponent = ({ tourData }) => {
             mainImgDimension={mainImgDimension}
             thumbImgDimension={thumbImgDimension}
           />
+
            {/* Tour Description Section */}
                     <div className="description-section">
                         <h3 className="font-semibold mb-2 ">Bạn sẽ trải nghiệm</h3>
@@ -69,16 +68,16 @@ const TourDetailComponent = ({ tourData }) => {
                         </button>
                     </div>
                     {/* Tour Map Section */}
-<div className="mt-6">
+   <div className="description-section">
   <h3 className="font-semibold mb-2">Bản đồ lộ trình</h3>
   <TourMap destinations={tourData.destinations} />
 </div>
         </div>
-       
+
         {/* Tour Information Section */}
         <div className="md:w-1/2">
           <div className="border rounded-lg shadow-lg p-6 h-full">
-          <h1 className="text-3xl font-bold mb-4 tour-name">{tourData.tourName}</h1>
+            <h1 className="text-3xl font-bold mb-4 tour-name">{tourData.tourName}</h1>
             {/* <p className="text-gray-600 mb-4">{tourData.tourDescription}</p> */}
 
             {/* Price Section */}
@@ -133,19 +132,19 @@ const TourDetailComponent = ({ tourData }) => {
                   ))}
                 </div>
               </div>
-<div>
-   <h3 className="font-semibold mb-2">Có vé trống cho bạn</h3>
-   <div className="flex-container">
-    <TourCalendar departures={tourData.departures} onDateSelect={handleDateSelect} />
-        <DepartureDates departures={tourData.departures} onDateSelect={handleDateSelect} />
-      </div>
-</div>
-</div>
-             
-  
+              <div>
+                <h3 className="font-semibold mb-2">Có vé trống cho bạn</h3>
+                <div className="flex-container">
+                  <TourCalendar departures={tourData.departures} onDateSelect={handleDateSelect} />
+                  <DepartureDates departures={tourData.departures} onDateSelect={handleDateSelect} />
+                </div>
+              </div>
+            </div>
+
+
             {/* Booking Button */}
             <button
-              onClick={() => navigate('/booking')}
+              onClick={() => navigate('/booking', { state: tourData })}
               className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors"
             >
               Đặt tour ngay
@@ -155,8 +154,8 @@ const TourDetailComponent = ({ tourData }) => {
       </div>
       <div>
         <h2 className="text-2xl font-bold mb-4">Lịch trình chi tiết</h2>
-  <ItineraryDetail destinations={tourData.destinations} />
-</div>
+        <ItineraryDetail destinations={tourData.destinations} />
+      </div>
       {/* Reviews Section */}
       <div className="mt-8">
         <h2 className="text-2xl font-bold mb-4">Đánh giá từ khách hàng</h2>

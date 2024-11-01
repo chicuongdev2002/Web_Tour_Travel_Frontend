@@ -2,12 +2,13 @@ import React from 'react';
 import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
-
-function InputText({ id, label, type, value, onChange }) {
+import InputAdornment from '@mui/material/InputAdornment';
+import PersonIcon from '@mui/icons-material/Person';
+function InputText({ id, label, type, value, onChange, children }) {
     const [focus, setFocus] = React.useState(false);
     return (
         <FormControl style={{ width: '100%', marginTop: 20 }} variant="standard">
-            <InputLabel htmlFor={id} style={{ color: focus? '' : 'black', fontSize: 18 }}>{label}</InputLabel>
+            <InputLabel htmlFor={id} style={{ color: focus ? '' : 'black', fontSize: 18 }}>{label}</InputLabel>
             <Input
                 id={id}
                 type={type}
@@ -16,6 +17,13 @@ function InputText({ id, label, type, value, onChange }) {
                 onFocus={() => setFocus(true)}
                 onBlur={() => setFocus(false)}
                 style={{ color: 'black', fontSize: 18 }}
+                endAdornment={
+                    children !== undefined ?
+                        <InputAdornment position="end" style={{ color: focus ? 'blue' : 'black', paddingRight: 12 }}>
+                            {children}
+                        </InputAdornment>
+                        : null
+                }
             />
         </FormControl>
     )

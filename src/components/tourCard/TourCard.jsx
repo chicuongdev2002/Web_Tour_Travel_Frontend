@@ -5,7 +5,6 @@ import { PiCalendarDotsFill, PiClockCountdownFill, PiChairBold } from "react-ico
 import { useNavigate } from 'react-router-dom';
 const TourCard = ({ tour }) => {
     const navigate = useNavigate(); 
-
     const handleViewDetail = () => {
         navigate(`/tour-details/${tour.tourId}`); 
     };
