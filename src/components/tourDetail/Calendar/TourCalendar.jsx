@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import Calendar from 'react-calendar';
-import Modal from '../modal/Modal'; // Đảm bảo đường dẫn đúng đến Modal component
+import Modal from '../modal/Modal'; 
 import 'react-calendar/dist/Calendar.css';
 import './TourCalendar.css';
 
@@ -26,7 +26,10 @@ const TourCalendar = ({ departures, onDateSelect }) => {
       const departure = departures.find(d =>
         new Date(d.startDate).toDateString() === date.toDateString()
       );
-      return departure ? 'highlight' : 'normal-day';
+       // Kiểm tra xem ngày có phải là ngày hiện tại không
+        const isToday = date.toDateString() === new Date().toDateString();
+
+        return isToday ? 'highlight-today' : (departure ? 'highlight-1' : 'normal-day-1');
     }
     return null;
   };
@@ -43,7 +46,7 @@ const TourCalendar = ({ departures, onDateSelect }) => {
       if (departure) {
         const childrenPricing = departure.tourPricing.find(p => p.participantType === "CHILDREN");
         return childrenPricing ? (
-          <div className="tile-content">
+          <div className="tile-content-1">
             <span>{formatPrice(childrenPricing.price)}</span>
           </div>
         ) : null;

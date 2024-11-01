@@ -14,6 +14,7 @@ function TourDetails() {
             try {
                 setLoading(true);
                 const data = await getTourDetail(id);
+                console.log("Dữ liệu Tour chi tiết lấy được từ" +{id},data);    
                 setTourData(data);
             } catch (err) {
                 setError(err.message);
