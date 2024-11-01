@@ -26,11 +26,21 @@ function SliderPaging({ images, mainImgDimension, thumbImgDimension }) {
     slidesToScroll: 1
   };
   const callBack = (image) => (
-    // <p>Hello</p>
     <img style={{ width: mainImgDimension.width, height: mainImgDimension.height }} src={image} />
   )
+
+  const CustomSliderOneImage = ({ images }) => {
+    return (
+      <div style={{ overflow: 'hidden' }}>
+        <img style={{ width: mainImgDimension.width, height: mainImgDimension.height }} src={images[0]} />
+        <img style={{ width: thumbImgDimension.width, height: thumbImgDimension.height, marginTop: 10 }} src={images[0]} />
+      </div>
+    );
+  }
   return (
-    <SliderComponent images={images} settings={settings} callBack={callBack} />
+    images.length === 1 ?
+      <CustomSliderOneImage images={images} settings={settings} callBack={callBack} /> :
+      <SliderComponent images={images} settings={settings} callBack={callBack} />
   )
 }
 

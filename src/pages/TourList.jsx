@@ -4,6 +4,7 @@ import { Container, Row, Col, Button, Spinner } from 'react-bootstrap';
 import { getAllTour } from '../functions/getTour';
 import TourCard from '../components/tourCard/TourCard';
 import { useNavigate } from 'react-router-dom';
+import NavHeader from '../components/navbar/NavHeader'
 
 const TourList = ({ searchParams }) => {
   const navigate = useNavigate(); 
@@ -39,16 +40,20 @@ const TourList = ({ searchParams }) => {
   };
 
   return (
-    <Container fluid className="py-5 px-4">
+    <Container fluid className="px-4">
+      <NavHeader textColor="black"/>
       {loading ? (
-        <div className="text-center">
+        <div className="text-center" style={{ height: '100vh' }}>
           <Spinner animation="border" role="status">
             {/* <span className="visually-hidden">Loading...</span> */}
           </Spinner>
         </div>
       ) : (
-        <>
+        <div className='divCenterColumn w-100'>
+          <div className='w-25 divRowBetween'>
           <button onClick={() => navigate(`/add-tour`) }>Thêm tour</button>
+          <button onClick={() => navigate(`/add-destination`)}>Thêm điểm du lịch</button>
+          </div>
           {dataCard.length === 0 ? (
             <div className="text-center mt-4">
               <h5>Không có kết quả</h5>
@@ -77,7 +82,7 @@ const TourList = ({ searchParams }) => {
               ))}
             </Row>
           )}
-        </>
+        </div>
       )}
       <div className="d-flex justify-content-center align-items-center mt-4">
         <Button

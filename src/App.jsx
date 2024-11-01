@@ -6,6 +6,9 @@ import Login from './pages/Login.jsx';
 import TourDetails from './pages/TourDetails.jsx';
 import Booking from './pages/Booking.jsx';
 import AddTour from './pages/AddTour.jsx';
+import PageTestComponent from './pages/PageTestComponent.jsx';
+import BookingList from './pages/BookingList.jsx';
+import AddDestination from './pages/AddDestination.jsx';
 function App() {
   return (
     <BrowserRouter>
@@ -16,6 +19,9 @@ function App() {
       <Route path="/tour-list" element={<TourList />} />
       <Route path="/booking" element={<Booking />} />
       <Route path="/add-tour" element={<AddTour />} />
+      <Route path="/booking-list" element={<BookingList />} />
+      <Route path="/test" element={<PageTestComponent />} />
+      <Route path="/add-destination" element={<AddDestination />}/>
     </Routes>
   </BrowserRouter>
   )

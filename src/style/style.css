@@ -63,6 +63,12 @@ footer {
     align-items: center;
 }
 
+.divRowBetweenNotAlign {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
 .divRow {
     display: flex;
     flex-direction: row;
@@ -82,6 +88,20 @@ footer {
     align-items: center;
 }
 
+.divCenterColumn {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.divCenterColumnBetween {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+}
+
 .input-group {
     margin-top: 20px;
 }
@@ -93,7 +113,8 @@ footer {
 
 .formBooking > *:nth-child(n+2){
     text-align: start;
-    margin-left: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 @media (max-width: 768px) {
@@ -118,4 +139,14 @@ footer {
 
 .w-40{
     width: 40%;
+}
+
+.w-30{
+    width: 30%;
+}
+
+.one-line-text {
+    white-space: nowrap;       /* Không xuống dòng */
+    overflow: hidden;          /* Ẩn phần tràn ra ngoài */
+    text-overflow: ellipsis;   /* Thêm dấu "..." khi bị cắt */
 }

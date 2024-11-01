@@ -11,6 +11,9 @@ const SEARCH = REACT_APP_HOST + "/api/tours/search"
 const GET_TOUR_DETAIL = REACT_APP_HOST + '/api/tours';
 const GET_EMAIL = REACT_APP_HOST + '/api/accounts/email';
 const BOOKING_TOUR = REACT_APP_HOST + '/api/bookings/createBooking';
+const GET_PAGE_BOOKING = REACT_APP_HOST + '/api/bookings/page';
+const GET_PAGE_DESTINATION = REACT_APP_HOST + '/api/destinations/page';
+const POST_TOUR = REACT_APP_HOST + '/api/tours/addTour'
 const getAPI = (api, params, paramId) => {
     if(paramId) {
         return api + '/' + paramId;
@@ -23,6 +26,6 @@ const getAPI = (api, params, paramId) => {
 }
 
 export default REACT_APP_HOST
-export { GET_ALL_TOUR, CHECK_ACCOUNT_EXISTS, CHECK_USER_EXISTS, BOOKING_TOUR,
+export { GET_ALL_TOUR, CHECK_ACCOUNT_EXISTS, CHECK_USER_EXISTS, BOOKING_TOUR, GET_PAGE_BOOKING, 
     SEND_CODE_VERIFYCATION, VERIFY_CODE, LOGIN, REGISTER, RESET_PASSWORD, SEARCH, GET_TOUR_DETAIL,GET_EMAIL, 
-    getAPI };
+    GET_PAGE_DESTINATION, POST_TOUR, getAPI };

@@ -19,7 +19,7 @@ function DivSliderBackground({ images, children }) {
             backgroundImage: `url(${image})`,
             backgroundSize: 'cover',
             backgroundPosition: 'center',
-            height: '610px',
+            height: '100vh',
             width: '100%'
         }}></div>)
     return (
