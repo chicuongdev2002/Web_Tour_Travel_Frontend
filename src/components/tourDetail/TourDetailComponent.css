@@ -362,21 +362,29 @@ h1 {
         /* Center text */
         padding: 15px;
         /* Adjust padding */
+        margin: 10px 0;
+        /* Margin for spacing */
     }
 
     .description-text {
         font-size: 0.9rem;
         /* Smaller font size */
+        line-height: 1.4;
+        /* Adjust line height for better readability */
     }
 
     .tour-name {
         font-size: 1.8rem;
         /* Smaller title size */
+        text-align: center;
+        /* Center align */
     }
 
     .border {
         padding: 16px;
         /* Adjust padding */
+        margin: 10px 0;
+        /* Add margin for spacing */
     }
 
     .mb-4 {
@@ -401,11 +409,8 @@ h1 {
         /* Full width buttons on mobile */
         padding: 12px;
         /* Adjust padding */
-    }
-
-    .flex {
-        flex-direction: column;
-        /* Stack elements */
+        font-size: 1rem;
+        /* Ensure readable font size */
     }
 
     .md\:w-1\/2 {
