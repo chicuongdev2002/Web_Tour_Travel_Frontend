@@ -1,5 +1,5 @@
 import axios from "axios";
-import { BOOKING_TOUR, GET_PAGE_BOOKING, getAPI } from "../config/host";
+import { BOOKING_TOUR, GET_PAGE_BOOKING, getAPI, UPDATE_BOOKING_STATUS } from "../config/host";
 
 const getAllBooking = async (page, size, sortBy, sortDirection) => {
     if(page === undefined) page = 0;
@@ -15,5 +15,10 @@ const bookingTour = async(data) => {
     return response.data;
 }
 
-export { getAllBooking };
+const updateBookingStatus = async(bookingId) => {
+    const response = await axios.put(getAPI(UPDATE_BOOKING_STATUS, {bookingId}));
+    return response.data;
+}
+
+export { getAllBooking, updateBookingStatus };
 export default bookingTour

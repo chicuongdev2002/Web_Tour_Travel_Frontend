@@ -3,10 +3,10 @@ import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import InputAdornment from '@mui/material/InputAdornment';
-function InputText({ id, label, type, value, onChange, children, disable }) {
+function InputText({ id, label, type, value, onChange, children, disable, notForm }) {
     const [focus, setFocus] = React.useState(false);
     return (
-        <FormControl style={{ width: '100%', marginTop: 20 }} variant="standard">
+        <FormControl style={{ width: '100%', marginTop: notForm? 0 : 20 }} variant="standard">
             <InputLabel htmlFor={id} style={{ color: focus ? '' : 'black', fontSize: 18 }}>{label}</InputLabel>
             <Input
                 id={id}
