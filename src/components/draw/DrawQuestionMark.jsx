@@ -13,7 +13,7 @@ function DrawQuestionMark({ duration }) {
     }, []);
   
     return (
-      <motion.svg initial={{ scale: 0.25 }} style={{ position: 'absolute', top: -120 }} width={200} height={350} viewBox={`0 0 {width} {height}`}>
+      <motion.svg initial={{ scale: 0.25 }} style={{ position: 'absolute', top: -120 }} width={200} height={350} viewBox={`0 0 ${200} ${350}`}>
         <motion.path
           d="M20,100 Q20,10 100,10 Q180,10 180,100 
             Q180,150 140,200 Q125,220 125,250 

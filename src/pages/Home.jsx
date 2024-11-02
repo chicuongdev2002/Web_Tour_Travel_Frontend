@@ -14,9 +14,9 @@ function Home() {
     <div>
       <DivSliderBackground images={images}>
         <NavHeader textColor="white"/>
-        {/* <div className=' justify-content-center align-items-center p-3'>
+        <div className='justify-content-center align-items-center'>
           <SearchInput onSearch={handleSearch} />  
-        </div> */}
+        </div>
       </DivSliderBackground>
       {/* <div style={{ display: 'flex', flexDirection: 'column', marginTop: 100, justifyContent: 'center', alignItems: 'center' }}>
         <h1>Tour nổi bật trong tháng</h1>
@@ -24,9 +24,9 @@ function Home() {
           <SliderComponent quantity={3} images={images} />
         </div>
       </div> */}
-      {/* <div>
-        <TourList searchParams={searchParams} />
-      </div> */}
+      {/* // <div>
+      //   <TourList searchParams={searchParams} />
+      // </div> */}
     </div>
   );
 }
