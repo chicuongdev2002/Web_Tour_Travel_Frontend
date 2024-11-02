@@ -14,6 +14,11 @@ const BOOKING_TOUR = REACT_APP_HOST + '/api/bookings/createBooking';
 const GET_PAGE_BOOKING = REACT_APP_HOST + '/api/bookings/page';
 const GET_PAGE_DESTINATION = REACT_APP_HOST + '/api/destinations/page';
 const POST_TOUR = REACT_APP_HOST + '/api/tours/addTour'
+const CHANGE_PASSWORD = REACT_APP_HOST + '/api/accounts/change-password';
+const GET_USER = REACT_APP_HOST + '/api/users';
+const GET_ACCOUNT = REACT_APP_HOST + '/api/accounts';
+const ACCOUNT_LOCK = REACT_APP_HOST + '/api/accounts/lock';
+const ACCOUNT_UNLOCK = REACT_APP_HOST + '/api/accounts/unlock';
 const getAPI = (api, params, paramId) => {
     if(paramId) {
         return api + '/' + paramId;
@@ -28,4 +33,4 @@ const getAPI = (api, params, paramId) => {
 export default REACT_APP_HOST
 export { GET_ALL_TOUR, CHECK_ACCOUNT_EXISTS, CHECK_USER_EXISTS, BOOKING_TOUR, GET_PAGE_BOOKING, 
     SEND_CODE_VERIFYCATION, VERIFY_CODE, LOGIN, REGISTER, RESET_PASSWORD, SEARCH, GET_TOUR_DETAIL,GET_EMAIL, 
-    GET_PAGE_DESTINATION, POST_TOUR, getAPI };
+    GET_PAGE_DESTINATION, POST_TOUR,CHANGE_PASSWORD,GET_USER,GET_ACCOUNT,ACCOUNT_LOCK, ACCOUNT_UNLOCK,getAPI };

@@ -150,3 +150,54 @@ footer {
     overflow: hidden;          /* Ẩn phần tràn ra ngoài */
     text-overflow: ellipsis;   /* Thêm dấu "..." khi bị cắt */
 }
+.dropdown {
+    position: relative;
+    display: inline-block;
+    font-family: Arial, sans-serif;
+    color: #333;
+}
+
+.dropdown>span {
+    cursor: pointer;
+    font-weight: bold;
+    padding: 8px;
+    transition: color 0.3s;
+}
+
+.dropdown>span:hover {
+    color: #007bff;
+    /* Đổi màu khi hover */
+}
+
+.dropdown-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    right: 0;
+    margin-top: 8px;
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0px 4px 12px rgba(0, 0, 0, 0.15);
+    z-index: 1000;
+    min-width: 160px;
+}
+
+.dropdown-menu.visible {
+    display: block;
+}
+
+.dropdown-item {
+    padding: 10px 15px;
+    font-size: 14px;
+    color: #333;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.dropdown-item:hover {
+    background-color: #f1f1f1;
+    /* Hiệu ứng hover */
+    color: #007bff;
+}

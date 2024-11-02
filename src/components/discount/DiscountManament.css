@@ -1,0 +1,98 @@
+
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f5f5f5;
+}
+
+.p-4 {
+    padding: 16px;
+}
+
+h2 {
+    color: #333;
+}
+
+.MuiButton-contained {
+    background-color: #1976d2;
+    color: white;
+}
+
+.MuiButton-contained:hover {
+    background-color: #115293;
+}
+
+.MuiTableCell {
+    padding: 16px;
+}
+
+.MuiTableHead {
+    background-color: #e0e0e0;
+}
+
+.MuiInputBase-root {
+    margin-top: 8px;
+}
+.p-4 {
+    padding: 16px;
+    /* Tăng padding cho các phần tử */
+}
+
+.text-xl {
+    font-size: 1.5rem;
+    /* Đặt kích thước chữ lớn hơn cho tiêu đề */
+    font-weight: bold;
+}
+
+.card {
+    border-radius: 8px;
+    /* Bo tròn góc cho Card */
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    /* Thêm bóng cho Card */
+}
+
+.table {
+    width: 100%;
+    /* Đảm bảo bảng chiếm toàn bộ chiều rộng */
+    border-collapse: collapse;
+    /* Xóa khoảng cách giữa các ô */
+}
+
+.table th,
+.table td {
+    padding: 12px;
+    /* Padding cho các ô trong bảng */
+    text-align: left;
+    /* Canh trái cho văn bản */
+}
+
+.table th {
+    background-color: #f5f5f5;
+    /* Màu nền cho tiêu đề bảng */
+    font-weight: bold;
+}
+
+.btn-primary {
+    background-color: #3f51b5;
+    /* Màu nền cho nút chính */
+    color: white;
+}
+
+.btn-primary:hover {
+    background-color: #303f9f;
+    /* Màu nền khi hover */
+}
+
+.flex {
+    display: flex;
+}
+
+.gap-2 {
+    gap: 8px;
+    /* Khoảng cách giữa các nút */
+}
+
+.divCenterColumn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
