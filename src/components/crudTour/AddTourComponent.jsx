@@ -3,22 +3,30 @@ import InputText from '../../components/inputText/InputText'
 import Button from '@mui/material/Button';
 import SelectComponent from '../select/SelectComponent';
 import { getAllDestination } from '../../functions/getDestination';
-import { POST_TOUR } from '../../config/host';
+import { POST_TOUR, UPLOAD_IMAGE } from '../../config/host';
 import { postData } from '../../functions/postData';
 import DestinationList from '../crudDestination/DestinationList';
 import ModalComponent from '../modal/ModalComponent';
 import moment from 'moment';
+import CustomPop from '../popupNotifications/CustomPop';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function AddTourComponent() {
+  const navigate = useNavigate(); 
   const [tourName, setTourName] = useState('');
+  const [file, setFile] = useState(null);
   const [description, setDescription] = useState('');
   const [startLocation, setStartLocation] = useState('');
   const [type, setType] = useState('');
+  const [openNotify, setOpenNotify] = useState(-1)
 
   const [startDate, setStartDate] = useState(moment(new Date()).format('DD/MM/YYYY HH:mm:ss'))
   const [endDate, setEndDate] = useState(moment(new Date()).format('DD/MM/YYYY HH:mm:ss'))
   const [maxParticipants, setMaxParticipants] = useState(0)
   const [duration, setDuration] = useState(0)
+  const [childrenPrice, setChildrenPrice] = useState(0)
+  const [adultPrice, setAdultPrice] = useState(0)
+  const [oldPrice, setOldPrice] = useState(0)
 
   const [open, setOpen] = useState(false)
   const [openDestination, setOpenDestination] = useState(false)
@@ -31,6 +39,10 @@ function AddTourComponent() {
     setDestination(result);
   }
 
+  const handleFileChange = (event) => {
+    setFile(event.target.files[0]);
+};
+
   return (
     <div className={`w-100 ${openDestination && openDeparture? "divRowBetweenNotAlign" : "divCenter"}`}>
       <div className='w-30 border border-primary m-2 formBooking'>
@@ -40,6 +52,7 @@ function AddTourComponent() {
           <InputText label='Mô tả' value={description} onChange={(e) => setDescription(e.target.value)} />
           <InputText label='Địa điểm khởi hành' value={startLocation} onChange={(e) => setStartLocation(e.target.value)} />
           <SelectComponent label='Loại tour' listData={[{ FAMILY: "FAMILY" }, { GROUP: "GROUP" }]} value={type} onChange={(e) => setType(e)} />
+          <input type="file" className="mt-3" onChange={handleFileChange}/>
           <Button className='btn btn-primary w-100 mb-3 mt-3' variant="contained"
             onClick={() => {
                 getDestination()
@@ -94,21 +107,66 @@ function AddTourComponent() {
               setEndDate(moment(e.target.value, "DD/MM/YYYY HH:mm:ss").add(duration, 'hours').format('DD/MM/YYYY HH:mm:ss'))
               }} />
             <InputText label='Ngày kết thúc' disable={true} type="dateTime" value={endDate} onChange={(e) => setEndDate(e.target.value)} />
-            <InputText label='Số người tham gia' type="number" value={maxParticipants} onChange={(e) => setMaxParticipants(e.target.value)} />
+            <InputText label='Số người tham gia' type="number" value={maxParticipants} onChange={(e) => {
+              if(e.target.value < 1)
+                setMaxParticipants(1)
+              else
+                setMaxParticipants(e.target.value)
+            }} />
             <InputText label='Thời gian(giờ)' disable={true} type="number" value={duration} />
+              <div className="divRowBetween">
+                <div className="w-30">
+                  <InputText label='Giá vé trẻ em' type="number" value={childrenPrice} onChange={(e) => {
+                    if(e.target.value < 0)
+                      setChildrenPrice(0)
+                    else
+                      setChildrenPrice(e.target.value)
+                  }} />
+                </div>
+                <div className="w-30">
+                  <InputText label='Giá vé người lớn' type="number" value={adultPrice} onChange={(e) => {
+                    if(e.target.value < 0)
+                      setAdultPrice(0)
+                    else
+                      setAdultPrice(e.target.value)
+                  }} />
+                </div>
+                <div className="w-30">
+                  <InputText label='Giá vé người già' type="number" value={oldPrice} onChange={(e) => {
+                    if(e.target.value < 0)
+                      setOldPrice(0)
+                    else
+                      setOldPrice(e.target.value)
+                  }} />
+                </div>
+              </div>
             <Button className='btn btn-primary w-100 mb-3 mt-3' variant="contained"
-              onClick={() => {
-                postData(POST_TOUR, {
-                  tour: { tourName, tourDescription: description, startLocation, tourType: type, duration },
-                  departure: {
-                    startDate: moment(startDate, "DD/MM/YYYY HH:mm:ss").add(7, 'hours').toDate().toISOString(),
-                    endDate: moment(endDate, "DD/MM/YYYY HH:mm:ss").add(7, 'hours').toDate().toISOString(),
-                    maxParticipants,
-                  },
-                  tourDestinations:[...destinationSelected.content.map(d => (
-                    { destination: { destinationId: d.destinationId }, duration: d.duration }
-                  ))]
+              onClick={async () => {
+                let result = await postData(POST_TOUR, {
+                    tour: { tourName, tourDescription: description, startLocation, tourType: type, duration },
+                    departure: {
+                      startDate: moment(startDate, "DD/MM/YYYY HH:mm:ss").add(7, 'hours').toDate().toISOString(),
+                      endDate: moment(endDate, "DD/MM/YYYY HH:mm:ss").add(7, 'hours').toDate().toISOString(),
+                      maxParticipants,
+                    },
+                    tourPricing: [
+                      { price: childrenPrice, participantType: "CHILDREN" },
+                      { price: adultPrice, participantType: "ADULTS" },
+                      { price: oldPrice, participantType: "ELDERLY" }
+                    ],
+                    tourDestinations:[...destinationSelected.content.map(d => (
+                      { destination: { destinationId: d.destinationId }, duration: d.duration }
+                    ))]
                 })
+                if(result){
+                  const formData = new FormData();
+                  formData.append('file', file);
+                  formData.append('tourId', result.tourId);
+                  const resultUpload = await postData(UPLOAD_IMAGE, formData)
+                  setOpenNotify(resultUpload ? 1 : 0)
+                }
+                else
+                  setOpenNotify(0)
               }}
             >Thêm</Button>
           </div>
@@ -140,6 +198,11 @@ function AddTourComponent() {
           } destinationSelected={destinationSelected} data={destination} isDescription={true} onGetData={getDestination} />
         </ModalComponent>
       }
+      <CustomPop notify={openNotify} onSuccess={() => {
+        navigate('/tour-list')
+        setOpenNotify(-1)}} 
+        messageSuccess={"Thêm tour thành công"} 
+        onFail={() => setOpenNotify(-1)} />
     </div>
 
   )
