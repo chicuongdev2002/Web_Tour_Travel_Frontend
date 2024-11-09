@@ -1,11 +1,11 @@
-import React, { useEffect } from 'react'
-import SuccessPopup from '../popupNotifications/SuccessPopup';
-import DrawRejectIcon from '../draw/DrawRejectIcon';
-import FailPopup from '../popupNotifications/FailPopup';
+import React, { useEffect } from "react";
+import SuccessPopup from "../popupNotifications/SuccessPopup";
+import DrawRejectIcon from "../draw/DrawRejectIcon";
+import FailPopup from "../popupNotifications/FailPopup";
 import { motion } from "framer-motion";
-import DrawCircle from '../draw/DrawCircle';
-import DrawQuestionMark from '../draw/DrawQuestionMark';
-import ChoosePopup from '../popupNotifications/ChoosePopup';
+import DrawCircle from "../draw/DrawCircle";
+import DrawQuestionMark from "../draw/DrawQuestionMark";
+import ChoosePopup from "../popupNotifications/ChoosePopup";
 
 function ComponentTest({ width, height }) {
   const [open, setOpen] = React.useState(false);
@@ -16,8 +16,15 @@ function ComponentTest({ width, height }) {
         // <ChoosePopup width={250} height={200} title='ChoosePopup' message={"This is a test"}
         // open={open} onclose={() => setOpen(false)}
         // onClick={() => setOpen(false)} />
-        <SuccessPopup width={300} height={300} title='SuccessPopup' message={"This is a test"}
-        open={open} onClose={() => setOpen(false)} onClick={() => setOpen(false)} />
+        <SuccessPopup
+          width={300}
+          height={300}
+          title="SuccessPopup"
+          message={"This is a test"}
+          open={open}
+          onClose={() => setOpen(false)}
+          onClick={() => setOpen(false)}
+        />
         // <FailPopup width={300} height={300} title='FailPopup' message={"This is a test"}
         // open={open} onClose={() => setOpen(false)} onClick={() => setOpen(false)} />
       )}
@@ -25,4 +32,4 @@ function ComponentTest({ width, height }) {
   );
 }
 
-export default ComponentTest
+export default ComponentTest;

@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { ThumbsUp, MessageSquare, Star } from 'lucide-react';
-import './ItineraryDetail.css';
+import React, { useState } from "react";
+import { ThumbsUp, MessageSquare, Star } from "lucide-react";
+import "./ItineraryDetail.css";
 
 const ItineraryDetail = ({ destinations }) => {
   const [expandedIds, setExpandedIds] = useState({});
@@ -13,12 +13,15 @@ const ItineraryDetail = ({ destinations }) => {
   };
 
   const formatDescription = (description) => {
-    return description.split('\n').map((line, index) => (
+    return description.split("\n").map((line, index) => (
       <p key={index} className="itinerary-description-line my-2 text-left">
         {line.split(/(\d{1,2}h\d{2})/).map((part, idx) => {
           if (/^\d{1,2}h\d{2}$/.test(part)) {
             return (
-              <span key={idx} className="itinerary-duration text-blue-600 font-semibold mr-2">
+              <span
+                key={idx}
+                className="itinerary-duration text-blue-600 font-semibold mr-2"
+              >
                 {part}
               </span>
             );
@@ -32,36 +35,40 @@ const ItineraryDetail = ({ destinations }) => {
   return (
     <div className="itinerary-detail-container w-full space-y-4">
       {destinations.map((dest) => (
-        <div 
-          key={dest.destinationId} 
+        <div
+          key={dest.destinationId}
           className="itinerary-destination-card bg-white rounded-lg shadow-lg border border-gray-200 hover:shadow-xl transition-shadow duration-200"
         >
-          <div 
-            className="itinerary-header p-4 cursor-pointer" 
+          <div
+            className="itinerary-header p-4 cursor-pointer"
             onClick={() => toggleDescription(dest.destinationId)}
           >
-            <h4 className="itinerary-title font-semibold text-purple-700 text-xl">{dest.name}</h4>
+            <h4 className="itinerary-title font-semibold text-purple-700 text-xl">
+              {dest.name}
+            </h4>
             <div className="itinerary-info flex items-center gap-2 text-lg">
-              <span className="text-gray-800 font-bold">{dest.province}</span> 
+              <span className="text-gray-800 font-bold">{dest.province}</span>
               <span className="text-gray-400">•</span>
-              <span className="text-green-600 font-medium">{dest.duration} giờ</span>
+              <span className="text-green-600 font-medium">
+                {dest.duration} giờ
+              </span>
             </div>
           </div>
 
-          <div className={`itinerary-content p-4 text-left ${expandedIds[dest.destinationId] ? 'expanded' : ''}`}>
+          <div
+            className={`itinerary-content p-4 text-left ${expandedIds[dest.destinationId] ? "expanded" : ""}`}
+          >
             {expandedIds[dest.destinationId] && (
               <div className="relative">
-                <div>
-                  {formatDescription(dest.description)}
-                </div>
+                <div>{formatDescription(dest.description)}</div>
                 {/* Hiển thị hình ảnh */}
                 {dest.images && dest.images.length > 0 && (
                   <div className="itinerary-images mt-4">
                     {dest.images.map((image) => (
-                      <img 
-                        key={image.imageId} 
-                        src={image.imageUrl} 
-                        alt={dest.name} 
+                      <img
+                        key={image.imageId}
+                        src={image.imageUrl}
+                        alt={dest.name}
                         className="itinerary-image rounded-lg mt-2"
                       />
                     ))}

@@ -1,11 +1,11 @@
-import React from 'react';
-import AccountManagement from '../components/account/AccountManagement';
-import { CssBaseline } from '@mui/material';
+import React from "react";
+import AccountManagement from "../components/account/AccountManagement";
+import { CssBaseline } from "@mui/material";
 
 const AccountPage = () => {
   return (
     <>
-      <CssBaseline />
+      {/* <CssBaseline /> */}
       <AccountManagement />
     </>
   );

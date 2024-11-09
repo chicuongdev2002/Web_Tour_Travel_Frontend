@@ -2,20 +2,20 @@ import React, { useState } from "react";
 import "./style.css";
 import { useNavigate } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
-import checkEmailExists from '../../functions/checkEmailExsist';
-import checkAccountExists from '../../functions/checkAccount';
-import sendVerificationCode from '../../functions/sendVerificationCode';
-import verifyCode from '../../functions/verifyCode';
-import login from '../../functions/login';
-import register from '../../functions/register';
+import checkEmailExists from "../../functions/checkEmailExsist";
+import checkAccountExists from "../../functions/checkAccount";
+import sendVerificationCode from "../../functions/sendVerificationCode";
+import verifyCode from "../../functions/verifyCode";
+import login from "../../functions/login";
+import register from "../../functions/register";
 import getEmailFromUsername from "../../functions/getMail";
-import resetPassword from '../../functions/resetPassword';
+import resetPassword from "../../functions/resetPassword";
 import InputPassword from "../inputText/InputPassword";
 import InputText from "../inputText/InputText";
-import PersonIcon from '@mui/icons-material/Person';
-import EditNoteIcon from '@mui/icons-material/EditNote';
-import PhoneAndroidIcon from '@mui/icons-material/PhoneAndroid';
-import EmailIcon from '@mui/icons-material/Email';
+import PersonIcon from "@mui/icons-material/Person";
+import EditNoteIcon from "@mui/icons-material/EditNote";
+import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
+import EmailIcon from "@mui/icons-material/Email";
 const LoginRegister = () => {
   const [isActive, setIsActive] = useState(false);
   const [username, setUsername] = useState("");
@@ -75,12 +75,13 @@ const LoginRegister = () => {
         setError(result.loginError);
         if (failedLoginAttempts >= 2) {
           setShowEmailInput(true);
-          setError("Bạn đã nhập sai mật khẩu quá 3 lần. Xin vui lòng nhập email để nhận mã xác thực.");
+          setError(
+            "Bạn đã nhập sai mật khẩu quá 3 lần. Xin vui lòng nhập email để nhận mã xác thực.",
+          );
         }
       } else {
         setError(result.loginError);
         console.log(result);
-
       }
     }
   };
@@ -112,7 +113,11 @@ const LoginRegister = () => {
       const accountExistsResult = await checkAccountExists(username);
       const emailExistsResult = await checkEmailExists(email);
       if (accountExistsResult.accountExists || emailExistsResult.emailExists) {
-        setErrorRegister(accountExistsResult.accountExists ? accountExistsResult.checkAccountError : emailExistsResult.checkEmailError);
+        setErrorRegister(
+          accountExistsResult.accountExists
+            ? accountExistsResult.checkAccountError
+            : emailExistsResult.checkEmailError,
+        );
         setShowErrorRegisterr(true);
         return;
       }
@@ -157,7 +162,13 @@ const LoginRegister = () => {
       return;
     }
 
-    const registerResult = await register(username, password, fullName, phoneNumber, email);
+    const registerResult = await register(
+      username,
+      password,
+      fullName,
+      phoneNumber,
+      email,
+    );
     if (registerResult.isRegisterSuccessful) {
       console.log("Đăng ký thành công", registerResult.userData);
       setPopupMessage("Đăng ký thành công!");
@@ -186,7 +197,7 @@ const LoginRegister = () => {
           .map(function (c) {
             return "%" + ("00" + c.charCodeAt(0).toString(16)).slice(-2);
           })
-          .join("")
+          .join(""),
       );
       return JSON.parse(jsonPayload);
     } catch (error) {
@@ -196,7 +207,9 @@ const LoginRegister = () => {
   };
   const handleLoginSuccess = async (credentialResponse) => {
     try {
-      const credentialResponseDecoded = decodeJwt(credentialResponse.credential);
+      const credentialResponseDecoded = decodeJwt(
+        credentialResponse.credential,
+      );
       console.log("Decoded Google User:", credentialResponseDecoded);
 
       const googleUser = {
@@ -222,7 +235,7 @@ const LoginRegister = () => {
     return emailRegex.test(email);
   };
 
-const handleSendResetCode = async (e) => {
+  const handleSendResetCode = async (e) => {
     e.preventDefault();
     if (showEmailForget) {
       return;
@@ -257,8 +270,13 @@ const handleSendResetCode = async (e) => {
         setIsResetCodeSent(true);
         setResetError("");
         setError("");
-        const maskedEmail = emailToVerify.email.replace(/(\w{3})[\w.-]+@([\w.]+)/g, '$1***@$2');
-        setPopupMessage(`Mã xác thực đã được gửi đến email ${maskedEmail} của bạn.`);
+        const maskedEmail = emailToVerify.email.replace(
+          /(\w{3})[\w.-]+@([\w.]+)/g,
+          "$1***@$2",
+        );
+        setPopupMessage(
+          `Mã xác thực đã được gửi đến email ${maskedEmail} của bạn.`,
+        );
         setShowPopup(true);
         setResetEmail(emailToVerify.email);
       } else {
@@ -299,7 +317,9 @@ const handleSendResetCode = async (e) => {
 
     const result = await resetPassword(resetEmail, newPassword);
     if (result.isResetSuccessful) {
-      setPopupMessage("Mật khẩu đã được đặt lại thành công. Vui lòng đăng nhập lại.");
+      setPopupMessage(
+        "Mật khẩu đã được đặt lại thành công. Vui lòng đăng nhập lại.",
+      );
       setShowPopup(true);
       setIsActive(false);
       setShowEmailInput(false);
@@ -330,26 +350,36 @@ const handleSendResetCode = async (e) => {
               <>
                 <div
                   className="animation"
-                  style={{ "--i": 1, "--j": 22, height: 50, marginBottom: 25, marginTop: 25 }}
+                  style={{
+                    "--i": 1,
+                    "--j": 22,
+                    height: 50,
+                    marginBottom: 25,
+                    marginTop: 25,
+                  }}
                 >
-                  <InputText id="login-userName" label="Tài khoản" value={username} onChange={(e) => setUsername(e.target.value)}>
+                  <InputText
+                    id="login-userName"
+                    label="Tài khoản"
+                    value={username}
+                    onChange={(e) => setUsername(e.target.value)}
+                  >
                     <PersonIcon />
                   </InputText>
                 </div>
-                <div
-                  className="animation"
-                  style={{ "--i": 2, "--j": 23 }}
-                >
-                  <InputPassword id="login-password" label="Mật khẩu" value={password} onChange={(e) => setPassword(e.target.value)} />
+                <div className="animation" style={{ "--i": 2, "--j": 23 }}>
+                  <InputPassword
+                    id="login-password"
+                    label="Mật khẩu"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                  />
                 </div>
               </>
             )}
             {showEmailInput && (
               <>
-                <div
-                  className="animation"
-                  style={{ "--i": 1, "--j": 22 }}
-                >
+                <div className="animation" style={{ "--i": 1, "--j": 22 }}>
                   <InputText
                     id="login-identifier"
                     label="Email hoặc tên tài khoản"
@@ -363,29 +393,32 @@ const handleSendResetCode = async (e) => {
                   )}
                 </div>
                 {isResetCodeSent && !isResetCodeVerified && (
-                  <div
-                    className="animation"
-                    style={{ "--i": 2, "--j": 23 }}
-                  >
-                    <InputText id="forgot-code" label="Mã xác thực" value={resetVerificationCode}
-                      onChange={(e) => setResetVerificationCode(e.target.value)} />
+                  <div className="animation" style={{ "--i": 2, "--j": 23 }}>
+                    <InputText
+                      id="forgot-code"
+                      label="Mã xác thực"
+                      value={resetVerificationCode}
+                      onChange={(e) => setResetVerificationCode(e.target.value)}
+                    />
                   </div>
                 )}
                 {isResetCodeVerified && (
                   <>
-                    <div
-                      className="animation"
-                      style={{ "--i": 3, "--j": 24 }}
-                    >
-                      <InputPassword id="forgot-password" label="Mật khẩu mới"
-                        value={newPassword} onChange={(e) => setNewPassword(e.target.value)} />
+                    <div className="animation" style={{ "--i": 3, "--j": 24 }}>
+                      <InputPassword
+                        id="forgot-password"
+                        label="Mật khẩu mới"
+                        value={newPassword}
+                        onChange={(e) => setNewPassword(e.target.value)}
+                      />
                     </div>
-                    <div
-                      className="animation"
-                      style={{ "--i": 4, "--j": 25 }}
-                    >
-                      <InputPassword id="forgot-confirm-password" label="Nhập lại mật khẩu"
-                        value={confirmNewPassword} onChange={(e) => setConfirmNewPassword(e.target.value)} />
+                    <div className="animation" style={{ "--i": 4, "--j": 25 }}>
+                      <InputPassword
+                        id="forgot-confirm-password"
+                        label="Nhập lại mật khẩu"
+                        value={confirmNewPassword}
+                        onChange={(e) => setConfirmNewPassword(e.target.value)}
+                      />
                     </div>
                   </>
                 )}
@@ -461,7 +494,12 @@ const handleSendResetCode = async (e) => {
           </h2>
           <form onSubmit={handleRegister}>
             <div className="animation" style={{ "--i": 18, "--j": 1 }}>
-              <InputText id="register-userName" label="Tài khoản" value={username} onChange={(e) => setUsername(e.target.value)}>
+              <InputText
+                id="register-userName"
+                label="Tài khoản"
+                value={username}
+                onChange={(e) => setUsername(e.target.value)}
+              >
                 <PersonIcon />
               </InputText>
               {/* Hiển thị thông báo lỗi nếu có */}
@@ -470,32 +508,56 @@ const handleSendResetCode = async (e) => {
               )}
             </div>
             <div className="animation" style={{ "--i": 20, "--j": 3 }}>
-              <InputPassword id="register-password" label="Mật khẩu" value={password} onChange={(e) => setPassword(e.target.value)} />
+              <InputPassword
+                id="register-password"
+                label="Mật khẩu"
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
+              />
             </div>
             <div className="animation" style={{ "--i": 18, "--j": 1 }}>
-              <InputText id="register-fullName" label="Họ và tên" value={fullName} onChange={(e) => setFullName(e.target.value)}>
+              <InputText
+                id="register-fullName"
+                label="Họ và tên"
+                value={fullName}
+                onChange={(e) => setFullName(e.target.value)}
+              >
                 <EditNoteIcon />
               </InputText>
             </div>
             <div className="animation" style={{ "--i": 18, "--j": 1 }}>
-              <InputText id="register-phone" type="tel" label="Số điện thoại" value={phoneNumber} onChange={(e) => setPhone(e.target.value)}>
+              <InputText
+                id="register-phone"
+                type="tel"
+                label="Số điện thoại"
+                value={phoneNumber}
+                onChange={(e) => setPhone(e.target.value)}
+              >
                 <PhoneAndroidIcon />
               </InputText>
             </div>
             <div className="animation" style={{ "--i": 18, "--j": 1 }}>
-              <InputText id="register-email" label="Email" value={email} onChange={(e) => setEmail(e.target.value)}>
+              <InputText
+                id="register-email"
+                label="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
+              >
                 <EmailIcon />
               </InputText>
             </div>
-            {showErrorRegister && <p className="error-message">{errorRegister}</p>}
+            {showErrorRegister && (
+              <p className="error-message">{errorRegister}</p>
+            )}
             {/* Trường nhập mã xác thực */}
             {showVerify && (
-              <div
-                className="animation"
-                style={{ "--i": 18, "--j": 1 }}
-              >
-                <InputText id="register-email" label="Mã xác thực" value={verificationCode}
-                  onChange={(e) => setVerificationCode(e.target.value)} />
+              <div className="animation" style={{ "--i": 18, "--j": 1 }}>
+                <InputText
+                  id="register-email"
+                  label="Mã xác thực"
+                  value={verificationCode}
+                  onChange={(e) => setVerificationCode(e.target.value)}
+                />
                 {showCountDown && <p>Thời gian còn lại: {countdown} giây</p>}
               </div>
             )}

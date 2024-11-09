@@ -1,9 +1,22 @@
-import React, { useState, useEffect } from 'react';
-import { 
-  TextField, Button, Card, CardContent, CardHeader, Alert,
-  IconButton, Tabs, Tab, Box, Typography, Dialog,
-  DialogTitle, DialogContent, DialogActions, DialogContentText
-} from '@mui/material';
+import React, { useState, useEffect } from "react";
+import {
+  TextField,
+  Button,
+  Card,
+  CardContent,
+  CardHeader,
+  Alert,
+  IconButton,
+  Tabs,
+  Tab,
+  Box,
+  Typography,
+  Dialog,
+  DialogTitle,
+  DialogContent,
+  DialogActions,
+  DialogContentText,
+} from "@mui/material";
 import {
   Delete as DeleteIcon,
   Edit as EditIcon,
@@ -11,47 +24,47 @@ import {
   Cancel as CancelIcon,
   AddCircle as AddCircleIcon,
   Lock as LockIcon,
-  PersonOutline as PersonIcon
-} from '@mui/icons-material';
-import { styled } from '@mui/material/styles';
-import '../style/UserInfo.css';
-import axios from 'axios';
-import NavHeader from '../components/navbar/NavHeader';
-import SuccessPopup from '../components/popupNotifications/SuccessPopup';
-import FailPopup from '../components/popupNotifications/FailPopup';
-import changePassword from '../functions/changePassword';
-import updateUser from '../functions/updateUser';
+  PersonOutline as PersonIcon,
+} from "@mui/icons-material";
+import { styled } from "@mui/material/styles";
+import "../style/UserInfo.css";
+import axios from "axios";
+import NavHeader from "../components/navbar/NavHeader";
+import SuccessPopup from "../components/popupNotifications/SuccessPopup";
+import FailPopup from "../components/popupNotifications/FailPopup";
+import changePassword from "../functions/changePassword";
+import updateUser from "../functions/updateUser";
 const StyledCard = styled(Card)({
-  maxWidth: '70%',
-  margin: '2rem auto',
-  background: 'rgba(255, 255, 255, 0.9)',
-  backdropFilter: 'blur(10px)',
-  boxShadow: '0 8px 32px rgba(0, 0, 0, 0.1)',
-  transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
-  '&:hover': {
-    transform: 'translateY(-5px)',
-    boxShadow: '0 12px 40px rgba(0, 0, 0, 0.15)',
+  maxWidth: "70%",
+  margin: "2rem auto",
+  background: "rgba(255, 255, 255, 0.9)",
+  backdropFilter: "blur(10px)",
+  boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
+  transition: "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
+  "&:hover": {
+    transform: "translateY(-5px)",
+    boxShadow: "0 12px 40px rgba(0, 0, 0, 0.15)",
   },
 });
 
 const StyledTextField = styled(TextField)({
-  marginBottom: '1rem',
-  '& .MuiOutlinedInput-root': {
-    transition: 'all 0.3s ease-in-out',
-    '&:hover fieldset': {
-      borderColor: '#1976d2',
+  marginBottom: "1rem",
+  "& .MuiOutlinedInput-root": {
+    transition: "all 0.3s ease-in-out",
+    "&:hover fieldset": {
+      borderColor: "#1976d2",
     },
-    '&.Mui-focused fieldset': {
-      borderWidth: '2px',
+    "&.Mui-focused fieldset": {
+      borderWidth: "2px",
     },
   },
 });
 
 const AnimatedButton = styled(Button)({
-  transition: 'all 0.3s ease-in-out',
-  '&:hover': {
-    transform: 'translateY(-2px)',
-    boxShadow: '0 5px 15px rgba(0, 0, 0, 0.2)',
+  transition: "all 0.3s ease-in-out",
+  "&:hover": {
+    transform: "translateY(-2px)",
+    boxShadow: "0 5px 15px rgba(0, 0, 0, 0.2)",
   },
 });
 
@@ -65,11 +78,7 @@ function TabPanel({ children, value, index, ...other }) {
       aria-labelledby={`profile-tab-${index}`}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          {children}
-        </Box>
-      )}
+      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
     </div>
   );
 }
@@ -80,26 +89,26 @@ const UserProfile = () => {
   const [editing, setEditing] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [changePasswordDialogOpen, setChangePasswordDialogOpen] = useState(false);
+  const [changePasswordDialogOpen, setChangePasswordDialogOpen] =
+    useState(false);
   const [passwordData, setPasswordData] = useState({
-    currentPassword: '',
-    newPassword: '',
-    confirmPassword: ''
+    currentPassword: "",
+    newPassword: "",
+    confirmPassword: "",
   });
   const [formData, setFormData] = useState({
-    fullName: '',
-    email: '',
-    phoneNumber: '',
+    fullName: "",
+    email: "",
+    phoneNumber: "",
     addresses: [],
   });
 
-
   const [successPopupOpen, setSuccessPopupOpen] = useState(false);
   const [failPopupOpen, setFailPopupOpen] = useState(false);
-  const [popupMessage, setPopupMessage] = useState('');
+  const [popupMessage, setPopupMessage] = useState("");
 
   useEffect(() => {
-    const storedUser = sessionStorage.getItem('user');
+    const storedUser = sessionStorage.getItem("user");
     if (storedUser) {
       const parsedUser = JSON.parse(storedUser);
       setUser(parsedUser);
@@ -132,7 +141,7 @@ const UserProfile = () => {
       ...formData,
       addresses: [
         ...formData.addresses,
-        { addressId: Date.now(), address: '' },
+        { addressId: Date.now(), address: "" },
       ],
     });
   };
@@ -140,7 +149,9 @@ const UserProfile = () => {
   const handleRemoveAddress = (addressId) => {
     setFormData({
       ...formData,
-      addresses: formData.addresses.filter((addr) => addr.addressId !== addressId),
+      addresses: formData.addresses.filter(
+        (addr) => addr.addressId !== addressId,
+      ),
     });
   };
 
@@ -150,7 +161,7 @@ const UserProfile = () => {
       setUser(formData);
       setEditing(false);
       setShowAlert(false);
-      setPopupMessage('Cập nhật thông tin thành công!');
+      setPopupMessage("Cập nhật thông tin thành công!");
       setSuccessPopupOpen(true);
     } else {
       setPopupMessage(result.error);
@@ -158,23 +169,26 @@ const UserProfile = () => {
     }
   };
 
-
-const handleChangePassword = async () => {
+  const handleChangePassword = async () => {
     if (passwordData.newPassword !== passwordData.confirmPassword) {
-      setPopupMessage('Mật khẩu xác nhận không khớp!');
+      setPopupMessage("Mật khẩu xác nhận không khớp!");
       setFailPopupOpen(true);
       return;
     }
-    const result = await changePassword(user.userId, passwordData.currentPassword, passwordData.newPassword);
+    const result = await changePassword(
+      user.userId,
+      passwordData.currentPassword,
+      passwordData.newPassword,
+    );
     if (result.isChangeSuccessful) {
       setChangePasswordDialogOpen(false);
-      setPopupMessage('Đổi mật khẩu thành công!');
+      setPopupMessage("Đổi mật khẩu thành công!");
       setSuccessPopupOpen(true);
       // Reset dữ liệu mật khẩu
       setPasswordData({
-        currentPassword: '',
-        newPassword: '',
-        confirmPassword: ''
+        currentPassword: "",
+        newPassword: "",
+        confirmPassword: "",
       });
     } else {
       setPopupMessage(result.error);
@@ -186,10 +200,10 @@ const handleChangePassword = async () => {
     try {
       await axios.delete(`http://localhost:8080/api/users/${user.userId}`);
       sessionStorage.clear();
-      window.location.href = '/login';
+      window.location.href = "/login";
     } catch (error) {
-      console.error('Error deleting account:', error);
-      setPopupMessage('Xóa tài khoản thất bại!');
+      console.error("Error deleting account:", error);
+      setPopupMessage("Xóa tài khoản thất bại!");
       setFailPopupOpen(true);
     }
   };
@@ -201,37 +215,33 @@ const handleChangePassword = async () => {
         <CardHeader
           title="Thông tin cá nhân"
           titleTypographyProps={{
-            align: 'center',
-            variant: 'h4',
-            color: 'primary',
+            align: "center",
+            variant: "h4",
+            color: "primary",
             style: { fontWeight: 600 },
           }}
         />
-        <Tabs 
-          value={tabValue} 
+        <Tabs
+          value={tabValue}
           onChange={handleTabChange}
           centered
-          sx={{ borderBottom: 1, borderColor: 'divider' }}
+          sx={{ borderBottom: 1, borderColor: "divider" }}
         >
-          <Tab 
-            label="Thông tin người dùng" 
-            icon={<PersonIcon />} 
+          <Tab
+            label="Thông tin người dùng"
+            icon={<PersonIcon />}
             iconPosition="start"
           />
-          <Tab 
-            label="Tài khoản" 
-            icon={<LockIcon />} 
-            iconPosition="start"
-          />
+          <Tab label="Tài khoản" icon={<LockIcon />} iconPosition="start" />
         </Tabs>
 
         <CardContent>
           {/* User Information Tab */}
           <TabPanel value={tabValue} index={0}>
             {showAlert && (
-              <Alert 
-                severity="error" 
-                style={{ marginBottom: '1rem' }}
+              <Alert
+                severity="error"
+                style={{ marginBottom: "1rem" }}
                 onClose={() => setShowAlert(false)}
               >
                 Vui lòng điền đầy đủ thông tin bắt buộc
@@ -267,14 +277,18 @@ const handleChangePassword = async () => {
             />
 
             {/* Addresses Section */}
-            <div style={{ marginTop: '2rem' }}>
-              <div style={{ 
-                display: 'flex', 
-                justifyContent: 'space-between',
-                alignItems: 'center',
-                marginBottom: '1rem',
-              }}>
-                <Typography variant="h6" color="primary">Địa chỉ</Typography>
+            <div style={{ marginTop: "2rem" }}>
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  alignItems: "center",
+                  marginBottom: "1rem",
+                }}
+              >
+                <Typography variant="h6" color="primary">
+                  Địa chỉ
+                </Typography>
                 {editing && (
                   <AnimatedButton
                     startIcon={<AddCircleIcon />}
@@ -288,7 +302,10 @@ const handleChangePassword = async () => {
               </div>
 
               {formData.addresses.map((address, index) => (
-                <div key={address.addressId} style={{ position: 'relative', marginBottom: '1rem' }}>
+                <div
+                  key={address.addressId}
+                  style={{ position: "relative", marginBottom: "1rem" }}
+                >
                   <StyledTextField
                     fullWidth
                     label={`Địa chỉ ${index + 1}`}
@@ -304,11 +321,11 @@ const handleChangePassword = async () => {
                     <IconButton
                       size="small"
                       style={{
-                        position: 'absolute',
-                        right: '10px',
-                        top: '50%',
-                        transform: 'translateY(-50%)',
-                        color: '#f44336',
+                        position: "absolute",
+                        right: "10px",
+                        top: "50%",
+                        transform: "translateY(-50%)",
+                        color: "#f44336",
                       }}
                       onClick={() => handleRemoveAddress(address.addressId)}
                     >
@@ -320,7 +337,7 @@ const handleChangePassword = async () => {
             </div>
 
             {/* Action Buttons */}
-            <Box sx={{ display: 'flex', gap: 2, mt: 4 }}>
+            <Box sx={{ display: "flex", gap: 2, mt: 4 }}>
               {!editing ? (
                 <AnimatedButton
                   fullWidth
@@ -358,7 +375,7 @@ const handleChangePassword = async () => {
 
           {/* Account Settings Tab */}
           <TabPanel value={tabValue} index={1}>
-            <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
               <AnimatedButton
                 variant="contained"
                 startIcon={<LockIcon />}
@@ -366,7 +383,7 @@ const handleChangePassword = async () => {
               >
                 Đổi mật khẩu
               </AnimatedButton>
-              
+
               <AnimatedButton
                 variant="outlined"
                 color="error"
@@ -381,7 +398,10 @@ const handleChangePassword = async () => {
       </StyledCard>
 
       {/* Change Password Dialog */}
-      <Dialog open={changePasswordDialogOpen} onClose={() => setChangePasswordDialogOpen(false)}>
+      <Dialog
+        open={changePasswordDialogOpen}
+        onClose={() => setChangePasswordDialogOpen(false)}
+      >
         <DialogTitle>Đổi mật khẩu</DialogTitle>
         <DialogContent>
           <StyledTextField
@@ -417,7 +437,9 @@ const handleChangePassword = async () => {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={() => setChangePasswordDialogOpen(false)}>Hủy</Button>
+          <Button onClick={() => setChangePasswordDialogOpen(false)}>
+            Hủy
+          </Button>
           <Button onClick={handleChangePassword} variant="contained">
             Xác nhận
           </Button>
@@ -432,19 +454,24 @@ const handleChangePassword = async () => {
         <DialogTitle>Xác nhận xóa tài khoản</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Bạn có chắc chắn muốn xóa tài khoản? Hành động này không thể hoàn tác.
+            Bạn có chắc chắn muốn xóa tài khoản? Hành động này không thể hoàn
+            tác.
           </DialogContentText>
         </DialogContent>
         <DialogActions>
           <Button onClick={() => setDeleteDialogOpen(false)}>Hủy</Button>
-          <Button onClick={handleDeleteAccount} color="error" variant="contained">
+          <Button
+            onClick={handleDeleteAccount}
+            color="error"
+            variant="contained"
+          >
             Xóa tài khoản
           </Button>
         </DialogActions>
       </Dialog>
 
       {/* Success and Error Popups */}
-      <SuccessPopup 
+      <SuccessPopup
         open={successPopupOpen}
         onClose={() => setSuccessPopupOpen(false)}
         message={popupMessage}
