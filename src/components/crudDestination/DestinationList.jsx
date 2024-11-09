@@ -2,7 +2,7 @@ import React from 'react';
 import { Table } from 'react-bootstrap';
 import { GrCaretPrevious, GrCaretNext } from "react-icons/gr";
 
-const DestinationList = ({ data, isDescription, onGetData, selectDestination, destinationSelected, changeDuration }) => {
+const DestinationList = ({ data, isDescription, onGetData, selectDestination, destinationSelected, changeDuration, duration }) => {
     return (
         <div className="destination-table">
             <Table striped bordered hover>
@@ -19,10 +19,10 @@ const DestinationList = ({ data, isDescription, onGetData, selectDestination, de
                 <tbody>
                     {data?.content?.length > 0 ? (
                         data.content.map((destination) => (
-                            <tr key={destination.destinationId}>
+                            <tr className="truncate-multiline" key={destination.destinationId}>
                                 <td>{destination.destinationId}</td>
                                 <td>{destination.name}</td>
-                                {isDescription && <td>{destination.description}</td>}
+                                {isDescription && <td><div className="truncate-multiline">{destination.description}</div></td>}
                                 <td>{destination.province}</td>
                                 {selectDestination && <td>
                                     <input checked={destinationSelected.content.some(d => d.destinationId == destination.destinationId)? true : false} 
@@ -39,6 +39,14 @@ const DestinationList = ({ data, isDescription, onGetData, selectDestination, de
                         </tr>
                     )}
                 </tbody>
+                {
+                    duration && <tfoot>
+                        <tr>
+                            <td colSpan={3}>Tổng thời gian(giờ):</td>
+                            <td>{duration}</td>
+                        </tr>
+                    </tfoot>
+                }
             </Table>
             {
                 data?.page?.totalPages > 1 && 
