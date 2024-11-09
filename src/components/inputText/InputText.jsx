@@ -34,4 +34,4 @@ function InputText({ id, label, type, value, onChange, children, disable, notFor
     )
 }
 
-export default InputText;
+export default InputText

@@ -11,143 +11,143 @@ body {
 } */
 
 header {
-  background-color: #ffffff;
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 h1 {
-  font-size: 2.5rem;
-  color: #343a40;
-  margin: 2rem 0;
+    font-size: 2.5rem;
+    color: #343a40;
+    margin: 2rem 0;
 }
 
 .btn {
-  border-radius: 25px;
-  padding: 10px 20px;
-  transition: transform 0.3s;
+    border-radius: 25px;
+    padding: 10px 20px;
+    transition: transform 0.3s;
 }
 
 .btn-primary {
-  background-color: #007bff;
-  border: none;
+    background-color: #007bff;
+    border: none;
 }
 
 .btn-primary:hover {
-  background-color: #0056b3;
-  transform: translateY(-2px);
+    background-color: #0056b3;
+    transform: translateY(-2px);
 }
 
 .btn-success {
-  background-color: #28a745;
-  border: none;
+    background-color: #28a745;
+    border: none;
 }
 
 .btn-success:hover {
-  background-color: #218838;
-  transform: translateY(-2px);
+    background-color: #218838;
+    transform: translateY(-2px);
 }
 
 footer {
-  background-color: #343a40;
-  color: white;
-  padding: 20px;
-  text-align: center;
-  position: relative;
-  bottom: 0;
-  width: 100%;
+    background-color: #343a40;
+    color: white;
+    padding: 20px;
+    text-align: center;
+    position: relative;
+    bottom: 0;
+    width: 100%;
 }
 
 .slider-container {
-  margin: 20px auto;
+    margin: 20px auto;
 }
 
 .divRowBetween {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .divRowBetweenNotAlign {
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
 }
 
 .divRow {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
 .divColumnBetween {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
 }
 
 .divCenter {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .divCenterColumn {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
 .divCenterColumnBetween {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-direction: column;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
 }
 
 .input-group {
-  margin-top: 20px;
+    margin-top: 20px;
 }
 
 .textInfo {
-  font-size: 18px;
-  margin-left: 10px;
+    font-size: 18px;
+    margin-left: 10px;
 }
 
-.formBooking > *:nth-child(n + 2) {
-  text-align: start;
-  padding-left: 15px;
-  padding-right: 15px;
+.formBooking > *:nth-child(n+2){
+    text-align: start;
+    padding-left: 15px;
+    padding-right: 15px;
 }
 
 @media (max-width: 768px) {
-  h1 {
-    font-size: 2rem;
-  }
+    h1 {
+        font-size: 2rem;
+    }
 
-  .input-group {
-    flex-direction: column;
-    align-items: center;
-  }
+    .input-group {
+        flex-direction: column;
+        align-items: center;
+    }
 
-  .btn {
-    width: 100%;
-    margin: 5px 0;
-  }
+    .btn {
+        width: 100%;
+        margin: 5px 0;
+    }
 }
 
-.w-60 {
-  width: 60%;
+.w-60{
+    width: 60%;
 }
 
-.w-40 {
-  width: 40%;
+.w-40{
+    width: 40%;
 }
 
-.w-30 {
-  width: 30%;
+.w-30{
+    width: 30%;
 }
 
 .one-line-text {

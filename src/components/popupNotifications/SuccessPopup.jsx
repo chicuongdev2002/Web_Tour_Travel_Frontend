@@ -1,6 +1,6 @@
-import React from "react";
-import DrawTickIcon from "../draw/DrawTickIcon";
-import ModalComponent from "../modal/ModalComponent";
+import React from 'react'
+import DrawTickIcon from '../draw/DrawTickIcon'
+import ModalComponent from '../modal/ModalComponent'
 
 function SuccessPopup({ message, open, onClose, onClick }) {
     return (
@@ -15,4 +15,4 @@ function SuccessPopup({ message, open, onClose, onClick }) {
     )
 }
 
-export default SuccessPopup;
+export default SuccessPopup

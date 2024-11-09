@@ -1,6 +1,6 @@
-import React from "react";
-import DrawRejectIcon from "../draw/DrawRejectIcon";
-import ModalComponent from "../modal/ModalComponent";
+import React from 'react'
+import DrawRejectIcon from '../draw/DrawRejectIcon'
+import ModalComponent from '../modal/ModalComponent'
 
 function FailPopup({ message, open, onClose, onClick }) {
     return (
@@ -15,4 +15,4 @@ function FailPopup({ message, open, onClose, onClick }) {
     )
 }
 
-export default FailPopup;
+export default FailPopup

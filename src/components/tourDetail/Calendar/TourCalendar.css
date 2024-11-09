@@ -1,215 +1,215 @@
 .calendar-container {
-  position: relative;
-  width: 100%;
+    position: relative;
+    width: 100%;
 }
 
 .calendar-modal {
-  position: absolute;
-  background: white;
-  border: 1px solid #ccc;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-  padding: 20px;
-  z-index: 1000;
-  width: 100%;
-  /* Adjust width as needed */
-  border-radius: 5px;
-  /* Rounded corners */
+    position: absolute;
+    background: white;
+    border: 1px solid #ccc;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    padding: 20px;
+    z-index: 1000;
+    width: 100%;
+    /* Adjust width as needed */
+    border-radius: 5px;
+    /* Rounded corners */
 }
 
 .calendar-wrapper {
-  display: flex;
-  justify-content: space-between;
+    display: flex;
+    justify-content: space-between;
 }
 
 .highlight {
-  background-color: red;
-  /* Highlighted date background */
-  color: white;
-  /* Highlighted text color */
-  border-radius: 5px;
-  /* Rounded corners */
+    background-color: red;
+    /* Highlighted date background */
+    color: white;
+    /* Highlighted text color */
+    border-radius: 5px;
+    /* Rounded corners */
 }
 
 .tile-content {
-  display: flex;
-  /* Flexbox for content */
-  justify-content: center;
-  /* Center content */
-  align-items: center;
-  /* Center vertically */
+    display: flex;
+    /* Flexbox for content */
+    justify-content: center;
+    /* Center content */
+    align-items: center;
+    /* Center vertically */
 }
 
 .normal-day {
-  color: black;
-  /* Normal day text color */
+    color: black;
+    /* Normal day text color */
 }
 
 .view-calendar {
-  display: flex;
-  /* Flexbox for icon and text */
-  align-items: center;
-  color: blue;
-  /* Icon and text color */
-  font-weight: bold;
-  /* Bold text */
+    display: flex;
+    /* Flexbox for icon and text */
+    align-items: center;
+    color: blue;
+    /* Icon and text color */
+    font-weight: bold;
+    /* Bold text */
 }
 
 button {
-  background: transparent;
-  /* Transparent background */
-  border: none;
-  /* No border */
-  cursor: pointer;
-  /* Pointer on hover */
-  padding: 0;
-  /* No padding */
+    background: transparent;
+    /* Transparent background */
+    border: none;
+    /* No border */
+    cursor: pointer;
+    /* Pointer on hover */
+    padding: 0;
+    /* No padding */
 }
 
 button:hover .view-calendar {
-  text-decoration: underline;
-  /* Underline effect on hover */
+    text-decoration: underline;
+    /* Underline effect on hover */
 }
 .calendar-container {
-  position: relative;
+    position: relative;
 }
 
 .calendar-button {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 8px 16px;
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  border: 1px solid #e0e0e0;
-  border-radius: 8px;
-  transition: all 0.2s ease;
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 8px 16px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    transition: all 0.2s ease;
 }
 
 .calendar-button:hover {
-  background-color: #f5f5f5;
+    background-color: #f5f5f5;
 }
 
 .view-calendar {
-  display: flex;
-  align-items: center;
-  gap: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
 }
 
 .calendar-modal-content {
-  padding: 20px;
-  max-width: 100%;
-  width: 90vw;
-  background: white;
-  border-radius: 12px;
+    padding: 20px;
+    max-width: 100%;
+    width: 90vw;
+    background: white;
+    border-radius: 12px;
 }
 
 .calendar-modal-content h2 {
-  margin-bottom: 20px;
-  text-align: center;
-  color: #333;
-  font-size: 1.5rem;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #333;
+    font-size: 1.5rem;
 }
 
 .calendar-wrapper {
-  display: flex;
-  flex-direction: row;
-  /* Đảm bảo hai lịch nằm ngang */
-  gap: 20px;
-  /* Khoảng cách giữa các lịch */
-  justify-content: center;
-  /* Căn giữa các lịch */
-  flex-wrap: nowrap;
-  /* Không cho phép cuộn */
+display: flex;
+    flex-direction: row;
+    /* Đảm bảo hai lịch nằm ngang */
+    gap: 20px;
+    /* Khoảng cách giữa các lịch */
+    justify-content: center;
+    /* Căn giữa các lịch */
+    flex-wrap: nowrap;
+    /* Không cho phép cuộn */
 }
 
 /* Calendar customization */
 .react-calendar {
-  border: none !important;
-  background-color: white;
-  padding: 10px;
-  border-radius: 8px;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-  width: 150px !important;
-  /* Adjust width to fit your design */
+border: none !important;
+    background-color: white;
+    padding: 10px;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    width: 150px !important;
+    /* Adjust width to fit your design */
 }
 
 .highlight-1 {
-  background-color: #e3f2fd !important;
-  color: #1976d2 !important;
-  font-weight: bold;
+    background-color: #e3f2fd !important;
+    color: #1976d2 !important;
+    font-weight: bold;
 }
 
 .normal-day-1 {
-  color: #757575;
+    color: #757575;
 }
 
 .tile-content-1 {
-  font-size: 0.8em;
-  color: #2196f3;
-  margin-top: 4px;
+    font-size: 0.8em;
+    color: #2196f3;
+    margin-top: 4px;
 }
 .highlight-today {
-  background-color: rgb(238, 242, 19);
-  /* Màu nền đỏ */
-  color: white;
-  /* Màu chữ trắng */
-  border-radius: 5px;
-  /* Bo góc */
+    background-color: rgb(238, 242, 19);
+    /* Màu nền đỏ */
+    color: white;
+    /* Màu chữ trắng */
+    border-radius: 5px;
+    /* Bo góc */
 }
 /* Responsive adjustments */
 @media (max-width: 768px) {
-  .calendar-modal-content {
-    width: 95vw;
-    padding: 10px;
-  }
+    .calendar-modal-content {
+        width: 95vw;
+        padding: 10px;
+    }
 
-  .calendar-wrapper {
-    gap: 10px;
-  }
+    .calendar-wrapper {
+        gap: 10px;
+    }
 
-  .react-calendar {
-    width: 100% !important;
-    max-width: 350px;
-  }
+    .react-calendar {
+        width: 100% !important;
+        max-width: 350px;
+    }
 }
 
 /* Additional Modal styles for the calendar */
 .modal-overlay {
-  background-color: rgba(0, 0, 0, 0.5);
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+    background-color: rgba(0, 0, 0, 0.5);
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
 }
 
 .modal-content {
-  position: relative;
-  background: white;
-  padding: 20px;
-  border-radius: 12px;
-  max-height: 90vh;
-  overflow-y: auto;
+    position: relative;
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    max-height: 90vh;
+    overflow-y: auto;
 }
 
 .close-button {
-  position: absolute;
-  top: 10px;
-  right: 10px;
-  background: none;
-  border: none;
-  font-size: 1.5rem;
-  cursor: pointer;
-  color: #666;
-  padding: 5px 10px;
-  border-radius: 4px;
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: none;
+    border: none;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #666;
+    padding: 5px 10px;
+    border-radius: 4px;
 }
 
 .close-button:hover {
-  background-color: #f5f5f5;
+    background-color: #f5f5f5;
 }

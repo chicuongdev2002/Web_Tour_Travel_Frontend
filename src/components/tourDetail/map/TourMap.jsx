@@ -1,20 +1,13 @@
-import React, { useEffect, useState } from "react";
-import {
-  MapContainer,
-  TileLayer,
-  Marker,
-  Popup,
-  Tooltip,
-  useMap,
-} from "react-leaflet";
-import { FaMapMarkerAlt } from "react-icons/fa";
-import Modal from "../modal/Modal";
-import "leaflet/dist/leaflet.css";
-import L from "leaflet";
+import React, { useEffect, useState } from 'react';
+import { MapContainer, TileLayer, Marker, Popup, Tooltip, useMap } from 'react-leaflet';
+import { FaMapMarkerAlt } from 'react-icons/fa';
+import Modal from '../modal/Modal';
+import 'leaflet/dist/leaflet.css';
+import L from 'leaflet';
 
 // Tạo biểu tượng marker tùy chỉnh
 const flameIcon = L.divIcon({
-  className: "custom-marker",
+  className: 'custom-marker',
   html: `
     <div style="
       width: 40px;
@@ -43,7 +36,7 @@ const flameIcon = L.divIcon({
     </style>
   `,
   iconSize: [40, 40],
-  iconAnchor: [20, 20],
+  iconAnchor: [20, 20]
 });
 
 const TourMap = ({ destinations = [] }) => {
@@ -62,7 +55,7 @@ const TourMap = ({ destinations = [] }) => {
 
       try {
         const results = [];
-
+        
         for (const dest of destinations) {
           try {
             const query = encodeURIComponent(`${dest.province}, Vietnam`);
@@ -70,35 +63,32 @@ const TourMap = ({ destinations = [] }) => {
               `https://nominatim.openstreetmap.org/search?format=json&q=${query}&limit=1`,
               {
                 headers: {
-                  "Accept-Language": "vi",
-                  "User-Agent": "TourWebsite/1.0",
-                },
-              },
+                  'Accept-Language': 'vi',
+                  'User-Agent': 'TourWebsite/1.0'
+                }
+              }
             );
-
+            
             const data = await response.json();
-
+            
             if (data && data.length > 0) {
               results.push({
                 ...dest,
-                coordinates: [parseFloat(data[0].lat), parseFloat(data[0].lon)],
+                coordinates: [parseFloat(data[0].lat), parseFloat(data[0].lon)]
               });
             }
           } catch (error) {
-            console.error(
-              `Error fetching coordinates for ${dest.province}:`,
-              error,
-            );
+            console.error(`Error fetching coordinates for ${dest.province}:`, error);
           }
         }
 
         setLocations(results);
-
+        
         if (results.length >= 2) {
           await getRoutes(results);
         }
       } catch (error) {
-        console.error("Error in getCoordinates:", error);
+        console.error('Error in getCoordinates:', error);
       } finally {
         setLoading(false);
       }
@@ -109,59 +99,56 @@ const TourMap = ({ destinations = [] }) => {
 
   const getRoutes = async (locationPoints) => {
     const routeSegments = [];
-
+    
     for (let i = 0; i < locationPoints.length - 1; i++) {
       const start = locationPoints[i].coordinates;
       const end = locationPoints[i + 1].coordinates;
-
+      
       try {
         const response = await fetch(
-          `https://router.project-osrm.org/route/v1/driving/${start[1]},${start[0]};${end[1]},${end[0]}?overview=full&geometries=geojson`,
+          `https://router.project-osrm.org/route/v1/driving/${start[1]},${start[0]};${end[1]},${end[0]}?overview=full&geometries=geojson`
         );
-
+        
         const data = await response.json();
-
-        if (data.code === "Ok" && data.routes[0]) {
+        
+        if (data.code === 'Ok' && data.routes[0]) {
           routeSegments.push({
-            geometry: data.routes[0].geometry.coordinates.map((coord) => [
-              coord[1],
-              coord[0],
-            ]),
+            geometry: data.routes[0].geometry.coordinates.map(coord => [coord[1], coord[0]]),
             distance: data.routes[0].distance,
-            duration: data.routes[0].duration,
+            duration: data.routes[0].duration
           });
         }
       } catch (error) {
-        console.error("Error fetching route:", error);
+        console.error('Error fetching route:', error);
       }
     }
-
+    
     setRoutes(routeSegments);
   };
 
   const RouteDisplay = () => {
     const map = useMap();
-
+    
     useEffect(() => {
       map.eachLayer((layer) => {
         if (layer instanceof L.Polyline) {
           map.removeLayer(layer);
         }
       });
-
+      
       routes.forEach((route, index) => {
         const polyline = L.polyline(route.geometry, {
-          color: "#2196F3",
+          color: '#2196F3',
           weight: 4,
-          opacity: 0.8,
+          opacity: 0.8
         }).addTo(map);
-
+        
         const distanceKm = (route.distance / 1000).toFixed(1);
         const durationHours = (route.duration / 3600).toFixed(1);
-
+        
         polyline.bindTooltip(
           `Khoảng cách: ${distanceKm}km<br>Thời gian: ${durationHours} giờ`,
-          { permanent: false, sticky: true },
+          { permanent: false, sticky: true }
         );
       });
     }, [map, routes]);
@@ -173,7 +160,7 @@ const TourMap = ({ destinations = [] }) => {
     const map = useMap();
     useEffect(() => {
       if (locations.length > 0) {
-        const bounds = L.latLngBounds(locations.map((loc) => loc.coordinates));
+        const bounds = L.latLngBounds(locations.map(loc => loc.coordinates));
         map.fitBounds(bounds);
       }
     }, [locations, map]);
@@ -186,49 +173,45 @@ const TourMap = ({ destinations = [] }) => {
 
   return (
     <div>
-      <button
-        onClick={() => setIsModalOpen(true)}
-        style={{
-          display: "flex",
-          alignItems: "center",
-          background: "none",
-          border: "none",
-          cursor: "pointer",
-          padding: "8px 16px",
-          borderRadius: "4px",
-          transition: "background-color 0.3s",
+      <button 
+        onClick={() => setIsModalOpen(true)} 
+        style={{ 
+          display: 'flex', 
+          alignItems: 'center', 
+          background: 'none', 
+          border: 'none', 
+          cursor: 'pointer',
+          padding: '8px 16px',
+          borderRadius: '4px',
+          transition: 'background-color 0.3s'
         }}
-        onMouseOver={(e) => (e.currentTarget.style.backgroundColor = "#f0f0f0")}
-        onMouseOut={(e) =>
-          (e.currentTarget.style.backgroundColor = "transparent")
-        }
+        onMouseOver={(e) => e.currentTarget.style.backgroundColor = '#f0f0f0'}
+        onMouseOut={(e) => e.currentTarget.style.backgroundColor = 'transparent'}
       >
-        <h2
-          style={{
-            marginRight: "10px",
-            fontFamily: "Arial, sans-serif",
-            fontSize: "18px",
-            fontWeight: "bold",
-            color: "#333",
-          }}
-        >
+        <h2 style={{ 
+          marginRight: '10px', 
+          fontFamily: 'Arial, sans-serif', 
+          fontSize: '18px', 
+          fontWeight: 'bold', 
+          color: '#333' 
+        }}>
           Xem bản đồ
         </h2>
-        <FaMapMarkerAlt style={{ fontSize: "24px", color: "#FF4081" }} />
+        <FaMapMarkerAlt style={{ fontSize: '24px', color: '#FF4081' }} />
       </button>
 
       <Modal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)}>
-        <div style={{ height: "400px", width: "100%" }}>
-          <MapContainer
+        <div style={{ height: '400px', width: '100%' }}>
+          <MapContainer 
             center={[16.0469, 108.2069]}
-            zoom={6}
-            style={{ height: "100%", width: "100%" }}
+            zoom={6} 
+            style={{ height: '100%', width: '100%' }}
           >
             <TileLayer
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-              attribution="&copy; OpenStreetMap contributors"
+              attribution='&copy; OpenStreetMap contributors'
             />
-
+            
             <FitBounds />
             <RouteDisplay />
 
@@ -238,7 +221,7 @@ const TourMap = ({ destinations = [] }) => {
                 position={location.coordinates}
                 icon={flameIcon}
               >
-                <Tooltip
+                <Tooltip 
                   permanent
                   direction="top"
                   offset={[0, -30]}
@@ -253,15 +236,9 @@ const TourMap = ({ destinations = [] }) => {
                     {location.description && <p>{location.description}</p>}
                     {index < locations.length - 1 && routes[index] && (
                       <p>
-                        Đến điểm tiếp theo:
-                        <br />
-                        Khoảng cách:{" "}
-                        {(routes[index].distance / 1000).toFixed(1)}km
-                        <br />
-                        Thời gian: {(routes[index].duration / 3600).toFixed(
-                          1,
-                        )}{" "}
-                        giờ
+                        Đến điểm tiếp theo:<br/>
+                        Khoảng cách: {(routes[index].distance / 1000).toFixed(1)}km<br/>
+                        Thời gian: {(routes[index].duration / 3600).toFixed(1)} giờ
                       </p>
                     )}
                   </div>

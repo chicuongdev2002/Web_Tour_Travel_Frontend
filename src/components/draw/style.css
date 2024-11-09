@@ -1,19 +1,19 @@
 body {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 100vh;
-  background: #222222;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+    background: #222222;
 }
 
 circle,
 rect,
 line {
-  stroke-width: 20px;
-  stroke-linecap: round;
-  fill: transparent;
+    stroke-width: 20px;
+    stroke-linecap: round;
+    fill: transparent;
 }
 
 .styleFill {
-  fill: red;
+    fill: red;
 }

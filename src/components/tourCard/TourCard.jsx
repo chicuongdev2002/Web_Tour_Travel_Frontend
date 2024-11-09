@@ -1,14 +1,14 @@
-import React from "react";
-import "./TourCard.css";
+import React from 'react';
+import './TourCard.css';
 import { FaMapMarkedAlt } from "react-icons/fa";
 import { PiCalendarDotsFill, PiClockCountdownFill, PiChairBold } from "react-icons/pi";
 import { useNavigate } from 'react-router-dom';
 import img from '../../assets/404.png';
 const TourCard = ({ tour }) => {
-  const navigate = useNavigate();
-  const handleViewDetail = () => {
-    navigate(`/tour-details/${tour.tourId}`);
-  };
+    const navigate = useNavigate(); 
+    const handleViewDetail = () => {
+        navigate(`/tour-details/${tour.tourId}`); 
+    };
   return (
       <div className="tour-card">
         <img src={tour.image? tour.image : img} alt={tour.title} className="tour-image" />
@@ -35,17 +35,14 @@ const TourCard = ({ tour }) => {
               {/* </div> */}
             </div>
           </div>
+          <div className="tour-pricing">
+            <p className="original-price">{tour.originalPrice} đ</p>
+            <p className="discounted-price">{tour.discountedPrice} đ</p>
+          </div>
+           <button className="book-now" onClick={handleViewDetail}>Xem chi tiết</button>
         </div>
-        <div className="tour-pricing">
-          <p className="original-price">{tour.originalPrice} đ</p>
-          <p className="discounted-price">{tour.discountedPrice} đ</p>
-        </div>
-        <button className="book-now" onClick={handleViewDetail}>
-          Xem chi tiết
-        </button>
+        {/* <div className="countdown">{tour.countdown}</div> */}
       </div>
-      // {/* <div className="countdown">{tour.countdown}</div> */}
-    // </div>
   );
 };
 

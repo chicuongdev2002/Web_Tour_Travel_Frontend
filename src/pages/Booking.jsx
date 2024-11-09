@@ -58,7 +58,7 @@ function Booking() {
                                     type: 'number',
                                     className: 'my-2',
                                     min: 1,
-value: numOfAdults,
+                                    value: numOfAdults,
                                     onChange: (e) => setNumOfAdults(e.target.value)
                                 }},
                                 { label: 'Người cao tuổi', object: {

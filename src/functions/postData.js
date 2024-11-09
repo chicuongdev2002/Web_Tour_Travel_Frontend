@@ -1,16 +1,11 @@
-import axios from "axios";
+import axios from 'axios';
 
 const postData = async (api, params) => {
-  debugger;
   try {
-    const response = await fetch(api, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(params),
-    });
+    const response = await axios.post(api, params);
     return response.data; // Kết quả trả về từ server
   } catch (error) {
-    console.error("Error posting data:", error);
+    console.error('Error posting data:', error);
     return null;
   }
 };
@@ -19,12 +14,12 @@ const uploadFile = async (api, formData) => {
   try {
     const response = await axios.post(api, formData, {
       headers: {
-        "Content-Type": "multipart/form-data",
+        'Content-Type': 'multipart/form-data',
       },
     });
     return response.data; // Kết quả trả về từ server
   } catch (error) {
-    console.error("Error posting data:", error);
+    console.error('Error posting data:', error);
     return null;
   }
 };

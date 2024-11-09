@@ -1,28 +1,25 @@
-import React, { useState, useEffect } from "react";
-import "bootstrap/dist/css/bootstrap.css";
-import { Container, Row, Col, Button, Spinner } from "react-bootstrap";
-import { getAllTour } from "../functions/getTour";
-import TourCard from "../components/tourCard/TourCard";
-import { useNavigate, useLocation } from "react-router-dom";
-import NavHeader from "../components/navbar/NavHeader";
+import React, { useState, useEffect } from 'react';
+import 'bootstrap/dist/css/bootstrap.css';
+import { Container, Row, Col, Button, Spinner } from 'react-bootstrap';
+import { getAllTour } from '../functions/getTour';
+import TourCard from '../components/tourCard/TourCard';
+import { useNavigate } from 'react-router-dom';
+import NavHeader from '../components/navbar/NavHeader'
 
-const TourList = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
+const TourList = ({ searchParams }) => {
+  const navigate = useNavigate(); 
   const [dataCard, setDataCard] = useState([]);
   const [page, setPage] = useState(0);
   const [pageSize] = useState(8);
   const [totalPages, setTotalPages] = useState(1);
   const [loading, setLoading] = useState(false);
-  const [searchParams, setSearchParams] = useState(
-    location.state?.searchParams || {},
-  );
+
   const fetchTours = async (currentPage) => {
     setLoading(true);
     const data = await getAllTour({
-      ...searchParams,
+      // ...searchParams,
       page: currentPage,
-      size: pageSize,
+      size: pageSize
     });
     console.log(data);
     setDataCard(data.content);
@@ -32,32 +29,30 @@ const TourList = () => {
 
   useEffect(() => {
     fetchTours(page);
-  }, [page, searchParams]);
+  }, [page, searchParams]); 
 
   const handlePageChange = (direction) => {
-    if (direction === "next" && page < totalPages - 1) {
+    if (direction === 'next' && page < totalPages - 1) {
       setPage((prev) => prev + 1);
-    } else if (direction === "prev" && page > 0) {
+    } else if (direction === 'prev' && page > 0) {
       setPage((prev) => prev - 1);
     }
   };
 
   return (
     <Container fluid className="px-4">
-      <NavHeader textColor="black" />
+      <NavHeader textColor="black"/>
       {loading ? (
-        <div className="text-center" style={{ height: "100vh" }}>
+        <div className="text-center" style={{ height: '100vh' }}>
           <Spinner animation="border" role="status">
             {/* <span className="visually-hidden">Loading...</span> */}
           </Spinner>
         </div>
       ) : (
-        <div className="divCenterColumn w-100">
-          <div className="w-25 divRowBetween">
-            <button onClick={() => navigate(`/add-tour`)}>Thêm tour</button>
-            <button onClick={() => navigate(`/add-destination`)}>
-              Thêm điểm du lịch
-            </button>
+        <div className='divCenterColumn w-100'>
+          <div className='w-25 divRowBetween'>
+          <button onClick={() => navigate(`/add-tour`) }>Thêm tour</button>
+          <button onClick={() => navigate(`/add-destination`)}>Thêm điểm du lịch</button>
           </div>
           {dataCard.length === 0 ? (
             <div className="text-center mt-4">
@@ -67,14 +62,7 @@ const TourList = () => {
           ) : (
             <Row className="tour-grid g-4 mt-4">
               {dataCard.map((tour, index) => (
-                <Col
-                  key={index}
-                  xs={12}
-                  sm={6}
-                  md={4}
-                  lg={3}
-                  className="d-flex align-items-stretch"
-                >
+                <Col key={index} xs={12} sm={6} md={4} lg={3} className="d-flex align-items-stretch">
                   <TourCard
                     tour={{
                       tourId: tour.tourId,
@@ -84,10 +72,10 @@ const TourList = () => {
                       departureCity: tour.startLocation,
                       startDate: tour.startDate,
                       duration: `${tour.duration}N${tour.duration - 1}Đ`,
-                      originalPrice: "8,490,000",
+                      originalPrice: '8,490,000',
                       availableSeats: tour.availableSeats,
                       discountedPrice: tour.price,
-                      countdown: "19:43:49",
+                      countdown: '19:43:49',
                     }}
                   />
                 </Col>
@@ -99,7 +87,7 @@ const TourList = () => {
       <div className="d-flex justify-content-center align-items-center mt-4">
         <Button
           variant="outline-primary"
-          onClick={() => handlePageChange("prev")}
+          onClick={() => handlePageChange('prev')}
           disabled={page === 0}
           className="me-2"
         >
@@ -110,7 +98,7 @@ const TourList = () => {
         </span>
         <Button
           variant="outline-primary"
-          onClick={() => handlePageChange("next")}
+          onClick={() => handlePageChange('next')}
           disabled={page >= totalPages - 1}
           className="ms-2"
         >
