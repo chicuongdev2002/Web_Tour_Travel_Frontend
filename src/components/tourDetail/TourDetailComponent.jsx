@@ -10,10 +10,15 @@ import DepartureDates from './Calendar/DepartureDates';
 import ItineraryDetail from './InfomaitionTour/ItineraryDetail';
 import TourMap from './map/TourMap';
 import ReviewComponent from './review/ReviewComponent';
+import ChoosePopup from '../popupNotifications/ChoosePopup';
+import { DELETE_TOUR } from '../../config/host';
+import { deleteData } from '../../functions/deleteData';
+import CustomPop from '../popupNotifications/CustomPop';
 const TourDetailComponent = ({ tourData }) => {
   const navigate = useNavigate();
   const [selectedDeparture, setSelectedDeparture] = useState(tourData.departures[0]);
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
+  const [openPopup, setOpenPopup] = useState(-1);
 
   const toggleDescription = () => {
     setIsDescriptionExpanded(prev => !prev);
@@ -47,6 +52,22 @@ const TourDetailComponent = ({ tourData }) => {
     ELDERLY: 'Người cao tuổi'
   };
 
+  const goToBooking = () => {
+    navigate('/booking', { state: tourData });
+}
+
+  const goToUpdateTour = () => {
+    navigate(`/update-tour/${tourData.tourId}`, { state: tourData });
+  }
+
+  const deleteTour = async () => {
+    const result = await deleteData(DELETE_TOUR, tourData.tourId);
+    if (result)
+        setOpenPopup(1);
+    else
+        setOpenPopup(0);
+  }
+
  return (
     <div className="w-full max-w-7xl mx-auto p-4">
         <div className="flex flex-col md:flex-row gap-6">
@@ -57,7 +78,6 @@ const TourDetailComponent = ({ tourData }) => {
                     mainImgDimension={mainImgDimension}
                     thumbImgDimension={thumbImgDimension}
                 />
-
                 {/* Tour Description Section */}
                 <div className="description-section">
                     <h3 className="font-semibold mb-2">Bạn sẽ trải nghiệm</h3>
@@ -79,15 +99,19 @@ const TourDetailComponent = ({ tourData }) => {
             {/* Tour Information Section */}
             <div className="md:w-1/2">
                 <div className="border rounded-lg shadow-lg p-6 h-full">
+                    <div className='divRowBetween'>
                     <h1 className="text-3xl font-bold mb-4 tour-name text-center">{tourData.tourName}</h1>
-
+                    <div>
+                        <button onClick={goToUpdateTour}>Sửa</button>
+                        <button onClick={() => setOpenPopup(-2)}>Xóa</button>   
+                    </div>
+                    </div>
                     {/* Price Section */}
                     <div className="mb-4">
                         <h3 className="font-semibold text-center">Giá</h3>
                         <div className="space-y-2 text-center">
                             {selectedDeparture.tourPricing.map((price) => {
                                 const translatedType = participantTypeTranslation[price.participantType] || price.participantType;
-
                                 return (
                                     <div key={price.participantType} className="flex justify-center">
                                         <span>{translatedType}:</span>
@@ -145,10 +169,7 @@ const TourDetailComponent = ({ tourData }) => {
                     </div>
 
                     {/* Booking Button */}
-                    <button
-                        onClick={() => navigate('/booking', { state: tourData })}
-                        className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors"
-                    >
+                    <button onClick={goToBooking} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-lg transition-colors">
                         Đặt tour ngay
                     </button>
                 </div>
@@ -164,6 +185,9 @@ const TourDetailComponent = ({ tourData }) => {
         <div className="w-full max-w-7xl mx-auto p-4">
             <ReviewComponent reviews={tourData.reviews} />
         </div>
+        <ChoosePopup title="Xoá tour" message="Bạn có chắc chắn muốn xóa tour này không?" open={openPopup == -2} onclose={() => setOpenPopup(-1)} 
+            onAccept={() => { deleteTour(); setOpenPopup(1) }} onReject={() => setOpenPopup(-1)} />
+        <CustomPop onSuccess={() => { navigate('/tour-list'); setOpenPopup(-1)}} onFail={() => setOpenPopup(-1)} notify={openPopup} messageSuccess="Xoá tour thành công" />
     </div>
 );
 };
