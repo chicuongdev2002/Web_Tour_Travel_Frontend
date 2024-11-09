@@ -1,8 +1,13 @@
 import axios from "axios";
 
 const postData = async (api, params) => {
+  debugger;
   try {
-    const response = await axios.post(api, params);
+    const response = await fetch(api, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(params),
+    });
     return response.data; // Kết quả trả về từ server
   } catch (error) {
     console.error("Error posting data:", error);
@@ -24,4 +29,4 @@ const uploadFile = async (api, formData) => {
   }
 };
 
-export { postData };
+export { postData, uploadFile };

@@ -25,17 +25,10 @@ function ModalComponent({ children, open, onclose, title }) {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style} style={{ paddingTop: 0 }}>
-          {title && (
-            <Typography
-              id="modal-modal-title"
-              className="text-center"
-              variant="h4"
-              component="h2"
-            >
-              {title}
-            </Typography>
-          )}
+        <Box sx={style} className="p-3">
+          { title && <Typography id="modal-modal-title" className='text-center' variant="h4" component="h2">
+            {title}
+          </Typography>}
           <div id="modal-modal-description" sx={{ mt: 2 }}>
             {children}
           </div>

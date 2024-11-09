@@ -19,8 +19,10 @@ const GET_USER = REACT_APP_HOST + "/api/users";
 const GET_ACCOUNT = REACT_APP_HOST + "/api/accounts";
 const ACCOUNT_LOCK = REACT_APP_HOST + "/api/accounts/lock";
 const ACCOUNT_UNLOCK = REACT_APP_HOST + "/api/accounts/unlock";
-const UPDATE_BOOKING_STATUS = REACT_APP_HOST + "/api/bookings/updateStatus";
-const UPLOAD_IMAGE = REACT_APP_HOST + "/api/tours/upload";
+const UPDATE_TOUR = REACT_APP_HOST + '/api/tours/updateTour'
+const DELETE_TOUR = REACT_APP_HOST + '/api/tours/delete'
+const UPDATE_BOOKING_STATUS = REACT_APP_HOST + '/api/bookings/updateStatus';
+const UPLOAD_IMAGE = REACT_APP_HOST + '/api/tours/upload';
 const getAPI = (api, params, paramId) => {
   if (paramId) {
     return api + "/" + paramId;
@@ -32,29 +34,8 @@ const getAPI = (api, params, paramId) => {
   return url;
 };
 
-export default REACT_APP_HOST;
-export {
-  GET_ALL_TOUR,
-  CHECK_ACCOUNT_EXISTS,
-  CHECK_USER_EXISTS,
-  BOOKING_TOUR,
-  GET_PAGE_BOOKING,
-  SEND_CODE_VERIFYCATION,
-  VERIFY_CODE,
-  LOGIN,
-  REGISTER,
-  RESET_PASSWORD,
-  SEARCH,
-  GET_TOUR_DETAIL,
-  GET_EMAIL,
-  GET_PAGE_DESTINATION,
-  POST_TOUR,
-  CHANGE_PASSWORD,
-  GET_USER,
-  GET_ACCOUNT,
-  ACCOUNT_LOCK,
-  ACCOUNT_UNLOCK,
-  UPDATE_BOOKING_STATUS,
-  UPLOAD_IMAGE,
-  getAPI,
-};
+export default REACT_APP_HOST
+export { GET_ALL_TOUR, CHECK_ACCOUNT_EXISTS, CHECK_USER_EXISTS, BOOKING_TOUR, GET_PAGE_BOOKING, 
+    SEND_CODE_VERIFYCATION, VERIFY_CODE, LOGIN, REGISTER, RESET_PASSWORD, SEARCH, GET_TOUR_DETAIL,GET_EMAIL, 
+    GET_PAGE_DESTINATION, POST_TOUR, UPDATE_TOUR, DELETE_TOUR, UPDATE_BOOKING_STATUS, UPLOAD_IMAGE,CHANGE_PASSWORD,
+    ACCOUNT_UNLOCK,ACCOUNT_LOCK,GET_ACCOUNT,GET_USER,getAPI };
