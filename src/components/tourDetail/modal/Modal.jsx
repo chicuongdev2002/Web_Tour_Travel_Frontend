@@ -1,5 +1,5 @@
-import React from 'react';
-import './modal.css';
+import React from "react";
+import "./modal.css";
 
 const Modal = ({ isOpen, onClose, children }) => {
   if (!isOpen) return null;
@@ -7,7 +7,9 @@ const Modal = ({ isOpen, onClose, children }) => {
   return (
     <div className="modal-overlay" onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <button className="close-button" onClick={onClose}>Đóng</button>
+        <button className="close-button" onClick={onClose}>
+          Đóng
+        </button>
         {children}
       </div>
     </div>

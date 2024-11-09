@@ -5,7 +5,7 @@ import { GrCaretPrevious, GrCaretNext } from "react-icons/gr";
 const DestinationList = ({ data, isDescription, onGetData, selectDestination, destinationSelected, changeDuration, duration }) => {
     return (
         <div className="destination-table">
-            <Table striped bordered hover>
+            <Table striped bordered hover style={{ minWidth: 200}}>
                 <thead className='one-line-text'>
                     <tr>
                         <th>ID</th>
@@ -55,7 +55,7 @@ const DestinationList = ({ data, isDescription, onGetData, selectDestination, de
                 if(data.page.number > 0)
                     onGetData(data.page.number - 1, data.page.size);
                 }}/>
-                <p>Trang {data?.page?.number + 1} / {data?.page?.totalPages}</p>
+<p>Trang {data?.page?.number + 1} / {data?.page?.totalPages}</p>
                 <GrCaretNext className='ml-2'
                 onClick={()=>{
                     if(data.page.number < data.page.totalPages - 1)

@@ -1,476 +1,479 @@
 .review-container {
-    margin-top: 2rem;
-    padding: 1.5rem;
-    background-color: #ffffff;
-    /* Nền trắng */
-    border-radius: 8px;
-    color: #2f6bbf;
-    /* Màu chữ xanh biển */
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background-color: #ffffff;
+  /* Nền trắng */
+  border-radius: 8px;
+  color: #2f6bbf;
+  /* Màu chữ xanh biển */
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
 }
 
 .review-title {
-    font-size: 2rem;
-    font-weight: bold;
-    margin-bottom: 1rem;
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
 }
 
 .filter-container {
-    display: flex;
-        flex-wrap: wrap;
-        /* Cho phép phần tử xuống dòng nếu không đủ chỗ */
-        align-items: center;
-        /* Căn giữa theo chiều dọc */
-        gap: 15px;
-        /* Khoảng cách giữa các phần tử */
-        margin-bottom: 20px;
-        /* Khoảng cách dưới cùng */
+  display: flex;
+  flex-wrap: wrap;
+  /* Cho phép phần tử xuống dòng nếu không đủ chỗ */
+  align-items: center;
+  /* Căn giữa theo chiều dọc */
+  gap: 15px;
+  /* Khoảng cách giữa các phần tử */
+  margin-bottom: 20px;
+  /* Khoảng cách dưới cùng */
 }
 
 .filter-container select,
 .filter-container input[type="checkbox"] {
-    margin-right: 1rem;
-    padding: 0.5rem;
-    border-radius: 4px;
-    border: 1px solid #2f6bbf;
-    /* Viền xanh biển */
+  margin-right: 1rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #2f6bbf;
+  /* Viền xanh biển */
 }
 
 .filter-container select {
-    padding: 10px;
-    border-radius: 5px;
-    border: 1px solid #2f6bbf;
-    background-color: #f9f9f9;
-    /* Nền nhẹ */
-    color: #2f6bbf;
-    font-size: 14px;
-    transition: border-color 0.3s;
+  padding: 10px;
+  border-radius: 5px;
+  border: 1px solid #2f6bbf;
+  background-color: #f9f9f9;
+  /* Nền nhẹ */
+  color: #2f6bbf;
+  font-size: 14px;
+  transition: border-color 0.3s;
 }
 
 .filter-container select:focus {
-    outline: none;
-    /* Bỏ viền mặc định */
-    border-color: #007bff;
-    /* Đổi màu viền khi focus */
-    background-color: #ffffff;
-    /* Màu nền khi focus */
+  outline: none;
+  /* Bỏ viền mặc định */
+  border-color: #007bff;
+  /* Đổi màu viền khi focus */
+  background-color: #ffffff;
+  /* Màu nền khi focus */
 }
 
 /* Thêm hiệu ứng hover */
 .filter-container select:hover {
-    background-color: #e9ecef;
-    /* Nền sáng hơn khi hover */
+  background-color: #e9ecef;
+  /* Nền sáng hơn khi hover */
 }
 
 .filter-container input[type="checkbox"] {
-    accent-color: #2f6bbf;
-    /* Màu checkbox xanh biển */
+  accent-color: #2f6bbf;
+  /* Màu checkbox xanh biển */
 }
 
 .review-card {
-    background: rgba(47, 107, 191, 0.05);
-    /* Nền nhẹ nhàng cho thẻ đánh giá */
-    border-radius: 8px;
-    padding: 1rem;
-    margin-bottom: 1rem;
-    transition: transform 0.2s;
+  background: rgba(47, 107, 191, 0.05);
+  /* Nền nhẹ nhàng cho thẻ đánh giá */
+  border-radius: 8px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+  transition: transform 0.2s;
 }
 
 .review-card:hover {
-    transform: scale(1.02);
+  transform: scale(1.02);
 }
 
 .review-user {
-    font-weight: 500;
-    color: #2f6bbf;
-    /* Màu chữ xanh biển cho tên người dùng */
+  font-weight: 500;
+  color: #2f6bbf;
+  /* Màu chữ xanh biển cho tên người dùng */
 }
 
 .review-date {
-    color: rgba(47, 107, 191, 0.7);
-    /* Màu chữ nhạt hơn cho ngày */
+  color: rgba(47, 107, 191, 0.7);
+  /* Màu chữ nhạt hơn cho ngày */
 }
 .rating-summary {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-bottom: 1.5rem;
-    padding: 1rem;
-    background-color: rgba(47, 107, 191, 0.1);
-    border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  padding: 1rem;
+  background-color: rgba(47, 107, 191, 0.1);
+  border-radius: 8px;
 }
 
 .rating-score {
-    font-size: 3rem;
-    font-weight: bold;
-    color: #2f6bbf;
+  font-size: 3rem;
+  font-weight: bold;
+  color: #2f6bbf;
 }
 
 .rating-text {
-    font-size: 1.5rem;
-    color: #2f6bbf;
+  font-size: 1.5rem;
+  color: #2f6bbf;
 }
 
 .rating-details {
-    color: rgba(47, 107, 191, 0.7);
+  color: rgba(47, 107, 191, 0.7);
 }
 
 .rating-source {
-    font-style: italic;
-    color: rgba(47, 107, 191, 0.5);
-}.rating-circle {
-    width: 100px;
-    /* Đường kính của hình tròn */
-    height: 100px;
-    /* Đường kính của hình tròn */
-    border-radius: 50%;
-    /* Làm cho hình tròn */
-    background-color: #00aaff;
-    /* Màu nền */
-    display: flex;
-    justify-content: center;
-    /* Căn giữa nội dung theo chiều ngang */
-    align-items: center;
-    /* Căn giữa nội dung theo chiều dọc */
-    border: 5px solid #0056b3;
-    /* Viền hình tròn */
-    font-size: 2rem;
-    /* Kích thước chữ */
-    color: white;
-    /* Màu chữ */
-    font-weight: bold;
-    /* Đậm chữ */
-}.pagination {
-    display: flex;
-    align-items: center;
-    margin-top: 1rem;
+  font-style: italic;
+  color: rgba(47, 107, 191, 0.5);
+}
+.rating-circle {
+  width: 100px;
+  /* Đường kính của hình tròn */
+  height: 100px;
+  /* Đường kính của hình tròn */
+  border-radius: 50%;
+  /* Làm cho hình tròn */
+  background-color: #00aaff;
+  /* Màu nền */
+  display: flex;
+  justify-content: center;
+  /* Căn giữa nội dung theo chiều ngang */
+  align-items: center;
+  /* Căn giữa nội dung theo chiều dọc */
+  border: 5px solid #0056b3;
+  /* Viền hình tròn */
+  font-size: 2rem;
+  /* Kích thước chữ */
+  color: white;
+  /* Màu chữ */
+  font-weight: bold;
+  /* Đậm chữ */
+}
+.pagination {
+  display: flex;
+  align-items: center;
+  margin-top: 1rem;
 }
 
 .pagination button {
-    border: none;
-    background-color: #f0f0f0;
-    padding: 0.5rem;
-    border-radius: 4px;
-    cursor: pointer;
-    margin: 0 0.5rem;
-    transition: background-color 0.3s;
+  border: none;
+  background-color: #f0f0f0;
+  padding: 0.5rem;
+  border-radius: 4px;
+  cursor: pointer;
+  margin: 0 0.5rem;
+  transition: background-color 0.3s;
 }
 
 .pagination button:disabled {
-    background-color: #e0e0e0;
-    cursor: not-allowed;
+  background-color: #e0e0e0;
+  cursor: not-allowed;
 }
 .reset-button {
-    margin-left: 10px;
-    padding: 0.5rem 1rem;
-    background-color: #ff4d4d;
-    /* Màu nền cho nút */
-    color: white;
-    /* Màu chữ */
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  margin-left: 10px;
+  padding: 0.5rem 1rem;
+  background-color: #ff4d4d;
+  /* Màu nền cho nút */
+  color: white;
+  /* Màu chữ */
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .reset-button:hover {
-    background-color: #ff1a1a;
-    /* Màu nền khi hover */
+  background-color: #ff1a1a;
+  /* Màu nền khi hover */
 }
 .review-card.positive {
-    border-left: 4px solid green;
+  border-left: 4px solid green;
 }
 
 .review-card.negative {
-    border-left: 4px solid red;
+  border-left: 4px solid red;
 }
 
 .review-card.neutral {
-    border-left: 4px solid gray;
+  border-left: 4px solid gray;
 }
 .popular-keywords-container {
-    transition: all 0.3s ease;
+  transition: all 0.3s ease;
 }
 
 .popular-keywords-container:hover {
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
 }
 .review-container button {
-    outline: none !important;
+  outline: none !important;
 }
 .text-blue {
-    color: #2f6bbf;
-    /* Thay đổi màu chữ thành xanh */
-}/* Active Filters Display */
+  color: #2f6bbf;
+  /* Thay đổi màu chữ thành xanh */
+} /* Active Filters Display */
 .filter-status-container {
-    margin-bottom: 20px;
+  margin-bottom: 20px;
 }
 
 .filter-status {
-    display: flex;
-    flex-wrap: wrap;
+  display: flex;
+  flex-wrap: wrap;
 }
 
 .filter-badge {
-    background-color: #e0f7fa;
-    color: #00796b;
-    padding: 6px 12px;
-    border-radius: 20px;
-    margin-right: 8px;
-    margin-bottom: 8px;
-    font-size: 14px;
-    font-weight: bold;
-    transition: background-color 0.3s;
+  background-color: #e0f7fa;
+  color: #00796b;
+  padding: 6px 12px;
+  border-radius: 20px;
+  margin-right: 8px;
+  margin-bottom: 8px;
+  font-size: 14px;
+  font-weight: bold;
+  transition: background-color 0.3s;
 }
 
 .filter-badge:hover {
-    background-color: #b2ebf2;
+  background-color: #b2ebf2;
 }
 
 /* Popular Keywords Section */
 .keywords-container {
-    margin-bottom: 24px;
+  margin-bottom: 24px;
 }
 
 .keywords-header {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 12px;
 }
 
 .keywords-header h3 {
-    font-size: 20px;
-    font-weight: 600;
-    color: #333;
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
 }
 
 .keyword-button {
-    padding: 10px 15px;
-    border-radius: 5px;
-    border: 2px solid transparent;
-    background-color: #ffffff;
-    color: #333;
-    cursor: pointer;
-    transition: background-color 0.2s, border-color 0.2s;
-    display: flex;
-    align-items: center;
+  padding: 10px 15px;
+  border-radius: 5px;
+  border: 2px solid transparent;
+  background-color: #ffffff;
+  color: #333;
+  cursor: pointer;
+  transition:
+    background-color 0.2s,
+    border-color 0.2s;
+  display: flex;
+  align-items: center;
 }
 
 .keyword-button:hover {
-    background-color: #f0f0f0;
+  background-color: #f0f0f0;
 }
 
 .keyword-button.selected {
-    background-color: #e0f7fa;
-    border-color: #80deea;
-    color: #00796b;
+  background-color: #e0f7fa;
+  border-color: #80deea;
+  color: #00796b;
 }
 
 .keyword-text {
-    font-weight: 500;
-    color: #00796b;
-    margin-right: 8px;
+  font-weight: 500;
+  color: #00796b;
+  margin-right: 8px;
 }
 
 .keyword-icon {
-    width: 16px;
-    height: 16px;
-    color: #00796b;
+  width: 16px;
+  height: 16px;
+  color: #00796b;
 }
 .search-container {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    /* Khoảng cách giữa ô tìm kiếm và nút tìm */
-    flex-grow: 1;
-    /* Để ô tìm kiếm chiếm không gian còn lại */
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  /* Khoảng cách giữa ô tìm kiếm và nút tìm */
+  flex-grow: 1;
+  /* Để ô tìm kiếm chiếm không gian còn lại */
 }
 .search-input-container {
-    display: flex;
-        /* Sử dụng flexbox */
-        align-items: center;
-        /* Căn giữa theo chiều dọc */
-        position: relative;
-        /* Để chứa danh sách gợi ý */
-        width: 100%;
-        /* Chiếm toàn bộ chiều rộng */
+  display: flex;
+  /* Sử dụng flexbox */
+  align-items: center;
+  /* Căn giữa theo chiều dọc */
+  position: relative;
+  /* Để chứa danh sách gợi ý */
+  width: 100%;
+  /* Chiếm toàn bộ chiều rộng */
 }
 .search-input {
-    padding: 8px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    flex-grow: 1;
-    color: #2f6bbf;
-    /* Để ô tìm kiếm mở rộng */
+  padding: 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  flex-grow: 1;
+  color: #2f6bbf;
+  /* Để ô tìm kiếm mở rộng */
 }
 
 .search-button {
-    display: flex;
-    align-items: center;
-    padding: 8px 12px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .search-button:hover {
-    background-color: #0056b3;
+  background-color: #0056b3;
 }
 
 .search-icon {
-    margin-right: 5px;
-    width: 16px;
-    height: 16px;
+  margin-right: 5px;
+  width: 16px;
+  height: 16px;
 }
 
 .suggestions-list {
-    position: absolute;
-        /* Position it absolutely */
-        top: 100%;
-        /* Position below the input */
-        left: 0;
-        /* Align to the left */
-        background: white;
-        /* White background */
-        color: #2f6bbf;
-        /* Text color */
-        border: 1px solid #ccc;
-        /* Border style */
-        border-radius: 4px;
-        /* Rounded corners */
-        z-index: 5;
-        /* Ensure it appears above other elements */
-        margin-top: 5px;
-        /* Space between input and suggestions */
-        padding: 0;
-        /* Remove padding */
-        width: 100%;
-        /* Match the width of the input */
-        max-height: 200px;
-        /* Max height */
-        overflow-y: auto;
-        /* Scroll if needed */
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-        /* Shadow for depth */
+  position: absolute;
+  /* Position it absolutely */
+  top: 100%;
+  /* Position below the input */
+  left: 0;
+  /* Align to the left */
+  background: white;
+  /* White background */
+  color: #2f6bbf;
+  /* Text color */
+  border: 1px solid #ccc;
+  /* Border style */
+  border-radius: 4px;
+  /* Rounded corners */
+  z-index: 5;
+  /* Ensure it appears above other elements */
+  margin-top: 5px;
+  /* Space between input and suggestions */
+  padding: 0;
+  /* Remove padding */
+  width: 100%;
+  /* Match the width of the input */
+  max-height: 200px;
+  /* Max height */
+  overflow-y: auto;
+  /* Scroll if needed */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  /* Shadow for depth */
 }
 
 .suggestion-item {
-  
-    padding: 10px;
-    /* Khoảng cách bên trong cho mỗi mục */
-    cursor: pointer;
-    /* Con trỏ chuột khi di qua */
-    transition: background-color 0.2s;
-    /* Hiệu ứng chuyển tiếp cho nền */
+  padding: 10px;
+  /* Khoảng cách bên trong cho mỗi mục */
+  cursor: pointer;
+  /* Con trỏ chuột khi di qua */
+  transition: background-color 0.2s;
+  /* Hiệu ứng chuyển tiếp cho nền */
 }
 
 .suggestion-item:hover {
-    background-color: #f0f0f0;
-    /* Nền sáng khi di chuột qua */
+  background-color: #f0f0f0;
+  /* Nền sáng khi di chuột qua */
 }
 .search-button {
-    display: flex;
-    /* Sử dụng flexbox để căn giữa nội dung */
-    align-items: center;
-    /* Căn giữa theo chiều dọc */
-    padding: 3px 5px;
-    /* Khoảng cách bên trong */
-    background-color: #007bff;
-    /* Màu nền */
-    color: white;
-    /* Màu chữ */
-    border: none;
-    /* Bỏ viền */
-    border-radius: 20px;
-    /* Bo góc */
-    cursor: pointer;
-    /* Thay đổi con trỏ khi di chuột */
-    transition: background-color 0.3s;
-    /* Hiệu ứng chuyển màu nền */
+  display: flex;
+  /* Sử dụng flexbox để căn giữa nội dung */
+  align-items: center;
+  /* Căn giữa theo chiều dọc */
+  padding: 3px 5px;
+  /* Khoảng cách bên trong */
+  background-color: #007bff;
+  /* Màu nền */
+  color: white;
+  /* Màu chữ */
+  border: none;
+  /* Bỏ viền */
+  border-radius: 20px;
+  /* Bo góc */
+  cursor: pointer;
+  /* Thay đổi con trỏ khi di chuột */
+  transition: background-color 0.3s;
+  /* Hiệu ứng chuyển màu nền */
 }
 
 .search-button:hover {
-    background-color: #0056b3;
-    /* Màu nền khi hover */
+  background-color: #0056b3;
+  /* Màu nền khi hover */
 }
 
 .search-icon {
-    margin-right: 5px;
-    /* Khoảng cách giữa biểu tượng và chữ */
-    width: 30px;
-    /* Kích thước biểu tượng */
-    height: 30px;
-    /* Kích thước biểu tượng */
+  margin-right: 5px;
+  /* Khoảng cách giữa biểu tượng và chữ */
+  width: 30px;
+  /* Kích thước biểu tượng */
+  height: 30px;
+  /* Kích thước biểu tượng */
 }
 .positive-review-container {
-    display: flex;
-    align-items: center;
-    /* Căn giữa theo chiều dọc */
-    margin-left: 15px;
-    /* Khoảng cách bên trái */
+  display: flex;
+  align-items: center;
+  /* Căn giữa theo chiều dọc */
+  margin-left: 15px;
+  /* Khoảng cách bên trái */
 }
 
 .positive-review-checkbox {
-    appearance: none;
-    /* Bỏ kiểu mặc định của checkbox */
-    width: 20px;
-    /* Kích thước checkbox */
-    height: 20px;
-    /* Kích thước checkbox */
-    border: 2px solid #007bff;
-    /* Viền màu */
-    border-radius: 4px;
-    /* Bo góc */
-    cursor: pointer;
-    /* Thay đổi con trỏ khi di chuột */
-    position: relative;
-    /* Để có thể sử dụng pseudo-element */
-    outline: none;
-    /* Bỏ viền khi chọn */
-    background-color: white;
-    /* Màu nền */
-    margin-right: 8px;
-    /* Khoảng cách giữa checkbox và nhãn */
+  appearance: none;
+  /* Bỏ kiểu mặc định của checkbox */
+  width: 20px;
+  /* Kích thước checkbox */
+  height: 20px;
+  /* Kích thước checkbox */
+  border: 2px solid #007bff;
+  /* Viền màu */
+  border-radius: 4px;
+  /* Bo góc */
+  cursor: pointer;
+  /* Thay đổi con trỏ khi di chuột */
+  position: relative;
+  /* Để có thể sử dụng pseudo-element */
+  outline: none;
+  /* Bỏ viền khi chọn */
+  background-color: white;
+  /* Màu nền */
+  margin-right: 8px;
+  /* Khoảng cách giữa checkbox và nhãn */
 }
 
 .positive-review-checkbox:checked {
-    background-color: #007bff;
-    /* Màu nền khi chọn */
-    border-color: #007bff;
-    /* Đổi màu viền khi chọn */
+  background-color: #007bff;
+  /* Màu nền khi chọn */
+  border-color: #007bff;
+  /* Đổi màu viền khi chọn */
 }
 
 .positive-review-checkbox:checked::after {
-    content: "";
-    /* Thêm nội dung cho pseudo-element */
-    position: absolute;
-    width: 6px;
-    /* Kích thước tick */
-    height: 12px;
-    /* Kích thước tick */
-    border: solid white;
-    /* Màu tick */
-    border-width: 0 2px 2px 0;
-    /* Kiểu tick */
-    top: 4px;
-    /* Đặt vị trí tick */
-    left: 7px;
-    /* Đặt vị trí tick */
-    transform: rotate(45deg);
-    /* Xoay tick */
+  content: "";
+  /* Thêm nội dung cho pseudo-element */
+  position: absolute;
+  width: 6px;
+  /* Kích thước tick */
+  height: 12px;
+  /* Kích thước tick */
+  border: solid white;
+  /* Màu tick */
+  border-width: 0 2px 2px 0;
+  /* Kiểu tick */
+  top: 4px;
+  /* Đặt vị trí tick */
+  left: 7px;
+  /* Đặt vị trí tick */
+  transform: rotate(45deg);
+  /* Xoay tick */
 }
 
 .positive-review-label {
-    margin-left: 8px;
-    /* Khoảng cách giữa checkbox và nhãn */
-    font-size: 16px;
-    /* Kích thước chữ */
-    color: #2f6bbf;
-    /* Màu chữ */
-    line-height: 20px;
-        /* Đảm bảo căn chỉnh với checkbox */
+  margin-left: 8px;
+  /* Khoảng cách giữa checkbox và nhãn */
+  font-size: 16px;
+  /* Kích thước chữ */
+  color: #2f6bbf;
+  /* Màu chữ */
+  line-height: 20px;
+  /* Đảm bảo căn chỉnh với checkbox */
 }

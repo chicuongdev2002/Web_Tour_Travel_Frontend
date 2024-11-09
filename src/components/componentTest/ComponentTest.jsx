@@ -1,7 +1,7 @@
-import React, { useEffect } from 'react'
-import SuccessPopup from '../popupNotifications/SuccessPopup';
-import DrawRejectIcon from '../draw/DrawRejectIcon';
-import FailPopup from '../popupNotifications/FailPopup';
+import React, { useEffect } from "react";
+import SuccessPopup from "../popupNotifications/SuccessPopup";
+import DrawRejectIcon from "../draw/DrawRejectIcon";
+import FailPopup from "../popupNotifications/FailPopup";
 import { motion } from "framer-motion";
 import DrawCircle from '../draw/DrawCircle';
 import DrawQuestionMark from '../draw/DrawQuestionMark';
@@ -17,4 +17,4 @@ function ComponentTest({ width, height }) {
   );
 }
 
-export default ComponentTest
+export default ComponentTest;

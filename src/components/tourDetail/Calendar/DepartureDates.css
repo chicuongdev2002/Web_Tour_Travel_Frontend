@@ -1,675 +1,678 @@
 .departure-dates {
-    display: flex;
-    /* Use flexbox for horizontal layout */
-    align-items: center;
-    /* Center items vertically */
-    justify-content: flex-start;
-    /* Align items to the start */
-    background-color: #f5f6f7;
-    /* Background color */
-    padding: 10px;
-    /* Padding for the container */
-    border-radius: 5px;
-    /* Rounded corners */
-    overflow-x: auto;
-    /* Allow scrolling if necessary */
-    white-space: nowrap;
-    /* Prevent wrapping of items */
+  display: flex;
+  /* Use flexbox for horizontal layout */
+  align-items: center;
+  /* Center items vertically */
+  justify-content: flex-start;
+  /* Align items to the start */
+  background-color: #f5f6f7;
+  /* Background color */
+  padding: 10px;
+  /* Padding for the container */
+  border-radius: 5px;
+  /* Rounded corners */
+  overflow-x: auto;
+  /* Allow scrolling if necessary */
+  white-space: nowrap;
+  /* Prevent wrapping of items */
 }
 
 .departure-date-box {
-    background: white;
-    /* Box background color */
-    border: 1px solid #ccc;
-    /* Border color */
-    border-radius: 5px;
-    /* Rounded corners */
-    margin: 0 5px;
-    /* Space between boxes */
-    padding: 5px;
-    /* Padding inside the box */
-    text-align: center;
-    /* Center text */
-    cursor: pointer;
-    /* Pointer on hover */
-    transition: box-shadow 0.2s;
-    /* Transition for shadow effect */
-    width: 100px;
-    /* Fixed width for uniformity */
-    display: flex;
-    /* Flexbox for alignment */
-    flex-direction: column;
-    /* Stack items vertically */
-    justify-content: center;
-    /* Center items vertically */
-    position: relative;
-    /* Necessary for positioning the banner */
-    min-width: 80px;
-    /* Minimum width to prevent boxes from being too narrow */
+  background: white;
+  /* Box background color */
+  border: 1px solid #ccc;
+  /* Border color */
+  border-radius: 5px;
+  /* Rounded corners */
+  margin: 0 5px;
+  /* Space between boxes */
+  padding: 5px;
+  /* Padding inside the box */
+  text-align: center;
+  /* Center text */
+  cursor: pointer;
+  /* Pointer on hover */
+  transition: box-shadow 0.2s;
+  /* Transition for shadow effect */
+  width: 100px;
+  /* Fixed width for uniformity */
+  display: flex;
+  /* Flexbox for alignment */
+  flex-direction: column;
+  /* Stack items vertically */
+  justify-content: center;
+  /* Center items vertically */
+  position: relative;
+  /* Necessary for positioning the banner */
+  min-width: 80px;
+  /* Minimum width to prevent boxes from being too narrow */
 }
 
 .view-calendar {
-    /* display: flex; */
-    /* Flexbox for icon and text */
-    align-items: center;
-    color: blue;
-    /* Icon and text color */
-    margin-right: 20px;
-    /* Space to the first box */
-    font-weight: bold;
-    /* Bold text */
+  /* display: flex; */
+  /* Flexbox for icon and text */
+  align-items: center;
+  color: blue;
+  /* Icon and text color */
+  margin-right: 20px;
+  /* Space to the first box */
+  font-weight: bold;
+  /* Bold text */
 }
 .fully-booked-banner {
-    position: absolute;
-    /* Position the banner absolutely */
-    top: 0;
-    /* Align to the top */
-    left: 0;
-    /* Align to the left */
-    right: 0;
-    /* Stretch to the right */
-    background-color: rgba(255, 165, 0, 0.7);
-    /* Semi-transparent orange background */
-    color: white;
-    /* White text color */
-    text-align: center;
-    /* Center the text */
-    padding: 5px;
-    /* Padding for the banner */
-    font-weight: bold;
-    /* Bold text */
-    border-radius: 5px;
-    /* Rounded corners */
+  position: absolute;
+  /* Position the banner absolutely */
+  top: 0;
+  /* Align to the top */
+  left: 0;
+  /* Align to the left */
+  right: 0;
+  /* Stretch to the right */
+  background-color: rgba(255, 165, 0, 0.7);
+  /* Semi-transparent orange background */
+  color: white;
+  /* White text color */
+  text-align: center;
+  /* Center the text */
+  padding: 5px;
+  /* Padding for the banner */
+  font-weight: bold;
+  /* Bold text */
+  border-radius: 5px;
+  /* Rounded corners */
 }
 .expired-banner {
-    position: absolute;
-    /* Position the banner absolutely */
-    top: 0;
-    /* Align to the top */
-    left: 0;
-    /* Align to the left */
-    right: 0;
-    /* Stretch to the right */
-    background-color: rgba(255, 0, 0, 0.7);
-    /* Semi-transparent red background */
-    color: white;
-    /* White text color */
-    text-align: center;
-    /* Center the text */
-    padding: 5px;
-    /* Padding for the banner */
-    font-weight: bold;
-    /* Bold text */
-    border-radius: 5px;
-    /* Rounded corners */
+  position: absolute;
+  /* Position the banner absolutely */
+  top: 0;
+  /* Align to the top */
+  left: 0;
+  /* Align to the left */
+  right: 0;
+  /* Stretch to the right */
+  background-color: rgba(255, 0, 0, 0.7);
+  /* Semi-transparent red background */
+  color: white;
+  /* White text color */
+  text-align: center;
+  /* Center the text */
+  padding: 5px;
+  /* Padding for the banner */
+  font-weight: bold;
+  /* Bold text */
+  border-radius: 5px;
+  /* Rounded corners */
 }
 .departure-date-box:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    /* Shadow effect on hover */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  /* Shadow effect on hover */
 }
 
 .date {
-    font-size: 1.1em;
-    /* Date font size */
-    font-weight: bold;
-    /* Bold date */
-    /* display: flex; */
-    /* Flexbox for inline display */
-    justify-content: center;
-    /* Center the content */
+  font-size: 1.1em;
+  /* Date font size */
+  font-weight: bold;
+  /* Bold date */
+  /* display: flex; */
+  /* Flexbox for inline display */
+  justify-content: center;
+  /* Center the content */
 }
 
 .day {
-    font-size: 0.9em;
-    /* Smaller font for day */
-    color: #555;
-    /* Darker color for day text */
-    margin-right: 2px;
-    /* Space between day and date */
+  font-size: 0.9em;
+  /* Smaller font for day */
+  color: #555;
+  /* Darker color for day text */
+  margin-right: 2px;
+  /* Space between day and date */
 }
 
 .month-year {
-    font-size: 0.9em;
-    /* Font size for month and year */
-    color: #555;
-    /* Darker color for month/year text */
+  font-size: 0.9em;
+  /* Font size for month and year */
+  color: #555;
+  /* Darker color for month/year text */
 }
 
 .next-day {
-    display: flex;
-    align-items: center;
-    color: blue;
-    /* Next button color */
-    cursor: pointer;
-    /* Pointer on hover */
-    margin-left: 10px;
-    /* Space from the last box */
+  display: flex;
+  align-items: center;
+  color: blue;
+  /* Next button color */
+  cursor: pointer;
+  /* Pointer on hover */
+  margin-left: 10px;
+  /* Space from the last box */
 }
 .departure-details {
-    background-color: white;
-    /* Background for detail view */
-    padding: 20px;
-    /* Padding */
-    border: 1px solid #eaeaea;
-    /* Light border */
-    border-radius: 8px;
-    /* Rounded corners */
-    margin-top: 20px;
-    /* Space above */
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    /* Light shadow */
+  background-color: white;
+  /* Background for detail view */
+  padding: 20px;
+  /* Padding */
+  border: 1px solid #eaeaea;
+  /* Light border */
+  border-radius: 8px;
+  /* Rounded corners */
+  margin-top: 20px;
+  /* Space above */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  /* Light shadow */
 }
 
 .departure-details h2 {
-    margin: 0 0 10px;
-    /* Space below heading */
+  margin: 0 0 10px;
+  /* Space below heading */
 }
 
 .departure-details button {
-    background-color: #3182ce;
-    /* Button color */
-    color: white;
-    /* Button text color */
-    padding: 8px 16px;
-    /* Button padding */
-    border: none;
-    /* No border */
-    border-radius: 4px;
-    /* Rounded corners */
-    cursor: pointer;
-    /* Pointer cursor */
+  background-color: #3182ce;
+  /* Button color */
+  color: white;
+  /* Button text color */
+  padding: 8px 16px;
+  /* Button padding */
+  border: none;
+  /* No border */
+  border-radius: 4px;
+  /* Rounded corners */
+  cursor: pointer;
+  /* Pointer cursor */
 }
 
 .departure-details button:hover {
-    background-color: #2b6cb0;
-    /* Darker on hover */
+  background-color: #2b6cb0;
+  /* Darker on hover */
 }
 .departure-container {
-    width: 100%;
-    padding: 1rem;
-    background: #fff;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  padding: 1rem;
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .departure-title {
-    margin-bottom: 1rem;
-    font-size: 1.25rem;
-    font-weight: 600;
+  margin-bottom: 1rem;
+  font-size: 1.25rem;
+  font-weight: 600;
 }
 
 .departure-dates-scroll {
-    width: 100%;
-    overflow-x: auto;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: thin;
-    margin-bottom: 1rem;
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+  margin-bottom: 1rem;
 }
 
 .departure-dates-wrapper {
-    display: flex;
-    gap: 1rem;
-    padding: 0.5rem;
-    min-width: min-content;
+  display: flex;
+  gap: 1rem;
+  padding: 0.5rem;
+  min-width: min-content;
 }
 
 .departure-card {
-    flex: 0 0 auto;
-    width: 120px;
-    background: #f8f9fa;
-    border: 1px solid #e9ecef;
-    border-radius: 8px;
-    padding: 0.75rem;
-    cursor: pointer;
-    transition: all 0.2s ease;
+  flex: 0 0 auto;
+  width: 120px;
+  background: #f8f9fa;
+  border: 1px solid #e9ecef;
+  border-radius: 8px;
+  padding: 0.75rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
 }
 
 .departure-card:hover:not(.inactive) {
-    transform: translateY(-2px);
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 .departure-card.inactive {
-    opacity: 0.7;
-    cursor: not-allowed;
+  opacity: 0.7;
+  cursor: not-allowed;
 }
 
 .departure-card-content {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
 }
 
 .day-name {
-    font-size: 0.875rem;
-    color: #6c757d;
+  font-size: 0.875rem;
+  color: #6c757d;
 }
 
 .departure-date {
-    font-weight: 600;
-    color: #212529;
+  font-weight: 600;
+  color: #212529;
 }
 
 .departure-status {
-    font-size: 0.75rem;
-    padding: 0.25rem 0.5rem;
-    border-radius: 4px;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
 }
 
 .departure-status.available {
-    background: #e3f2fd;
-    color: #0d47a1;
+  background: #e3f2fd;
+  color: #0d47a1;
 }
 
 .departure-status.expired,
 .departure-status.fully-booked {
-    background: #ffebee;
-    color: #c62828;
+  background: #ffebee;
+  color: #c62828;
 }
 
 /* Tùy chỉnh thanh cuộn */
 .departure-dates-scroll::-webkit-scrollbar {
-    height: 6px;
+  height: 6px;
 }
 
 .departure-dates-scroll::-webkit-scrollbar-track {
-    background: #f1f1f1;
-    border-radius: 3px;
+  background: #f1f1f1;
+  border-radius: 3px;
 }
 
 .departure-dates-scroll::-webkit-scrollbar-thumb {
-    background: #888;
-    border-radius: 3px;
+  background: #888;
+  border-radius: 3px;
 }
 
 .departure-dates-scroll::-webkit-scrollbar-thumb:hover {
-    background: #555;
+  background: #555;
 }
 
 /* Đảm bảo responsive */
 @media (max-width: 768px) {
-    .departure-card {
-        width: 100px;
-    }
+  .departure-card {
+    width: 100px;
+  }
 }
 .modal {
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    /* Màu nền tối với độ trong suốt */
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    /* Đảm bảo modal nằm trên các phần tử khác */
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(0, 0, 0, 0.5);
+  /* Màu nền tối với độ trong suốt */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  /* Đảm bảo modal nằm trên các phần tử khác */
 }
 
 .modal-content {
-    padding: 20px;
-    background: linear-gradient(135deg, #0099ff, #00ccff);
-    /* Gradient xanh biển */
-    border-radius: 8px;
-    transition: transform 0.3s ease, opacity 0.3s ease;
-    opacity: 1;
-    /* Đảm bảo opacity là 1 */
-    transform: translateY(0);
-    border-radius: 8px;
-        /* Bo tròn các góc */
-     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-        /* Thêm bóng cho modal */
-    max-width: 100%;
-        /* Giới hạn chiều rộng tối đa của modal */
-    margin: 0 auto;
-        /* Căn giữa modal */
+  padding: 20px;
+  background: linear-gradient(135deg, #0099ff, #00ccff);
+  /* Gradient xanh biển */
+  border-radius: 8px;
+  transition:
+    transform 0.3s ease,
+    opacity 0.3s ease;
+  opacity: 1;
+  /* Đảm bảo opacity là 1 */
+  transform: translateY(0);
+  border-radius: 8px;
+  /* Bo tròn các góc */
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  /* Thêm bóng cho modal */
+  max-width: 100%;
+  /* Giới hạn chiều rộng tối đa của modal */
+  margin: 0 auto;
+  /* Căn giữa modal */
 }
 h2 {
-    margin-bottom: 15px;
-    /* Khoảng cách dưới tiêu đề */
-    color: #333;
-    /* Màu chữ tiêu đề */
-    text-align: center;
-    /* Căn giữa tiêu đề */
+  margin-bottom: 15px;
+  /* Khoảng cách dưới tiêu đề */
+  color: #333;
+  /* Màu chữ tiêu đề */
+  text-align: center;
+  /* Căn giữa tiêu đề */
 }
 
 .guides-list {
-    margin-bottom: 20px;
-    /* Khoảng cách dưới danh sách hướng dẫn viên */
+  margin-bottom: 20px;
+  /* Khoảng cách dưới danh sách hướng dẫn viên */
 }
 
 .guides-list ul {
-    list-style-type: none;
-    /* Bỏ dấu chấm đầu dòng */
-    padding: 0;
+  list-style-type: none;
+  /* Bỏ dấu chấm đầu dòng */
+  padding: 0;
 }
 
 .guides-list li {
-    padding: 5px 0;
-    /* Khoảng cách giữa các dòng */
-    border-bottom: 1px solid #ddd;
-    /* Đường kẻ dưới mỗi hướng dẫn viên */
+  padding: 5px 0;
+  /* Khoảng cách giữa các dòng */
+  border-bottom: 1px solid #ddd;
+  /* Đường kẻ dưới mỗi hướng dẫn viên */
 }
 
 .pricing-list {
-    margin-bottom: 20px;
-    /* Khoảng cách dưới danh sách giá */
+  margin-bottom: 20px;
+  /* Khoảng cách dưới danh sách giá */
 }
 
 .participant-info {
-    display: flex;
-    /* Sử dụng flexbox để căn chỉnh */
-    justify-content: space-between;
-    /* Căn giữa không gian */
-    padding: 5px 0;
-    /* Khoảng cách giữa các dòng */
+  display: flex;
+  /* Sử dụng flexbox để căn chỉnh */
+  justify-content: space-between;
+  /* Căn giữa không gian */
+  padding: 5px 0;
+  /* Khoảng cách giữa các dòng */
 }
 
 strong {
-    color: #555;
-    /* Màu chữ nhấn mạnh */
+  color: #555;
+  /* Màu chữ nhấn mạnh */
 }
 
 p {
-    margin: 10px 0;
-    /* Khoảng cách giữa các đoạn văn */
-    line-height: 1.5;
-    /* Khoảng cách giữa các dòng */
+  margin: 10px 0;
+  /* Khoảng cách giữa các đoạn văn */
+  line-height: 1.5;
+  /* Khoảng cách giữa các dòng */
 }
 .select-group {
-    margin: 15px 0;
+  margin: 15px 0;
 }
 
 .select-group label {
-    display: block;
-    margin-bottom: 5px;
-    font-weight: bold;
-    color: #fff;
-    /* Màu chữ trắng để nổi bật trên nền gradient */
+  display: block;
+  margin-bottom: 5px;
+  font-weight: bold;
+  color: #fff;
+  /* Màu chữ trắng để nổi bật trên nền gradient */
 }
 
 .select-group select {
-    width: 100%;
-    padding: 10px;
-    /* Tăng padding để ô chọn dễ sử dụng */
-    border: 1px solid #007bff;
-    /* Màu viền xanh */
-    border-radius: 4px;
-    font-size: 1em;
-    background-color: #f0f8ff;
-    /* Màu nền sáng cho ô chọn */
-    color: #333;
-    /* Màu chữ đen để dễ đọc */
-    transition: border-color 0.3s ease;
-    /* Hiệu ứng chuyển màu viền */
+  width: 100%;
+  padding: 10px;
+  /* Tăng padding để ô chọn dễ sử dụng */
+  border: 1px solid #007bff;
+  /* Màu viền xanh */
+  border-radius: 4px;
+  font-size: 1em;
+  background-color: #f0f8ff;
+  /* Màu nền sáng cho ô chọn */
+  color: #333;
+  /* Màu chữ đen để dễ đọc */
+  transition: border-color 0.3s ease;
+  /* Hiệu ứng chuyển màu viền */
 }
 
 .select-group select:focus {
-    border-color: #0056b3;
-    /* Màu viền khi ô chọn được chú ý */
-    outline: none;
-    /* Bỏ outline khi tập trung */
+  border-color: #0056b3;
+  /* Màu viền khi ô chọn được chú ý */
+  outline: none;
+  /* Bỏ outline khi tập trung */
 }
 
 .select-group select option {
-    color: #000;
-    /* Màu chữ cho lựa chọn trong dropdown */
+  color: #000;
+  /* Màu chữ cho lựa chọn trong dropdown */
 }
 
 .modal-content h2 {
-    margin-bottom: 15px;
+  margin-bottom: 15px;
 }
 .highlight {
-    background-color: red;
-    /* Màu nền đỏ cho các ngày trong khoảng */
-    color: white;
-    /* Màu chữ trắng */
-    border-radius: 50%;
-    /* Bo tròn */
+  background-color: red;
+  /* Màu nền đỏ cho các ngày trong khoảng */
+  color: white;
+  /* Màu chữ trắng */
+  border-radius: 50%;
+  /* Bo tròn */
 }
 
 .today {
-    background-color: red;
-    /* Màu nền đỏ cho ngày hiện tại */
-    color: white;
-    /* Màu chữ trắng */
-    border-radius: 50%;
-    /* Bo tròn */
+  background-color: red;
+  /* Màu nền đỏ cho ngày hiện tại */
+  color: white;
+  /* Màu chữ trắng */
+  border-radius: 50%;
+  /* Bo tròn */
 }
 .normal-day {
-    /* Hoặc màu nền mong muốn */
-    color: black;
-    /* Màu chữ đen cho các ngày bình thường */
+  /* Hoặc màu nền mong muốn */
+  color: black;
+  /* Màu chữ đen cho các ngày bình thường */
 }
 /* Existing styles ... */
 
 /* Calendar tile content styles */
 .tile-content {
-    position: absolute;
-    bottom: 2px;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
+  position: absolute;
+  bottom: 2px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
 }
 
 .tile-content small {
-    font-size: 0.6rem;
-    background: rgba(0, 0, 0, 0.6);
-    color: white;
-    padding: 1px 4px;
-    border-radius: 8px;
-    white-space: nowrap;
+  font-size: 0.6rem;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 1px 4px;
+  border-radius: 8px;
+  white-space: nowrap;
 }
 
 /* Existing styles ... */
 
 /* Calendar container styles */
 .calendar-wide-container {
-    margin: 1rem -1rem;
-    padding: 1rem;
-    background: #f8f9fa;
-    border-radius: 8px;
+  margin: 1rem -1rem;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
 }
 
 /* Make calendar wider and adjust layout */
 .react-calendar {
-    width: 100% !important;
-    max-width: none !important;
-    background: white;
-    border: none;
-    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
-    padding: 1rem;
+  width: 100% !important;
+  max-width: none !important;
+  background: white;
+  border: none;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+  padding: 1rem;
 }
 
 /* Adjust the double view layout */
 .react-calendar__viewContainer {
-    display: flex;
-    gap: 2rem;
-    padding: 0 1rem;
+  display: flex;
+  gap: 2rem;
+  padding: 0 1rem;
 }
 
 /* Style for month view */
 .react-calendar__month-view {
-    flex: 1;
+  flex: 1;
 }
 
 /* Header styling */
 .react-calendar__navigation {
-    margin-bottom: 1rem;
-    background: #f8f9fa;
-    padding: 0.5rem;
-    border-radius: 8px;
+  margin-bottom: 1rem;
+  background: #f8f9fa;
+  padding: 0.5rem;
+  border-radius: 8px;
 }
 
 .react-calendar__navigation button {
-    min-width: 44px;
-    background: none;
-    font-size: 1rem;
-    color: #333;
+  min-width: 44px;
+  background: none;
+  font-size: 1rem;
+  color: #333;
 }
 
 .react-calendar__navigation button:enabled:hover,
 .react-calendar__navigation button:enabled:focus {
-    background-color: #e9ecef;
+  background-color: #e9ecef;
 }
 
 /* Weekday header styling */
 .react-calendar__month-view__weekdays {
-    text-align: center;
-    font-weight: bold;
-    font-size: 0.875rem;
-    text-transform: uppercase;
-    color: #666;
-    margin-bottom: 0.5rem;
+  text-align: center;
+  font-weight: bold;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  color: #666;
+  margin-bottom: 0.5rem;
 }
 
 /* Calendar tile content styles */
 .tile-content {
-    position: absolute;
-    bottom: 2px;
-    left: 0;
-    right: 0;
-    display: flex;
-    justify-content: center;
+  position: absolute;
+  bottom: 2px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
 }
 
 .tile-content small {
-    font-size: 0.65rem;
-    background: rgba(0, 0, 0, 0.6);
-    color: white;
-    padding: 1px 4px;
-    border-radius: 8px;
-    white-space: nowrap;
+  font-size: 0.65rem;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 1px 4px;
+  border-radius: 8px;
+  white-space: nowrap;
 }
 
 /* Make calendar tiles taller to accommodate labels */
 .react-calendar__month-view__days__day {
-    position: relative;
-    height: 60px !important;
-    padding-bottom: 20px !important;
-    aspect-ratio: 1.2;
+  position: relative;
+  height: 60px !important;
+  padding-bottom: 20px !important;
+  aspect-ratio: 1.2;
 }
 
 /* Date styles */
 .today {
-    background-color: #ffeb3b !important;
-    color: #000 !important;
+  background-color: #ffeb3b !important;
+  color: #000 !important;
 }
 
 .start-date {
-    background-color: #4caf50 !important;
-    color: white !important;
-    border-radius: 8px;
+  background-color: #4caf50 !important;
+  color: white !important;
+  border-radius: 8px;
 }
 
 .end-date {
-    background-color: #f44336 !important;
-    color: white !important;
-    border-radius: 8px;
+  background-color: #f44336 !important;
+  color: white !important;
+  border-radius: 8px;
 }
 
 .highlight {
-    background-color: #2196f3 !important;
-    color: white !important;
+  background-color: #2196f3 !important;
+  color: white !important;
 }
 
 /* Responsive adjustments */
 @media (max-width: 768px) {
-    .react-calendar {
-        font-size: 0.875rem;
-    }
+  .react-calendar {
+    font-size: 0.875rem;
+  }
 
-    .react-calendar__viewContainer {
-        flex-direction: column;
-        gap: 1rem;
-    }
+  .react-calendar__viewContainer {
+    flex-direction: column;
+    gap: 1rem;
+  }
 
-    .react-calendar__month-view__days__day {
-        height: 50px !important;
-    }
+  .react-calendar__month-view__days__day {
+    height: 50px !important;
+  }
 
-    .tile-content small {
-        font-size: 0.6rem;
-    }
+  .tile-content small {
+    font-size: 0.6rem;
+  }
 }
- .calendar-wide-container {
-     margin: 1rem 0;
-     padding: 1rem;
-     background: #f8f9fa;
-     border-radius: 8px;
- }
+.calendar-wide-container {
+  margin: 1rem 0;
+  padding: 1rem;
+  background: #f8f9fa;
+  border-radius: 8px;
+}
 
- .react-calendar {
-     width: 100% !important;
-     border: none;
-     font-family: system-ui, -apple-system;
- }
+.react-calendar {
+  width: 100% !important;
+  border: none;
+  font-family:
+    system-ui,
+    -apple-system;
+}
 
- .react-calendar__navigation {
-     margin-bottom: 1rem;
- }
+.react-calendar__navigation {
+  margin-bottom: 1rem;
+}
 
- .react-calendar__month-view__days__day {
-     position: relative;
-     height: 60px !important;
-     padding-bottom: 20px !important;
-     aspect-ratio: 1.2;
- }
+.react-calendar__month-view__days__day {
+  position: relative;
+  height: 60px !important;
+  padding-bottom: 20px !important;
+  aspect-ratio: 1.2;
+}
 
- .tile-content {
-     position: absolute;
-     bottom: 2px;
-     left: 0;
-     right: 0;
-     display: flex;
-     justify-content: center;
- }
+.tile-content {
+  position: absolute;
+  bottom: 2px;
+  left: 0;
+  right: 0;
+  display: flex;
+  justify-content: center;
+}
 
- .tile-content small {
-     font-size: 0.65rem;
-     background: rgba(0, 0, 0, 0.6);
-     color: white;
-     padding: 1px 4px;
-     border-radius: 8px;
-     white-space: nowrap;
- }
+.tile-content small {
+  font-size: 0.65rem;
+  background: rgba(0, 0, 0, 0.6);
+  color: white;
+  padding: 1px 4px;
+  border-radius: 8px;
+  white-space: nowrap;
+}
 
- .today {
-     background-color: #ffeb3b !important;
-     color: #000 !important;
- }
+.today {
+  background-color: #ffeb3b !important;
+  color: #000 !important;
+}
 
- .start-date {
-     background-color: #4caf50 !important;
-     color: white !important;
-     border-radius: 8px;
- }
+.start-date {
+  background-color: #4caf50 !important;
+  color: white !important;
+  border-radius: 8px;
+}
 
- .end-date {
-     background-color: #f44336 !important;
-     color: white !important;
-     border-radius: 8px;
- }
+.end-date {
+  background-color: #f44336 !important;
+  color: white !important;
+  border-radius: 8px;
+}
 
- .highlight {
-     background-color: #2196f3 !important;
-     color: white !important;
- }
+.highlight {
+  background-color: #2196f3 !important;
+  color: white !important;
+}
 
- @media (max-width: 768px) {
-     .react-calendar {
-         font-size: 0.875rem;
-     }
+@media (max-width: 768px) {
+  .react-calendar {
+    font-size: 0.875rem;
+  }
 
-     .react-calendar__month-view__days__day {
-         height: 50px !important;
-     }
+  .react-calendar__month-view__days__day {
+    height: 50px !important;
+  }
 
-     .tile-content small {
-         font-size: 0.6rem;
-     }
- }
-
+  .tile-content small {
+    font-size: 0.6rem;
+  }
+}
