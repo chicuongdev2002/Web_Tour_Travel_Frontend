@@ -3,7 +3,7 @@ import React from "react";
 import Slider from "react-slick";
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
-import '../slider/sliderStyle.css'
+import "../slider/sliderStyle.css";
 
 const SliderComponent = ({ images, settings, callBack }) => {
   // <div key={index}>
@@ -15,11 +15,11 @@ const SliderComponent = ({ images, settings, callBack }) => {
   // </div>
   return (
     <div className="slider-container">
-        <Slider {...settings}>
-          {images.map((image, index) => (
-            <div key={index}>{callBack(image)}</div>
-          ))}
-        </Slider>
+      <Slider {...settings}>
+        {images.map((image, index) => (
+          <div key={index}>{callBack(image)}</div>
+        ))}
+      </Slider>
     </div>
   );
 };

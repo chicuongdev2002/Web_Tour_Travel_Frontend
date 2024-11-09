@@ -1,7 +1,7 @@
-import React from 'react'
-import DrawRejectIcon from '../draw/DrawRejectIcon'
-import ModalComponent from '../modal/ModalComponent'
-import DrawQuestionMark from '../draw/DrawQuestionMark'
+import React from "react";
+import DrawRejectIcon from "../draw/DrawRejectIcon";
+import ModalComponent from "../modal/ModalComponent";
+import DrawQuestionMark from "../draw/DrawQuestionMark";
 
 function ChoosePopup({ title, message, open, onclose, onAccept, onReject }) {
     return (
@@ -24,4 +24,4 @@ function ChoosePopup({ title, message, open, onclose, onAccept, onReject }) {
     )
 }
 
-export default ChoosePopup
+export default ChoosePopup;

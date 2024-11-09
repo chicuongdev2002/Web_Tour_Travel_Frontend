@@ -16,4 +16,4 @@ function CustomPop({ notify, onSuccess, messageSuccess, onFail, messageFail }) {
     )
 }
 
-export default CustomPop
+export default CustomPop;

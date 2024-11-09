@@ -12,8 +12,8 @@ import { useNavigate } from 'react-router-dom';
 import FormView from '../../components/formView/FormView';
 
 function AddTourComponent() {
-  const navigate = useNavigate(); 
-  const [tourName, setTourName] = useState('');
+  const navigate = useNavigate();
+  const [tourName, setTourName] = useState("");
   const [file, setFile] = useState(null);
   const [description, setDescription] = useState('');
   const [startLocation, setStartLocation] = useState('');
@@ -29,16 +29,18 @@ function AddTourComponent() {
   const [adultPrice, setAdultPrice] = useState(1)
   const [oldPrice, setOldPrice] = useState(0)
 
-  const [open, setOpen] = useState(false)
-  const [openDestination, setOpenDestination] = useState(false)
-  const [openDeparture, setOpenDeparture] = useState(false)
-  const [destination, setDestination] = useState(null)
-  const [destinationSelected, setDestinationSelected] = useState({content: []})
+  const [open, setOpen] = useState(false);
+  const [openDestination, setOpenDestination] = useState(false);
+  const [openDeparture, setOpenDeparture] = useState(false);
+  const [destination, setDestination] = useState(null);
+  const [destinationSelected, setDestinationSelected] = useState({
+    content: [],
+  });
 
   const getDestination = async (page, size) => {
     const result = await getAllDestination(page, size);
     setDestination(result);
-  }
+  };
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
@@ -122,8 +124,10 @@ function AddTourComponent() {
                 }
                 setDestinationSelected(prevState => ({
                   ...prevState,
-                  content: prevState.content.map(item =>
-                    item.destinationId === destination.destinationId ? { ...item, duration: e.target.value } : item
+                  content: prevState.content.map((item) =>
+                    item.destinationId === destination.destinationId
+                      ? { ...item, duration: e.target.value }
+                      : item,
                   ),
                 }))
 
@@ -177,24 +181,42 @@ function AddTourComponent() {
           <DestinationList selectDestination={
             (e, destination) => {
               if (e.target.checked) {
-                setEndDate(moment(endDate, "DD/MM/YYYY HH:mm:ss").add(1, 'hours').format('DD/MM/YYYY HH:mm:ss'))
-                setDuration(prevState => prevState + 1)
-                setDestinationSelected(prevState => ({
+                setEndDate(
+                  moment(endDate, "DD/MM/YYYY HH:mm:ss")
+                    .add(1, "hours")
+                    .format("DD/MM/YYYY HH:mm:ss"),
+                );
+                setDuration((prevState) => prevState + 1);
+                setDestinationSelected((prevState) => ({
                   ...prevState,
-                  content: [...prevState.content, { ...destination, duration: 1 }],
+                  content: [
+                    ...prevState.content,
+                    { ...destination, duration: 1 },
+                  ],
+                }));
+              } else {
+                let filter = destinationSelected.content.filter(
+                  (d) => d.destinationId === destination.destinationId,
+                )[0].duration;
+                setEndDate(
+                  moment(endDate, "DD/MM/YYYY HH:mm:ss")
+                    .add(-filter, "hours")
+                    .format("DD/MM/YYYY HH:mm:ss"),
+                );
+                setDuration((prevState) => prevState - filter);
+                setDestinationSelected((prevState) => ({
+                  ...prevState,
+                  content: prevState.content.filter(
+                    (d) => d.destinationId !== destination.destinationId,
+                  ),
                 }));
               }
-              else{
-                let filter = destinationSelected.content.filter(d => d.destinationId === destination.destinationId)[0].duration
-                setEndDate(moment(endDate, "DD/MM/YYYY HH:mm:ss").add(-filter, 'hours').format('DD/MM/YYYY HH:mm:ss'))
-                setDuration(prevState => prevState - filter)
-                setDestinationSelected(prevState => ({
-                  ...prevState,
-                  content: prevState.content.filter(d => d.destinationId !== destination.destinationId)
-                }));
-              }
-            }
-          } destinationSelected={destinationSelected} data={destination} isDescription={true} onGetData={getDestination} />
+            }}
+            destinationSelected={destinationSelected}
+            data={destination}
+            isDescription={true}
+            onGetData={getDestination}
+          />
         </ModalComponent>
       }
       <CustomPop notify={openNotify} onSuccess={() => {
@@ -205,8 +227,7 @@ function AddTourComponent() {
         messageFail={messageNotify}
         />
     </div>
-
-  )
+  );
 }
 
-export default AddTourComponent
+export default AddTourComponent;
