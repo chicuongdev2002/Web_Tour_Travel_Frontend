@@ -24,4 +24,4 @@ const uploadFile = async (api, formData) => {
   }
 };
 
-export { postData };
+export { postData, uploadFile };
