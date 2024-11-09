@@ -3,6 +3,7 @@ import './TourCard.css';
 import { FaMapMarkedAlt } from "react-icons/fa";
 import { PiCalendarDotsFill, PiClockCountdownFill, PiChairBold } from "react-icons/pi";
 import { useNavigate } from 'react-router-dom';
+import img from '../../assets/404.png';
 const TourCard = ({ tour }) => {
     const navigate = useNavigate(); 
     const handleViewDetail = () => {
@@ -10,7 +11,7 @@ const TourCard = ({ tour }) => {
     };
   return (
       <div className="tour-card">
-        <img src={tour.image} alt={tour.title} className="tour-image" />
+        <img src={tour.image? tour.image : img} alt={tour.title} className="tour-image" />
         <div className="tour-details">
           <h3 className="tour-title">{tour.title}</h3>
           {/* <p className="tour-description">{tour.description}</p> */}

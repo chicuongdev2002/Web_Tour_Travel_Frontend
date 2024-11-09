@@ -2,8 +2,13 @@ body {
     font-family: 'Arial', sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #f8f9fa;
+    /* background-color: #f8f9fa; */
+    /* background-color: black !important; */
 }
+
+/* input {
+    background-color: white !important;
+} */
 
 header {
     background-color: #ffffff;
@@ -149,4 +154,12 @@ footer {
     white-space: nowrap;       /* Không xuống dòng */
     overflow: hidden;          /* Ẩn phần tràn ra ngoài */
     text-overflow: ellipsis;   /* Thêm dấu "..." khi bị cắt */
+}
+
+.truncate-multiline {
+    height: 3em; /* Giới hạn chiều cao của hộp chứa văn bản */
+    line-height: 1.5em;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: normal;
 }
