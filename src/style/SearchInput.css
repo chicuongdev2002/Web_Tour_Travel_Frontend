@@ -1,144 +1,148 @@
 .search-input-container {
-    background-color: #f8f9fa;
-    /* Lighter background for subtle contrast */
-    border-radius: 10px;
-    padding: 20px;
-    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
-    transition: box-shadow 0.3s;
+  background-color: #f8f9fa;
+  /* Lighter background for subtle contrast */
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s;
 }
 
 .search-input-container:hover {
-    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
-    /* Slightly stronger shadow */
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.2);
+  /* Slightly stronger shadow */
 }
 
 .search-input,
 .custom-select {
-    border: 1px solid #dee2e6;
-    /* Softer border */
-    border-radius: 5px;
-    padding-left: 35px;
-    /* Add padding for icons */
-    transition: border-color 0.3s, box-shadow 0.3s;
-    background-color: #ffffff;
-    /* White background */
+  border: 1px solid #dee2e6;
+  /* Softer border */
+  border-radius: 5px;
+  padding-left: 35px;
+  /* Add padding for icons */
+  transition:
+    border-color 0.3s,
+    box-shadow 0.3s;
+  background-color: #ffffff;
+  /* White background */
 }
 
 .search-input::placeholder {
-    color: #6c757d;
-    /* Subtle placeholder color */
+  color: #6c757d;
+  /* Subtle placeholder color */
 }
 
 .search-input:focus,
 .custom-select:focus {
-    border-color: #17a2b8;
-    /* Brighter blue for focus state */
-    box-shadow: 0 0 5px rgba(23, 162, 184, 0.5);
-    /* Blue glow */
-    outline: none;
+  border-color: #17a2b8;
+  /* Brighter blue for focus state */
+  box-shadow: 0 0 5px rgba(23, 162, 184, 0.5);
+  /* Blue glow */
+  outline: none;
 }
 
 .search-button {
-    background-color: #17a2b8;
-    /* Bright blue for the button */
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    transition: background-color 0.3s, transform 0.3s;
+  background-color: #17a2b8;
+  /* Bright blue for the button */
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  transition:
+    background-color 0.3s,
+    transform 0.3s;
 }
 
 .search-button:hover {
-    background-color: #138496;
-    /* Darker blue on hover */
-    transform: translateY(-2px);
+  background-color: #138496;
+  /* Darker blue on hover */
+  transform: translateY(-2px);
 }
 
 .search-button:active {
-    transform: translateY(1px);
+  transform: translateY(1px);
 }
 
 .custom-select {
-    position: relative;
-    cursor: pointer;
-    padding: 10px;
-    background-color: #ffffff;
-    transition: border-color 0.3s;
+  position: relative;
+  cursor: pointer;
+  padding: 10px;
+  background-color: #ffffff;
+  transition: border-color 0.3s;
 }
 
 .custom-select:hover {
-    border-color: #17a2b8;
+  border-color: #17a2b8;
 }
 
 .custom-select span {
-    display: block;
-    color: #555;
+  display: block;
+  color: #555;
 }
 
 .options {
-    display: none;
-    position: absolute;
-    top: 100%;
-    left: 0;
-    right: 0;
-    border: 1px solid #ddd;
-    border-radius: 5px;
-    background-color: #ffffff;
-    z-index: 10;
-    max-height: 150px;
-    overflow-y: auto;
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+  background-color: #ffffff;
+  z-index: 10;
+  max-height: 150px;
+  overflow-y: auto;
 }
 
 .options.open {
-    display: block;
+  display: block;
 }
 
 .option {
-    padding: 10px;
-    cursor: pointer;
-    transition: background-color 0.3s;
+  padding: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
 }
 
 .option:hover {
-    background-color: #17a2b8;
-    color: white;
+  background-color: #17a2b8;
+  color: white;
 }
 
 .option:before {
-    content: "\f105";
-    /* FontAwesome arrow icon */
-    font-family: 'Font Awesome 5 Free';
-    font-weight: 900;
-    margin-right: 10px;
+  content: "\f105";
+  /* FontAwesome arrow icon */
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  margin-right: 10px;
 }
 
 /* Add search input icon */
 .search-input-container .search-input {
-    background-image: url('search-icon.svg');
-    /* Assuming you have an icon */
-    background-position: 10px center;
-    background-repeat: no-repeat;
+  background-image: url("search-icon.svg");
+  /* Assuming you have an icon */
+  background-position: 10px center;
+  background-repeat: no-repeat;
 }
 
 /* Add icons for custom select fields */
 .custom-select::before {
-    content: "\f107";
-    /* FontAwesome down arrow icon */
-    font-family: 'Font Awesome 5 Free';
-    font-weight: 900;
-    position: absolute;
-    right: 10px;
-    top: 50%;
-    transform: translateY(-50%);
-    color: #6c757d;
+  content: "\f107";
+  /* FontAwesome down arrow icon */
+  font-family: "Font Awesome 5 Free";
+  font-weight: 900;
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #6c757d;
 }
 
 /* Mobile optimization */
 @media (max-width: 768px) {
-    .search-input-container {
-        padding: 10px;
-    }
+  .search-input-container {
+    padding: 10px;
+  }
 
-    .custom-select {
-        padding: 8px;
-    }
+  .custom-select {
+    padding: 8px;
+  }
 }

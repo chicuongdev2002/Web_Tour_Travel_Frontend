@@ -1,0 +1,26 @@
+.filter-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.search-bar {
+  flex: 1;
+  margin-right: 10px;
+}
+
+.filter-dropdown {
+  min-width: 180px;
+  margin-right: 10px;
+}
+
+button {
+  margin-right: 5px;
+}
+
+.locked-row {
+  text-decoration: line-through;
+  background-color: #f8d7da;
+  /* Màu nền nhạt để nổi bật */
+}

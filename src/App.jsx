@@ -1,4 +1,4 @@
-import './App.css'
+import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home.jsx";
 import TourList from "./pages/TourList.jsx";
@@ -10,6 +10,13 @@ import PageTestComponent from './pages/PageTestComponent.jsx';
 import BookingList from './pages/BookingList.jsx';
 import AddDestination from './pages/AddDestination.jsx';
 import UpdateTour from './pages/UpdateTour.jsx';
+import UserInfo from "./pages/UserInfo.jsx";
+import AccountPage from "./pages/AccountPage.jsx";
+import DiscountPage from "./pages/DiscountPage.jsx";
+import CustomerPage from "./pages/CustomerPage.jsx";
+import TourGuidePage from "./pages/TourGuidePage.jsx";
+import TourGuideManagerPage from "./pages/TourGuideManagerPage.jsx";
+import AssignmentPage from "./pages/AssignmentPage.jsx";
 function App() {
   return (
     <BrowserRouter>
@@ -24,9 +31,16 @@ function App() {
       <Route path="/booking-list" element={<BookingList />} />
       <Route path="/test" element={<PageTestComponent />} />
       <Route path="/add-destination" element={<AddDestination />}/>
+       <Route path="/user-detail" element={<UserInfo />} />
+        <Route path="/account-list" element={<AccountPage />} />
+        <Route path="/discount-list" element={<DiscountPage />} />
+        <Route path="/customer-list" element={<CustomerPage />} />
+        <Route path="/tour-guide-details" element={<TourGuidePage />} />
+        <Route path="/tour-guide-manager" element={<TourGuideManagerPage />} />
+        <Route path="/list-assignment" element={<AssignmentPage />} />
     </Routes>
   </BrowserRouter>
   )
 }
 
-export default App
+export default App;
