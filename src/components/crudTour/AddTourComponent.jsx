@@ -78,6 +78,7 @@ function AddTourComponent() {
           imageUrl: resultUpload
         }]
       })
+      debugger
       if (result) {
         setMessageNotify('Thêm tour thành công')
         setOpenNotify(1)
