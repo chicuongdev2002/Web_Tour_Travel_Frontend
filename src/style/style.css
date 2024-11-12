@@ -150,14 +150,24 @@ footer {
   width: 30%;
 }
 
+.w-20 {
+  width: 20%;
+}
+
+.w-80 {
+  width: 80%;
+}
+
 .one-line-text {
-    white-space: nowrap;       /* Không xuống dòng */
-    overflow: hidden;          /* Ẩn phần tràn ra ngoài */
-    text-overflow: ellipsis;   /* Thêm dấu "..." khi bị cắt */
+  height: 1.5em;
+  line-height: 1.5em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
 }
 
 .truncate-multiline {
-    height: 3em; /* Giới hạn chiều cao của hộp chứa văn bản */
+    height: 3em;
     line-height: 1.5em;
     overflow: hidden;
     text-overflow: ellipsis;
