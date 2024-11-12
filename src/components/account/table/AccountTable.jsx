@@ -102,7 +102,7 @@ const AccountTable = ({
         In
       </Button>
       <TableContainer className="table-container">
-        <Table className="table">
+        <Table className="tableAccount">
           <TableHead>
             <TableRow>
               <TableCell>Chọn</TableCell>

@@ -48,25 +48,31 @@ function Booking() {
                                 <p>Lịch trình: </p>
                             </div>
                             <FormView className="w-30" title='Số người tham gia' data={[
-                                { label: 'Trẻ em', object: {
-                                    type: 'number',
-                                    min: 0,
-                                    value: numOfChildren,
-                                    onChange: (e) => setNumOfChildren(e.target.value)
-                                }},
-                                { label: 'Người lớn', object: {
-                                    type: 'number',
-                                    className: 'my-2',
-                                    min: 1,
-value: numOfAdults,
-                                    onChange: (e) => setNumOfAdults(e.target.value)
-                                }},
-                                { label: 'Người cao tuổi', object: {
-                                    type: 'number',
-                                    min: 0,
-                                    value: numOfOlds,
-                                    onChange: (e) => setNumOfOlds(e.target.value)
-                                }}
+                                {
+                                    label: 'Trẻ em', object: {
+                                        type: 'number',
+                                        min: 0,
+                                        value: numOfChildren,
+                                        onChange: (e) => setNumOfChildren(e.target.value)
+                                    }
+                                },
+                                {
+                                    label: 'Người lớn', object: {
+                                        type: 'number',
+                                        className: 'my-2',
+                                        min: 1,
+                                        value: numOfAdults,
+                                        onChange: (e) => setNumOfAdults(e.target.value)
+                                    }
+                                },
+                                {
+                                    label: 'Người cao tuổi', object: {
+                                        type: 'number',
+                                        min: 0,
+                                        value: numOfOlds,
+                                        onChange: (e) => setNumOfOlds(e.target.value)
+                                    }
+                                }
                             ]} />
                         </div>
                     </FormView>
@@ -82,31 +88,35 @@ value: numOfAdults,
                         { label: 'Điện thoại', value: user.phoneNumber },
                         { label: 'Email', value: user.email },
                         { label: 'Địa chỉ', value: user.address },
-                        { label: 'Ghi chú', object: {
-                            type: 'text',
-                            value: '',
-                            onChange: (e) => console.log(e.target.value)
-                        }},
-                        { label: 'Xác nhận', object: {
-                            type: 'button',
-                            className: 'w-100 my-3',
-                            onClick: async () => {
-                                try{
-                                    await bookingTour({ 
-                                        userId: user.userId, 
-                                        departureId: tourDetail.departures[0].departureId, 
-                                        participants: numOfChildren + ',' + numOfAdults + ',' + numOfOlds 
-                                    })
-                                    setNotify(1)
-                                } catch(err){
-                                    setNotify(0)
-                                    setMessageNotify(err.response.data)
+                        {
+                            label: 'Ghi chú', object: {
+                                type: 'text',
+                                value: '',
+                                onChange: (e) => console.log(e.target.value)
+                            }
+                        },
+                        {
+                            label: 'Xác nhận', object: {
+                                type: 'button',
+                                className: 'w-100 my-3',
+                                onClick: async () => {
+                                    try {
+                                        await bookingTour({
+                                            userId: user.userId,
+                                            departureId: tourDetail.departures[0].departureId,
+                                            participants: numOfChildren + ',' + numOfAdults + ',' + numOfOlds
+                                        })
+                                        setNotify(1)
+                                    } catch (err) {
+                                        setNotify(0)
+                                        setMessageNotify(err.response.data)
+                                    }
                                 }
                             }
-                        }}
+                        }
                     ]} />
                 </div>
-                <CustomPop notify={notify} onSuccess={bookingSuccess} messageSuccess={"Đặt tour thành công"} 
+                <CustomPop notify={notify} onSuccess={bookingSuccess} messageSuccess={"Đặt tour thành công"}
                     onFail={() => setNotify(-1)} messageFail={messageNotify} />
             </div>
         </div>

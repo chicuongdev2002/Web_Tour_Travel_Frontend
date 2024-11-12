@@ -40,6 +40,10 @@ function NavHeader({ textColor }) {
     setDropdownVisible(false); // Close dropdown when navigating
   };
 
+  const goToAdminPage = () => {
+    navigate("/admin");
+  }
+
   const handleLogout = () => {
     sessionStorage.removeItem("user"); // Clear user data
     setUser(null); // Reset user state
@@ -61,7 +65,7 @@ function NavHeader({ textColor }) {
   }, []);
 
   return (
-    <div className="d-flex divCenter">
+    <div className="d-flex divCenter pr-2">
       <img src={brand} style={{ width: 80, height: 70 }} alt="Brand Logo" />
       <div style={{ flexGrow: 1 }} className="divRowBetween pr-2">
         <NavbarComp textColor={textColor} />
@@ -87,9 +91,16 @@ function NavHeader({ textColor }) {
               Login
             </button>
           )}
-          <button className="ml-2 bg-success" onClick={goToTourList}>
+          <div>
+          <button className="ml-2 w-100 mb-1 bg-success" onClick={goToTourList}>
             Tour List
           </button>
+          {user && user.role === "ADMIN" &&
+            <button className="ml-2 w-100 mt-1 bg-dark" onClick={goToAdminPage}>
+            Admin Page
+          </button>
+          }
+          </div>
         </div>
       </div>
     </div>
