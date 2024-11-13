@@ -36,11 +36,11 @@ function BookingList() {
 
     return (
         <div>
-            <NavHeader textColor="black" />
-            <div className="booking-table">
+            {/* <NavHeader textColor="black" /> */}
+            <div className="table-container">
                 <Table striped bordered hover>
                     <thead>
-                        <tr>
+                        <tr>    
                             <th>Booking ID</th>
                             <th>Khách hàng</th>
                             <th>Tour</th>

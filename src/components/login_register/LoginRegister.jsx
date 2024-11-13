@@ -68,7 +68,11 @@ const LoginRegister = () => {
     if (result.isLoginSuccessful) {
       console.log("Đăng nhập thành công:", result.userData);
       sessionStorage.setItem("user", JSON.stringify(result.userData));
-      navigate("/");
+      if(result.userData.role === "ADMIN"){
+      navigate("/admin");
+      }else{
+        navigate("/");
+      }
     } else {
       if (!result.isLoginSuccessful) {
         setFailedLoginAttempts((prev) => prev + 1);

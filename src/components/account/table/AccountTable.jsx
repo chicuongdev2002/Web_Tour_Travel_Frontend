@@ -167,9 +167,9 @@ const AccountTable = ({
                   <select
                     className="select-role"
                     value={roles[account.userId] || account.role}
-                    onChange={(e) =>
-                      handleRoleChange(account.userId, e.target.value)
-                    }
+                    // onChange={(e) =>
+                    //   handleRoleChange(account.userId, e.target.value)
+                    // }
                     disabled={!account.active}
                   >
                     <option value="CUSTOMER">Khách Hàng</option>

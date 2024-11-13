@@ -5,7 +5,7 @@ import AddDestinationComponent from "../components/crudDestination/AddDestinatio
 function AddDestination() {
   return (
     <div>
-      <NavHeader textColor="black" />
+      {/* <NavHeader textColor="black" /> */}
       <div className="w-50" style={{ marginLeft: "25%" }}>
         <AddDestinationComponent />
       </div>

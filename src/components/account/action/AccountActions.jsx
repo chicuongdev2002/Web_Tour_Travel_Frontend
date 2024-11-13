@@ -51,19 +51,24 @@ const AccountActions = ({
         Mở Khóa Tài Khoản Đã Chọn
       </Button>
       <Button
-        variant="contained"
-        color="primary"
-        onClick={handleUpgradeSelectedAccounts}
-        disabled={
-          selectedAccounts.size === 0 ||
-          [...selectedAccounts].some(
-            (id) => !accounts.find((acc) => acc.userId === id).active,
-          )
-        }
-        startIcon={<Upgrade />}
-      >
-        Nâng Cấp Tài Khoản Đã Chọn
-      </Button>
+  variant="contained"
+  color="primary"
+  onClick={handleUpgradeSelectedAccounts}
+  disabled={
+    selectedAccounts.size === 0 ||
+    [...selectedAccounts].some(
+      (id) => !accounts.find((acc) => acc.userId === id).active,
+    ) || [...selectedAccounts].some(
+      (id) => {
+        const account = accounts.find((acc) => acc.userId === id);
+        return account && (account.role === "TOURGUIDE" || account.role === "TOURPROVIDER" ||account.role === "CUSTOMERVIP");
+      }
+    )
+  }
+  startIcon={<Upgrade />}
+>
+  Nâng Cấp Tài Khoản Đã Chọn
+</Button>
       <Button
         variant="contained"
         color="warning"
