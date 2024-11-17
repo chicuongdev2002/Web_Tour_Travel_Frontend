@@ -158,12 +158,21 @@ footer {
   width: 80%;
 }
 
-.one-line-text {
+.w-90 {
+  width: 90%;
+}
+
+.w-95 {
+  width: 95%;
+}
+
+.one-line {
   height: 1.5em;
   line-height: 1.5em;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: normal;
+  text-align: start;
 }
 
 .truncate-multiline {
@@ -172,4 +181,5 @@ footer {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: normal;
+    text-align: start;
 }

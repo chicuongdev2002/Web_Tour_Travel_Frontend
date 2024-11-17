@@ -1,3 +1,4 @@
+import React, { useEffect } from 'react'
 import "./App.css";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Home from "./pages/Home.jsx";
@@ -18,7 +19,27 @@ import TourGuidePage from "./pages/TourGuidePage.jsx";
 import TourGuideManagerPage from "./pages/TourGuideManagerPage.jsx";
 import AssignmentPage from "./pages/AssignmentPage.jsx";
 import AdminPage from "./pages/AdminPage.jsx";
+import NotifyPage from "./pages/NotifyPage.jsx";
+import { useSelector, useDispatch } from "react-redux";
+import { changeConnectSocket } from "../src/redux/slice";
+import { initSocket, handleDoWithSocket } from "../src/functions/initSocket";
 function App() {
+  const user = JSON.parse(sessionStorage.getItem("user"));
+  const dispatch = useDispatch();
+  // handle do with socket
+  const socket = useSelector((state) => state.socket);
+  // check socket connected
+  const connectSocket = useSelector((state) => state.initSocket);
+
+  useEffect(() => {
+    if(initSocket(connectSocket))
+      dispatch(changeConnectSocket(true));
+  }, [user, connectSocket]);
+
+  useEffect(() => {
+    handleDoWithSocket(socket);
+  }, [socket]);
+
   return (
     <BrowserRouter>
       <Routes>
@@ -40,6 +61,7 @@ function App() {
         <Route path="/tour-guide-manager" element={<TourGuideManagerPage />} />
         <Route path="/list-assignment" element={<AssignmentPage />} />
         <Route path="/admin" element={<AdminPage />} />
+        <Route path="/notify" element={<NotifyPage />} />
       </Routes>
     </BrowserRouter>
   )

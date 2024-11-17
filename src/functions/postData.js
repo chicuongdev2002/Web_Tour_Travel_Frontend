@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const postData = async (api, params) => {
-  debugger;
   try {
     const response = await axios.post(api, params);
     return response.data; // Kết quả trả về từ server
