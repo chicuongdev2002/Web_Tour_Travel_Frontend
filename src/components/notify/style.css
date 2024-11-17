@@ -1,0 +1,7 @@
+.elementHover:hover {
+  background-color: #f1f1f1;
+}
+
+.elementChatSelected {
+  background-color: lightblue;
+}
