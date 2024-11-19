@@ -2,27 +2,9 @@ import * as React from 'react';
 import Menu from '@mui/material/Menu';
 import MenuItem from '@mui/material/MenuItem';
 import { Button } from '@mui/material';
+import './style.css'
 
-const options = [
-  'None',
-  'Atria',
-  'Callisto',
-  'Dione',
-  'Ganymede',
-  'Hangouts Call',
-  'Luna',
-  'Oberon',
-  'Phobos',
-  'Pyxis',
-  'Sedna',
-  'Titania',
-  'Triton',
-  'Umbriel',
-];
-
-const ITEM_HEIGHT = 48;
-
-export default function ComponentTest() {
+export default function MenuDropDown({ children, options }) {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
@@ -40,9 +22,10 @@ export default function ComponentTest() {
         aria-controls={open ? 'long-menu' : undefined}
         aria-expanded={open ? 'true' : undefined}
         aria-haspopup="true"
+        className="m-0 bg-transparent border-0 p-0"
         onClick={handleClick}
       >
-        Test
+        {children}
       </Button>
       <Menu
         id="long-menu"
@@ -55,15 +38,18 @@ export default function ComponentTest() {
         slotProps={{
           paper: {
             style: {
-              maxHeight: ITEM_HEIGHT * 4.5,
-              width: '20ch',
+              maxHeight: 48 * 4.5,
+              maxWidth: '21ch',
             },
           },
         }}
       >
         {options.map((option) => (
-          <MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
-            {option}
+          <MenuItem key={option.title} selected={option === 'Pyxis'} onClick={()=>{
+            handleClose();
+            option.onClick();
+          }}>
+            {option.title}
           </MenuItem>
         ))}
       </Menu>

@@ -6,6 +6,7 @@ import bookingTour from '../functions/bookingTour'
 import NavHeader from '../components/navbar/NavHeader';
 import CustomPop from '../components/popupNotifications/CustomPop';
 import FormView from '../components/formView/FormView';
+import { createLinkMomoPayment } from '../functions/payment';
 
 function Booking() {
     const navigate = useNavigate();
@@ -25,6 +26,27 @@ function Booking() {
             email: "son1105@gmail.com",
             address: "TP.HCM"
         }).current;
+
+    const handlePayment = async () => {
+        const result = await createLinkMomoPayment(100000, 1)
+        debugger
+        window.open("https://www.youtube.com/watch?v=yFL02ijNse0", "_blank")
+    }
+
+    const handleBooking = async () => {
+        try {
+            await bookingTour({
+                userId: user.userId,
+                departureId: tourDetail.departures[0].departureId,
+                participants: numOfChildren + ',' + numOfAdults + ',' + numOfOlds
+            })
+            setNotify(1)
+        } catch (err) {
+            setNotify(0)
+            setMessageNotify(err.response.data)
+        }
+    }
+
     const bookingSuccess = () => {
         setNotify(-1)
         navigate('/booking-list')
@@ -96,22 +118,10 @@ function Booking() {
                             }
                         },
                         {
-                            label: 'Xác nhận', object: {
+                            label: 'Thanh toán', object: {
                                 type: 'button',
                                 className: 'w-100 my-3',
-                                onClick: async () => {
-                                    try {
-                                        await bookingTour({
-                                            userId: user.userId,
-                                            departureId: tourDetail.departures[0].departureId,
-                                            participants: numOfChildren + ',' + numOfAdults + ',' + numOfOlds
-                                        })
-                                        setNotify(1)
-                                    } catch (err) {
-                                        setNotify(0)
-                                        setMessageNotify(err.response.data)
-                                    }
-                                }
+                                onClick: handlePayment,
                             }
                         }
                     ]} />

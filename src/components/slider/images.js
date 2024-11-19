@@ -12,7 +12,7 @@ const images = [
   "https://tourxuyenviet.s3.amazonaws.com/tour-mien-trung-viet-nam-go.jpg",
   "https://tourxuyenviet.s3.amazonaws.com/tour-quy-nhon-binh-dinh-3-ngay-2-dem-gia-cuc-re.jpg",
   "https://tourxuyenviet.s3.amazonaws.com/tour-quy-nhon-tay-son-1-ngay-danh-cho-ban.jpg",
-  "https://tourxuyenviet.s3.amazonaws.com/tourghepculaoxanh-landtourquynhon-2.jpg",
+  "https://tourxuyenviet.s3.amazonaws.com/tourghepculaoxanh-landtourquynhon-2.jpg"
 ];
 
 export default images;
