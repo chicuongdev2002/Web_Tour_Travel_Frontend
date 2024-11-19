@@ -11,17 +11,28 @@ import { PiNotepadFill } from "react-icons/pi";
 import { RiDiscountPercentFill } from "react-icons/ri";
 import { IoBarChartSharp } from "react-icons/io5";
 
-function AdminPage() {
+function AdminPage({ changeTitle }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [select, setSelect] = useState('account')
+  const [select, setSelect] = useState('system')
   const handleSelect = (value) => {
+    changeTitle(value === 'system' ? 'Quản lý hệ thống' :
+      value === 'account' ? 'Quản lý tài khoản' :
+      value === 'customer' ? 'Quản lý khách hàng' :
+      value === 'tour' ? 'Quản lý tour' :
+      value === 'booking' ? 'Quản lý đơn đặt tour' :
+      value === 'discount' ? 'Quản lý mã giảm giá' :
+      value === 'notify' ? 'Thông báo' : 'Thống kê'
+    )
     setSelect(value)
   }
 
   return (
-    <div style={{ flexGrow: 1 }} className='w-100 divRowBetweenNotAlign'>
+    <div style={{ flexGrow: 1, overflow: 'auto' }} className='w-100 divRowBetweenNotAlign'>
       <div className={`drawer ${isOpen ? 'open' : ''} bg-dark h-100`}
-        onMouseEnter={() => setIsOpen(true)} onMouseLeave={() => setIsOpen(false)}>
+        // style={{minWidth: isOpen ? '250px' : '0'}}
+        onMouseEnter={() => setIsOpen(true)} 
+        onMouseLeave={() => setIsOpen(false)}
+        >
         <div className={`divRow ${select == 'account' ? 'elementSelected' : 'element'}`}>
           <FaKey size={30} />
           {isOpen && <p className='one-line-text' onClick={() => handleSelect('account')}>Quản lý tài khoản</p>}
@@ -52,10 +63,10 @@ function AdminPage() {
         </div>
       </div>
       <div className='ruler' />
-      <div className='content h-100'>
-        {select === 'account' && <AccountManagement />}
-        {select === 'customer' && <CustomerManagement />}
-        {select === 'discount' && <DiscountManagement />}
+      <div className={`content h-100 ${isOpen ? 'open' : ''}`}>
+        {select === 'account' && <AccountManagement notTitle={true} />}
+        {select === 'customer' && <CustomerManagement notTitle={true} />}
+        {select === 'discount' && <DiscountManagement notTitle={true} />}
         {select === 'booking' && <BookingListComponent />}
         {select === 'notify' && <NotifyComponent />}
       </div>

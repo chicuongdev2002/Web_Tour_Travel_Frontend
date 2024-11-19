@@ -9,7 +9,7 @@ import SendIcon from "@mui/icons-material/Send";
 import DiscountListModal from "./modal/DiscountListModal";
 import { CircularProgress } from "@mui/material";
 import "./CustomerManagement.css";
-const CustomerManagement = () => {
+const CustomerManagement = ({ notTitle }) => {
   const [customers, setCustomers] = useState([]);
   const [selectedCustomers, setSelectedCustomers] = useState([]);
   const [modalOpen, setModalOpen] = useState(false);
@@ -131,7 +131,7 @@ const CustomerManagement = () => {
 
   return (
     <div className="customer-management">
-      <h1>Quản Lý Khách Hàng</h1>
+      { !notTitle && <h1>Quản Lý Khách Hàng</h1>}
       {loading ? (
         <CircularProgress />
       ) : (

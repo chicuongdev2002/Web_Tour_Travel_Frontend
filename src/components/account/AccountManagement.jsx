@@ -11,7 +11,7 @@ import Filters from "./filter/Filters";
 import SuccessPopup from "../popupNotifications/SuccessPopup";
 import FailPopup from "../popupNotifications/FailPopup";
 import "./AccountManagement.css";
-const AccountManagement = () => {
+const AccountManagement = ({ notTitle }) => {
   const [accounts, setAccounts] = useState([]);
   const [roles, setRoles] = useState({});
   const [searchTerm, setSearchTerm] = useState("");
@@ -356,9 +356,9 @@ const AccountManagement = () => {
 
   return (
     <div className="account-management-paper">
-      <Typography variant="h4" gutterBottom align="center">
+      { !notTitle && <Typography variant="h4" gutterBottom align="center">
         Quản Lý Tài Khoản
-      </Typography>
+      </Typography>}
       <AccountActions
         {...accountActions}
         handleOpenAddDialog={handleOpenAddDialog}

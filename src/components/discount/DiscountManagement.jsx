@@ -29,7 +29,7 @@ import SendIcon from "@mui/icons-material/Send";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 import SuccessPopup from "../popupNotifications/SuccessPopup";
 import FailPopup from "../popupNotifications/FailPopup";
-const DiscountManagement = () => {
+const DiscountManagement = ({ notTitle }) => {
   const [discounts, setDiscounts] = useState([]);
   const [tours, setTours] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -333,9 +333,9 @@ const DiscountManagement = () => {
 
   return (
     <div className="discount-management">
-      <Typography variant="h4" component="h1">
+      { !notTitle && <Typography variant="h4" component="h1">
         Quản Lý Giảm Giá
-      </Typography>
+      </Typography>}
       <Button
         variant="contained"
         color="primary"

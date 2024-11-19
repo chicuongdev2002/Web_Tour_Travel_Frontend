@@ -48,6 +48,20 @@
   font-weight: 400;
 }
 
+.text-link:hover {
+  color: blue !important;
+  font-weight: 400;
+  text-shadow: 
+    0 0 5px #00ffff,
+    0 0 10px #00ffff,
+    0 0 20px #00ffff,
+    0 0 40px #00ffff,
+    0 0 80px #00ffff,
+    0 0 90px #00ffff,
+    0 0 100px #00ffff,
+    0 0 150px #00ffff;
+}
+
 /* Responsive design */
 @media (max-width: 768px) {
   .navbar {

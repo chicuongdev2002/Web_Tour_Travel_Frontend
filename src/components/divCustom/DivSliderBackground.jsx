@@ -26,7 +26,7 @@ function DivSliderBackground({ images, children }) {
     ></div>
   );
   return (
-    <div style={{ position: "relative", width: "100%", height: "610px" }}>
+    <div style={{ position: "relative", width: "100%" }}>
       <SliderComponent
         images={images}
         settings={settings}

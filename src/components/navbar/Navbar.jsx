@@ -34,14 +34,14 @@ function NavbarComp({ textColor }) {
   function CustomNavBarItem({ item, onClick }) {
     return (
       <Nav.Link className="navbarElement">
-        <div className="divCenter" onClick={onClick}>
-          <p
-            className="divCenter"
+        <div className="divCenter" onClick={onClick}
+        >
+          <p className="text-link"
             style={{
               fontSize: 25,
               margin: 0,
               color: textColor ? textColor : "white",
-              fontWeight: 400,
+              fontWeight: 700,
             }}
           >
             {item}
@@ -54,25 +54,24 @@ function NavbarComp({ textColor }) {
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container className="containerCustom border-top border-bottom d-flex">
-        <Navbar.Brand href="#home">
+        <Navbar.Brand href="/">
           <img src={title} style={{ width: 200, height: 60 }} />
         </Navbar.Brand>
         <Navbar.Collapse id="basic-navbar-nav" style={{ flexGrow: 1 }}>
           <Nav className="me-auto divRowBetween w-100">
             <CustomNavBarItem item="Home" onClick={() => navigate("/")} />
             <CustomNavBarItem item="Giới thiệu" />
-            {/* <CustomDropdown title='Miền Bắc' items={regions['Miền Bắc']} />
-            <CustomDropdown title='Miền Trung' items={regions['Miền Trung']} />
-            <CustomDropdown title='Miền Nam' items={regions['Miền Nam']} /> */}
-            <CustomNavBarItem
+            {/* <CustomNavBarItem
               item="Danh sách đặt tour"
               onClick={() => navigate("/booking-list")}
-            />
+            /> */}
             <CustomNavBarItem
               item="Danh sách phân công tour"
               onClick={() => navigate("/tour-guide-details")}
             />
-            <CustomNavBarItem item="Đặt tour" />
+            <CustomNavBarItem item="Đặt tour" 
+              onClick={() => navigate("/tour-list")}
+            />
           </Nav>
         </Navbar.Collapse>
       </Container>
