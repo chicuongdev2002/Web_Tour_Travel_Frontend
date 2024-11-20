@@ -25,6 +25,7 @@ function UpdateTourComponent({ data }) {
   const [type, setType] = useState(data.tourType);
   const [file, setFile] = useState(null)
   const [messageNotify, setMessageNotify] = useState('')
+  const [images, setImages] = useState(data.images)
 
   const [openDestination, setOpenDestination] = useState(false)
   const [destination, setDestination] = useState(null)
@@ -165,7 +166,7 @@ function UpdateTourComponent({ data }) {
         tourDestinations: [...destinationSelected.content.map(d => (
           { destination: { destinationId: d.destinationId }, duration: d.duration }
         ))],
-        images: [{
+        images: [...images, {
           imageUrl: resultUpload
         }]
       }
@@ -227,6 +228,10 @@ function UpdateTourComponent({ data }) {
     setUpdateDeparture(false)
   }
 
+  const removeImage = (index) => {
+    setImages(images.filter((img, i) => i !== index))
+  }
+
   return (
     <div>
       <div className={`w-100 ${openDestination ? "divRowBetweenNotAlign" : "divCenter"}`}>
@@ -237,12 +242,13 @@ function UpdateTourComponent({ data }) {
           { label: 'Loại tour', object: { type: 'select', value: type, onChange: (e) => setType(e), listData: [{ FAMILY: "FAMILY" }, { GROUP: "GROUP" }] } },
           { label: 'Ảnh', object: {
               type: 'image',
-              value: data.images,
+              value: images,
               style: {
                 width: 100,
                 height: 70,
                 marginLeft: 10
-              }
+              },
+              onRemove: removeImage
           }},
           { label: 'Ảnh', object: { type: 'file', onChange: handleFileChange } },
           {

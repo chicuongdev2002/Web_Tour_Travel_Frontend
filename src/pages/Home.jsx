@@ -36,7 +36,7 @@ function Home() {
   return (
     <div>
       <DivSliderBackground images={images}>
-        <NavHeader textColor="white"/>
+        <NavHeader textColor="white" opacity={true}/>
         <div className="justify-content-center align-items-center">
           {/* <SearchInput onSearch={handleSearch} /> */}
         </div>

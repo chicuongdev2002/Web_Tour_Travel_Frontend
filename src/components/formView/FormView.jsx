@@ -15,9 +15,19 @@ function FormView({ children, title, titleBackground, data, className, notBorder
                                 { item.object.type === 'image' ?
                                     <div style={{ marginTop: 20 }} className='divRow w-100'>
                                         <p>{item.label}</p>
-                                        {item.object.value.map((img, index) => {
-                                            return <img key={index} style={item.object.style} src={img.imageUrl} alt={item.label} />
-                                        })}
+                                        {item.object.value.map((img, index) => (
+                                            <div key={index} style={{ position: 'relative' }}>
+                                                { item.object.onRemove && 
+                                                <button style={{ width: 20, backgroundColor: 'transparent', border: 0, 
+                                                    color: 'red', position: 'absolute', borderRadius: '50%', 
+                                                    right: -10, top: -10, fontSize: 14 
+                                                    }}
+                                                    onClick={() => item.object.onRemove(index)}>
+                                                    X
+                                                </button>}
+                                                <img style={item.object.style} src={img.imageUrl} alt={item.label} />
+                                            </div>
+                                        ))}
                                     </div>
                                     : item.object.type === 'button' ?
                                     <Button className={item.object.className} variant="contained"
