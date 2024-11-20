@@ -53,7 +53,7 @@ function TourList() {
       }
       return tour;
     }))
-    return result == "Update thành công";
+    return result;
   }, [])
 
   return (
@@ -64,7 +64,8 @@ function TourList() {
       {
         notify == 2 && <ChoosePopup open={notify == 2} onAccept={() => {
           setNotify(-1);
-          if (updateStatus(selectedStatus, tourList.find(tour => tour.tourId == selectedStatus).active))
+          let kt = tourList.find(tour => tour.tourId == selectedStatus).active
+          if (updateStatus(selectedStatus, kt))
             setNotify(1);
           else
             setNotify(0);

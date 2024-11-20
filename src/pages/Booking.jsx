@@ -54,7 +54,7 @@ function Booking() {
     return (
         <div>
             <NavHeader textColor="black" />
-            <div className='divRowBetween align-items-start p-5'>
+            <div className='divRowBetween align-items-start px-3'>
                 <div className='w-60'>
                     <FormView title='Dịch vụ tour' data={[
                         { label: 'Mã tour', value: tourDetail.tourId },
