@@ -28,6 +28,12 @@ function BookingListComponent() {
 
     const updateStatus = useCallback(async (bookingId) => {
         const result = await updateBookingStatus(bookingId);
+        setBookings(bookings.map(booking => {
+            if (booking.bookingId == bookingId) {
+                booking.active = !booking.active;
+            }
+            return booking;
+        }));
         return result == "Update thành công";
     }, [])
 
