@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { FaUserCircle } from "react-icons/fa";
 import MenuDropDown from "../dropDown/MenuDropDown";
 
-function NavHeader({ textColor }) {
+function NavHeader({ textColor, opacity }) {
   const [user, setUser] = useState(null);
   const navigate = useNavigate();
 
@@ -36,7 +36,7 @@ function NavHeader({ textColor }) {
   };
 
   return (
-    <div className="d-flex divCenter pr-2" style={{ backgroundColor: "rgb(0, 0, 0, 0.3)" }}>
+    <div className="d-flex divCenter pr-2" style={{ backgroundColor: opacity && "rgb(0, 0, 0, 0.3)" }}>
       <img src={brand} style={{ width: 80, height: 70 }} alt="Brand Logo" />
       <div style={{ flexGrow: 1 }} className="divRowBetween pr-2">
         <NavbarComp textColor={textColor} />

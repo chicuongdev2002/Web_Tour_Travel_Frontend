@@ -2,6 +2,7 @@ import React, { useState } from 'react'
 import '../admin/style.css'
 import AccountManagement from '../account/AccountManagement'
 import CustomerManagement from '../customer/CustomerManagement'
+import TourList from '../tourList/TourList'
 import DiscountManagement from '../discount/DiscountManagement'
 import BookingListComponent from '../booking/BookingListComponent'
 import NotifyComponent from '../notify/NotifyComponent'
@@ -66,6 +67,7 @@ function AdminPage({ changeTitle }) {
       <div className={`content h-100 ${isOpen ? 'open' : ''}`}>
         {select === 'account' && <AccountManagement notTitle={true} />}
         {select === 'customer' && <CustomerManagement notTitle={true} />}
+        {select === 'tour' && <TourList />}
         {select === 'discount' && <DiscountManagement notTitle={true} />}
         {select === 'booking' && <BookingListComponent />}
         {select === 'notify' && <NotifyComponent />}

@@ -1,14 +1,5 @@
-// import axios from "axios";
-// import { GET_ALL_TOUR, getAPI } from "../config/host";
-
-// const getAllTour = async (page, size) => {
-//   const result = await axios.get(getAPI(GET_ALL_TOUR, { page, size }));
-//   return result.data;
-// }
-
-// export { getAllTour };
 import axios from "axios";
-import { GET_ALL_TOUR, getAPI } from "../config/host";
+import { GET_ALL_TOUR, GET_TOUR_PAGE, getAPI } from "../config/host";
 
 const getAllTour = async (searchParams) => {
   const {
@@ -38,4 +29,13 @@ const getAllTour = async (searchParams) => {
   return result.data;
 };
 
-export { getAllTour };
+const getTourPage = async (page, size, sortBy, sortDirection) => {
+  if (page === undefined) page = 0;
+  if (size === undefined) size = 10;
+  if (sortBy === undefined) sortBy = "tourName";
+  if (sortDirection === undefined) sortDirection = "asc";
+  const result = await axios.get(getAPI(GET_TOUR_PAGE, {page, size, sortBy, sortDirection}));
+  return result.data;
+};
+
+export { getAllTour, getTourPage };

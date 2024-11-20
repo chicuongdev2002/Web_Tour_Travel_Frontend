@@ -1,5 +1,6 @@
 const REACT_APP_HOST = "http://localhost:8080";
 const GET_ALL_TOUR = REACT_APP_HOST + "/api/tours";
+const GET_TOUR_PAGE = REACT_APP_HOST + "/api/tours/page";
 const CHECK_ACCOUNT_EXISTS = REACT_APP_HOST + "/api/accounts/exists";
 const CHECK_USER_EXISTS = REACT_APP_HOST + "/api/users/exists";
 const SEND_CODE_VERIFYCATION = REACT_APP_HOST + "/api/verification/send-code";
@@ -21,7 +22,7 @@ const GET_ACCOUNT = REACT_APP_HOST + "/api/accounts";
 const ACCOUNT_LOCK = REACT_APP_HOST + "/api/accounts/lock";
 const ACCOUNT_UNLOCK = REACT_APP_HOST + "/api/accounts/unlock";
 const UPDATE_TOUR = REACT_APP_HOST + '/api/tours/updateTour'
-const DELETE_TOUR = REACT_APP_HOST + '/api/tours/delete'
+const UPDATE_TOUR_STATUS = REACT_APP_HOST + '/api/tours/updateStatus'
 const UPDATE_BOOKING_STATUS = REACT_APP_HOST + '/api/bookings/updateStatus';
 const UPLOAD_IMAGE = REACT_APP_HOST + '/api/tours/upload';
 const WEB_SOCKET = REACT_APP_HOST + '/ws';
@@ -29,8 +30,9 @@ const GET_LINK_MOMO = REACT_APP_HOST + '/api/payment/momo/createLink';
 const INIT_MOMO = 'https://test-payment.momo.vn/v2/gateway/api/create';
 const getAPI = (api, params, paramId) => {
   if (paramId) {
-    return api + "/" + paramId;
+    api += "/" + paramId;
   }
+  if(params === null) return api;
   let url = api + "?";
   for (const key in params) {
     url += key + "=" + params[key] + "&&";
@@ -41,6 +43,6 @@ const getAPI = (api, params, paramId) => {
 export default REACT_APP_HOST
 export { GET_ALL_TOUR, CHECK_ACCOUNT_EXISTS, CHECK_USER_EXISTS, BOOKING_TOUR, GET_PAGE_BOOKING, 
     SEND_CODE_VERIFYCATION, VERIFY_CODE, LOGIN, REGISTER, RESET_PASSWORD, SEARCH, GET_TOUR_DETAIL,GET_EMAIL, 
-    GET_PAGE_DESTINATION, POST_TOUR, UPDATE_TOUR, DELETE_TOUR, UPDATE_BOOKING_STATUS, UPLOAD_IMAGE,CHANGE_PASSWORD,
+    GET_PAGE_DESTINATION, POST_TOUR, UPDATE_TOUR, UPDATE_TOUR_STATUS, UPDATE_BOOKING_STATUS, UPLOAD_IMAGE,CHANGE_PASSWORD,
     ACCOUNT_UNLOCK,ACCOUNT_LOCK,GET_ACCOUNT,GET_USER, GET_NOTIFY, WEB_SOCKET, GET_LINK_MOMO, 
-    INIT_MOMO, getAPI };
+    INIT_MOMO, GET_TOUR_PAGE, getAPI };
