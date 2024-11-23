@@ -1,9 +1,9 @@
 body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    /* background-color: #f8f9fa; */
-    /* background-color: black !important; */
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  padding: 0;
+  /* background-color: #f8f9fa; */
+  /* background-color: black !important; */
 }
 
 /* input {
@@ -150,16 +150,36 @@ footer {
   width: 30%;
 }
 
-.one-line-text {
-    white-space: nowrap;       /* Không xuống dòng */
-    overflow: hidden;          /* Ẩn phần tràn ra ngoài */
-    text-overflow: ellipsis;   /* Thêm dấu "..." khi bị cắt */
+.w-20 {
+  width: 20%;
+}
+
+.w-80 {
+  width: 80%;
+}
+
+.w-90 {
+  width: 90%;
+}
+
+.w-95 {
+  width: 95%;
+}
+
+.one-line {
+  height: 1.5em;
+  line-height: 1.5em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  text-align: start;
 }
 
 .truncate-multiline {
-    height: 3em; /* Giới hạn chiều cao của hộp chứa văn bản */
-    line-height: 1.5em;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: normal;
+  height: 3em;
+  line-height: 1.5em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  text-align: start;
 }

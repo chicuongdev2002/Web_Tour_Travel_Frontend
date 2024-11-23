@@ -98,7 +98,7 @@ const AssignTourGuideDialog = ({ open, onClose, onAssignmentComplete }) => {
       if (error.response && error.response.status === 500) {
         setFailPopup({
           open: true,
-          message:error.response.data
+          message: error.response.data,
         });
       }
       setTimeout(() => {

@@ -59,16 +59,16 @@ const Assignments = () => {
   const handleAssignmentComplete = () => {
     fetchAssignments(page, rowsPerPage);
   };
-useEffect(() => {
-  console.log("Assignments updated:", assignments);
-}, [assignments]);
+  useEffect(() => {
+    console.log("Assignments updated:", assignments);
+  }, [assignments]);
   const fetchAssignments = async (page = 0, size = 0) => {
     setLoading(true);
     try {
       const response = await axios.get(
         `http://localhost:8080/api/tour-guides/assignments-all?page=${page}&size=${size}`,
       );
-       console.log("Fetched assignments:", response.data);
+      console.log("Fetched assignments:", response.data);
       setAssignments(response.data.content);
       setTotalElements(response.data.page.totalElements);
     } catch (err) {
@@ -80,7 +80,12 @@ useEffect(() => {
 
   useEffect(() => {
     fetchAssignments(page, rowsPerPage);
-      console.log("Fetching assignments for page:", page, "and rows per page:", rowsPerPage);
+    console.log(
+      "Fetching assignments for page:",
+      page,
+      "and rows per page:",
+      rowsPerPage,
+    );
   }, [page, rowsPerPage]);
 
   const fetchAllAssignments = async () => {
@@ -88,7 +93,7 @@ useEffect(() => {
       const response = await axios.get(
         "http://localhost:8080/api/tour-guides/assignments-all?size=999999",
       );
-      console.log("Fetched assignments:", response.data); 
+      console.log("Fetched assignments:", response.data);
       return response.data.content;
     } catch (err) {
       console.error("Error fetching all assignments:", err);
@@ -169,15 +174,15 @@ useEffect(() => {
     }
   };
   const handleChangePage = (event, newPage) => {
-     console.log("Changing page to:", newPage); // Log trang mới
+    console.log("Changing page to:", newPage); // Log trang mới
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
-  const newRowsPerPage = parseInt(event.target.value, 10);
-  console.log("Changing rows per page to:", newRowsPerPage); // Log số dòng mỗi trang
-  setRowsPerPage(newRowsPerPage);
-  setPage(0);
+    const newRowsPerPage = parseInt(event.target.value, 10);
+    console.log("Changing rows per page to:", newRowsPerPage); // Log số dòng mỗi trang
+    setRowsPerPage(newRowsPerPage);
+    setPage(0);
   };
 
   const formatDate = (dateString) => {
@@ -514,7 +519,7 @@ useEffect(() => {
           <TableBody>
             {filteredAssignments.map((assignment) => (
               <TableRow
-               key={`${assignment.departureId}-${assignment.guideId}`} 
+                key={`${assignment.departureId}-${assignment.guideId}`}
                 hover
                 sx={{
                   "&:nth-of-type(odd)": { bgcolor: "action.hover" },
@@ -556,7 +561,7 @@ useEffect(() => {
       </TableContainer>
 
       <TablePagination
-        rowsPerPageOptions={[5, 10, 25,40]}
+        rowsPerPageOptions={[5, 10, 25, 40]}
         component="div"
         count={totalElements}
         rowsPerPage={rowsPerPage}

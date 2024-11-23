@@ -439,7 +439,7 @@ const DiscountManagement = () => {
       </div>
 
       <TableContainer className="table-container">
-        <Table className="table">
+        <Table className="tableDiscount">
           <TableHead>
             <TableRow>
               <TableCell>

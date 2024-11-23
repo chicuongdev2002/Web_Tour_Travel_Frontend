@@ -2,12 +2,8 @@ import axios from "axios";
 
 const postData = async (api, params) => {
   try {
-    const response = await axios.post(api, JSON.stringify(params), {
-      headers: {
-        'Content-Type': 'application/json;charset=utf-8',
-      }
-    });
-    return response.data;
+    const response = await axios.post(api, params);
+    return response.data; // Kết quả trả về từ server
   } catch (error) {
     console.error("Error posting data:", error);
     return null;

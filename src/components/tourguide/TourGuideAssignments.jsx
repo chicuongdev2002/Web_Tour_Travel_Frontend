@@ -18,6 +18,7 @@ import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import AssignmentTable from "./table/AssignmentTable";
 import AssignmentFilter from "./filter/AssignmentFilter";
 import KpiDialog from "./dialog/KpiDialog";
+import NavHeader from "../navbar/NavHeader";
 const TourGuideAssignments = () => {
   const [assignments, setAssignments] = useState([]);
   const [error, setError] = useState(null);
@@ -166,6 +167,7 @@ const TourGuideAssignments = () => {
     <div
       style={{ width: "100vw", height: "100vh", backgroundColor: "#f5f5f5" }}
     >
+      <NavHeader textColor="black" />
       <Box
         sx={{
           width: "100%",

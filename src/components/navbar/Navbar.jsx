@@ -60,7 +60,7 @@ function NavbarComp({ textColor }) {
         <Navbar.Collapse id="basic-navbar-nav" style={{ flexGrow: 1 }}>
           <Nav className="me-auto divRowBetween w-100">
             <CustomNavBarItem item="Trang chủ" onClick={() => navigate("/")} />
-             <CustomNavBarItem
+            <CustomNavBarItem
               item="DS tài khoản"
               onClick={() => navigate("/account-list")}
             />
@@ -68,7 +68,7 @@ function NavbarComp({ textColor }) {
               item="DS Khách hàng"
               onClick={() => navigate("/customer-list")}
             />
-             <CustomNavBarItem
+            <CustomNavBarItem
               item="DS Khuyến mãi"
               onClick={() => navigate("/discount-list")}
             />
@@ -81,13 +81,13 @@ function NavbarComp({ textColor }) {
             />
             <CustomNavBarItem
               item="DS HDV"
-              onClick={() => navigate("/tour-guide-manager")} 
+              onClick={() => navigate("/tour-guide-manager")}
             />
-             <CustomNavBarItem
+            <CustomNavBarItem
               item="DS Phân công tour"
               onClick={() => navigate("/list-assignment")}
             />
-              <CustomNavBarItem
+            <CustomNavBarItem
               item="Phân công HDV"
               onClick={() => navigate("/tour-guide-details")}
             />

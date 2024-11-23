@@ -68,9 +68,9 @@ const LoginRegister = () => {
     if (result.isLoginSuccessful) {
       console.log("Đăng nhập thành công:", result.userData);
       sessionStorage.setItem("user", JSON.stringify(result.userData));
-      if(result.userData.role === "ADMIN"){
-      navigate("/admin");
-      }else{
+      if (result.userData.role === "ADMIN") {
+        navigate("/");
+      } else {
         navigate("/");
       }
     } else {
