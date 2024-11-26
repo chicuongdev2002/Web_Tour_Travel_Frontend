@@ -7,7 +7,7 @@ function InputText({ id, label, type, value, onChange, children, disable, notFor
     const [focus, setFocus] = React.useState(false);
     return (
         <FormControl className={className} style={{ width: '100%', marginTop: notForm? 0 : 20 }} variant="standard">
-            <InputLabel htmlFor={id} style={{ color: focus ? '' : 'black', fontSize: 18, fontWeight: 500 }}>{label}</InputLabel>
+            { label && <InputLabel htmlFor={id} style={{ color: focus ? '' : 'black', fontSize: 18, fontWeight: 500 }}>{label}</InputLabel>}
             <Input
                 key={id}
                 type={type}
