@@ -2,25 +2,33 @@ import React from 'react'
 import { Table } from 'react-bootstrap';
 import { GrCaretPrevious, GrCaretNext } from "react-icons/gr";
 let i = 0;
-function TableComponent({ headers, data, page, getData }) {
+function TableComponent({ headers, data, page, getData, onClickTr }) {
   return (
     <div className="booking-table">
       <Table striped bordered hover>
         <thead>
-          <tr>
+          <tr style={{ backgroundColor: 'lightblue' }}>
             {headers.map((header, index) => (
-              <th colSpan={header.colSpan? header.colSpan : 1} key={index} style={{ verticalAlign: 'middle'}}>
-                {header.object? header.object : header}
-              </th>
+              header.tooltip? 
+              <th title={header.tooltip} key={index} style={{ verticalAlign: 'middle'}}>
+                  {header.title}
+                </th>
+              : <th colSpan={header.colSpan? header.colSpan : 1} key={index} style={{ verticalAlign: 'middle'}}>
+                  {header.object? header.object : header}
+                </th>
             ))}
           </tr>
         </thead>
         <tbody>
           {data?.length > 0 ? (
-            data.map((d) => (
-              <tr key={d[Object.keys(d)[0]]}>
-                {Object.keys(d).map((key, index) => (
-                  <td key={i++}>{d[key]}</td>
+            data.map((d, index) => (
+              <tr key={index}>
+                {Object.keys(d).map((key, indexChild) => (
+                    d[key].onClick? 
+                      <td key={indexChild} onClick = {d[key].onClick}>{d[key].title}</td> : 
+                      <td key={indexChild} onClick = { () => {
+                          onClickTr.onClick(d[Object.keys(d)[0]])
+                      }}>{d[key]}</td>
                 ))}
               </tr>
             ))
