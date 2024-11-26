@@ -1,14 +1,21 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import '../style/style.css'
 import { useLocation, useNavigate } from 'react-router-dom';
 import { formatDate } from '../functions/format'
-import bookingTour from '../functions/bookingTour'
 import NavHeader from '../components/navbar/NavHeader';
 import CustomPop from '../components/popupNotifications/CustomPop';
 import FormView from '../components/formView/FormView';
-import { createLinkMomoPayment } from '../functions/payment';
+import { FaUser } from "react-icons/fa";
+import { MdOutlinePhoneAndroid, MdEmail } from "react-icons/md";
+import { FaLocationDot } from "react-icons/fa6";
+import InputText from '../components/inputText/InputText';
+import ModalBooking from '../components/booking/ModalBooking';
+import { useSelector, useDispatch } from 'react-redux';
+import { savePayment } from '../redux/slice';
 
 function Booking() {
+    const dispatch = useDispatch()
+    const payment = useSelector(state => state.payment)
     const navigate = useNavigate();
     const location = useLocation();
     const [notify, setNotify] = useState(-1)
@@ -17,6 +24,9 @@ function Booking() {
     const [numOfAdults, setNumOfAdults] = useState(1)
     const [numOfOlds, setNumOfOlds] = useState(0)
     let tourDetail = useRef(location.state).current;
+    const childrenPrice = useRef(tourDetail.departures[0].tourPricing.find(d => d.participantType === "CHILDREN").price).current
+    const adultsPrice = useRef(tourDetail.departures[0].tourPricing.find(d => d.participantType === "ADULTS").price).current
+    const oldsPrice = useRef(tourDetail.departures[0].tourPricing.find(d => d.participantType === "ELDERLY").price).current
     let user = useRef(sessionStorage.getItem("user") ?
         JSON.parse(sessionStorage.getItem("user")) :
         {
@@ -27,75 +37,97 @@ function Booking() {
             address: "TP.HCM"
         }).current;
 
-    const handlePayment = async () => {
-        const result = await createLinkMomoPayment(100000, 1)
-        debugger
-        window.open("https://www.youtube.com/watch?v=yFL02ijNse0", "_blank")
-    }
-
-    const handleBooking = async () => {
-        try {
-            await bookingTour({
-                userId: user.userId,
-                departureId: tourDetail.departures[0].departureId,
-                participants: numOfChildren + ',' + numOfAdults + ',' + numOfOlds
-            })
-            setNotify(1)
-        } catch (err) {
-            setNotify(0)
-            setMessageNotify(err.response.data)
-        }
-    }
-
     const bookingSuccess = () => {
         setNotify(-1)
         navigate('/booking-list')
     }
+
+    const getData = () => {
+        return {
+            name: tourDetail.tourName,
+            type: tourDetail.tourType,
+            startLocation: tourDetail.startLocation,
+            startDate: formatDate(tourDetail.departures[0].startDate),
+            endDate: formatDate(tourDetail.departures[0].endDate),
+            destination: tourDetail.destinations.length? tourDetail.destinations.map(d => d.name) : null,
+            price: numOfChildren * childrenPrice + numOfAdults * adultsPrice + numOfOlds * oldsPrice,
+            customer: user.fullName + ' - ' + user.phoneNumber + ' - ' + user.email,
+            address: user.addresses[0]?.address,
+            user: user.userId,
+            departure: tourDetail.departures[0].departureId,
+            participants: numOfChildren + ',' + numOfAdults + ',' + numOfOlds
+        }
+    }
+
+    useEffect(() => {
+        if (payment.bookingId) {
+            setNotify(1)
+            dispatch(savePayment({
+                bookingId: '',
+                userId: '',
+                departureId: ''
+            }))
+        }
+    }, [payment])
+
+    const onBookingFail = (message) => {
+        setNotify(0)
+        setMessageNotify(message)
+    }
+
     return (
         <div>
             <NavHeader textColor="black" />
             <div className='divRowBetween align-items-start px-3'>
-                <div className='w-60'>
-                    <FormView title='Dịch vụ tour' data={[
-                        { label: 'Mã tour', value: tourDetail.tourId },
-                        { label: 'Tour yêu cầu', value: tourDetail.tourName },
-                        { label: 'Số ngày', value: tourDetail.duration }
-                    ]} />
-                    <FormView title='Chi tiết tour'>
+                <div className='w-80'>
+                    <FormView title={tourDetail.tourName}>
                         <div className='divRowBetween'>
-                            <div>
+                            <div className='w-60'>
                                 <p>Mã lịch trình: {tourDetail.departures[0].departureId}</p>
+                                <p>Loại tour: {tourDetail.tourType}</p>
+                                <p>Điểm khởi hành: {tourDetail.startLocation}</p>
                                 <p>Ngày khởi hành: {formatDate(tourDetail.departures[0].startDate)}</p>
                                 <p>Ngày kết thúc: {formatDate(tourDetail.departures[0].endDate)}</p>
-                                <p>Lịch trình: </p>
+                                <p>Số chỗ trống: {tourDetail.departures[0].availableSeats}</p>
+                                <p>Lịch trình: {tourDetail.destinations.length && tourDetail.destinations.map(d => d.name).join(' ➪ ')}</p>
                             </div>
-                            <FormView className="w-30" title='Số người tham gia' data={[
-                                {
-                                    label: 'Trẻ em', object: {
-                                        type: 'number',
-                                        min: 0,
-                                        value: numOfChildren,
-                                        onChange: (e) => setNumOfChildren(e.target.value)
-                                    }
-                                },
-                                {
-                                    label: 'Người lớn', object: {
-                                        type: 'number',
-                                        className: 'my-2',
-                                        min: 1,
-                                        value: numOfAdults,
-                                        onChange: (e) => setNumOfAdults(e.target.value)
-                                    }
-                                },
-                                {
-                                    label: 'Người cao tuổi', object: {
-                                        type: 'number',
-                                        min: 0,
-                                        value: numOfOlds,
-                                        onChange: (e) => setNumOfOlds(e.target.value)
-                                    }
-                                }
-                            ]} />
+                            <FormView notIcon={true} title='Giá vé'>
+                                <div>
+                                    <div className='divRowBetween'>
+                                        <p className='flex-grow-1'>Trẻ em: {childrenPrice} VND</p>
+                                        <div className='divRow'>
+                                            <p className='flex-grow-1 mr-2'>Số lượng:</p>
+                                            <div style={{ width: 50 }}>
+                                            <InputText notForm={true} type="number" 
+                                                value={numOfChildren} min={0}
+                                                onChange={(e) => setNumOfChildren(e.target.value)} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className='divRowBetween'>
+                                        <p className='flex-grow-1'>Người lớn: {adultsPrice} VND</p>
+                                        <div className='divRow'>
+                                            <p className='flex-grow-1 mr-2'>Số lượng:</p>
+                                            <div style={{ width: 50 }}>
+                                            <InputText notForm={true} type="number" 
+                                                value={numOfAdults} min={1}
+                                                onChange={(e) => setNumOfAdults(e.target.value)} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div className='divRowBetween'>
+                                        <p className='flex-grow-1'>Người già: {oldsPrice} VND</p>
+                                        <div className='divRow'>
+                                            <p className='flex-grow-1 mr-2'>Số lượng:</p>
+                                            <div style={{ width: 50 }}>
+                                            <InputText notForm={true} type="number" 
+                                                value={numOfOlds} min={0}
+                                                onChange={(e) => setNumOfOlds(e.target.value)} />
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </FormView>
                         </div>
                     </FormView>
                     <FormView title='Lưu ý' data={[
@@ -104,12 +136,12 @@ function Booking() {
                         { label: 'Điều kiện thay đổi', value: 'Không thay đổi' }
                     ]} />
                 </div>
-                <div className='w-40'>
-                    <FormView title='Thông tin liên lạc' titleBackground="yellow" data={[
-                        { label: 'Họ và tên', value: user.fullName },
-                        { label: 'Điện thoại', value: user.phoneNumber },
-                        { label: 'Email', value: user.email },
-                        { label: 'Địa chỉ', value: user.address },
+                <div style={{ flexGrow: 1 }}>
+                    <FormView title='Thông tin' titleBackground="yellow" data={[
+                        { label: { icon : <FaUser /> }, value: user.fullName },
+                        { label: { icon : <MdOutlinePhoneAndroid size={25} /> }, value: user.phoneNumber },
+                        { label: { icon : <MdEmail size={25} /> }, value: user.email },
+                        { label: { icon : <FaLocationDot size={25} /> }, value: user.addresses[0]? user.addresses[0].address : "" },
                         {
                             label: 'Ghi chú', object: {
                                 type: 'text',
@@ -118,17 +150,18 @@ function Booking() {
                             }
                         },
                         {
-                            label: 'Thanh toán', object: {
+                            label: 'Đặt tour', object: {
                                 type: 'button',
                                 className: 'w-100 my-3',
-                                onClick: handlePayment,
+                                onClick: () => setNotify(-2),
                             }
                         }
                     ]} />
                 </div>
-                <CustomPop notify={notify} onSuccess={bookingSuccess} messageSuccess={"Đặt tour thành công"}
-                    onFail={() => setNotify(-1)} messageFail={messageNotify} />
             </div>
+            <ModalBooking open={notify === -2} onBookingSuccess={()=>setNotify(1)} tour={getData()} onclose={() => setNotify(-1)} onBookingFail={onBookingFail}/>
+            <CustomPop notify={notify} onSuccess={bookingSuccess} messageSuccess={"Đặt tour thành công"}
+                onFail={() => setNotify(-1)} messageFail={messageNotify} />
         </div>
     )
 }

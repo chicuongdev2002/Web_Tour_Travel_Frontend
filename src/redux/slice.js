@@ -44,9 +44,25 @@ const initSocket = createSlice({
     }
 })
 
+const paymentSlice = createSlice({
+    name: 'payment',
+    initialState: {
+        bookingId: '',
+        userId: '',
+        departureId: '',
+    },
+    reducers: {
+        savePayment: (state, action) => {
+            Object.assign(state, action.payload);
+        }
+    }
+})
+
 export const { saveNotify, addNotify } = notifySlice.actions;
 export const { addNotification } = socketSlice.actions;
 export const { changeConnectSocket } = initSocket.actions;
+export const { savePayment } = paymentSlice.actions;
 export const notifyReducer = notifySlice.reducer;
 export const socketReducer = socketSlice.reducer;
 export const initSocketReducer = initSocket.reducer;
+export const paymentReducer = paymentSlice.reducer;

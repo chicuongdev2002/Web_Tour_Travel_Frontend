@@ -1,11 +1,12 @@
 import { configureStore } from '@reduxjs/toolkit';
-import { notifyReducer, socketReducer, initSocketReducer } from './slice';
+import { notifyReducer, socketReducer, initSocketReducer, paymentReducer } from './slice';
 
 const store = configureStore({
     reducer: {
       notify: notifyReducer,
       socket: socketReducer,
-      initSocket: initSocketReducer
+      initSocket: initSocketReducer,
+      payment: paymentReducer
     }
   });
   
