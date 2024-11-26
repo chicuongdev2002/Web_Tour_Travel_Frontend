@@ -5,8 +5,10 @@ import { updateStatusTour } from '../../functions/updateStatusTour'
 import Switch from '@mui/material/Switch';
 import CustomPop from '../../components/popupNotifications/CustomPop';
 import ChoosePopup from '../../components/popupNotifications/ChoosePopup';
+import { useNavigate, useLocation } from "react-router-dom";
 
 function TourList() {
+  const navigate = useNavigate();
   const [notify, setNotify] = useState(-1);
   const [selectedStatus, setSelectedStatus] = useState(0);
   const [tourList, setTourList] = React.useState([])
@@ -35,19 +37,20 @@ function TourList() {
         "Thời gian(giờ)": d.duration,
         "Điểm khởi hành": d.startLocation,
         "Loại tour": d.tourType,
-        "Trạng thái": <Switch checked={d.active} onChange={
-          () => {
-            setSelectedStatus(d.tourId);
-            setNotify(2);
-          }
-        } />
+        "Trạng thái": {
+          title: <Switch checked={d.active} />,
+          onClick: () => {
+              setSelectedStatus(d.tourId);
+              setNotify(2);
+            }
+        }
       }
     })
   }
 
   const updateStatus = useCallback(async (tourID, status) => {
     const result = await updateStatusTour(tourID, !status);
-    setTourList(tourList.map(tour => {
+    setTourList(tourList => tourList.map(tour => {
       if (tour.tourId == tourID) {
         tour.active = !status;
       }
@@ -56,10 +59,28 @@ function TourList() {
     return result;
   }, [])
 
+  const handleAddTour = () => {
+    navigate('/add-tour')
+  }
+
+  const handleViewTour = () => {
+    navigate('/tour-list')
+  }
+
+  const handleViewTourDetails = {
+    onClick: (id) => navigate('/tour-details/' + id)
+  }
+
   return (
     <div>
+      <div className='w-100 d-flex justify-content-end my-2'>
+        <button onClick={handleAddTour}>Thêm tour</button>
+        <button onClick={handleViewTour}>Xem với vai trò khách hàng</button>
+      </div>
       <TableComponent headers={["Tour ID", "Tour", "Mô tả", "Thời gian(giờ)", "Điểm khởi hành", "Loại tour", "Trạng thái"]}
-        data={convertData(tourList)} page={page} getData={getTourList} />
+        data={convertData(tourList)} page={page} getData={getTourList} 
+        onClickTr = {handleViewTourDetails}
+        />
       <CustomPop notify={notify} onSuccess={() => setNotify(-1)} messageSuccess={"Cập nhật thành công"} onFail={() => setNotify(-1)} />
       {
         notify == 2 && <ChoosePopup open={notify == 2} onAccept={() => {
