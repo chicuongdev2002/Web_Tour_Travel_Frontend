@@ -23,6 +23,8 @@ import NotifyPage from "./pages/NotifyPage.jsx";
 import { useSelector, useDispatch } from "react-redux";
 import { changeConnectSocket } from "../src/redux/slice";
 import { initSocket, handleDoWithSocket } from "../src/functions/initSocket";
+import { savePayment } from "../src/redux/slice";
+import Payment from './pages/Payment.jsx';
 function App() {
   const user = JSON.parse(sessionStorage.getItem("user"));
   const dispatch = useDispatch();
@@ -32,13 +34,17 @@ function App() {
   const connectSocket = useSelector((state) => state.initSocket);
 
   useEffect(() => {
-    if(initSocket(connectSocket))
+    if(initSocket(connectSocket, handlePayment))
       dispatch(changeConnectSocket(true));
   }, [user, connectSocket]);
 
   useEffect(() => {
     handleDoWithSocket(socket);
   }, [socket]);
+
+  const handlePayment = (message) => {
+    dispatch(savePayment(message));
+  }
 
   return (
     <BrowserRouter>
@@ -62,6 +68,7 @@ function App() {
         <Route path="/list-assignment" element={<AssignmentPage />} />
         <Route path="/admin" element={<AdminPage />} />
         <Route path="/notify" element={<NotifyPage />} />
+        <Route path="/payment" element={<Payment />} />
       </Routes>
     </BrowserRouter>
   )

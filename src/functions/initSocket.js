@@ -4,12 +4,12 @@ import { WEB_SOCKET } from "../config/host";
 
 var stompClient = null;
 const user = JSON.parse(sessionStorage.getItem("user"));
-const initSocket = (connectSocket) => {
+const initSocket = (connectSocket, handlePayment) => {
     if (user) {
         if (!connectSocket) {
             let socket = new SockJS(WEB_SOCKET);
             stompClient = Stomp.over(socket);
-            stompClient.connect({}, onConnected, onError);
+            stompClient.connect({}, () => onConnected(handlePayment), onError);
             return true;
         }
     }
@@ -22,10 +22,14 @@ const handleDoWithSocket = (socket) => {
     }
 }
 
-const onConnected = () => {
+const onConnected = (handlePayment) => {
     stompClient.subscribe('/user/' + user.userId + '/notify', (payload) => {
         const message = JSON.parse(payload.body);
         alert(message)
+    })
+    stompClient.subscribe('/user/' + user.userId + '/callBackPayment', (payload) => {
+        const message = JSON.parse(payload.body);
+        handlePayment(message);
     })
 }
 

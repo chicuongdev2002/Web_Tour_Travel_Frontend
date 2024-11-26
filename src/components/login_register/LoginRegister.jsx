@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import "./style.css";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
 import checkEmailExists from "../../functions/checkEmailExsist";
 import checkAccountExists from "../../functions/checkAccount";
@@ -17,6 +17,7 @@ import EditNoteIcon from "@mui/icons-material/EditNote";
 import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
 import EmailIcon from "@mui/icons-material/Email";
 const LoginRegister = () => {
+  const location = useLocation();
   const [isActive, setIsActive] = useState(false);
   const [username, setUsername] = useState("");
   const [fullName, setFullName] = useState("");
@@ -68,7 +69,10 @@ const LoginRegister = () => {
     if (result.isLoginSuccessful) {
       console.log("Đăng nhập thành công:", result.userData);
       sessionStorage.setItem("user", JSON.stringify(result.userData));
-      navigate("/");
+      if(location.state) 
+        navigate("/booking", { state: location.state });
+      else
+        navigate("/");
     } else {
       if (!result.isLoginSuccessful) {
         setFailedLoginAttempts((prev) => prev + 1);
