@@ -3,6 +3,7 @@ import InputLabel from "@mui/material/InputLabel";
 import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
+import "./style.css";
 
 function SelectComponent({ id, label, value, onChange, listData }) {
   const [focus, setFocus] = React.useState(false);
@@ -25,7 +26,7 @@ function SelectComponent({ id, label, value, onChange, listData }) {
       >
         {listData.map((item, index) => {
           return (
-            <MenuItem key={index} value={Object.keys(item)[0]}>
+            <MenuItem style={{ maxWidth: 200 }} key={index} value={Object.keys(item)[0]}>
               {Object.values(item)[0]}
             </MenuItem>
           );

@@ -14,23 +14,30 @@ import {
   useTheme,
   styled,
   alpha,
+  TextField,
+  Slider,
 } from '@mui/material';
+import { DatePicker } from '@mui/x-date-pickers/DatePicker';
+import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
+import { AdapterDateFns } from '@mui/x-date-pickers/AdapterDateFns';
 import {
   Search as SearchIcon,
   LocationOn as LocationIcon,
   Group as GroupIcon,
   Person as PersonIcon,
   TravelExplore as TravelIcon,
+  CalendarToday as CalendarIcon,
+  AttachMoney as MoneyIcon,
 } from '@mui/icons-material';
 
 // Styled components với kích thước nhỏ hơn
 const StyledPaper = styled(Paper)(({ theme }) => ({
-  padding: theme.spacing(2), // Giảm padding từ 4 xuống 2
+  padding: theme.spacing(2),
   background: 'rgba(255, 255, 255, 0.95)',
   backdropFilter: 'blur(10px)',
   borderRadius: theme.spacing(2),
-  width: '250px', // Giảm width từ 400px xuống 300px
-  margin: '10px', // Giảm margin từ 20px xuống 10px
+  width: '250px',
+  margin: '10px',
   transition: 'transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out',
   '&:hover': {
     transform: 'translateY(-4px)',
@@ -45,7 +52,7 @@ const SearchWrapper = styled(Paper)(({ theme }) => ({
   border: '1px solid',
   borderColor: alpha(theme.palette.primary.main, 0.2),
   borderRadius: theme.shape.borderRadius * 2,
-  marginBottom: theme.spacing(1.5), // Giảm margin bottom
+  marginBottom: theme.spacing(1),
   transition: 'all 0.3s ease',
   '&:hover': {
     borderColor: theme.palette.primary.main,
@@ -54,10 +61,10 @@ const SearchWrapper = styled(Paper)(({ theme }) => ({
 }));
 
 const StyledSelect = styled(Select)(({ theme }) => ({
-  marginBottom: theme.spacing(1.5), // Giảm margin bottom
+  marginBottom: theme.spacing(1),
   '& .MuiSelect-select': {
     paddingLeft: theme.spacing(1.5),
-    paddingTop: '8px', // Giảm padding
+    paddingTop: '8px',
     paddingBottom: '8px',
   },
   '& .MuiOutlinedInput-notchedOutline': {
@@ -70,11 +77,27 @@ const StyledSelect = styled(Select)(({ theme }) => ({
   },
 }));
 
+const StyledDatePicker = styled(DatePicker)(({ theme }) => ({
+  '& .MuiInputBase-input': {
+    padding: '8px 12px',
+    fontSize: '0.8rem',
+  },
+  '& .MuiOutlinedInput-root': {
+    borderRadius: theme.shape.borderRadius * 2,
+    '& fieldset': {
+      borderColor: alpha(theme.palette.primary.main, 0.2),
+    },
+    '&:hover fieldset': {
+      borderColor: theme.palette.primary.main,
+    },
+  },
+}));
+
 const StyledButton = styled(Button)(({ theme }) => ({
-  height: '45px', // Giảm chiều cao button
+  height: '40px',
   borderRadius: theme.shape.borderRadius * 2,
   textTransform: 'none',
-  fontSize: '0.9rem', // Giảm font size
+  fontSize: '0.85rem',
   fontWeight: 600,
   transition: 'all 0.3s ease',
   background: `linear-gradient(45deg, ${theme.palette.primary.main} 30%, ${theme.palette.primary.light} 90%)`,
@@ -90,10 +113,22 @@ const SearchInput = ({ onSearch }) => {
   const [startLocation, setStartLocation] = useState("");
   const [tourType, setTourType] = useState("");
   const [participantType, setParticipantType] = useState("");
+  const [startDate, setStartDate] = useState(null);
+  const [endDate, setEndDate] = useState(null);
+  const [priceRange, setPriceRange] = useState([0, 10000000]);
   const [isHovered, setIsHovered] = useState(false);
 
   const handleSearch = () => {
-    onSearch({ keyword, startLocation, tourType, participantType });
+    onSearch({ 
+      keyword, 
+      startLocation, 
+      tourType, 
+      participantType,
+      startDate: startDate ? startDate.toISOString() : null,
+      endDate: endDate ? endDate.toISOString() : null,
+      minPrice: priceRange[0],
+      maxPrice: priceRange[1]
+    });
   };
 
   const provinces = [
@@ -112,138 +147,233 @@ const SearchInput = ({ onSearch }) => {
     ELDERLY: "Người già",
   };
 
+  // Hàm format giá tiền
+  const formatPrice = (value) => {
+    return new Intl.NumberFormat('vi-VN', { 
+      style: 'currency', 
+      currency: 'VND' 
+    }).format(value);
+  };
+
   return (
-    <Fade in timeout={1000}>
-      <Box sx={{ position: 'relative', mt: 2, mb: 2 }}> {/* Giảm margin top/bottom */}
-        <StyledPaper
-          elevation={isHovered ? 8 : 3}
-          onMouseEnter={() => setIsHovered(true)}
-          onMouseLeave={() => setIsHovered(false)}
-        >
-          <Box sx={{ display: 'flex', alignItems: 'center', mb: 2 }}> {/* Giảm margin bottom */}
-            <TravelIcon
-              sx={{
-                fontSize: 30, // Giảm kích thước icon
-                color: theme.palette.primary.main,
-                mr: 1.5
-              }}
-            />
+    <LocalizationProvider dateAdapter={AdapterDateFns}>
+      <Fade in timeout={1000}>
+        <Box sx={{ position: 'relative', mt: 1, mb: 1 }}>
+          <StyledPaper
+            elevation={isHovered ? 8 : 3}
+            onMouseEnter={() => setIsHovered(true)}
+            onMouseLeave={() => setIsHovered(false)}
+          >
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
+              <TravelIcon
+                sx={{
+                  fontSize: 26,
+                  color: theme.palette.primary.main,
+                  mr: 1
+                }}
+              />
+              <Typography
+                variant="h6"
+                sx={{
+                  fontWeight: 600,
+                  color: theme.palette.primary.main,
+                  fontSize: '0.95rem',
+                }}
+              >
+                Khám phá chuyến đi
+              </Typography>
+            </Box>
+
+            <SearchWrapper elevation={0}>
+              <IconButton sx={{ p: '6px' }}>
+                <SearchIcon color="primary" sx={{ fontSize: 18 }} />
+              </IconButton>
+              <InputBase
+                sx={{ ml: 1, flex: 1, fontSize: '0.85rem' }}
+                placeholder="Tìm kiếm tour du lịch..."
+                value={keyword}
+                onChange={(e) => setKeyword(e.target.value)}
+              />
+            </SearchWrapper>
+
+            <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
+              <FormControl fullWidth size="small" sx={{ flex: 1 }}>
+                <InputLabel sx={{ fontSize: '0.85rem' }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <LocationIcon sx={{ fontSize: 14 }} />
+                    Địa điểm
+                  </Box>
+                </InputLabel>
+                <StyledSelect
+                  value={startLocation}
+                  onChange={(e) => setStartLocation(e.target.value)}
+                  label="Địa điểm bắt đầu"
+                  sx={{ '& .MuiSelect-select': { fontSize: '0.85rem' } }}
+                >
+                  <MenuItem value="" sx={{ fontSize: '0.85rem' }}>
+                    <em>Chọn địa điểm</em>
+                  </MenuItem>
+                  {provinces.map((province) => (
+                    <MenuItem key={province} value={province} sx={{ fontSize: '0.85rem' }}>
+                      {province}
+                    </MenuItem>
+                  ))}
+                </StyledSelect>
+              </FormControl>
+
+              <FormControl fullWidth size="small" sx={{ flex: 1 }}>
+                <InputLabel sx={{ fontSize: '0.85rem' }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <GroupIcon sx={{ fontSize: 14 }} />
+                    Loại Tour
+                  </Box>
+                </InputLabel>
+                <StyledSelect
+                  value={tourType}
+                  onChange={(e) => setTourType(e.target.value)}
+                  label="Loại Tour"
+                  sx={{ '& .MuiSelect-select': { fontSize: '0.85rem' } }}
+                >
+                  <MenuItem value="" sx={{ fontSize: '0.85rem' }}>
+                    <em>Chọn loại tour</em>
+                  </MenuItem>
+                  {Object.entries(tourTypes).map(([key, value]) => (
+                    <MenuItem key={key} value={key} sx={{ fontSize: '0.85rem' }}>
+                      {value}
+                    </MenuItem>
+                  ))}
+                </StyledSelect>
+              </FormControl>
+            </Box>
+
+            <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
+              <FormControl fullWidth size="small" sx={{ flex: 1 }}>
+                <InputLabel sx={{ fontSize: '0.85rem' }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <PersonIcon sx={{ fontSize: 14 }} />
+                    Loại Khách
+                  </Box>
+                </InputLabel>
+                <StyledSelect
+                  value={participantType}
+                  onChange={(e) => setParticipantType(e.target.value)}
+                  label="Loại Khách"
+                  sx={{ '& .MuiSelect-select': { fontSize: '0.85rem' } }}
+                >
+                  <MenuItem value="" sx={{ fontSize: '0.85rem' }}>
+                    <em>Chọn loại khách</em>
+                  </MenuItem>
+                  {Object.entries(participantTypes).map(([key, value]) => (
+                    <MenuItem key={key} value={key} sx={{ fontSize: '0.85rem' }}>
+                      {value}
+                    </MenuItem>
+                  ))}
+                </StyledSelect>
+              </FormControl>
+            </Box>
+
+            {/* Bộ lọc ngày - Compact Version */}
+            <Box sx={{ mb: 1 }}>
+              <Typography 
+                variant="subtitle2" 
+                sx={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: 1, 
+                  mb: 0.5,
+                  fontSize: '0.85rem'
+                }}
+              >
+                <CalendarIcon sx={{ fontSize: 14, color: theme.palette.primary.main }} />
+                Ngày khởi hành
+              </Typography>
+              <Box sx={{ display: 'flex', gap: 1, mb: 1 }}>
+                <StyledDatePicker
+                  label="Từ ngày"
+                  value={startDate}
+                  onChange={(newValue) => setStartDate(newValue)}
+                  slotProps={{
+                    textField: {
+                      variant: 'outlined',
+                      fullWidth: true,
+                      size: 'small',
+                    }
+                  }}
+                />
+                <StyledDatePicker
+                  label="Đến ngày"
+                  value={endDate}
+                  onChange={(newValue) => setEndDate(newValue)}
+                  slotProps={{
+                    textField: {
+                      variant: 'outlined', 
+                      fullWidth: true,
+                      size: 'small',
+                    }
+                  }}
+                />
+              </Box>
+            </Box>
+
+            {/* Bộ lọc giá */}
+            <Box sx={{ mb: 1 }}>
+              <Typography 
+                variant="subtitle2" 
+                sx={{ 
+                  display: 'flex', 
+                  alignItems: 'center', 
+                  gap: 1, 
+                  mb: 0.5,
+                  fontSize: '0.85rem'
+                }}
+              >
+                <MoneyIcon sx={{ fontSize: 14, color: theme.palette.primary.main }} />
+                Khoảng giá
+              </Typography>
+              <Slider
+                value={priceRange}
+                onChange={(_, newValue) => setPriceRange(newValue)}
+                valueLabelDisplay="auto"
+                valueLabelFormat={(value) => formatPrice(value)}
+                min={0}
+                max={10000000}
+                step={100000}
+                size="small"
+              />
+              <Box sx={{ display: 'flex', justifyContent: 'space-between', mt: 0.5 }}>
+                <Typography variant="body2" sx={{ fontSize: '0.75rem' }}>
+                  {formatPrice(priceRange[0])}
+                </Typography>
+                <Typography variant="body2" sx={{ fontSize: '0.75rem' }}>
+                  {formatPrice(priceRange[1])}
+                </Typography>
+              </Box>
+            </Box>
+
+            <StyledButton
+              variant="contained"
+              fullWidth
+              onClick={handleSearch}
+              startIcon={<SearchIcon sx={{ fontSize: 16 }} />}
+            >
+              Tìm kiếm
+            </StyledButton>
+
             <Typography
-              variant="h6" // Thay đổi từ h5 xuống h6
+              variant="body2"
               sx={{
-                fontWeight: 600,
-                color: theme.palette.primary.main,
-                fontSize: '1rem', // Giảm font size
+                textAlign: 'center',
+                mt: 1,
+                color: 'text.secondary',
+                fontSize: '0.7rem',
               }}
             >
-              Khám phá chuyến đi của bạn
+              Khám phá hàng nghìn tour du lịch hấp dẫn
             </Typography>
-          </Box>
-
-          <SearchWrapper elevation={0}>
-            <IconButton sx={{ p: '8px' }}> {/* Giảm padding */}
-              <SearchIcon color="primary" sx={{ fontSize: 20 }} /> {/* Giảm kích thước icon */}
-            </IconButton>
-            <InputBase
-              sx={{ ml: 1, flex: 1, fontSize: '0.9rem' }} // Giảm font size
-              placeholder="Tìm kiếm tour du lịch..."
-              value={keyword}
-              onChange={(e) => setKeyword(e.target.value)}
-            />
-          </SearchWrapper>
-
-          <FormControl fullWidth size="small"> {/* Thêm size="small" */}
-            <InputLabel>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <LocationIcon sx={{ fontSize: 16 }} />
-                Địa điểm bắt đầu
-              </Box>
-            </InputLabel>
-            <StyledSelect
-              value={startLocation}
-              onChange={(e) => setStartLocation(e.target.value)}
-              label="Địa điểm bắt đầu"
-            >
-              <MenuItem value="">
-                <em>Chọn địa điểm</em>
-              </MenuItem>
-              {provinces.map((province) => (
-                <MenuItem key={province} value={province}>
-                  {province}
-                </MenuItem>
-              ))}
-            </StyledSelect>
-          </FormControl>
-
-          <FormControl fullWidth size="small">
-            <InputLabel>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <GroupIcon sx={{ fontSize: 16 }} />
-                Loại Tour
-              </Box>
-            </InputLabel>
-            <StyledSelect
-              value={tourType}
-              onChange={(e) => setTourType(e.target.value)}
-              label="Loại Tour"
-            >
-              <MenuItem value="">
-                <em>Chọn loại tour</em>
-              </MenuItem>
-              {Object.entries(tourTypes).map(([key, value]) => (
-                <MenuItem key={key} value={key}>
-                  {value}
-                </MenuItem>
-              ))}
-            </StyledSelect>
-          </FormControl>
-
-          <FormControl fullWidth size="small">
-            <InputLabel>
-              <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                <PersonIcon sx={{ fontSize: 16 }} />
-                Loại Khách
-              </Box>
-            </InputLabel>
-            <StyledSelect
-              value={participantType}
-              onChange={(e) => setParticipantType(e.target.value)}
-              label="Loại Khách"
-            >
-              <MenuItem value="">
-                <em>Chọn loại khách</em>
-              </MenuItem>
-              {Object.entries(participantTypes).map(([key, value]) => (
-                <MenuItem key={key} value={key}>
-                  {value}
-                </MenuItem>
-              ))}
-            </StyledSelect>
-          </FormControl>
-
-          <StyledButton
-            variant="contained"
-            fullWidth
-            onClick={handleSearch}
-            startIcon={<SearchIcon sx={{ fontSize: 18 }} />}
-          >
-            Tìm kiếm
-          </StyledButton>
-
-          <Typography
-            variant="body2"
-            sx={{
-              textAlign: 'center',
-              mt: 2, // Giảm margin top
-              color: 'text.secondary',
-              fontSize: '0.75rem', // Giảm font size
-            }}
-          >
-            Khám phá hàng nghìn tour du lịch hấp dẫn trên khắp Việt Nam
-          </Typography>
-        </StyledPaper>
-      </Box>
-    </Fade>
+          </StyledPaper>
+        </Box>
+      </Fade>
+    </LocalizationProvider>
   );
 };
 

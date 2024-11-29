@@ -10,10 +10,11 @@ import DepartureDates from "./Calendar/DepartureDates";
 import ItineraryDetail from "./InfomaitionTour/ItineraryDetail";
 import TourMap from "./map/TourMap";
 import ReviewComponent from "./review/ReviewComponent";
-import ChoosePopup from "../popupNotifications/ChoosePopup";
-import { DELETE_TOUR } from "../../config/host";
-import { deleteData } from "../../functions/deleteData";
-import CustomPop from "../popupNotifications/CustomPop";
+import ChoosePopup from '../popupNotifications/ChoosePopup';
+import { UPDATE_TOUR_STATUS } from '../../config/host';
+import { deleteData } from '../../functions/deleteData';
+import CustomPop from '../popupNotifications/CustomPop';
+import imageBasic from '../../assets/404.png';
 const TourDetailComponent = ({ tourData }) => {
   const navigate = useNavigate();
   const [selectedDeparture, setSelectedDeparture] = useState(
@@ -48,6 +49,7 @@ const TourDetailComponent = ({ tourData }) => {
   const handleDateSelect = (departure) => {
     console.log("Selected departure:", departure);
   };
+
   const imageUrls = tourData.images.map((img) => img.imageUrl);
 
   const participantTypeTranslation = {
@@ -55,26 +57,29 @@ const TourDetailComponent = ({ tourData }) => {
     CHILDREN: "Trẻ em",
     ELDERLY: "Người cao tuổi",
   };
+
   const goToBooking = () => {
-    navigate("/booking", { state: tourData });
-  };
+      navigate('/booking', { state: tourData });
+  }
 
   const goToUpdateTour = () => {
     navigate(`/update-tour/${tourData.tourId}`, { state: tourData });
   };
 
   const deleteTour = async () => {
-    const result = await deleteData(DELETE_TOUR, tourData.tourId);
-    if (result) setOpenPopup(1);
-    else setOpenPopup(0);
-  };
+    const result = await deleteData(UPDATE_TOUR_STATUS, tourData.tourId);
+    if (result)
+        setOpenPopup(1);
+    else
+        setOpenPopup(0);
+  }
   return (
     <div className="w-full max-w-7xl mx-auto p-4">
       <div className="flex flex-col md:flex-row gap-6">
         {/* Image Slider Section */}
         <div className="md:w-1/2">
           <SliderPaging
-            images={imageUrls}
+            images={imageUrls.length? imageUrls : [imageBasic]}
             mainImgDimension={mainImgDimension}
             thumbImgDimension={thumbImgDimension}
           />
@@ -222,7 +227,7 @@ const TourDetailComponent = ({ tourData }) => {
 
       {/* Reviews Section */}
       <div className="w-full max-w-7xl mx-auto p-4">
-        <ReviewComponent reviews={tourData.reviews} />
+        <ReviewComponent reviews={tourData.reviews} tourId={tourData.tourId} />
       </div>
       <ChoosePopup
         title="Xoá tour"

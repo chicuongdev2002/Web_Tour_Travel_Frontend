@@ -13,7 +13,7 @@ const fetchTotalRevenue = async (startDate, endDate) => {
     `Fetching total revenue from ${url}startDate=${startDate}&endDate=${endDate}`,
   );
   const response = await axios.get(
-    `${url}startDate=${startDate}&endDate=${endDate}`,
+    `${url}?startDate=${startDate}&endDate=${endDate}`,
   );
   return response.data;
 };
@@ -21,14 +21,14 @@ const fetchTotalRevenue = async (startDate, endDate) => {
 const fetchTourRevenue = async (startDate, endDate) => {
   const url = getAPI(STATIS_REVENUE_TOUR_TICKET, null, null);
   const response = await axios.get(
-    `${url}startDate=${startDate}&endDate=${endDate}`,
+    `${url}?startDate=${startDate}&endDate=${endDate}`,
   );
   return response.data;
 };
 
 const fetchMonthlyRevenue = async (year) => {
   const url = getAPI(STATIS_REVENUE_MONTHLY, null, null);
-  const response = await axios.get(`${url}year=${year}`);
+  const response = await axios.get(`${url}?year=${year}`);
   return response.data;
 };
 

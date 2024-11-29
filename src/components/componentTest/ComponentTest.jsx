@@ -1,26 +1,72 @@
-import React, { useEffect } from "react";
-import SuccessPopup from "../popupNotifications/SuccessPopup";
-import DrawRejectIcon from "../draw/DrawRejectIcon";
-import FailPopup from "../popupNotifications/FailPopup";
-import { motion } from "framer-motion";
-import DrawCircle from "../draw/DrawCircle";
-import DrawQuestionMark from "../draw/DrawQuestionMark";
-import ChoosePopup from "../popupNotifications/ChoosePopup";
-import TableComponent from "../table/TableComponent";
+import * as React from 'react';
+import Menu from '@mui/material/Menu';
+import MenuItem from '@mui/material/MenuItem';
+import { Button } from '@mui/material';
 
-function ComponentTest({ width, height }) {
-  const [open, setOpen] = React.useState(false);
+const options = [
+  'None',
+  'Atria',
+  'Callisto',
+  'Dione',
+  'Ganymede',
+  'Hangouts Call',
+  'Luna',
+  'Oberon',
+  'Phobos',
+  'Pyxis',
+  'Sedna',
+  'Titania',
+  'Triton',
+  'Umbriel',
+];
+
+const ITEM_HEIGHT = 48;
+
+export default function ComponentTest() {
+  const [anchorEl, setAnchorEl] = React.useState(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
   return (
-    <TableComponent
-      headers={["Header 1", "Header 2", "Header 3"]}
-      data={{
-        content: [
-          { "Header 1": "Data 1", "Header 2": "Data 2", "Header 3": "Data 3" },
-        ],
-      }}
-      getData={() => {}}
-    />
+    <div>
+      <Button
+        aria-label="more"
+        id="long-button"
+        aria-controls={open ? 'long-menu' : undefined}
+        aria-expanded={open ? 'true' : undefined}
+        aria-haspopup="true"
+        onClick={handleClick}
+      >
+        Test
+      </Button>
+      <Menu
+        id="long-menu"
+        MenuListProps={{
+          'aria-labelledby': 'long-button',
+        }}
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        slotProps={{
+          paper: {
+            style: {
+              maxHeight: ITEM_HEIGHT * 4.5,
+              width: '20ch',
+            },
+          },
+        }}
+      >
+        {options.map((option) => (
+          <MenuItem key={option} selected={option === 'Pyxis'} onClick={handleClose}>
+            {option}
+          </MenuItem>
+        ))}
+      </Menu>
+    </div>
   );
 }
-
-export default ComponentTest;

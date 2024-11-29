@@ -72,6 +72,7 @@ function AddTourComponent() {
           startLocation,
           tourType: type,
           duration,
+          user:sessionStorage.getItem("user") ? JSON.parse(sessionStorage.getItem("user")) : null
         },
         departures: [
           {

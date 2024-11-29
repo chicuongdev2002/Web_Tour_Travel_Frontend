@@ -54,17 +54,6 @@
   /* Bold text */
 }
 
-button {
-  background: transparent;
-  /* Transparent background */
-  border: none;
-  /* No border */
-  cursor: pointer;
-  /* Pointer on hover */
-  padding: 0;
-  /* No padding */
-}
-
 button:hover .view-calendar {
   text-decoration: underline;
   /* Underline effect on hover */

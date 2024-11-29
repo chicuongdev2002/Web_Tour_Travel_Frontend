@@ -61,6 +61,10 @@ footer {
   margin: 20px auto;
 }
 
+.ml-25p {
+  margin-left: 25%;
+}
+
 .divRowBetween {
   display: flex;
   flex-direction: row;

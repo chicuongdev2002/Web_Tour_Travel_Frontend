@@ -24,7 +24,7 @@ function InputPassword({ id, label, value, onChange }) {
     <FormControl style={{ width: "100%", marginTop: 20 }} variant="standard">
       <InputLabel
         htmlFor={id}
-        style={{ color: focus ? "" : "black", fontSize: 18 }}
+        style={{ color: focus ? "" : "black", fontSize: 18, fontWeight: 500 }}
       >
         {label}
       </InputLabel>

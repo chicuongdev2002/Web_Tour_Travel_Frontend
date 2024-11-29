@@ -34,14 +34,14 @@ function NavbarComp({ textColor }) {
   function CustomNavBarItem({ item, onClick }) {
     return (
       <Nav.Link className="navbarElement">
-        <div className="divCenter" onClick={onClick}>
-          <p
-            className="divCenter"
+        <div className="divCenter" onClick={onClick}
+        >
+          <p className="text-link"
             style={{
               fontSize: 25,
               margin: 0,
               color: textColor ? textColor : "white",
-              fontWeight: 400,
+              fontWeight: 700,
             }}
           >
             {item}
@@ -54,32 +54,18 @@ function NavbarComp({ textColor }) {
   return (
     <Navbar expand="lg" className="bg-body-tertiary">
       <Container className="containerCustom border-top border-bottom d-flex">
-        <Navbar.Brand href="#home">
+        <Navbar.Brand href="/">
           <img src={title} style={{ width: 200, height: 60 }} />
         </Navbar.Brand>
         <Navbar.Collapse id="basic-navbar-nav" style={{ flexGrow: 1 }}>
           <Nav className="me-auto divRowBetween w-100">
-            <CustomNavBarItem item="Trang chủ" onClick={() => navigate("/")} />
-            <CustomNavBarItem
-              item="DS tài khoản"
-              onClick={() => navigate("/account-list")}
-            />
-            <CustomNavBarItem
-              item="DS Khách hàng"
-              onClick={() => navigate("/customer-list")}
-            />
-            <CustomNavBarItem
-              item="DS Khuyến mãi"
-              onClick={() => navigate("/discount-list")}
-            />
-            {/* <CustomDropdown title='Miền Bắc' items={regions['Miền Bắc']} />
-            <CustomDropdown title='Miền Trung' items={regions['Miền Trung']} />
-            <CustomDropdown title='Miền Nam' items={regions['Miền Nam']} /> */}
-            <CustomNavBarItem
-              item="DS đặt tour"
+            <CustomNavBarItem item="Home" onClick={() => navigate("/")} />
+            <CustomNavBarItem item="Giới thiệu" />
+            {/* <CustomNavBarItem
+              item="Danh sách đặt tour"
               onClick={() => navigate("/booking-list")}
-            />
-            <CustomNavBarItem
+            /> */}
+            {/* <CustomNavBarItem
               item="DS HDV"
               onClick={() => navigate("/tour-guide-manager")}
             />
@@ -90,8 +76,10 @@ function NavbarComp({ textColor }) {
             <CustomNavBarItem
               item="Phân công HDV"
               onClick={() => navigate("/tour-guide-details")}
+            /> */}
+            <CustomNavBarItem item="Đặt tour" 
+              onClick={() => navigate("/tour-list")}
             />
-            {/* <CustomNavBarItem item="Đặt tour" /> */}
           </Nav>
         </Navbar.Collapse>
       </Container>

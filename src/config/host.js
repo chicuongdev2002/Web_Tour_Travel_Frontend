@@ -1,5 +1,6 @@
 const REACT_APP_HOST = "http://localhost:8080";
 const GET_ALL_TOUR = REACT_APP_HOST + "/api/tours";
+const GET_TOUR_PAGE = REACT_APP_HOST + "/api/tours/page";
 const CHECK_ACCOUNT_EXISTS = REACT_APP_HOST + "/api/accounts/exists";
 const CHECK_USER_EXISTS = REACT_APP_HOST + "/api/users/exists";
 const SEND_CODE_VERIFYCATION = REACT_APP_HOST + "/api/verification/send-code";
@@ -20,12 +21,8 @@ const GET_USER = REACT_APP_HOST + "/api/users";
 const GET_ACCOUNT = REACT_APP_HOST + "/api/accounts";
 const ACCOUNT_LOCK = REACT_APP_HOST + "/api/accounts/lock";
 const ACCOUNT_UNLOCK = REACT_APP_HOST + "/api/accounts/unlock";
-const UPDATE_TOUR = REACT_APP_HOST + "/api/tours/updateTour";
 const DELETE_TOUR = REACT_APP_HOST + "/api/tours/delete";
-const UPDATE_BOOKING_STATUS = REACT_APP_HOST + "/api/bookings/updateStatus";
-const UPLOAD_IMAGE = REACT_APP_HOST + "/api/tours/upload";
 const GET_TOUR_MANAGER = REACT_APP_HOST + "/api/tours/list-tours";
-const WEB_SOCKET = REACT_APP_HOST + "/ws";
 const APPROVE_TOUR = REACT_APP_HOST + "/api/tours/approve";
 const GET_ALL_TOUR_TEST = REACT_APP_HOST + "/api/tours/test";
 const STATIS_REVENUE_TOTAL = REACT_APP_HOST + "/api/tours/revenue-statistics";
@@ -33,16 +30,26 @@ const STATIS_REVENUE_TOUR_TICKET = REACT_APP_HOST + "/api/tours/revenue-statisti
 const STATIS_REVENUE_MONTHLY = REACT_APP_HOST + "/api/tours/monthly-revenue";
 const STATIS_TOUR_REVIEW = REACT_APP_HOST + "/api/reviews/statistics-tour-review";
 const REVIEW_MONTHLY_STATIS = REACT_APP_HOST + "/api/reviews/monthly-statistics";
+const UPDATE_TOUR = REACT_APP_HOST + '/api/tours/updateTour'
+const UPDATE_TOUR_STATUS = REACT_APP_HOST + '/api/tours/updateStatus'
+const UPDATE_BOOKING_STATUS = REACT_APP_HOST + '/api/bookings/updateStatus';
+const UPLOAD_IMAGE = REACT_APP_HOST + '/api/tours/upload';
+const WEB_SOCKET = REACT_APP_HOST + '/ws';
+const GET_LINK_MOMO = REACT_APP_HOST + '/api/payment/momo/createLink';
+const INIT_MOMO = 'https://test-payment.momo.vn/v2/gateway/api/create';
+
 const getAPI = (api, params, paramId) => {
   if (paramId) {
-    return api + "/" + paramId;
+    api += "/" + paramId;
   }
+  if(params === null) return api;
   let url = api + "?";
   for (const key in params) {
     url += key + "=" + params[key] + "&&";
   }
   return url;
 };
+
 
 export default REACT_APP_HOST;
 export {
@@ -80,5 +87,10 @@ export {
   STATIS_REVENUE_MONTHLY,
   STATIS_TOUR_REVIEW,
   REVIEW_MONTHLY_STATIS,
+   GET_LINK_MOMO, 
+  INIT_MOMO,
+  UPDATE_TOUR_STATUS,
+  GET_TOUR_PAGE,
   getAPI,
 };
+

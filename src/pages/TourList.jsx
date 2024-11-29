@@ -44,7 +44,7 @@ const TourList = () => {
   };
 
   return (
-    <Container fluid className="px-4">
+    <Container fluid>
       <NavHeader textColor="black" />
       {loading ? (
         <div className="text-center" style={{ height: "100vh" }}>

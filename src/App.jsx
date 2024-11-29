@@ -27,6 +27,10 @@ import AdminDashboard from "./components/admin/AdminDashboard";
 import TourProviderDetail from "./components/provider/TourProviderDetail.jsx";
 import TourGuideAssignments from "./components/tourguide/TourGuideAssignments.jsx";
 import SearchPage from "./pages/SearchPage.jsx";
+import FavoriteTourPage from "./pages/FavoriteTourPage.jsx";
+import CheckInApp from "./components/checkin/CheckInApp.jsx";
+import CheckInAppPage from "./pages/CheckInAppPage.jsx";
+import ScheduleTourBooking from "./components/customer/schedule/ScheduleTourBooking.jsx";
 function App() {
   const user = JSON.parse(sessionStorage.getItem("user"));
   const dispatch = useDispatch();
@@ -59,6 +63,9 @@ function App() {
         <Route path="/provider-detail" element={<TourProviderDetail />} />
         <Route path="/tour-guide-assiment" element={<TourGuideAssignments />} />
         <Route path="/search-page" element={<SearchPage />} />
+         <Route path="/favorite-tour" element={<FavoriteTourPage />} />
+          <Route path="/checkin" element={<CheckInAppPage />} />
+          <Route path="/schedule-tour-booking" element={<ScheduleTourBooking />} />
         {/* <Route path="/add-destination" element={<AddDestination />} />
         <Route path="/tour-guide-manager" element={<TourGuideManagerPage />} />
         <Route path="/account-list" element={<AccountPage />} />

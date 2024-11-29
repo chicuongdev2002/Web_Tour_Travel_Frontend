@@ -3,17 +3,12 @@ import NavbarComp from "../navbar/Navbar";
 import brand from "../../assets/logo.png";
 import "../../style/style.css";
 import { useNavigate } from "react-router-dom";
+import { FaUserCircle } from "react-icons/fa";
+import MenuDropDown from "../dropDown/MenuDropDown";
 
-function NavHeader({ textColor }) {
-  const [searchParams, setSearchParams] = useState({
-    keyword: "",
-    startLocation: "",
-    tourType: "",
-    participantType: "",
-  });
+function NavHeader({ textColor, opacity }) {
   const [user, setUser] = useState(null);
   const [dropdownVisible, setDropdownVisible] = useState(false);
-  const dropdownRef = useRef(null);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -22,10 +17,6 @@ function NavHeader({ textColor }) {
       setUser(JSON.parse(storedUser));
     }
   }, []);
-
-  const toggleDropdown = () => {
-    setDropdownVisible((prev) => !prev);
-  };
 
   const goToLogin = () => {
     navigate("/login-register");
@@ -52,6 +43,15 @@ function NavHeader({ textColor }) {
     navigate("/provider-detail"); 
     setDropdownVisible(false); 
   };
+    const goToSellTour = () => {
+    navigate("/add-tour"); 
+    setDropdownVisible(false); 
+  };
+    const goToFavoriteTour = () => {
+    navigate("/favorite-tour"); 
+    setDropdownVisible(false); 
+  };
+
 
   const handleLogout = () => {
     sessionStorage.removeItem("user"); 
@@ -73,17 +73,39 @@ function NavHeader({ textColor }) {
   }, []);
 
   return (
-    <div className="d-flex divCenter pr-2">
+    <div className="d-flex divCenter pr-2" style={{ backgroundColor: opacity && "rgb(0, 0, 0, 0.3)" }}>
       <img src={brand} style={{ width: 80, height: 70 }} alt="Brand Logo" />
       <div style={{ flexGrow: 1 }} className="divRowBetween pr-2">
         <NavbarComp textColor={textColor} />
-        <div className="divRowBetween">
           {user ? (
-            <div className="dropdown" ref={dropdownRef}>
-              <span className="ml-2" onClick={toggleDropdown}>
-                Xin chào, {user.fullName}
+          <MenuDropDown options={[
+            { title: "Thông tin khách hàng", onClick: goToUserDetail },
+                user && user.role === "ADMIN" && 
+              { title: "Trang dành cho admin",
+                onClick: goToAdminPage
+              },
+               user && user.role === "TOURPROVIDER" && 
+              { title: "Thống kê tour",
+                onClick: goToTourStatistics
+              },
+              user && user.role === "TOURPROVIDER" && 
+              { title: "Đăng bán tour",
+                onClick: goToSellTour
+              },
+               user && user.role === "TOURGUIDE" && 
+              { title: "Xem thông tin phân công",
+                onClick: goToAssignTourGuide
+              },
+            { title: "Danh sách tour yêu thích", onClick: goToFavoriteTour },
+            { title: "Đăng xuất", onClick: handleLogout }
+           
+          ]}>
+            <div>
+              <FaUserCircle color={textColor} size={30} />
+              <span className="ml-2" style={{ color: textColor, fontSize: 20 }} >
+                {user.fullName}
               </span>
-              {dropdownVisible && (
+              {/* {dropdownVisible && (
                 <div className="dropdown-menu" style={{ display: "block" }}>
                   <div className="dropdown-item" onClick={goToUserDetail}>
                     Thông tin khách hàng
@@ -107,8 +129,9 @@ function NavHeader({ textColor }) {
                     Đăng xuất
                   </div>
                 </div>
-              )}
+              )} */}
             </div>
+          </MenuDropDown>
           ) : (
             <button className="ml-2 bg-primary" onClick={goToLogin}>
               Login
@@ -132,7 +155,6 @@ function NavHeader({ textColor }) {
           </div>
         </div>
       </div>
-    </div>
   );
 }
 

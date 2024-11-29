@@ -6,15 +6,8 @@ import "slick-carousel/slick/slick-theme.css";
 import "../slider/sliderStyle.css";
 
 const SliderComponent = ({ images, settings, callBack }) => {
-  // <div key={index}>
-  //   <img
-  //     src={image}
-  //     alt={`Ad ${index + 1}`}
-  //     style={{ width: '100%' }}
-  //   />
-  // </div>
   return (
-    <div className="slider-container">
+    <div className="slider-container w-100">
       <Slider {...settings}>
         {images.map((image, index) => (
           <div key={index}>{callBack(image)}</div>
