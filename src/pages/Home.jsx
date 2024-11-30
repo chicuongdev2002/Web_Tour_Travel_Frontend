@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import images from "../components/slider/images";
 import "../style/style.css";
-import SearchInput from "../functions/SearchInput";
 import DivSliderBackground from "../components/divCustom/DivSliderBackground";
 import NavHeader from "../components/navbar/NavHeader";
 import TourList from "./TourList";

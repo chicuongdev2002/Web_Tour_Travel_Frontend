@@ -1,7 +1,12 @@
 .drawer {
+<<<<<<< HEAD
+  width: 60px;
+  transition: width 0.3s ease;
+=======
     width: 60px;
     height: 100%;
     transition: width 0.3s ease;
+>>>>>>> 639bf024b1a028818738b0a73d61d8ae257649a0
 }
 
 .drawer.open {
@@ -10,14 +15,14 @@
 }
 
 .content {
-    flex-grow: 1;
+  flex-grow: 1;
 }
 .content.open {
     width: 83%;
 }
 
 p {
-    margin-left: 15px;
+  margin-left: 15px;
 }
 
 .element {
@@ -29,18 +34,18 @@ p {
     cursor: pointer;
 }
 .elementSelected {
-    height: 50px;
-    font-size: 18px;
-    background-color: lightblue;
-    padding-left: 15px;
+  height: 50px;
+  font-size: 18px;
+  background-color: lightblue;
+  padding-left: 15px;
 }
 
 .element:hover {
-    font-size: 18px;
-    background-color: lightgray;
+  font-size: 18px;
+  background-color: lightgray;
 }
 
-.ruler{
-    width: 10px;
-    background-color: black;
+.ruler {
+  width: 10px;
+  background-color: black;
 }

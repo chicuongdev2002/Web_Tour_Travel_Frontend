@@ -98,7 +98,7 @@ const AssignTourGuideDialog = ({ open, onClose, onAssignmentComplete }) => {
       if (error.response && error.response.status === 500) {
         setFailPopup({
           open: true,
-          message: `Bạn đã phân công cho ${selectedGuides.map((guide) => guide.fullName).join(", ")} với chuyến đi này rồi`,
+          message: error.response.data,
         });
       }
       setTimeout(() => {

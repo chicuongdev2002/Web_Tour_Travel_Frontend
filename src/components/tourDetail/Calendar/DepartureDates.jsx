@@ -3,10 +3,12 @@ import "./DepartureDates.css";
 import Modal from "../modal/Modal";
 import Calendar from "react-calendar";
 import "react-calendar/dist/Calendar.css";
-const DepartureDates = ({ departures }) => {
+import { Check } from "lucide-react";
+
+const DepartureDates = ({ departures, onDateSelect }) => {
   const [selectedDeparture, setSelectedDeparture] = useState(null);
   const [isModalOpen, setModalOpen] = useState(false);
-  const [dateRange, setDateRange] = useState([null, null]);
+
   const handleDateClick = (departure) => {
     if (
       new Date(departure.startDate) < new Date() ||
@@ -22,6 +24,15 @@ const DepartureDates = ({ departures }) => {
     setSelectedDeparture(null);
     setModalOpen(false);
   };
+
+  const handleDepartureSelect = (departure) => {
+    // Trigger the onDateSelect prop to update parent component's state
+    onDateSelect && onDateSelect(departure);
+    
+    // Close the modal
+    clearSelection();
+  };
+
   const translateParticipantType = (type) => {
     switch (type) {
       case "CHILDREN":
@@ -34,12 +45,14 @@ const DepartureDates = ({ departures }) => {
         return type;
     }
   };
+
   // Helper function để chuẩn hóa ngày về đầu ngày (00:00:00)
   const normalizeDate = (date) => {
     const normalized = new Date(date);
     normalized.setHours(0, 0, 0, 0);
     return normalized;
   };
+
   // Format tên tháng theo tiếng Việt
   const formatShortWeekday = (locale, date) => {
     const days = ["CN", "T2", "T3", "T4", "T5", "T6", "T7"];
@@ -49,9 +62,10 @@ const DepartureDates = ({ departures }) => {
   const formatMonthYear = (locale, date) => {
     return `Tháng ${date.getMonth() + 1}/${date.getFullYear()}`;
   };
+
   return (
     <div>
-      <div className="departure-dates">
+      <div className="departure-dates grid grid-cols-3 gap-2">
         {departures.map((departure) => {
           const date = new Date(departure.startDate);
           const day = date.toLocaleDateString("vi-VN", { weekday: "short" });
@@ -64,15 +78,19 @@ const DepartureDates = ({ departures }) => {
           return (
             <div
               key={departure.departureId}
-              className="departure-date-box"
-              onClick={() => handleDateClick(departure)}
+              className="relative departure-date-box"
             >
-              {isExpired && <div className="expired-banner">Đã hết hạn</div>}
-              {isFullyBooked && (
-                <div className="fully-booked-banner">Đã hết chỗ</div>
-              )}
-              <div className="day">{day}</div>
-              <div className="date">{formattedDate}</div>
+              <div 
+                className="cursor-pointer"
+                onClick={() => handleDateClick(departure)}
+              >
+                {isExpired && <div className="expired-banner">Đã hết hạn</div>}
+                {isFullyBooked && (
+                  <div className="fully-booked-banner">Đã hết chỗ</div>
+                )}
+                <div className="day">{day}</div>
+                <div className="date">{formattedDate}</div>
+              </div>
             </div>
           );
         })}
@@ -199,13 +217,23 @@ const DepartureDates = ({ departures }) => {
               ))}
             </div>
 
-            <p>
-              <strong>Số chỗ còn:</strong> {selectedDeparture.availableSeats}
-            </p>
-            <p>
-              <strong>Tổng số người tham gia:</strong>{" "}
-              {selectedDeparture.maxParticipants}
-            </p>
+            <div className="flex justify-between items-center mt-4">
+              <div>
+                <p>
+                  <strong>Số chỗ còn:</strong> {selectedDeparture.availableSeats}
+                </p>
+                <p>
+                  <strong>Tổng số người tham gia:</strong>{" "}
+                  {selectedDeparture.maxParticipants}
+                </p>
+              </div>
+              <button 
+                onClick={() => handleDepartureSelect(selectedDeparture)}
+                className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+              >
+                Chọn chuyến đi
+              </button>
+            </div>
           </div>
         )}
       </Modal>
