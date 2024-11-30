@@ -34,6 +34,10 @@ function NavHeader({ textColor, opacity }) {
     navigate("/tour-guide-assiment");
     setDropdownVisible(false); 
   };
+   const goToCheckin = () => {
+    navigate("/checkin");
+    setDropdownVisible(false); 
+  };
 
   const goToAdminPage = () => {
     navigate("/admin");
@@ -49,6 +53,10 @@ function NavHeader({ textColor, opacity }) {
   };
     const goToFavoriteTour = () => {
     navigate("/favorite-tour"); 
+    setDropdownVisible(false); 
+  };
+     const goToScheduleTour = () => {
+    navigate("/schedule-tour-booking"); 
     setDropdownVisible(false); 
   };
 
@@ -96,7 +104,12 @@ function NavHeader({ textColor, opacity }) {
               { title: "Xem thông tin phân công",
                 onClick: goToAssignTourGuide
               },
+               user && user.role === "TOURGUIDE" && 
+              { title: "Checkin khách hàng",
+                onClick: goToCheckin
+              },
             { title: "Danh sách tour yêu thích", onClick: goToFavoriteTour },
+             { title: "Lịch trình tour", onClick: goToScheduleTour },
             { title: "Đăng xuất", onClick: handleLogout }
            
           ]}>
@@ -138,12 +151,12 @@ function NavHeader({ textColor, opacity }) {
             </button>
           )}
           <div>
-            <button
+            {/* <button
               className="ml-2 w-100 mb-1 bg-success"
               onClick={goToTourList}
             >
               Tour List
-            </button>
+            </button> */}
             {/* {user && user.role === "ADMIN" && (
               <button
                 className="ml-2 w-100 mt-1 bg-dark"

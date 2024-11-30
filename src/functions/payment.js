@@ -1,25 +1,20 @@
 import axios from "axios"
-import { GET_LINK_MOMO, INIT_MOMO, getAPI } from "../config/host"
+import { GET_LINK_MOMO, GET_PAYMENT_BY_BOOKING, getAPI } from "../config/host"
 
-const createLinkMomoPayment = async (amount, orderId) => {
-    let url = getAPI(GET_LINK_MOMO, { amount, orderId })
-    const result = await axios.get(url).then(data => initMomoPayment(data.data))
-    return result
-}
-
-const initMomoPayment = async (data) => {
-    debugger
+const createLinkMomoPayment = async (amount, orderId, userId, departureId, participants, address ) => {
     try{
-        const result = await axios.post(INIT_MOMO, data, {
-            headers: {
-                'Content-Type': 'application/json',
-                'Content-Length': new TextEncoder().encode(data).length
-            },
-        })
-        return result.data
-    } catch(e){
-        return null
+        let url = getAPI(GET_LINK_MOMO, { amount, orderId, userId, departureId, participants, address })
+        const result = await axios.post(url)
+        return result
+    } catch(e) {
+        return e;
     }
 }
 
-export { createLinkMomoPayment }
+const getPaymentByBooking = async (bookingId) => {
+    let url = getAPI(GET_PAYMENT_BY_BOOKING, { bookingId })
+    const result = await axios.get(url)
+    return result.data
+}
+
+export { createLinkMomoPayment, getPaymentByBooking }

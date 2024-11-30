@@ -1,6 +1,12 @@
 .drawer {
+<<<<<<< HEAD
   width: 60px;
   transition: width 0.3s ease;
+=======
+    width: 60px;
+    height: 100%;
+    transition: width 0.3s ease;
+>>>>>>> 639bf024b1a028818738b0a73d61d8ae257649a0
 }
 
 .drawer.open {

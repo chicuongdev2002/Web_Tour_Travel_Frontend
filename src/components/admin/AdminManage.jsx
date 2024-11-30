@@ -11,6 +11,7 @@ import { FaKey } from "react-icons/fa6";
 import { PiNotepadFill } from "react-icons/pi";
 import { RiDiscountPercentFill } from "react-icons/ri";
 import { IoBarChartSharp } from "react-icons/io5";
+import { IoIosAlarm } from "react-icons/io";
 
 function AdminPage({ changeTitle }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -22,7 +23,8 @@ function AdminPage({ changeTitle }) {
       value === 'tour' ? 'Quản lý tour' :
       value === 'booking' ? 'Quản lý đơn đặt tour' :
       value === 'discount' ? 'Quản lý mã giảm giá' :
-      value === 'notify' ? 'Thông báo' : 'Thống kê'
+      value === 'notify' ? 'Thông báo' : 
+      value === 'KPI' ? 'Quản lý KPI hướng dẫn viên' : 'Thống kê'
     )
     setSelect(value)
   }
@@ -116,6 +118,10 @@ function AdminPage({ changeTitle }) {
               Thống kê
             </p>
           )}
+        </div>
+        <div className={`divRow ${select == 'KPI' ? 'elementSelected' : 'element'}`}>
+          <IoIosAlarm size={30} />
+          {isOpen && <p className='one-line-text' onClick={() => handleSelect('KPI')}>Quản lý KPI</p>}
         </div>
       </div>
       <div className='ruler' />

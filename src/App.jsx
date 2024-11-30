@@ -31,6 +31,11 @@ import FavoriteTourPage from "./pages/FavoriteTourPage.jsx";
 import CheckInApp from "./components/checkin/CheckInApp.jsx";
 import CheckInAppPage from "./pages/CheckInAppPage.jsx";
 import ScheduleTourBooking from "./components/customer/schedule/ScheduleTourBooking.jsx";
+import { savePayment } from "../src/redux/slice";
+import Payment from './pages/Payment.jsx';
+import ScheduleTourPage from "./pages/ScheduleTourPage.jsx";
+import BookingDetailUser from "./components/booking/BookingDetailUser.jsx";
+
 function App() {
   const user = JSON.parse(sessionStorage.getItem("user"));
   const dispatch = useDispatch();
@@ -40,12 +45,17 @@ function App() {
   const connectSocket = useSelector((state) => state.initSocket);
 
   useEffect(() => {
-    if (initSocket(connectSocket)) dispatch(changeConnectSocket(true));
+    if(initSocket(connectSocket, handlePayment))
+      dispatch(changeConnectSocket(true));
   }, [user, connectSocket]);
 
   useEffect(() => {
     handleDoWithSocket(socket);
   }, [socket]);
+
+  const handlePayment = (message) => {
+    dispatch(savePayment(message));
+  }
 
   return (
     <BrowserRouter>
@@ -65,7 +75,8 @@ function App() {
         <Route path="/search-page" element={<SearchPage />} />
          <Route path="/favorite-tour" element={<FavoriteTourPage />} />
           <Route path="/checkin" element={<CheckInAppPage />} />
-          <Route path="/schedule-tour-booking" element={<ScheduleTourBooking />} />
+          <Route path="/schedule-tour-booking" element={<ScheduleTourPage />} />
+             <Route path="/booking-detail-user" element={<BookingDetailUser />} />
         {/* <Route path="/add-destination" element={<AddDestination />} />
         <Route path="/tour-guide-manager" element={<TourGuideManagerPage />} />
         <Route path="/account-list" element={<AccountPage />} />
@@ -75,6 +86,7 @@ function App() {
         {/* <Route path="/admin" element={<AdminPage />} /> */}
         <Route path="/admin/*" element={<AdminDashboard />} />
         <Route path="/notify" element={<NotifyPage />} />
+        <Route path="/payment" element={<Payment />} />
       </Routes>
     </BrowserRouter>
   );

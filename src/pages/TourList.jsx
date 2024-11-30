@@ -54,12 +54,6 @@ const TourList = () => {
         </div>
       ) : (
         <div className="divCenterColumn w-100">
-          <div className="w-25 divRowBetween">
-            <button onClick={() => navigate(`/add-tour`)}>Thêm tour</button>
-            <button onClick={() => navigate(`/add-destination`)}>
-              Thêm điểm du lịch
-            </button>
-          </div>
           {dataCard.length === 0 ? (
             <div className="text-center mt-4">
               <h5>Không có kết quả</h5>

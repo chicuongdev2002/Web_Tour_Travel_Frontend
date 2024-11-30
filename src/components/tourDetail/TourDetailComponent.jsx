@@ -4,7 +4,6 @@ import { useNavigate } from "react-router-dom";
 import { Star, ChevronRight, ChevronLeft, Calendar } from "lucide-react";
 import SliderPaging from "../slider/SliderPaging";
 import "../slider/sliderStyle.css";
-// import Calendar from 'react-calendar';
 import TourCalendar from "./Calendar/TourCalendar";
 import DepartureDates from "./Calendar/DepartureDates";
 import ItineraryDetail from "./InfomaitionTour/ItineraryDetail";
@@ -15,17 +14,23 @@ import { UPDATE_TOUR_STATUS } from '../../config/host';
 import { deleteData } from '../../functions/deleteData';
 import CustomPop from '../popupNotifications/CustomPop';
 import imageBasic from '../../assets/404.png';
+
 const TourDetailComponent = ({ tourData }) => {
+  const storedUser = sessionStorage.getItem("user");
   const navigate = useNavigate();
+  
+  // Default to first departure initially
   const [selectedDeparture, setSelectedDeparture] = useState(
-    tourData.departures[0],
+    tourData.departures[0]
   );
+  
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const [openPopup, setOpenPopup] = useState(-1);
 
   const toggleDescription = () => {
     setIsDescriptionExpanded((prev) => !prev);
   };
+
   const mainImgDimension = {
     width: 750,
     height: 500,
@@ -35,7 +40,7 @@ const TourDetailComponent = ({ tourData }) => {
     width: 70,
     height: 70,
   };
-  console.log("tourData", tourData);
+
   const averageRating =
     tourData.reviews.reduce((acc, review) => acc + review.rating, 0) /
     tourData.reviews.length;
@@ -46,8 +51,10 @@ const TourDetailComponent = ({ tourData }) => {
       currency: "VND",
     }).format(price);
   };
+
+  // Handles date selection from both calendar and departure dates
   const handleDateSelect = (departure) => {
-    console.log("Selected departure:", departure);
+    setSelectedDeparture(departure);
   };
 
   const imageUrls = tourData.images.map((img) => img.imageUrl);
@@ -59,7 +66,15 @@ const TourDetailComponent = ({ tourData }) => {
   };
 
   const goToBooking = () => {
-      navigate('/booking', { state: tourData });
+    const bookingState = {
+    ...tourData,
+    departures: [selectedDeparture]
+  };
+
+    if(!storedUser)
+      navigate('/login-register', { state: bookingState });
+    else 
+      navigate('/booking', { state: bookingState });
   }
 
   const goToUpdateTour = () => {
@@ -69,17 +84,18 @@ const TourDetailComponent = ({ tourData }) => {
   const deleteTour = async () => {
     const result = await deleteData(UPDATE_TOUR_STATUS, tourData.tourId);
     if (result)
-        setOpenPopup(1);
+      setOpenPopup(1);
     else
-        setOpenPopup(0);
+      setOpenPopup(0);
   }
+
   return (
     <div className="w-full max-w-7xl mx-auto p-4">
       <div className="flex flex-col md:flex-row gap-6">
         {/* Image Slider Section */}
         <div className="md:w-1/2">
           <SliderPaging
-            images={imageUrls.length? imageUrls : [imageBasic]}
+            images={imageUrls.length ? imageUrls : [imageBasic]}
             mainImgDimension={mainImgDimension}
             thumbImgDimension={thumbImgDimension}
           />
@@ -110,21 +126,23 @@ const TourDetailComponent = ({ tourData }) => {
         {/* Tour Information Section */}
         <div className="md:w-1/2">
           <div className="border rounded-lg shadow-lg p-6 h-full">
-            <div className="divRowBetween">
+            <div className='divRowBetween'>
               <h1 className="text-3xl font-bold mb-4 tour-name text-center">
                 {tourData.tourName}
               </h1>
-              <div>
-                <button onClick={goToUpdateTour}>Sửa</button>
-                <button onClick={() => setOpenPopup(-2)}>Xóa</button>
-              </div>
+              { storedUser && JSON.parse(storedUser).role === "ADMIN" && 
+                <div>
+                  <button onClick={goToUpdateTour}>Sửa</button>
+                  <button onClick={() => setOpenPopup(-2)}>Xóa</button>
+                </div>
+              }
             </div>
 
             {/* Price Section */}
             <div className="mb-4">
               <h3 className="font-semibold text-center">Giá</h3>
               <div className="space-y-2 text-center">
-                {selectedDeparture.tourPricing.map((price) => {
+                {selectedDeparture?.tourPricing.map((price) => {
                   const translatedType =
                     participantTypeTranslation[price.participantType] ||
                     price.participantType;
@@ -229,25 +247,19 @@ const TourDetailComponent = ({ tourData }) => {
       <div className="w-full max-w-7xl mx-auto p-4">
         <ReviewComponent reviews={tourData.reviews} tourId={tourData.tourId} />
       </div>
-      <ChoosePopup
-        title="Xoá tour"
-        message="Bạn có chắc chắn muốn xóa tour này không?"
-        open={openPopup == -2}
+      <ChoosePopup 
+        title="Xoá tour" 
+        message="Bạn có chắc chắn muốn xóa tour này không?" 
+        open={openPopup == -2} 
         onclose={() => setOpenPopup(-1)}
-        onAccept={() => {
-          deleteTour();
-          setOpenPopup(1);
-        }}
-        onReject={() => setOpenPopup(-1)}
+        onAccept={() => { deleteTour(); setOpenPopup(1) }} 
+        onReject={() => setOpenPopup(-1)} 
       />
-      <CustomPop
-        onSuccess={() => {
-          navigate("/tour-list");
-          setOpenPopup(-1);
-        }}
-        onFail={() => setOpenPopup(-1)}
-        notify={openPopup}
-        messageSuccess="Xoá tour thành công"
+      <CustomPop 
+        onSuccess={() => { navigate('/tour-list'); setOpenPopup(-1) }} 
+        onFail={() => setOpenPopup(-1)} 
+        notify={openPopup} 
+        messageSuccess="Xoá tour thành công" 
       />
     </div>
   );

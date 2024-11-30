@@ -19,32 +19,34 @@ import right_plane from '../../assets/right_globe.png'
 import right_tour_guide from '../../assets/right_tour-guide.png'
 import right_travel from '../../assets/right_travel.png'
 
-function FormView({ children, title, titleBackground, data, className, notBorder }) {
+function FormView({ children, title, titleBackground, data, className, notBorder, notIcon }) {
     const listData = [airplane, bg_luggage, bus, map_location, road_trip, travel_bag]
     const listIcon = [left_luggage, left_airplane, left_flight, left_travel_and_tourism, left_travel_luggage, left_travel,
         right_tour_guide, right_travel, right_plane]
     const [bgImg, setBgImg] = React.useState(airplane)
-    const [iconLeft, setIconLeft] = React.useState(left_airplane)
-    const [iconRight, setIconRight] = React.useState(right_plane)
+    const [iconLeft, setIconLeft] = React.useState(null)
+    const [iconRight, setIconRight] = React.useState(null)
     useEffect(() => {
         const random = Math.floor(Math.random() * listData.length)
         setBgImg(listData[random])
-        const randomLeft = Math.floor(Math.random() * listIcon.length)
-        setIconLeft(listIcon[randomLeft])
-        const randomRight = Math.floor(Math.random() * listIcon.length)
-        setIconRight(listIcon[randomRight])
+        if(!notIcon){
+            const randomLeft = Math.floor(Math.random() * listIcon.length)
+            setIconLeft(listIcon[randomLeft])
+            const randomRight = Math.floor(Math.random() * listIcon.length)
+            setIconRight(listIcon[randomRight])
+        }
     }, [])
     return (
         <div className={`${notBorder? "" : "border border-primary"} m-2 formBooking ${className} form-view-container`}>
             { title && 
                 <div style={{ position: 'relative' }}>
                     <div className='title divCenter' style={{ "--titleBackground": titleBackground ?? "lightblue" }}>
-                        <h4 className='w-100'>{title}</h4>
+                        <h4 className='w-100 px-5'>{title}</h4>
                     </div>
-                <img src={iconLeft} alt="iconLeft" style={{ position: 'absolute', 
-                    left: -15, top: -10 }}/>
-                <img src={iconRight} alt="iconRight" style={{ position: 'absolute', 
-                    right: -15, top: -10 }}/>
+                { !notIcon && <img src={iconLeft} alt="iconLeft" style={{ position: 'absolute', 
+                    left: -15, top: -10 }}/>}
+                { !notIcon && <img src={iconRight} alt="iconRight" style={{ position: 'absolute', 
+                    right: -15, top: -10 }}/>}
                 </div>
             }
             <div className='content'>
@@ -87,7 +89,10 @@ function FormView({ children, title, titleBackground, data, className, notBorder
                                             onChange={item.object.onChange} />
                                 }
                             </div>
-                            : <p key={index}>{item.label}: {item.value}</p>
+                            : ( item.label.icon? <div key={index} className='v-align divRow' style={{ height: 50}}>
+                                <div className='divCenter' style={{ width: 30 }}>{item.label.icon}</div>
+                                <p className='m-0'>{item.value}</p>
+                            </div> : <p key={index}>{item.label} {item.value}</p>)
                     )
                 })
             }

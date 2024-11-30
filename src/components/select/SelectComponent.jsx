@@ -5,11 +5,11 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import "./style.css";
 
-function SelectComponent({ id, label, value, onChange, listData }) {
+function SelectComponent({ id, label, value, onChange, listData, notMarginTop }) {
   const [focus, setFocus] = React.useState(false);
 
   return (
-    <FormControl style={{ width: "100%", marginTop: 20 }} variant="standard">
+    <FormControl style={{ width: "100%", marginTop: notMarginTop? 0 : 20 }} variant="standard">
       <InputLabel
         id={id}
         style={{ color: focus ? "#1976D2" : "black", fontSize: 18 }}

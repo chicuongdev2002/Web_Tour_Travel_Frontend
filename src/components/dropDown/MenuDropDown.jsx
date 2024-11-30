@@ -44,8 +44,8 @@ export default function MenuDropDown({ children, options }) {
           },
         }}
       >
-        {options.map((option) => (
-          <MenuItem key={option.title} selected={option === 'Pyxis'} onClick={()=>{
+        {options.map((option, index) => (
+          <MenuItem key={index} selected={option === 'Pyxis'} onClick={()=>{
             handleClose();
             option.onClick();
           }}>
