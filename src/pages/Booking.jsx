@@ -23,10 +23,12 @@ function Booking() {
     const [numOfChildren, setNumOfChildren] = useState(0)
     const [numOfAdults, setNumOfAdults] = useState(1)
     const [numOfOlds, setNumOfOlds] = useState(0)
-    let tourDetail = useRef(location.state).current;
-    const childrenPrice = useRef(tourDetail.departures[0].tourPricing.find(d => d.participantType === "CHILDREN").price).current
-    const adultsPrice = useRef(tourDetail.departures[0].tourPricing.find(d => d.participantType === "ADULTS").price).current
-    const oldsPrice = useRef(tourDetail.departures[0].tourPricing.find(d => d.participantType === "ELDERLY").price).current
+   let tourDetail = useRef(location.state).current;
+//Sửa lại
+const selectedDeparture = tourDetail.departures[0];
+const childrenPrice = useRef(selectedDeparture.tourPricing.find(d => d.participantType === "CHILDREN").price).current;
+const adultsPrice = useRef(selectedDeparture.tourPricing.find(d => d.participantType === "ADULTS").price).current;
+const oldsPrice = useRef(selectedDeparture.tourPricing.find(d => d.participantType === "ELDERLY").price).current;
     let user = useRef(sessionStorage.getItem("user") ?
         JSON.parse(sessionStorage.getItem("user")) :
         {
@@ -43,21 +45,21 @@ function Booking() {
     }
 
     const getData = () => {
-        return {
-            name: tourDetail.tourName,
-            type: tourDetail.tourType,
-            startLocation: tourDetail.startLocation,
-            startDate: formatDate(tourDetail.departures[0].startDate),
-            endDate: formatDate(tourDetail.departures[0].endDate),
-            destination: tourDetail.destinations.length? tourDetail.destinations.map(d => d.name) : null,
-            price: numOfChildren * childrenPrice + numOfAdults * adultsPrice + numOfOlds * oldsPrice,
-            customer: user.fullName + ' - ' + user.phoneNumber + ' - ' + user.email,
-            address: user.addresses[0]?.address,
-            user: user.userId,
-            departure: tourDetail.departures[0].departureId,
-            participants: numOfChildren + ',' + numOfAdults + ',' + numOfOlds
-        }
-    }
+  return {
+    name: tourDetail.tourName,
+    type: tourDetail.tourType,
+    startLocation: tourDetail.startLocation,
+    startDate: formatDate(selectedDeparture.startDate),
+    endDate: formatDate(selectedDeparture.endDate),
+    destination: tourDetail.destinations.length ? tourDetail.destinations.map(d => d.name) : null,
+    price: numOfChildren * childrenPrice + numOfAdults * adultsPrice + numOfOlds * oldsPrice,
+    customer: user.fullName + ' - ' + user.phoneNumber + ' - ' + user.email,
+    address: user.addresses[0]?.address,
+    user: user.userId,
+    departure: selectedDeparture.departureId,
+    participants: numOfChildren + ',' + numOfAdults + ',' + numOfOlds
+  }
+}
 
     useEffect(() => {
         if (payment.bookingId) {
@@ -83,13 +85,13 @@ function Booking() {
                     <FormView title={tourDetail.tourName}>
                         <div className='divRowBetween'>
                             <div className='w-60'>
-                                <p>Mã lịch trình: {tourDetail.departures[0].departureId}</p>
-                                <p>Loại tour: {tourDetail.tourType}</p>
-                                <p>Điểm khởi hành: {tourDetail.startLocation}</p>
-                                <p>Ngày khởi hành: {formatDate(tourDetail.departures[0].startDate)}</p>
-                                <p>Ngày kết thúc: {formatDate(tourDetail.departures[0].endDate)}</p>
-                                <p>Số chỗ trống: {tourDetail.departures[0].availableSeats}</p>
-                                <p>Lịch trình: {tourDetail.destinations.length && tourDetail.destinations.map(d => d.name).join(' ➪ ')}</p>
+                               <p>Mã lịch trình: {selectedDeparture.departureId}</p>
+      <p>Loại tour: {tourDetail.tourType}</p>
+      <p>Điểm khởi hành: {tourDetail.startLocation}</p>
+      <p>Ngày khởi hành: {formatDate(selectedDeparture.startDate)}</p>
+      <p>Ngày kết thúc: {formatDate(selectedDeparture.endDate)}</p>
+      <p>Số chỗ trống: {selectedDeparture.availableSeats}</p>
+      <p>Lịch trình: {tourDetail.destinations.length && tourDetail.destinations.map(d => d.name).join(' ➪ ')}</p>
                             </div>
                             <FormView notIcon={true} title='Giá vé'>
                                 <div>

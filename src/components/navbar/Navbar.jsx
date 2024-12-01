@@ -65,10 +65,18 @@ function NavbarComp({ textColor }) {
               item="Danh sách đặt tour"
               onClick={() => navigate("/booking-list")}
             /> */}
-            <CustomNavBarItem
-              item="Danh sách phân công tour"
-              onClick={() => navigate("/tour-guide-details")}
+            {/* <CustomNavBarItem
+              item="DS HDV"
+              onClick={() => navigate("/tour-guide-manager")}
             />
+            <CustomNavBarItem
+              item="DS Phân công tour"
+              onClick={() => navigate("/list-assignment")}
+            />
+            <CustomNavBarItem
+              item="Phân công HDV"
+              onClick={() => navigate("/tour-guide-details")}
+            /> */}
             <CustomNavBarItem item="Đặt tour" 
               onClick={() => navigate("/tour-list")}
             />

@@ -8,6 +8,7 @@ import MenuDropDown from "../dropDown/MenuDropDown";
 
 function NavHeader({ textColor, opacity }) {
   const [user, setUser] = useState(null);
+  const [dropdownVisible, setDropdownVisible] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -21,19 +22,63 @@ function NavHeader({ textColor, opacity }) {
     navigate("/login-register");
   };
 
+  const goToTourList = () => {
+    navigate("/tour-list", { state: searchParams }); 
+  };
+
   const goToUserDetail = () => {
     navigate("/user-detail");
+    setDropdownVisible(false); 
+  };
+    const goToAssignTourGuide = () => {
+    navigate("/tour-guide-assiment");
+    setDropdownVisible(false); 
+  };
+   const goToCheckin = () => {
+    navigate("/checkin");
+    setDropdownVisible(false); 
   };
 
   const goToAdminPage = () => {
     navigate("/admin");
-  }
+  };
+
+  const goToTourStatistics = () => {
+    navigate("/provider-detail"); 
+    setDropdownVisible(false); 
+  };
+    const goToSellTour = () => {
+    navigate("/add-tour"); 
+    setDropdownVisible(false); 
+  };
+    const goToFavoriteTour = () => {
+    navigate("/favorite-tour"); 
+    setDropdownVisible(false); 
+  };
+     const goToScheduleTour = () => {
+    navigate("/schedule-tour-booking"); 
+    setDropdownVisible(false); 
+  };
+
 
   const handleLogout = () => {
-    sessionStorage.removeItem("user"); // Clear user data
-    setUser(null); // Reset user state
-    navigate("/"); // Optionally navigate to home
+    sessionStorage.removeItem("user"); 
+    setUser(null); 
+    setDropdownVisible(false); 
+    navigate("/"); 
   };
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+        setDropdownVisible(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   return (
     <div className="d-flex divCenter pr-2" style={{ backgroundColor: opacity && "rgb(0, 0, 0, 0.3)" }}>
@@ -43,17 +88,61 @@ function NavHeader({ textColor, opacity }) {
           {user ? (
           <MenuDropDown options={[
             { title: "Thông tin khách hàng", onClick: goToUserDetail },
-            user && user.role === "ADMIN" && 
+                user && user.role === "ADMIN" && 
               { title: "Trang dành cho admin",
                 onClick: goToAdminPage
               },
+               user && user.role === "TOURPROVIDER" && 
+              { title: "Thống kê tour",
+                onClick: goToTourStatistics
+              },
+              user && user.role === "TOURPROVIDER" && 
+              { title: "Đăng bán tour",
+                onClick: goToSellTour
+              },
+               user && user.role === "TOURGUIDE" && 
+              { title: "Xem thông tin phân công",
+                onClick: goToAssignTourGuide
+              },
+               user && user.role === "TOURGUIDE" && 
+              { title: "Checkin khách hàng",
+                onClick: goToCheckin
+              },
+            { title: "Danh sách tour yêu thích", onClick: goToFavoriteTour },
+             { title: "Lịch trình tour", onClick: goToScheduleTour },
             { title: "Đăng xuất", onClick: handleLogout }
+           
           ]}>
             <div>
               <FaUserCircle color={textColor} size={30} />
               <span className="ml-2" style={{ color: textColor, fontSize: 20 }} >
                 {user.fullName}
               </span>
+              {/* {dropdownVisible && (
+                <div className="dropdown-menu" style={{ display: "block" }}>
+                  <div className="dropdown-item" onClick={goToUserDetail}>
+                    Thông tin khách hàng
+                  </div>
+                   {user.role === "ADMIN" && (
+                    <div className="dropdown-item" onClick={goToAdminPage}>
+                      Quản trị viên tour
+                    </div>
+                  )}
+                  {user.role === "TOURPROVIDER" && ( 
+                    <div className="dropdown-item" onClick={goToTourStatistics}>
+                      Thống kê tour
+                    </div>
+                  )}
+                  {user.role === "TOURGUIDE" && (
+                    <div className="dropdown-item" onClick={goToAssignTourGuide}>
+                      Xem thông tin phân công
+                    </div>
+                  )}
+                  <div className="dropdown-item" onClick={handleLogout}>
+                    Đăng xuất
+                  </div>
+                </div>
+              )} */}
             </div>
           </MenuDropDown>
           ) : (
@@ -61,8 +150,24 @@ function NavHeader({ textColor, opacity }) {
               Login
             </button>
           )}
+          <div>
+            {/* <button
+              className="ml-2 w-100 mb-1 bg-success"
+              onClick={goToTourList}
+            >
+              Tour List
+            </button> */}
+            {/* {user && user.role === "ADMIN" && (
+              <button
+                className="ml-2 w-100 mt-1 bg-dark"
+                onClick={goToAdminPage}
+              >
+                Admin Page
+              </button>
+            )} */}
+          </div>
+        </div>
       </div>
-    </div>
   );
 }
 

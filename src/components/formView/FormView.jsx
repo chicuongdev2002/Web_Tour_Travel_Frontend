@@ -101,4 +101,4 @@ function FormView({ children, title, titleBackground, data, className, notBorder
     )
 }
 
-export default FormView
+export default FormView;

@@ -5,7 +5,7 @@ import NavHeader from "../components/navbar/NavHeader";
 function AddTour() {
   return (
     <div>
-      <NavHeader textColor="black" />
+      {/* <NavHeader textColor="black" /> */}
       <div className="w-100">
         <AddTourComponent />
       </div>

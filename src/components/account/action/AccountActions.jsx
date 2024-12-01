@@ -58,7 +58,16 @@ const AccountActions = ({
           selectedAccounts.size === 0 ||
           [...selectedAccounts].some(
             (id) => !accounts.find((acc) => acc.userId === id).active,
-          )
+          ) ||
+          [...selectedAccounts].some((id) => {
+            const account = accounts.find((acc) => acc.userId === id);
+            return (
+              account &&
+              (account.role === "TOURGUIDE" ||
+                account.role === "TOURPROVIDER" ||
+                account.role === "CUSTOMERVIP")
+            );
+          })
         }
         startIcon={<Upgrade />}
       >

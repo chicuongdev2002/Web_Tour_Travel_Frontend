@@ -1,5 +1,5 @@
-import React from 'react'
-import AdminManage from '../components/admin/AdminManage'
+import React from "react";
+import AdminManage from "../components/admin/AdminManage";
 
 function AdminPage() {
   const user = JSON.parse(sessionStorage.getItem('user'))
@@ -13,7 +13,7 @@ function AdminPage() {
       </div>
     <AdminManage changeTitle={setTitle}/>
     </div>
-  )
+  );
 }
 
-export default AdminPage
+export default AdminPage;

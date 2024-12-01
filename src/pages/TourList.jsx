@@ -5,7 +5,7 @@ import { getAllTour } from "../functions/getTour";
 import TourCard from "../components/tourCard/TourCard";
 import { useNavigate, useLocation } from "react-router-dom";
 import NavHeader from "../components/navbar/NavHeader";
-
+import { getAllTourTest } from "../functions/getAllTourTest";
 const TourList = () => {
   const location = useLocation();
   const navigate = useNavigate();
@@ -19,8 +19,9 @@ const TourList = () => {
   );
   const fetchTours = async (currentPage) => {
     setLoading(true);
-    const data = await getAllTour({
-      ...searchParams,
+    // const data = await getAllTour({
+    const data = await getAllTourTest({
+      // ...searchParams,
       page: currentPage,
       size: pageSize,
     });

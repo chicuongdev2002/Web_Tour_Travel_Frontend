@@ -44,7 +44,7 @@ const Assignments = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(10);
+  const [rowsPerPage, setRowsPerPage] = useState(5);
   const [totalElements, setTotalElements] = useState(0);
   const [isAssignDialogOpen, setIsAssignDialogOpen] = useState(false);
   const [searchTerm, setSearchTerm] = useState("");
@@ -55,43 +55,20 @@ const Assignments = () => {
   const [allAssignments, setAllAssignments] = useState([]);
   const [exportLoading, setExportLoading] = useState(false);
   const [selectedAssignments, setSelectedAssignments] = useState(new Set());
-  //  useEffect(() => {
-  //   const socket = new SockJS('http://localhost:8080/ws');
-  //   const client = Stomp.over(socket);
 
-  //   client.connect({}, () => {
-  //     console.log('Kết nối WebSocket thành công');
-  //     setStompClient(client);
-  //     client.subscribe('/topic/assignments', (message) => {
-  //       const updatedAssignment = JSON.parse(message.body);
-  //       setAssignments(prevAssignments => {
-  //         return prevAssignments.map(assignment =>
-  //           assignment.departureId === updatedAssignment.departureId
-  //             ? updatedAssignment
-  //             : assignment
-  //         );
-  //       });
-  //     });
-  //   }, (error) => {
-  //     console.error('Lỗi kết nối WebSocket:', error);
-  //   });
-
-  //   return () => {
-  //     if (client) {
-  //       client.disconnect();
-  //     }
-  //   };
-  // }, []);
   const handleAssignmentComplete = () => {
     fetchAssignments(page, rowsPerPage);
   };
-
-  const fetchAssignments = async (page = 0, size = 10) => {
+  useEffect(() => {
+    console.log("Assignments updated:", assignments);
+  }, [assignments]);
+  const fetchAssignments = async (page = 0, size = 0) => {
     setLoading(true);
     try {
       const response = await axios.get(
         `http://localhost:8080/api/tour-guides/assignments-all?page=${page}&size=${size}`,
       );
+      console.log("Fetched assignments:", response.data);
       setAssignments(response.data.content);
       setTotalElements(response.data.page.totalElements);
     } catch (err) {
@@ -103,6 +80,12 @@ const Assignments = () => {
 
   useEffect(() => {
     fetchAssignments(page, rowsPerPage);
+    console.log(
+      "Fetching assignments for page:",
+      page,
+      "and rows per page:",
+      rowsPerPage,
+    );
   }, [page, rowsPerPage]);
 
   const fetchAllAssignments = async () => {
@@ -110,6 +93,7 @@ const Assignments = () => {
       const response = await axios.get(
         "http://localhost:8080/api/tour-guides/assignments-all?size=999999",
       );
+      console.log("Fetched assignments:", response.data);
       return response.data.content;
     } catch (err) {
       console.error("Error fetching all assignments:", err);
@@ -190,11 +174,14 @@ const Assignments = () => {
     }
   };
   const handleChangePage = (event, newPage) => {
+    console.log("Changing page to:", newPage); // Log trang mới
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
+    const newRowsPerPage = parseInt(event.target.value, 10);
+    console.log("Changing rows per page to:", newRowsPerPage); // Log số dòng mỗi trang
+    setRowsPerPage(newRowsPerPage);
     setPage(0);
   };
 
@@ -532,7 +519,7 @@ const Assignments = () => {
           <TableBody>
             {filteredAssignments.map((assignment) => (
               <TableRow
-                key={assignment.departureId && assignment.guideId}
+                key={`${assignment.departureId}-${assignment.guideId}`}
                 hover
                 sx={{
                   "&:nth-of-type(odd)": { bgcolor: "action.hover" },
@@ -574,9 +561,9 @@ const Assignments = () => {
       </TableContainer>
 
       <TablePagination
-        rowsPerPageOptions={[5, 10, 25]}
+        rowsPerPageOptions={[5, 10, 25, 40]}
         component="div"
-        count={filteredAssignments.length}
+        count={totalElements}
         rowsPerPage={rowsPerPage}
         page={page}
         onPageChange={handleChangePage}

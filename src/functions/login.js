@@ -5,7 +5,7 @@ const login = async (username, password) => {
   let result = {};
   try {
     const response = await axios.post(getAPI(LOGIN, { username, password }));
-
+     console.log(response);
     if (response.status === 200) {
       const data = response.data;
       result = { isLoginSuccessful: true, loginError: "", userData: data };

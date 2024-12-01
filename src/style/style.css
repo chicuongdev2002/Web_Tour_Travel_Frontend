@@ -1,9 +1,9 @@
 body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 0;
-    /* background-color: #f8f9fa; */
-    /* background-color: black !important; */
+  font-family: "Arial", sans-serif;
+  margin: 0;
+  padding: 0;
+  /* background-color: #f8f9fa; */
+  /* background-color: black !important; */
 }
 
 /* input {
@@ -189,10 +189,10 @@ footer {
 }
 
 .truncate-multiline {
-    height: 3em;
-    line-height: 1.5em;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: normal;
-    text-align: start;
+  height: 3em;
+  line-height: 1.5em;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: normal;
+  text-align: start;
 }

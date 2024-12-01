@@ -38,31 +38,86 @@ function AdminPage({ changeTitle }) {
         >
         <div className={`divRow ${select == 'account' ? 'elementSelected' : 'element'}`}>
           <FaKey size={30} />
-          {isOpen && <p className='one-line-text' onClick={() => handleSelect('account')}>Quản lý tài khoản</p>}
+          {isOpen && (
+            <p
+              className="one-line-text"
+              onClick={() => handleSelect("account")}
+            >
+              Quản lý tài khoản
+            </p>
+          )}
         </div>
-        <div className={`divRow ${select == 'customer' ? 'elementSelected' : 'element'}`}>
+        <div
+          className={`divRow ${select == "customer" ? "elementSelected" : "element"}`}
+        >
           <MdAccountCircle size={30} />
-          {isOpen && <p className='one-line-text' onClick={() => handleSelect('customer')}>Quản lý khách hàng</p>}
+          {isOpen && (
+            <p
+              className="one-line-text"
+              onClick={() => handleSelect("customer")}
+            >
+              Quản lý khách hàng
+            </p>
+          )}
         </div>
-        <div className={`divRow ${select == 'tour' ? 'elementSelected' : 'element'}`}>
+        <div
+          className={`divRow ${select == "tour" ? "elementSelected" : "element"}`}
+        >
           <MdCardTravel size={30} />
-          {isOpen && <p className='one-line-text' onClick={() => handleSelect('tour')}>Quản lý tour</p>}
+          {isOpen && (
+            <p className="one-line-text" onClick={() => handleSelect("tour")}>
+              Quản lý tour
+            </p>
+          )}
         </div>
-        <div className={`divRow ${select == 'booking' ? 'elementSelected' : 'element'}`}>
+        <div
+          className={`divRow ${select == "booking" ? "elementSelected" : "element"}`}
+        >
           <PiNotepadFill size={30} />
-          {isOpen && <p className='one-line-text' onClick={() => handleSelect('booking')}>Quản lý đơn đặt tour</p>}
+          {isOpen && (
+            <p
+              className="one-line-text"
+              onClick={() => handleSelect("booking")}
+            >
+              Quản lý đơn đặt tour
+            </p>
+          )}
         </div>
-        <div className={`divRow ${select == 'discount' ? 'elementSelected' : 'element'}`}>
+        <div
+          className={`divRow ${select == "discount" ? "elementSelected" : "element"}`}
+        >
           <RiDiscountPercentFill size={30} />
-          {isOpen && <p className='one-line-text' onClick={() => handleSelect('discount')}>Quản lý mã giảm giá</p>}
+          {isOpen && (
+            <p
+              className="one-line-text"
+              onClick={() => handleSelect("discount")}
+            >
+              Quản lý mã giảm giá
+            </p>
+          )}
         </div>
-        <div className={`divRow ${select == 'notify' ? 'elementSelected' : 'element'}`}>
+        <div
+          className={`divRow ${select == "notify" ? "elementSelected" : "element"}`}
+        >
           <MdCircleNotifications size={30} />
-          {isOpen && <p className='one-line-text' onClick={() => handleSelect('notify')}>Thông báo</p>}
+          {isOpen && (
+            <p className="one-line-text" onClick={() => handleSelect("notify")}>
+              Thông báo
+            </p>
+          )}
         </div>
-        <div className={`divRow ${select == 'statistic' ? 'elementSelected' : 'element'}`}>
+        <div
+          className={`divRow ${select == "statistic" ? "elementSelected" : "element"}`}
+        >
           <IoBarChartSharp size={30} />
-          {isOpen && <p className='one-line-text' onClick={() => handleSelect('statistic')}>Thống kê</p>}
+          {isOpen && (
+            <p
+              className="one-line-text"
+              onClick={() => handleSelect("statistic")}
+            >
+              Thống kê
+            </p>
+          )}
         </div>
         <div className={`divRow ${select == 'KPI' ? 'elementSelected' : 'element'}`}>
           <IoIosAlarm size={30} />
@@ -79,7 +134,7 @@ function AdminPage({ changeTitle }) {
         {select === 'notify' && <NotifyComponent />}
       </div>
     </div>
-  )
+  );
 }
 
-export default AdminPage
+export default AdminPage;

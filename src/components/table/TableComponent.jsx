@@ -1,5 +1,5 @@
-import React from 'react'
-import { Table } from 'react-bootstrap';
+import React from "react";
+import { Table } from "react-bootstrap";
 import { GrCaretPrevious, GrCaretNext } from "react-icons/gr";
 let i = 0;
 function TableComponent({ headers, data, page, getData, onClickTr }) {
@@ -34,28 +34,35 @@ function TableComponent({ headers, data, page, getData, onClickTr }) {
             ))
           ) : (
             <tr>
-              <td colSpan="10" className="text-center">Không có dữ liệu.</td>
+              <td colSpan="10" className="text-center">
+                Không có dữ liệu.
+              </td>
             </tr>
           )}
         </tbody>
       </Table>
-      {page &&
+      {page && (
         <div className="pagination w-100 divCenter">
-          <GrCaretPrevious className='mr-2' onClick={() => {
-            if (page.number > 0)
-              getData(page.number - 1, page.size);
-          }} />
-          <p>Trang {page.number + 1} / {page.totalPages}</p>
-          <GrCaretNext className='ml-2'
+          <GrCaretPrevious
+            className="mr-2"
+            onClick={() => {
+              if (page.number > 0) getData(page.number - 1, page.size);
+            }}
+          />
+          <p>
+            Trang {page.number + 1} / {page.totalPages}
+          </p>
+          <GrCaretNext
+            className="ml-2"
             onClick={() => {
               if (page.number < page.totalPages - 1)
                 getData(page.number + 1, page.size);
             }}
           />
         </div>
-      }
+      )}
     </div>
-  )
+  );
 }
 
-export default TableComponent
+export default TableComponent;
