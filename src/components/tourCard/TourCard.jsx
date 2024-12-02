@@ -26,10 +26,11 @@ import img from '../../assets/404.png';
 import { addFavoriteTour } from '../../functions/addFavoriteTour';
 import { deleteFavoriteTour } from '../../functions/deleteFavoriteTour';
 import './TourCard.css'
+import ChoosePopup from '../popupNotifications/ChoosePopup';
 const TourCard = ({ tour }) => {
   const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = useState(Boolean(tour.favorite));
-
+ const [isPopupOpen, setIsPopupOpen] = useState(false);
   const handleViewDetail = (e) => {
     e.preventDefault();
     if (!tour?.tourId) {
@@ -45,10 +46,13 @@ const TourCard = ({ tour }) => {
   const handleFavoriteToggle = async (e) => {
     e.stopPropagation();
     const user = JSON.parse(sessionStorage.getItem('user'));
+
     if (!user || !user.userId) {
-      console.error('User is not logged in');
+      // Show popup if the user is not logged in
+      setIsPopupOpen(true);
       return;
     }
+
     try {
       if (isFavorite) {
         await deleteFavoriteTour(user.userId, tour.tourId);
@@ -60,6 +64,15 @@ const TourCard = ({ tour }) => {
     } catch (error) {
       console.error('Error toggling favorite tour:', error);
     }
+  };
+
+  const handlePopupClose = () => {
+    setIsPopupOpen(false);
+  };
+
+  const handlePopupAccept = () => {
+    setIsPopupOpen(false);
+    navigate('/login-register');
   };
 
   const handleShare = (e) => {
@@ -358,6 +371,14 @@ const TourCard = ({ tour }) => {
           </Button>
         </Box>
       </Card>
+        <ChoosePopup
+        title="Đăng Nhập Cần Thiết"
+        message="Bạn cần đăng nhập để thực hiện chức năng này. Bạn có muốn chuyển đến trang đăng nhập không?"
+        open={isPopupOpen}
+        onclose={handlePopupClose}
+        onAccept={handlePopupAccept}
+        onReject={handlePopupClose}
+      />
     </motion.div>
   );
 };

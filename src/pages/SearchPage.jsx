@@ -1,4 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
+import { useLocation } from 'react-router-dom';
 import NavHeader from "../components/navbar/NavHeader";
 import SearchInput from "../components/search/SearchInput";
 import { 
@@ -138,13 +139,21 @@ function ScrollTop(props) {
 }
 
 function SearchPage() {
+  const location = useLocation();
   const [searchParams, setSearchParams] = useState({});
   const [currentTab, setCurrentTab] = useState(0);
   const [drawerOpen, setDrawerOpen] = useState(false);
   const tourListRef = useRef(null);
   const favoriteListRef = useRef(null);
   const isMobile = useMediaQuery(theme.breakpoints.down('md'));
-
+ useEffect(() => {
+    if (location.state?.keyword) {
+      setSearchParams({
+        ...searchParams,
+        keyword: location.state.keyword
+      });
+    }
+  }, [location.state]);
   const handleSearch = (params) => {
     setSearchParams(params);
     if (isMobile) {
