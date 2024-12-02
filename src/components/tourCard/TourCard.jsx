@@ -11,7 +11,6 @@ import {
   Chip,
   IconButton,
   Tooltip,
-  alpha,
 } from '@mui/material';
 import { motion } from 'framer-motion';
 import LocationOnIcon from '@mui/icons-material/LocationOn';
@@ -26,11 +25,10 @@ import FamilyRestroomIcon from '@mui/icons-material/FamilyRestroom';
 import img from '../../assets/404.png';
 import { addFavoriteTour } from '../../functions/addFavoriteTour';
 import { deleteFavoriteTour } from '../../functions/deleteFavoriteTour';
+import './TourCard.css'
 const TourCard = ({ tour }) => {
   const navigate = useNavigate();
-  const [isFavorite, setIsFavorite] = useState(() => {
-    return Boolean(tour.favorite);
-  });
+  const [isFavorite, setIsFavorite] = useState(Boolean(tour.favorite));
 
   const handleViewDetail = (e) => {
     e.preventDefault();
@@ -352,6 +350,8 @@ const TourCard = ({ tour }) => {
               '&:active': {
                 transform: 'translateY(0)',
               },
+              animation: 'blink 1s infinite',
+              
             }}
           >
             Xem chi tiết

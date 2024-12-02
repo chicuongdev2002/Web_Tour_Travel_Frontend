@@ -9,8 +9,94 @@ import {
   Paper,
   Fade,
   Pagination,
+  Stack,
+  Card,
+  CardContent,
+  Tooltip,
+  Button,
 } from '@mui/material';
+import { 
+  Favorite as FavoriteIcon, 
+  Timer as TimerIcon, 
+  LocationOn as LocationIcon,
+  Add as AddIcon 
+} from '@mui/icons-material';
 import TourCard from '../tourCard/TourCard';
+
+const FavoriteTourStatistics = ({ tours }) => {
+  const totalTours = tours.length;
+  const totalDestinations = [...new Set(tours.map(tour => tour.startLocation))].length;
+  const totalTourTypes = [...new Set(tours.map(tour => tour.tourType))].length;
+
+  const statisticItems = [
+    {
+      icon: <FavoriteIcon fontSize="large" />,
+      value: totalTours,
+      label: 'Tổng số tour yêu thích',
+      color: 'primary.main',
+    },
+    {
+      icon: <LocationIcon fontSize="large" />,
+      value: totalDestinations,
+      label: 'Điểm đến khác nhau',
+      color: 'secondary.main',
+    },
+    {
+      icon: <TimerIcon fontSize="large" />,
+      value: totalTourTypes,
+      label: 'Loại tour khác nhau',
+      color: 'info.main',
+    }
+  ];
+
+  return (
+    <Grid 
+      container 
+      spacing={2} 
+      sx={{ 
+        mb: 4, 
+        '& .MuiCard-root:hover': {
+          transform: 'scale(1.05)',
+          transition: 'transform 0.3s ease-in-out',
+          boxShadow: '0 4px 15px rgba(0,0,0,0.1)'
+        }
+      }}
+    >
+      {statisticItems.map((item, index) => (
+        <Grid item xs={12} sm={4} key={index}>
+          <Card 
+            variant="outlined"
+            sx={{ 
+              transition: 'all 0.3s ease',
+              '&:hover': {
+                borderColor: 'primary.main'
+              }
+            }}
+          >
+            <CardContent>
+              <Stack 
+                direction="row" 
+                alignItems="center" 
+                spacing={2}
+                sx={{ color: item.color }}
+              >
+                {item.icon}
+                <Box>
+                  <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                    {item.value}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {item.label}
+                  </Typography>
+                </Box>
+              </Stack>
+            </CardContent>
+          </Card>
+        </Grid>
+      ))}
+    </Grid>
+  );
+};
 
 const FavoriteTourListComponent = () => {
   const navigate = useNavigate();
@@ -30,9 +116,7 @@ const FavoriteTourListComponent = () => {
       }
      
       const data = await response.json();
-       console.log(data);
       if (data) {
-        // Calculate pagination
         const startIndex = (currentPage - 1) * pageSize;
         const endIndex = startIndex + pageSize;
         const paginatedData = data.slice(startIndex, endIndex);
@@ -50,6 +134,10 @@ const FavoriteTourListComponent = () => {
     } finally {
       setLoading(false);
     }
+  };
+
+  const handleAddTour = () => {
+    navigate('/search-page');
   };
 
   useEffect(() => {
@@ -86,41 +174,78 @@ const FavoriteTourListComponent = () => {
       <Container maxWidth="lg">
         <Fade in timeout={800}>
           <Box>
-            <Typography 
-              variant="h4" 
-              gutterBottom 
-              sx={{ 
-                mb: 4, 
-                textAlign: 'center',
-                color: 'primary.main',
-                fontWeight: 'bold'
-              }}
+            <Stack 
+              direction="row" 
+              justifyContent="space-between" 
+              alignItems="center" 
+              sx={{ mb: 4 }}
             >
-              Tour Yêu Thích
-            </Typography>
+              <Typography 
+                variant="h4" 
+                sx={{ 
+                  textAlign: 'left',
+                  color: 'primary.main',
+                  fontWeight: 'bold'
+                }}
+              >
+                Tour Yêu Thích
+              </Typography>
+              <Tooltip title="Thêm tour mới vào danh sách yêu thích">
+                <Button 
+                  variant="contained" 
+                  color="primary" 
+                  startIcon={<AddIcon />}
+                  onClick={handleAddTour}
+                >
+                 Khám phá tour mới ngay
+                </Button>
+              </Tooltip>
+            </Stack>
+            
+            {dataCard.length > 0 && <FavoriteTourStatistics tours={dataCard} />}
             
             {dataCard.length === 0 ? (
               <Fade in timeout={800}>
                 <Paper
-                  elevation={0}
+                  elevation={3}
                   sx={{
                     p: 6,
                     textAlign: 'center',
                     borderRadius: 4,
                     background: 'rgba(255, 255, 255, 0.9)',
                     backdropFilter: 'blur(10px)',
+                    boxShadow: '0 8px 32px rgba(0,0,0,0.1)'
                   }}
                 >
                   <Typography variant="h5" gutterBottom color="primary">
                     Chưa có tour yêu thích
                   </Typography>
-                  <Typography color="text.secondary">
+                  <Typography color="text.secondary" sx={{ mb: 3 }}>
                     Hãy thêm các tour bạn yêu thích vào danh sách này.
                   </Typography>
+                  <Button 
+                    variant="contained" 
+                    color="primary" 
+                    startIcon={<AddIcon />}
+                    onClick={handleAddTour}
+                  >
+                    Khám Phá Tour
+                  </Button>
                 </Paper>
               </Fade>
             ) : (
-              <Grid container spacing={3}>
+              <Grid 
+                container 
+                spacing={3}
+                sx={{
+                  '& > .MuiGrid-item': {
+                    transition: 'all 0.3s ease',
+                    '&:hover': {
+                      transform: 'translateY(-10px)'
+                    }
+                  }
+                }}
+              >
                 {dataCard.map((tour, index) => (
                   <Grid item xs={12} sm={6} md={4} lg={3} key={tour.tourId}>
                     <Fade in timeout={500 + index * 100}>
@@ -155,6 +280,15 @@ const FavoriteTourListComponent = () => {
                   color="primary"
                   size="large"
                   siblingCount={0}
+                  sx={{
+                    '& .MuiPaginationItem-root': {
+                      transition: 'all 0.3s ease',
+                      '&:hover': {
+                        backgroundColor: 'primary.light',
+                        color: 'white'
+                      }
+                    }
+                  }}
                 />
               </Box>
             )}

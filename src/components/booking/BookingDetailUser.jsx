@@ -93,7 +93,6 @@ const BookingDetailUser = () => {
     setRowsPerPage(parseInt(event.target.value, 10));
     setPage(0);
   };
-
   if (loading) {
     return (
       <Box 
@@ -261,12 +260,12 @@ const BookingDetailUser = () => {
                               fontWeight: 600
                             }}
                           >
-                            {booking.tourGuide.fullName.charAt(0)}
+                            {booking.tourGuide?.fullName.charAt(0)}
                           </Avatar>
                         </Grid>
                         <Grid item>
-                          {booking.tourGuide.fullName}
-                        </Grid>
+  {booking.tourGuide ? booking.tourGuide.fullName : "Không xác định"}
+</Grid>
                       </Grid>
                     </TableCell>
                     <TableCell sx={{ whiteSpace: 'nowrap', fontWeight: 500 }}>
