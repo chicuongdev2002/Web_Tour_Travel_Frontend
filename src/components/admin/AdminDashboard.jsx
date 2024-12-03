@@ -95,6 +95,7 @@ import TourManagerPage from "../../pages/TourManagerPage";
 import TourStatistics from "../tour/TourAgencyStatistics";
 import RevenueDashboard from "../tour/RevenueDashboard";
 import TourAgencyStatistics from "../tour/TourAgencyStatistics";
+import BookingListComponent from "../booking/BookingListComponent";
 const drawerWidth = 280;
 
 const AdminDashboard = () => {
@@ -676,9 +677,9 @@ const AdminDashboard = () => {
         </Box> */}
         {/* Routes */}
         <Routes>
-          <Route path="/" element={<PageTestComponent />} />
+          {/* <Route path="/" element={<PageTestComponent />} /> */}
           <Route path="/add-tour" element={<AddTour />} />
-          <Route path="/booking-list" element={<BookingList />} />
+          <Route path="/booking-list" element={<BookingListComponent />} />
           <Route path="/add-destination" element={<AddDestination />} />
           <Route path="/update-tour/:id" element={<UpdateTour />} />
           <Route path="/user-detail" element={<UserInfo />} />

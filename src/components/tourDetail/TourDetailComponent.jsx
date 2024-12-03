@@ -48,7 +48,14 @@ const TourDetailComponent = ({ tourData }) => {
   const navigate = useNavigate();
   const storedUser = JSON.parse(sessionStorage.getItem("user"));
   
-  const [selectedDeparture, setSelectedDeparture] = useState(tourData.departures[0]);
+  const [selectedDeparture, setSelectedDeparture] = useState(
+    tourData.departures.find(d => {
+    debugger
+    const currentDate = new Date(); 
+    currentDate.setHours(0, 0, 0, 0);
+    const inputDateObj = new Date(d.startDate);
+    return inputDateObj > new Date(currentDate.setDate(currentDate.getDate() + 3));
+  }));
   const [isDescriptionExpanded, setIsDescriptionExpanded] = useState(false);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   const [deleteStatus, setDeleteStatus] = useState(null);

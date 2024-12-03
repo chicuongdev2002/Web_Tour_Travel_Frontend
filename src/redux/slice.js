@@ -24,7 +24,7 @@ const notifySlice = createSlice({
           ...state[index].messages,
         ];
       }
-    },
+    }
   },
 });
 

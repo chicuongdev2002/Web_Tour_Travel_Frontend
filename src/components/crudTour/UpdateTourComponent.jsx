@@ -13,6 +13,9 @@ import { uploadFile } from '../../functions/postData';
 import CustomPop from '../popupNotifications/CustomPop';
 import { useNavigate } from 'react-router-dom';
 import ChoosePopup from '../popupNotifications/ChoosePopup';
+import { getListTourType } from '../../functions/getListTourType';
+import LocationSelectCustom from '../../components/location/LocationSelectCustom'
+import { getProvince, getDistrict } from '../../functions/getProvince'
 
 function UpdateTourComponent({ data }) {
   console.log(data)
@@ -20,8 +23,8 @@ function UpdateTourComponent({ data }) {
   let count = useRef(0).current
   const [dataConvert, setDataConvert] = useState([])
   const [tourName, setTourName] = useState(data.tourName);
+  const [tourType, setTourType] = useState([]);
   const [description, setDescription] = useState(data.tourDescription);
-  const [startLocation, setStartLocation] = useState(data.startLocation);
   const [type, setType] = useState(data.tourType);
   const [file, setFile] = useState(null)
   const [messageNotify, setMessageNotify] = useState('')
@@ -47,6 +50,42 @@ function UpdateTourComponent({ data }) {
 
   const [openAddDeparture, setOpenAddDeparture] = useState(false)
   const [departureSelected, setDepartureSelected] = useState(null)
+  const [province, setProvince] = useState(null)
+  const [provinces, setProvinces] = useState([])
+  const [district, setDistrict] = useState(null)
+  const [districts, setDistricts] = useState([])
+
+  useEffect(() => {
+    getTourType()
+    getDataProvince().then((d) => {
+      if(data.startLocation.split(',').length === 1){
+        for(let i = 0; i < d.length; i++){
+          if(Object.values(d[i])[0] === data.startLocation){
+            setProvince(Object.keys(d[i])[0])
+            getDitricts(Object.keys(d[i])[0]).then(() => setDistrict(null))
+            break
+          }
+        }
+      }
+      else{
+        for(let i = 0; i < d.length; i++){
+          if(Object.values(d[i])[0] === data.startLocation.split(', ')[0]){
+            setProvince(Object.keys(d[i])[0])
+            getDitricts(Object.keys(d[i])[0]).then(() => setDistrict(data.startLocation.split(', ')[1]))
+            break
+          }
+        }
+      }
+    })
+  }, []);
+
+  const getTourType = async () => {
+    let result = await getListTourType();
+    let data = []
+    for (const key in result)
+      data.push({ [key]: result[key] })
+    setTourType(data);
+  }
 
   const getDestination = async (page, size) => {
     const result = await getAllDestination(page, size);
@@ -126,7 +165,7 @@ function UpdateTourComponent({ data }) {
           tourId: data.tourId,
           tourName: tourName,
           tourDescription: description,
-          startLocation: startLocation,
+          startLocation: district? getProvinceName(province) + ", " + district : getProvinceName(province),
           tourType: type,
           duration: duration
         },
@@ -179,6 +218,38 @@ function UpdateTourComponent({ data }) {
       setMessageNotify('Đã xảy ra lỗi! Vui lòng thử lại sau')
     }
   }
+
+  const getDataProvince = async () => {
+    const result = await getProvince()
+    let data = []
+    result.forEach(element => {
+      data.push({ [element.id]: element.name })
+    });
+    setProvinces(data)
+    return data
+  }
+
+  const getProvinceName = (provinceId) =>{
+    let result = provinces.filter(p => Object.keys(p)[0] == provinceId)
+    return result[0][provinceId]
+  }
+
+  const getDitricts = async (provinceId) => {
+    const result = await getDistrict(provinceId)
+    let data = []
+    result.forEach(element => {
+      data.push({ [element.name]: element.name })
+    });
+    setDistricts(data)
+  }
+
+  const onChangeProvince = (e) => {
+    setProvince(e)
+    setDistrict(null)
+    getDitricts(e)
+  }
+
+  const onChangeDitricts = (e) => setDistrict(e)
 
   const handleFillUpdateTourModal = (departure) => {
     setDepartureId(departure.id)
@@ -238,8 +309,11 @@ function UpdateTourComponent({ data }) {
         <FormView title={`Cập nhật tour`} className='w-50' data={[
           { label: 'Tên tour', object: { type: 'text', value: tourName, notForm: true, onChange: (e) => setTourName(e.target.value) } },
           { label: 'Mô tả', object: { type: 'text', value: description, onChange: (e) => setDescription(e.target.value) } },
-          { label: 'Điểm xuất phát', object: { type: 'text', value: startLocation, onChange: (e) => setStartLocation(e.target.value) } },
-          { label: 'Loại tour', object: { type: 'select', value: type, onChange: (e) => setType(e), listData: [{ FAMILY: "FAMILY" }, { GROUP: "GROUP" }] } },
+          { object: { type: 'div', value: <LocationSelectCustom label="Địa điểm khởi hành"
+            province={province} provinces={provinces} district={district} districts={districts}
+            onChangeProvince={onChangeProvince} onChangeDitricts={onChangeDitricts}
+            />}},
+          { label: 'Loại tour', object: { type: 'select', value: type, onChange: (e) => setType(e), listData: tourType } },
           { label: 'Ảnh', object: {
               type: 'image',
               value: images,

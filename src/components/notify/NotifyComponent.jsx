@@ -57,7 +57,7 @@ function NotifyComponent() {
             <p className="m-0 one-line text-start" style={{ fontSize: 18 }}>
               {item.user.fullName}
             </p>
-            <p className="m-0">{item.messages[0]?.content}</p>
+            <p className="m-0">{item.messages[0]?.content.startsWith("$$##Cancel_Booking##$$")? "Huỷ Booking": item.messages[0]?.content}</p>
           </div>
           <div>
             <p className="m-0">
