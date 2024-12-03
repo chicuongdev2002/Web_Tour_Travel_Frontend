@@ -41,7 +41,7 @@ const oldsPrice = useRef(selectedDeparture.tourPricing.find(d => d.participantTy
 
     const bookingSuccess = () => {
         setNotify(-1)
-        navigate('/booking-detail-user')
+        navigate('/booking-list')
     }
 
     const getData = () => {

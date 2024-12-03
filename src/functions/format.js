@@ -2,14 +2,27 @@ import { format } from "date-fns";
 import { vi } from "date-fns/locale";
 
 const formatMoney = (amount) => {
-  amountString = amount + "";
+  let amountString = amount + "";
   if (amountString.length <= 3) {
     return amountString;
   }
-  return `${(amount / 100).toFixed(2)}`;
+  return `${(amount / 100).toFixed(3)}`;
+};
+
+const formatMoneyVND = (amount) => {
+  let amountString = amount + "";
+  if (amountString.length <= 3) {
+    return amountString + " VND";
+  }
+  for (let i = amountString.length - 3; i > 0; i -= 3) {
+    amountString = amountString.slice(0, i) + "," + amountString.slice(i);
+  }
+  return amountString + " VND";
 };
 
 const formatDate = (date) => {
+  if(!date)
+     return '';
   const formattedDate = format(
     new Date(date),
     "HH:mm eeee, 'ngày' dd 'tháng' MM 'năm' yyyy",
@@ -48,4 +61,4 @@ const getTimeDifference = (isoDate) => {
   }
 };
 
-export { formatMoney, formatDate, convertISOToCustomFormat, getTimeDifference };
+export { formatMoney, formatMoneyVND, formatDate, convertISOToCustomFormat, getTimeDifference };

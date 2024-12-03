@@ -10,12 +10,12 @@ function SelectComponent({ id, label, value, onChange, listData, notMarginTop })
 
   return (
     <FormControl style={{ width: "100%", marginTop: notMarginTop? 0 : 20 }} variant="standard">
-      <InputLabel
+      { label && <InputLabel
         id={id}
         style={{ color: focus ? "#1976D2" : "black", fontSize: 18 }}
       >
         {label}
-      </InputLabel>
+      </InputLabel>}
       <Select
         labelId="demo-simple-select-standard-label"
         id="demo-simple-select-standard"
