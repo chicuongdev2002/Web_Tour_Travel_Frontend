@@ -16,6 +16,8 @@ import PersonIcon from "@mui/icons-material/Person";
 import EditNoteIcon from "@mui/icons-material/EditNote";
 import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
 import EmailIcon from "@mui/icons-material/Email";
+import SuccessPopup from "../popupNotifications/SuccessPopup";
+import FailPopup from "../popupNotifications/FailPopup";
 const LoginRegister = () => {
   const location = useLocation();
   const [isActive, setIsActive] = useState(false);
@@ -52,6 +54,12 @@ const LoginRegister = () => {
   const [isUsername, setIsUsername] = useState(false); // kiểm tra input là username hay email
   const [userEmail, setUserEmail] = useState(""); // email lấy được từ username
   const navigate = useNavigate();
+  const [successPopup, setSuccessPopup] = useState({
+    open: false,
+    message: "",
+  });
+  const [failPopup, setFailPopup] = useState({ open: false, message: "" });
+    const [isLoading, setIsLoading] = useState(false);
   const handleRegisterClick = () => {
     setIsActive(true);
     setError("");
@@ -112,7 +120,7 @@ const LoginRegister = () => {
       setShowErrorRegisterr(true);
       return;
     }
-
+    setIsLoading(true);
     try {
       const accountExistsResult = await checkAccountExists(username);
       const emailExistsResult = await checkEmailExists(email);
@@ -123,6 +131,7 @@ const LoginRegister = () => {
             : emailExistsResult.checkEmailError,
         );
         setShowErrorRegisterr(true);
+        setIsLoading(false);
         return;
       }
       setShowErrorRegisterr(false);
@@ -137,8 +146,12 @@ const LoginRegister = () => {
           const remainingTime = Math.ceil((endTime - Date.now()) / 1000);
           if (remainingTime <= 0) {
             clearInterval(countdownInterval);
-            setPopupMessage("Mã xác thực đã được gửi đến email của bạn.");
-            setShowPopup(true);
+            // setPopupMessage("Mã xác thực đã được gửi đến email của bạn.");
+            // setShowPopup(true);
+            setSuccessPopup({
+              open: true,
+              message:"Mã xác thực đã được gửi đến email của bạn.",
+            }); 
             setCountdown(0);
             setShowCountdown(false);
           } else {
@@ -149,12 +162,14 @@ const LoginRegister = () => {
         setErrorRegister(sendCodeResult.sendCodeError);
       }
     } catch (err) {
-      setError(err.message);
+      // setError(err.message);
       setPopupMessage(err.message);
       setShowPopup(true);
       setTimeout(() => {
         setShowPopup(false);
       }, 3000);
+    }finally {
+      setIsLoading(false);
     }
   };
 
@@ -162,7 +177,10 @@ const LoginRegister = () => {
     e.preventDefault();
     const verifyResult = await verifyCode(email, verificationCode);
     if (!verifyResult.isCodeValid) {
-      setError(verifyResult.verifyCodeError);
+       setFailPopup({
+        open: true,
+        message: "Mã xác thực không hợp lệ. Vui lòng thử lại.", 
+      });
       return;
     }
 
@@ -175,16 +193,23 @@ const LoginRegister = () => {
     );
     if (registerResult.isRegisterSuccessful) {
       console.log("Đăng ký thành công", registerResult.userData);
-      setPopupMessage("Đăng ký thành công!");
-      setShowPopup(true);
+      setSuccessPopup({
+        open: true,
+        message:"Đăng ký thành công. Vui lòng đăng nhập để tiếp tục.",
+      });
+      // setShowPopup(true);
       setTimeout(() => {
         setShowPopup(false);
         setIsActive(false);
       }, 3000);
     } else {
-      setError(registerResult.registerError);
-      setPopupMessage(registerResult.registerError);
-      setShowPopup(true);
+      // setError(registerResult.registerError);
+      // setPopupMessage(registerResult.registerError);
+      // setShowPopup(true);
+      setFailPopup({
+        open: true,
+        message: registerResult.registerError,
+      });
       setTimeout(() => {
         setShowPopup(false);
       }, 3000);
@@ -244,7 +269,7 @@ const LoginRegister = () => {
     if (showEmailForget) {
       return;
     }
-
+setIsLoading(true); 
     try {
       let emailToVerify = resetIdentifier;
 
@@ -257,6 +282,7 @@ const LoginRegister = () => {
           setUserEmail(emailToVerify.email);
         } catch (error) {
           setResetError("Không tìm thấy email với tên đăng nhập này");
+           setIsLoading(false); 
           return;
         }
       } else {
@@ -265,6 +291,7 @@ const LoginRegister = () => {
         if (!emailCheck.emailExists) {
           setShowMailForget(true);
           setShowErrorMailForget("Email không tồn tại trong hệ thống");
+           setIsLoading(false); 
           return;
         }
       }
@@ -278,16 +305,26 @@ const LoginRegister = () => {
           /(\w{3})[\w.-]+@([\w.]+)/g,
           "$1***@$2",
         );
-        setPopupMessage(
-          `Mã xác thực đã được gửi đến email ${maskedEmail} của bạn.`,
-        );
-        setShowPopup(true);
+        // setPopupMessage(
+        //   `Mã xác thực đã được gửi đến email ${maskedEmail} của bạn.`,
+        // );
+        setSuccessPopup({
+        open: true,
+        message:`Mã xác thực đã được gửi đến email ${maskedEmail} của bạn.`,
+      });
+        // setShowPopup(true);
         setResetEmail(emailToVerify.email);
       } else {
-        setResetError(result.sendCodeError);
+        // setResetError(result.sendCodeError);
+        setFailPopup({
+        open: true,
+        message: result.sendCodeError,
+      });
       }
     } catch (error) {
       setResetError("Có lỗi xảy ra khi gửi mã xác thực");
+    }finally {
+      setIsLoading(false);
     }
   };
 
@@ -297,9 +334,13 @@ const LoginRegister = () => {
     if (result.isCodeValid) {
       setIsResetCodeVerified(true);
       setResetError("");
-      setError("");
-      setPopupMessage("Mã xác thực hợp lệ. Vui lòng nhập mật khẩu mới.");
-      setShowPopup(true);
+      setError(""); 
+      // setPopupMessage("Mã xác thực hợp lệ. Vui lòng nhập mật khẩu mới.");
+      // setShowPopup(true);
+       setSuccessPopup({
+        open: true,
+        message:`Mã xác thực hợp lệ. Vui lòng nhập mật khẩu mới.`,
+      });
     } else {
       setResetError(result.verifyCodeError);
     }
@@ -321,10 +362,14 @@ const LoginRegister = () => {
 
     const result = await resetPassword(resetEmail, newPassword);
     if (result.isResetSuccessful) {
-      setPopupMessage(
-        "Mật khẩu đã được đặt lại thành công. Vui lòng đăng nhập lại.",
-      );
-      setShowPopup(true);
+      // setPopupMessage(
+      //   "Mật khẩu đã được đặt lại thành công. Vui lòng đăng nhập lại.",
+      // );
+      // setShowPopup(true);
+       setSuccessPopup({
+        open: true,
+        message:`Mật khẩu đã được đặt lại thành công. Vui lòng đăng nhập lại.`,
+      });
       setIsActive(false);
       setShowEmailInput(false);
       setFailedLoginAttempts(0);
@@ -430,28 +475,33 @@ const LoginRegister = () => {
             )}
             {error && <p className="error-message">{error}</p>}
             {resetError && <p className="error-message">{resetError}</p>}
-            <button
-              type="submit"
-              className="btn animation"
-              style={{ "--i": 5, "--j": 26, marginTop: 20 }}
-              onClick={
-                showEmailInput
-                  ? isResetCodeSent
-                    ? isResetCodeVerified
-                      ? handleResetPassword
-                      : handleVerifyResetCode
-                    : handleSendResetCode
-                  : handleLogin
-              }
-            >
-              {showEmailInput
-                ? isResetCodeSent
-                  ? isResetCodeVerified
-                    ? "Đặt lại mật khẩu"
-                    : "Xác minh mã"
-                  : "Gửi mã xác minh"
-                : "Đăng nhập"}
-            </button>
+             <button
+        type="submit"
+        className="btn animation"
+        style={{ "--i": 5, "--j": 26, marginTop: 20 }}
+        onClick={
+          showEmailInput
+            ? isResetCodeSent
+              ? isResetCodeVerified
+                ? handleResetPassword
+                : handleVerifyResetCode
+              : handleSendResetCode
+            : handleLogin
+        }
+        disabled={isLoading}
+      >
+        {isLoading ? (
+          "Đang xử lý..."
+        ) : (
+          showEmailInput
+            ? isResetCodeSent
+              ? isResetCodeVerified
+                ? "Đặt lại mật khẩu"
+                : "Xác minh mã"
+              : "Gửi mã xác minh"
+            : "Đăng nhập"
+        )}
+      </button>
             <div className="linkTxt animation" style={{ "--i": 5, "--j": 25 }}>
               <p>
                 Bạn chưa có tài khoản?{" "}
@@ -565,16 +615,19 @@ const LoginRegister = () => {
                 {showCountDown && <p>Thời gian còn lại: {countdown} giây</p>}
               </div>
             )}
-            <button
-              type="submit"
-              className="btn animation"
-              style={{ "--i": 21, "--j": 4 }}
-              onClick={
-                isVerificationSent ? handleVerifyAndRegister : handleRegister
-              }
-            >
-              {isVerificationSent ? "Xác thực và Đăng ký" : "Gửi mã xác thực"}
-            </button>
+           <button
+        type="submit"
+        className="btn animation"
+        style={{ "--i": 21, "--j": 4 }}
+        onClick={isVerificationSent ? handleVerifyAndRegister : handleRegister}
+        disabled={isLoading}
+      >
+        {isLoading ? (
+          "Đang xử lý..."
+        ) : (
+          isVerificationSent ? "Xác thực và Đăng ký" : "Gửi mã xác thực"
+        )}
+      </button>
             <div className="linkTxt animation" style={{ "--i": 22, "--j": 5 }}>
               <p>
                 Đã có tài khoản?{" "}
@@ -607,6 +660,18 @@ const LoginRegister = () => {
           </p>
         </div>
       </div>
+        <SuccessPopup
+        open={successPopup.open}
+        message={successPopup.message}
+        onClose={() => setSuccessPopup({ open: false, message: "" })}
+        onClick={() => setSuccessPopup({ open: false, message: "" })}
+      />
+      <FailPopup
+        open={failPopup.open}
+        message={failPopup.message}
+        onClose={() => setFailPopup({ open: false, message: "" })}
+        onClick={() => setFailPopup({ open: false, message: "" })}
+      />
     </div>
   );
 };
