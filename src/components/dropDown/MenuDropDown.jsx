@@ -38,14 +38,14 @@ export default function MenuDropDown({ children, options }) {
         slotProps={{
           paper: {
             style: {
-              maxHeight: 48 * 4.5,
-              maxWidth: '21ch',
+              maxHeight: 68 * 4.5,
+              maxWidth: '41ch',
             },
           },
         }}
       >
-        {options.map((option, index) => (
-          <MenuItem key={index} selected={option === 'Pyxis'} onClick={()=>{
+        {options.filter(option => option.title).map((option, index) => (
+          <MenuItem key={index} selected={option === 'Pyxis'} onClick={() => {
             handleClose();
             option.onClick();
           }}>

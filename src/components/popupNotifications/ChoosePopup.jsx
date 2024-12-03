@@ -9,7 +9,7 @@ function ChoosePopup({ title, message, open, onclose, onAccept, onReject }) {
       <div
         className="divCenterColumnBetween"
         style={{
-          width: title.length > 15 || message.length > 20 ? 400 : 200,
+          width: title.length > 15 || message.length > 20 ? 500 : 200,
           height: 210,
           marginTop: 10,
         }}

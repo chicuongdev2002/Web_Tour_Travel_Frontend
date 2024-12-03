@@ -1,10 +1,11 @@
-import host from "../config/host";
-import axios from "axios";
+import { GET_ALL_TOUR, getAPI } from "../config/host";
 
 const getTourBySearch = async (keyword) => {
-  const result = await axios.get(
-    `${host}/api/tours/search?keyword=${keyword}&&page=${page}&&size=${size}`,
-  );
+  let url;
+  for(let i in keyword){
+    url = getAPI(GET_ALL_TOUR, { i: keyword[i] });
+  }
+  const result = await axios.get(url);
   return result.data;
 };
 

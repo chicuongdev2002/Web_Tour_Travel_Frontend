@@ -38,6 +38,9 @@ const WEB_SOCKET = REACT_APP_HOST + '/ws';
 const GET_LINK_MOMO = REACT_APP_HOST + '/api/payment/momo';
 const GET_TOUR_IN_DAY = REACT_APP_HOST + '/api/departures/inDay';
 const GET_PAYMENT_BY_BOOKING = REACT_APP_HOST + '/api/payment/booking'
+const GET_TOUR_TYPE = REACT_APP_HOST + '/api/tours/tourType'
+const GET_BOOKING = REACT_APP_HOST + '/api/bookings/getBookingById'
+const CANCEL_BOOKING = REACT_APP_HOST + '/api/bookings/cancelBooking'
 const getAPI = (api, params, paramId) => {
   if (paramId) {
     api += "/" + paramId;
@@ -61,4 +64,4 @@ export { GET_ALL_TOUR, CHECK_ACCOUNT_EXISTS, CHECK_USER_EXISTS, BOOKING_TOUR, GE
     STATIS_TOUR_REVIEW,
     REVIEW_MONTHLY_STATIS,
     STATIS_REVENUE_TOTAL,
-    GET_ALL_TOUR_TEST, getAPI };
+    GET_ALL_TOUR_TEST, GET_TOUR_TYPE, GET_BOOKING, CANCEL_BOOKING, getAPI };
