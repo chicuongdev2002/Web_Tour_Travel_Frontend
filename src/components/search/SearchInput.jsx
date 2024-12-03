@@ -29,7 +29,7 @@ import {
   CalendarToday as CalendarIcon,
   AttachMoney as MoneyIcon,
 } from '@mui/icons-material';
-
+import './SearchInput.css'
 // Styled components với kích thước nhỏ hơn
 const StyledPaper = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(2),
@@ -158,13 +158,13 @@ const SearchInput = ({ onSearch }) => {
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
       <Fade in timeout={1000}>
-        <Box sx={{ position: 'relative', mt: 1, mb: 1 }}>
+        <Box sx={{ position: 'relative', mt: 1, mb: 1}}>
           <StyledPaper
             elevation={isHovered ? 8 : 3}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
           >
-            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5 }}>
+            <Box sx={{ display: 'flex', alignItems: 'center', mb: 1.5}}>
               <TravelIcon
                 sx={{
                   fontSize: 26,

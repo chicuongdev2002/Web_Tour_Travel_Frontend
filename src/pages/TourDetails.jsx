@@ -55,7 +55,7 @@ function TourDetails() {
   }
 
   return (
-    <div>
+    <div >
       <NavHeader textColor="black" />
       <TourDetailComponent tourData={tourData} />
     </div>

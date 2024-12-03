@@ -35,6 +35,7 @@ import { savePayment } from "../src/redux/slice";
 import Payment from './pages/Payment.jsx';
 import ScheduleTourPage from "./pages/ScheduleTourPage.jsx";
 import BookingDetailUser from "./components/booking/BookingDetailUser.jsx";
+import TopTours from "./components/tour/TopTours.jsx";
 
 function App() {
   const user = JSON.parse(sessionStorage.getItem("user"));
@@ -77,6 +78,7 @@ function App() {
           <Route path="/checkin" element={<CheckInAppPage />} />
           <Route path="/schedule-tour-booking" element={<ScheduleTourPage />} />
              <Route path="/booking-detail-user" element={<BookingDetailUser />} />
+               <Route path="/top-tours" element={<TopTours />} />
         {/* <Route path="/add-destination" element={<AddDestination />} />
         <Route path="/tour-guide-manager" element={<TourGuideManagerPage />} />
         <Route path="/account-list" element={<AccountPage />} />
