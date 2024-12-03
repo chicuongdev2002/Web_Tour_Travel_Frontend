@@ -235,25 +235,40 @@ const LoginRegister = () => {
     }
   };
   const handleLoginSuccess = async (credentialResponse) => {
-    try {
-      const credentialResponseDecoded = decodeJwt(
-        credentialResponse.credential,
-      );
-      console.log("Decoded Google User:", credentialResponseDecoded);
+  try {
+    // Decode the JWT from Google response
+    const credentialResponseDecoded = decodeJwt(credentialResponse.credential);
+    console.log("Decoded Google User:", credentialResponseDecoded);
 
-      const googleUser = {
-        name: credentialResponseDecoded.name,
-        email: credentialResponseDecoded.email,
-        picture: credentialResponseDecoded.picture,
-      };
+    // Create the Google User object
+    const googleUser = {
+      name: credentialResponseDecoded.name,
+      email: credentialResponseDecoded.email,
+      picture: credentialResponseDecoded.picture,
+    };
 
-      setUser(googleUser);
-      localStorage.setItem("user", JSON.stringify(googleUser));
-    } catch (error) {
-      console.error("Error decoding Google credential:", error);
-      setError("Đăng nhập bằng Google thất bại. Vui lòng thử lại.");
+
+    const response = await fetch(`http://localhost:8080/api/accounts/login-with-email?email=${encodeURIComponent(googleUser.email)}`, {
+      method: 'POST', // Use POST if your API expects it
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      // You might need to send a body if your backend requires it
+      // body: JSON.stringify({ email: googleUser.email })
+    });
+
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
     }
-  };
+    const result = await response.json();
+    sessionStorage.setItem("user", JSON.stringify(result));
+    setUser(googleUser);
+    navigate("/");
+  } catch (error) {
+    console.error("Error during login process:", error);
+    setError("Đăng nhập bằng Google thất bại. Vui lòng thử lại.");
+  }
+};
 
   const handleLoginFailure = (response) => {
     console.log("Login Failed:", response);
