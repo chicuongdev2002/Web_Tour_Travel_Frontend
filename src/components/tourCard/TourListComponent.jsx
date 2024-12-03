@@ -76,7 +76,7 @@ const TourListComponent = ({ searchParams, showFavorites = false }) => {
         alignItems="center" 
         minHeight="100vh"
         sx={{
-          background: 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)',
+          // background: 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)',
         }}
       >
         <CircularProgress size={60} thickness={4} />
@@ -88,7 +88,7 @@ const TourListComponent = ({ searchParams, showFavorites = false }) => {
     <Box
       sx={{
         minHeight: '100vh',
-        background: 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)',
+      //  background: 'linear-gradient(to bottom, #00aaff, #e0f7fa)',
         pt: 4,
         pb: 8,
       }}

@@ -10,6 +10,7 @@ import Footer from "../components/footer/Footer";
 import { getTourInDay } from "../functions/getTour";
 import image404 from '../assets/404.png'
 import Fab from '@mui/material/Fab';
+import QuickSearch from "../components/search/QuickSearch";
 function Home() {
   if (global === undefined) {
     var global = window;
@@ -66,8 +67,14 @@ function Home() {
     <div>
       <DivSliderBackground images={images}>
         <NavHeader textColor="white" opacity={true}/>
-        <div className="justify-content-center align-items-center">
-          {/* <SearchInput onSearch={handleSearch} /> */}
+          <div style={{
+          height: '100vh',
+          display: 'flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          marginTop: '-64px' // Điều chỉnh nếu cần để căn giữa hoàn hảo
+        }}>
+          <QuickSearch />
         </div>
       </DivSliderBackground>
       <div className="mt-4 px-3">
