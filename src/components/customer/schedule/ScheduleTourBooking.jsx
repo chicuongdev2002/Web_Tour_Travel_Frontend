@@ -232,7 +232,6 @@ const LoadingView = () => (
 const TimelineView = ({ itineraries }) => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   
-  // Helper function to check if tour date has passed
   const isTourPassed = (date) => {
     return new Date(date) < new Date();
   };
@@ -252,10 +251,9 @@ const TimelineView = ({ itineraries }) => {
           <TimelineItem key={tour.tourId}>
             <TimelineOppositeContent sx={{ 
               flex: isMobile ? 0.2 : 0.3,
-              display: 'block' // Removed conditional display
+              display: 'block'
             }}>
               {!isMobile ? (
-                // Desktop view
                 <Box sx={{ 
                   p: 2, 
                   borderRadius: 2,
