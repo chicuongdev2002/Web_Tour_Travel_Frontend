@@ -236,34 +236,53 @@ const LoginRegister = () => {
   };
   const handleLoginSuccess = async (credentialResponse) => {
   try {
-    // Decode the JWT from Google response
+    // Giải mã JWT từ phản hồi của Google
     const credentialResponseDecoded = decodeJwt(credentialResponse.credential);
     console.log("Decoded Google User:", credentialResponseDecoded);
 
-    // Create the Google User object
+    // Tạo đối tượng người dùng Google
     const googleUser = {
       name: credentialResponseDecoded.name,
       email: credentialResponseDecoded.email,
       picture: credentialResponseDecoded.picture,
     };
 
-
+    // Gửi yêu cầu đến API để đăng nhập với email (gửi email như tham số trong URL)
     const response = await fetch(`http://localhost:8080/api/accounts/login-with-email?email=${encodeURIComponent(googleUser.email)}`, {
-      method: 'POST', // Use POST if your API expects it
+      method: 'POST',
       headers: {
         'Content-Type': 'application/json',
       },
-      // You might need to send a body if your backend requires it
-      // body: JSON.stringify({ email: googleUser.email })
     });
 
+    console.log("API Response:", response);
+
+    // Kiểm tra tình trạng phản hồi
     if (!response.ok) {
       throw new Error(`HTTP error! status: ${response.status}`);
     }
+
+    // Nhận dữ liệu từ phản hồi
     const result = await response.json();
-    sessionStorage.setItem("user", JSON.stringify(result));
-    setUser(googleUser);
-    navigate("/");
+    console.log("API Response:", result);
+
+    // Lưu thông tin người dùng vào sessionStorage
+    sessionStorage.setItem("user", JSON.stringify({
+      userId: result.userId,
+      email: result.email,
+      fullName: result.fullName,
+      phoneNumber: result.phoneNumber,
+      addresses: result.addresses,
+      role: result.role,
+    }));
+
+     setSuccessPopup({
+        open: true,
+        message:"Đăng nhập thành công",
+      });
+   setTimeout(() => {
+      navigate("/");
+    }, 2000);
   } catch (error) {
     console.error("Error during login process:", error);
     setError("Đăng nhập bằng Google thất bại. Vui lòng thử lại.");

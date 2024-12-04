@@ -43,6 +43,7 @@ function AddTourComponent() {
   const [destinationSelected, setDestinationSelected] = useState({
     content: [],
   });
+  const user=JSON.parse(sessionStorage.getItem("user"));
 
   useEffect(() => {
     getTourType()
@@ -82,6 +83,7 @@ function AddTourComponent() {
         }
       }
       let result = await postData(POST_TOUR, {
+        userId: user.userId,
         tour: { tourName, tourDescription: description, startLocation: district?  getProvinceName(province) + ", " + district : getProvinceName(province), tourType: type, duration },
         departures: [{
           startDate: moment(startDate, "DD/MM/YYYY HH:mm:ss").add(7, 'hours').toDate().toISOString(),

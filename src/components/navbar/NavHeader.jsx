@@ -113,7 +113,7 @@ function NavHeader({ textColor, opacity }) {
               { title: "Checkin khách hàng",
                 onClick: goToCheckin
               },
-              user && user.role === "CUSTOMER" && 
+              user && (user.role === "CUSTOMER" || user.role==="CUSTOMERVIP")&&
               { title: "Danh sách đơn đặt tour",
                 onClick: goToBookingList
               },

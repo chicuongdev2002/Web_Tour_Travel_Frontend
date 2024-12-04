@@ -20,7 +20,8 @@ import {
   Divider,
   IconButton,
   Button,
-  Avatar
+  Avatar,
+   useMediaQuery
 } from '@mui/material';
 import Timeline from '@mui/lab/Timeline';
 import TimelineItem from '@mui/lab/TimelineItem';
@@ -142,25 +143,36 @@ const theme = createTheme({
     },
   },
   components: {
+    MuiContainer: {
+      styleOverrides: {
+        root: {
+          paddingLeft: 16,
+          paddingRight: 16,
+          '@media (min-width: 600px)': {
+            paddingLeft: 24,
+            paddingRight: 24,
+          },
+        },
+      },
+    },
     MuiCard: {
       styleOverrides: {
         root: {
           borderRadius: 16,
           boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
+          '@media (max-width: 600px)': {
+            borderRadius: 12,
+          },
         },
       },
     },
     MuiChip: {
       styleOverrides: {
         root: {
-          borderRadius: 8,
-        },
-      },
-    },
-    MuiTimelineDot: {
-      styleOverrides: {
-        root: {
-          boxShadow: '0 3px 10px rgba(0,0,0,0.2)',
+          '@media (max-width: 600px)': {
+            fontSize: '0.75rem',
+            height: 24,
+          },
         },
       },
     },
@@ -218,62 +230,83 @@ const LoadingView = () => (
 
 // Timeline View Component
 const TimelineView = ({ itineraries }) => {
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  
   // Helper function to check if tour date has passed
   const isTourPassed = (date) => {
     return new Date(date) < new Date();
   };
 
   return (
-    <Timeline position="alternate">
+    <Timeline position={isMobile ? "right" : "alternate"}
+      sx={{
+        [`& .MuiTimelineItem-root`]: {
+          minHeight: isMobile ? 'auto' : '150px',
+        },
+        [`& .MuiTimelineContent-root`]: {
+          px: isMobile ? 2 : 3,
+        },
+      }}>
       {itineraries.map((tour, index) => (
         <Zoom in={true} style={{ transitionDelay: `${index * 150}ms` }}>
           <TimelineItem key={tour.tourId}>
-            <TimelineOppositeContent sx={{ flex: 0.3 }}>
-              <Box 
-                sx={{ 
+            <TimelineOppositeContent sx={{ 
+              flex: isMobile ? 0.2 : 0.3,
+              display: 'block' // Removed conditional display
+            }}>
+              {!isMobile ? (
+                // Desktop view
+                <Box sx={{ 
                   p: 2, 
                   borderRadius: 2,
                   background: 'linear-gradient(135deg, #fff 0%, #f5f5f5 100%)',
                   boxShadow: '0 2px 8px rgba(0,0,0,0.1)',
-                }}
-              >
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
-                  <TimeIcon color="primary" />
-                  <Typography variant="subtitle2">
-                    {formatDate(tour.departures[0].startDate)}
-                  </Typography>
+                }}>
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1, mb: 1 }}>
+                    <TimeIcon color="primary" />
+                    <Typography variant="subtitle2">
+                      {formatDate(tour.departures[0].startDate)}
+                    </Typography>
+                  </Box>
+                  <Divider sx={{ my: 1 }} />
+                  <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
+                    <GroupIcon color="primary" />
+                    <Typography variant="body2">
+                      {tour.maxGroupSize} người
+                    </Typography>
+                  </Box>
                 </Box>
-                <Divider sx={{ my: 1 }} />
-                <Box sx={{ display: 'flex', alignItems: 'center', gap: 1 }}>
-                  <GroupIcon color="primary" />
-                  <Typography variant="body2">
-                    {tour.maxGroupSize} người
-                  </Typography>
-                </Box>
-              </Box>
+              ) : (
+                // Mobile view
+                <Typography variant="caption" color="textSecondary" sx={{ 
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: 0.5,
+                  fontSize: '0.75rem'
+                }}>
+                  <TimeIcon sx={{ fontSize: '1rem' }} />
+                  {formatDate(tour.departures[0].startDate)}
+                </Typography>
+              )}
             </TimelineOppositeContent>
             
+            {/* Rest of the TimelineItem content remains the same */}
             <TimelineSeparator>
               <TimelineDot 
                 sx={{ 
                   background: `linear-gradient(45deg, ${theme.palette.primary.main} 30%, ${theme.palette.primary.light} 90%)`,
-                  p: 2,
+                  p: isMobile ? 1 : 2,
                 }}
               >
-                <TourIcon />
+                <TourIcon fontSize={isMobile ? "small" : "medium"} />
               </TimelineDot>
-              {index < itineraries.length - 1 && (
-                <TimelineConnector sx={{ 
-                  background: `linear-gradient(${theme.palette.primary.light}, ${theme.palette.primary.main})`,
-                  width: 3,
-                }} />
-              )}
+              {index < itineraries.length - 1 && <TimelineConnector />}
             </TimelineSeparator>
             
-            <TimelineContent sx={{ py: 3, px: 2 }}>
+            <TimelineContent sx={{ py: isMobile ? 2 : 3, px: isMobile ? 2 : 3 }}>
               <Box 
                 sx={{
-                  background: '#fff',
+                   background: '#fff',
                   borderRadius: 3,
                   boxShadow: '0 4px 20px rgba(0,0,0,0.1)',
                   overflow: 'hidden',
@@ -282,6 +315,15 @@ const TimelineView = ({ itineraries }) => {
                   '&:hover': {
                     transform: 'translateZ(0) scale(1.02)',
                     boxShadow: '0 8px 30px rgba(0,0,0,0.12)',
+                  },
+                  p: isMobile ? 2 : 3,
+                  '@media (max-width: 600px)': {
+                    '& .MuiTypography-h6': {
+                      fontSize: '1rem',
+                    },
+                    '& .MuiTypography-body2': {
+                      fontSize: '0.8rem',
+                    },
                   },
                 }}
               >
@@ -515,6 +557,7 @@ const ScheduleTourBooking = () => {
   const [destinations, setDestinations] = useState([]);
   const [routes, setRoutes] = useState({});
 const [openCalendar, setOpenCalendar] = useState(false);
+ const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   useEffect(() => {
     const fetchItinerary = async () => {
       try {
@@ -630,7 +673,13 @@ setDestinations(destinationsWithCoordinates.filter(dest => dest.coordinates !== 
 
   return (
     <ThemeProvider theme={theme}>
-      <Container maxWidth="xl" sx={{ py: 4 }}>
+      <Container 
+        maxWidth="xl" 
+        sx={{ 
+          py: isMobile ? 2 : 4,
+          px: isMobile ? 1 : 3 
+        }}
+      >
         <Fade in={true}>
           <Box>
             {/* Header Section */}
@@ -639,8 +688,8 @@ setDestinations(destinationsWithCoordinates.filter(dest => dest.coordinates !== 
               sx={{
                 background: 'linear-gradient(120deg, #2196F3 30%, #21CBF3 90%)',
                 borderRadius: 4,
-                p: { xs: 3, md: 4 },
-                mb: 4,
+                p: isMobile ? 2 : { xs: 3, md: 4 },
+                mb: isMobile ? 2 : 4,
                 position: 'relative',
                 overflow: 'hidden',
               }}
@@ -668,7 +717,7 @@ setDestinations(destinationsWithCoordinates.filter(dest => dest.coordinates !== 
               
               <Box sx={{ position: 'relative' }}>
                 <Typography
-                  variant="h4"
+                   variant={isMobile ? "h5" : "h4"}
                   component="h1"
                   gutterBottom
                   align="center"
@@ -677,6 +726,7 @@ setDestinations(destinationsWithCoordinates.filter(dest => dest.coordinates !== 
                     textShadow: '2px 2px 4px rgba(0,0,0,0.2)',
                     fontWeight: 700,
                     mb: 2,
+                    fontSize: isMobile ? '1.5rem' : undefined,
                   }}
                 >
                   Lịch Trình Tour Của Bạn
@@ -694,7 +744,15 @@ setDestinations(destinationsWithCoordinates.filter(dest => dest.coordinates !== 
                 </Typography>
 
                 {/* Quick Stats */}
-                <Grid container spacing={2} sx={{ mt: 3 }}>
+                <Grid   
+                container 
+                spacing={isMobile ? 1 : 2} 
+                sx={{ 
+                  mt: isMobile ? 2 : 3,
+                  '& .MuiPaper-root': {
+                    p: isMobile ? 1.5 : 2,
+                  },
+                }}>
                   <Grid item xs={12} sm={4}>
                     <Paper
                       elevation={0}
@@ -778,7 +836,7 @@ setDestinations(destinationsWithCoordinates.filter(dest => dest.coordinates !== 
               elevation={4}
               sx={{
                 borderRadius: 3,
-                mb: 4,
+                mb: isMobile ? 2 : 4,
                 overflow: 'hidden',
                 background: 'white',
               }}
@@ -791,11 +849,9 @@ setDestinations(destinationsWithCoordinates.filter(dest => dest.coordinates !== 
                 textColor="primary"
                 sx={{
                   '& .MuiTab-root': {
-                    py: 3,
-                    transition: 'all 0.2s',
-                    '&:hover': {
-                      bgcolor: 'rgba(33, 150, 243, 0.04)',
-                    },
+                    py: isMobile ? 1.5 : 3,
+                    minHeight: isMobile ? 48 : 72,
+                    fontSize: isMobile ? '0.8rem' : undefined,
                   },
                 }}
               >
@@ -819,7 +875,11 @@ setDestinations(destinationsWithCoordinates.filter(dest => dest.coordinates !== 
             </Box>
 
             {/* Content Section */}
-            <Box sx={{ minHeight: '60vh' }}>
+            <Box sx={{  
+               minHeight: isMobile ? '40vh' : '60vh',
+              '& .MuiTimelineItem-root': {
+                flexDirection: isMobile ? 'column' : undefined,
+              }, }}>
               {tabValue === 0 && (
                 <Fade in={true}>
                   <div>

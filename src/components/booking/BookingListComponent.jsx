@@ -34,20 +34,24 @@ function BookingListComponent() {
     }, []);
 
     const getBooking = useCallback(async (page, size) => {
+    
         const result = await getAllBooking(page, size, user && user.role != "ADMIN"? user.userId : 0);
+        let t = result.content;
+        debugger
         setBookings(result.content)
         setPage(result.page);
     }, []);
 
     const updateStatus = useCallback(async (bookingId) => {
         const result = await updateBookingStatus(bookingId);
-        debugger
         getBooking();
         return result == "Update thành công";
     }, [])
 
     const convertData = useCallback((data) => {
-        return data.map((d) => {
+        bookings
+        debugger
+        return data?.map((d) => {
             return {
                 "Booking ID": { title: d.booking.bookingId,
                     onClick: () => {
