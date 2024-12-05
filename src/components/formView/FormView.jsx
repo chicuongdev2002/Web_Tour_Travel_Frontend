@@ -52,7 +52,7 @@ function FormView({ children, title, titleBackground, data, className, notBorder
             <div className='content'>
                 <div className='bgContent' 
                     style={{ backgroundImage: `url(${bgImg})`, 
-                    backgroundSize: "cover",
+                    backgroundSize: "100% 100%",
                     backgroundPosition: "center" }}></div>
             {children ? children :
                 data.map((item, index) => {
