@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Card,
   CardMedia,
@@ -11,30 +11,30 @@ import {
   Chip,
   IconButton,
   Tooltip,
-} from '@mui/material';
-import { motion } from 'framer-motion';
-import LocationOnIcon from '@mui/icons-material/LocationOn';
-import CalendarTodayIcon from '@mui/icons-material/CalendarToday';
-import AccessTimeIcon from '@mui/icons-material/AccessTime';
-import EventSeatIcon from '@mui/icons-material/EventSeat';
-import FavoriteIcon from '@mui/icons-material/Favorite';
-import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
-import ShareIcon from '@mui/icons-material/Share';
-import GroupIcon from '@mui/icons-material/Group';
-import FamilyRestroomIcon from '@mui/icons-material/FamilyRestroom';
-import img from '../../assets/404.png';
-import { addFavoriteTour } from '../../functions/addFavoriteTour';
-import { deleteFavoriteTour } from '../../functions/deleteFavoriteTour';
-import './TourCard.css'
-import ChoosePopup from '../popupNotifications/ChoosePopup';
+} from "@mui/material";
+import { motion } from "framer-motion";
+import LocationOnIcon from "@mui/icons-material/LocationOn";
+import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
+import EventSeatIcon from "@mui/icons-material/EventSeat";
+import FavoriteIcon from "@mui/icons-material/Favorite";
+import FavoriteBorderIcon from "@mui/icons-material/FavoriteBorder";
+import ShareIcon from "@mui/icons-material/Share";
+import GroupIcon from "@mui/icons-material/Group";
+import FamilyRestroomIcon from "@mui/icons-material/FamilyRestroom";
+import img from "../../assets/404.png";
+import { addFavoriteTour } from "../../functions/addFavoriteTour";
+import { deleteFavoriteTour } from "../../functions/deleteFavoriteTour";
+import "./TourCard.css";
+import ChoosePopup from "../popupNotifications/ChoosePopup";
 const TourCard = ({ tour }) => {
   const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = useState(Boolean(tour.favorite));
- const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const handleViewDetail = (e) => {
     e.preventDefault();
     if (!tour?.tourId) {
-      console.error('Tour ID is missing');
+      console.error("Tour ID is missing");
       return;
     }
     navigate(`/tour-details/${tour.tourId}`, {
@@ -45,7 +45,7 @@ const TourCard = ({ tour }) => {
 
   const handleFavoriteToggle = async (e) => {
     e.stopPropagation();
-    const user = JSON.parse(sessionStorage.getItem('user'));
+    const user = JSON.parse(sessionStorage.getItem("user"));
 
     if (!user || !user.userId) {
       // Show popup if the user is not logged in
@@ -62,7 +62,7 @@ const TourCard = ({ tour }) => {
         setIsFavorite(true);
       }
     } catch (error) {
-      console.error('Error toggling favorite tour:', error);
+      console.error("Error toggling favorite tour:", error);
     }
   };
 
@@ -72,22 +72,34 @@ const TourCard = ({ tour }) => {
 
   const handlePopupAccept = () => {
     setIsPopupOpen(false);
-    navigate('/login-register');
+    navigate("/login-register");
   };
 
   const handleShare = (e) => {
     e.stopPropagation();
-    console.log('Share tour:', tour.title);
+    console.log("Share tour:", tour.title);
   };
 
   const getTourTypeDetails = (type) => {
     switch (type) {
-      case 'GROUP':
-        return { label: 'Tour Nhóm', icon: <GroupIcon sx={{ color: '#2563eb', fontSize: '1.3rem', mr: 1 }} /> };
-      case 'FAMILY':
-        return { label: 'Tour Gia Đình', icon: <FamilyRestroomIcon sx={{ color: '#2563eb', fontSize: '1.3rem', mr: 1 }} /> };
+      case "GROUP":
+        return {
+          label: "Tour Nhóm",
+          icon: (
+            <GroupIcon sx={{ color: "#2563eb", fontSize: "1.3rem", mr: 1 }} />
+          ),
+        };
+      case "FAMILY":
+        return {
+          label: "Tour Gia Đình",
+          icon: (
+            <FamilyRestroomIcon
+              sx={{ color: "#2563eb", fontSize: "1.3rem", mr: 1 }}
+            />
+          ),
+        };
       default:
-        return { label: 'Chưa xác định', icon: null };
+        return { label: "Chưa xác định", icon: null };
     }
   };
 
@@ -98,7 +110,9 @@ const TourCard = ({ tour }) => {
   if (!tour) return null;
 
   const tourTypeDetails = getTourTypeDetails(tour.tourType);
-  const discountPercentage = Math.round((1 - tour.discountedPrice / tour.originalPrice) * 100);
+  const discountPercentage = Math.round(
+    (1 - tour.discountedPrice / tour.originalPrice) * 100,
+  );
 
   return (
     <motion.div
@@ -106,37 +120,37 @@ const TourCard = ({ tour }) => {
         scale: 1.02,
         transition: { duration: 0.3 },
       }}
-      style={{ height: '100%' }}
+      style={{ height: "100%" }}
     >
       <Card
         sx={{
-          height: '100%',
-          display: 'flex',
-          flexDirection: 'column',
-          transition: 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)',
-          background: 'linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)',
-          border: '1px solid rgba(255, 255, 255, 0.3)',
-          borderRadius: '16px',
-          position: 'relative',
-          overflow: 'hidden',
-          cursor: 'pointer',
-          boxShadow: '0 4px 6px rgba(0,0,0,0.1)',
-          '&:hover': {
-            boxShadow: '0 12px 20px rgba(0,0,0,0.15)',
+          height: "100%",
+          display: "flex",
+          flexDirection: "column",
+          transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+          background: "linear-gradient(135deg, #ffffff 0%, #f8fafc 100%)",
+          border: "1px solid rgba(255, 255, 255, 0.3)",
+          borderRadius: "16px",
+          position: "relative",
+          overflow: "hidden",
+          cursor: "pointer",
+          boxShadow: "0 4px 6px rgba(0,0,0,0.1)",
+          "&:hover": {
+            boxShadow: "0 12px 20px rgba(0,0,0,0.15)",
           },
         }}
         onClick={handleViewDetail}
       >
-        <Box sx={{ position: 'relative', overflow: 'hidden' }}>
+        <Box sx={{ position: "relative", overflow: "hidden" }}>
           <CardMedia
             component="img"
             height="240"
             image={tour.image ? tour.image : img}
             alt={tour.title}
             sx={{
-              transition: 'transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)',
-              '&:hover': {
-                transform: 'scale(1.1)',
+              transition: "transform 0.8s cubic-bezier(0.4, 0, 0.2, 1)",
+              "&:hover": {
+                transform: "scale(1.1)",
               },
             }}
           />
@@ -144,32 +158,32 @@ const TourCard = ({ tour }) => {
           {/* Top actions */}
           <Box
             sx={{
-              position: 'absolute',
+              position: "absolute",
               top: 12,
               left: 12,
               right: 12,
-              display: 'flex',
-              justifyContent: 'space-between',
+              display: "flex",
+              justifyContent: "space-between",
               zIndex: 2,
             }}
           >
             <Chip
-              icon={<EventSeatIcon sx={{ color: 'white !important' }} />}
+              icon={<EventSeatIcon sx={{ color: "white !important" }} />}
               label={`Còn ${tour.availableSeats} chỗ`}
               sx={{
-                background: 'linear-gradient(45deg, #2563eb 30%, #60a5fa 90%)',
-                color: 'white',
+                background: "linear-gradient(45deg, #2563eb 30%, #60a5fa 90%)",
+                color: "white",
                 fontWeight: 600,
-                backdropFilter: 'blur(4px)',
-                border: '1px solid rgba(255,255,255,0.2)',
-                '& .MuiChip-icon': {
-                  color: 'white',
+                backdropFilter: "blur(4px)",
+                border: "1px solid rgba(255,255,255,0.2)",
+                "& .MuiChip-icon": {
+                  color: "white",
                 },
               }}
             />
             <Box
               sx={{
-                display: 'flex',
+                display: "flex",
                 gap: 1,
               }}
             >
@@ -177,17 +191,17 @@ const TourCard = ({ tour }) => {
                 <IconButton
                   size="small"
                   sx={{
-                    bgcolor: 'rgba(255,255,255,0.9)',
-                    '&:hover': {
-                      bgcolor: 'white',
+                    bgcolor: "rgba(255,255,255,0.9)",
+                    "&:hover": {
+                      bgcolor: "white",
                     },
                   }}
                   onClick={handleFavoriteToggle}
                 >
                   {isFavorite ? (
-                    <FavoriteIcon sx={{ color: '#ef4444' }} />
+                    <FavoriteIcon sx={{ color: "#ef4444" }} />
                   ) : (
-                    <FavoriteBorderIcon sx={{ color: '#94a3b8' }} />
+                    <FavoriteBorderIcon sx={{ color: "#94a3b8" }} />
                   )}
                 </IconButton>
               </Tooltip>
@@ -195,14 +209,14 @@ const TourCard = ({ tour }) => {
                 <IconButton
                   size="small"
                   sx={{
-                    bgcolor: 'rgba(255,255,255,0.9)',
-                    '&:hover': {
-                      bgcolor: 'white',
+                    bgcolor: "rgba(255,255,255,0.9)",
+                    "&:hover": {
+                      bgcolor: "white",
                     },
                   }}
                   onClick={handleShare}
                 >
-                  <ShareIcon sx={{ color: '#3b82f6' }} />
+                  <ShareIcon sx={{ color: "#3b82f6" }} />
                 </IconButton>
               </Tooltip>
             </Box>
@@ -214,19 +228,19 @@ const TourCard = ({ tour }) => {
             variant="h6"
             sx={{
               fontWeight: 700,
-              fontSize: '1.2rem',
+              fontSize: "1.2rem",
               mb: 2,
-              height: '2.8em',
-              overflow: 'hidden',
-              textOverflow: 'ellipsis',
-              display: '-webkit-box',
+              height: "2.8em",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+              display: "-webkit-box",
               WebkitLineClamp: 2,
-              WebkitBoxOrient: 'vertical',
-              background: 'linear-gradient(45deg, #1e293b, #334155)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              letterSpacing: '-0.01em',
-              transition: 'color 0.3s ease',
+              WebkitBoxOrient: "vertical",
+              background: "linear-gradient(45deg, #1e293b, #334155)",
+              WebkitBackgroundClip: "text",
+              WebkitTextFillColor: "transparent",
+              letterSpacing: "-0.01em",
+              transition: "color 0.3s ease",
             }}
           >
             {tour.title}
@@ -235,12 +249,14 @@ const TourCard = ({ tour }) => {
           <Stack spacing={2}>
             {/* Location */}
             <Box display="flex" alignItems="center" gap={1.5}>
-              <LocationOnIcon sx={{ color: '#2563eb', fontSize: '1.2rem', opacity: 0.8 }} />
+              <LocationOnIcon
+                sx={{ color: "#2563eb", fontSize: "1.2rem", opacity: 0.8 }}
+              />
               <Typography
                 variant="body2"
                 sx={{
-                  color: '#475569',
-                  fontSize: '0.95rem',
+                  color: "#475569",
+                  fontSize: "0.95rem",
                   fontWeight: 500,
                 }}
               >
@@ -254,11 +270,11 @@ const TourCard = ({ tour }) => {
               <Typography
                 variant="body2"
                 sx={{
-                  color: '#475569',
-                  fontSize: '0.95rem',
+                  color: "#475569",
+                  fontSize: "0.95rem",
                   fontWeight: 500,
-                  display: 'flex',
-                  alignItems: 'center',
+                  display: "flex",
+                  alignItems: "center",
                 }}
               >
                 {tourTypeDetails.label}
@@ -267,12 +283,14 @@ const TourCard = ({ tour }) => {
 
             {/* Start Date */}
             <Box display="flex" alignItems="center" gap={1.5}>
-              <CalendarTodayIcon sx={{ color: '#2563eb', fontSize: '1.2rem', opacity: 0.8 }} />
+              <CalendarTodayIcon
+                sx={{ color: "#2563eb", fontSize: "1.2rem", opacity: 0.8 }}
+              />
               <Typography
                 variant="body2"
                 sx={{
-                  color: '#475569',
-                  fontSize: '0.95rem',
+                  color: "#475569",
+                  fontSize: "0.95rem",
                   fontWeight: 500,
                 }}
               >
@@ -282,12 +300,14 @@ const TourCard = ({ tour }) => {
 
             {/* Duration */}
             <Box display="flex" alignItems="center" gap={1.5}>
-              <AccessTimeIcon sx={{ color: '#2563eb', fontSize: '1.2rem', opacity: 0.8 }} />
+              <AccessTimeIcon
+                sx={{ color: "#2563eb", fontSize: "1.2rem", opacity: 0.8 }}
+              />
               <Typography
                 variant="body2"
                 sx={{
-                  color: '#475569',
-                  fontSize: '0.95rem',
+                  color: "#475569",
+                  fontSize: "0.95rem",
                   fontWeight: 500,
                 }}
               >
@@ -298,15 +318,19 @@ const TourCard = ({ tour }) => {
 
           {/* Pricing */}
           <Box mt={3}>
-            <Box display="flex" alignItems="center" justifyContent="space-between">
+            <Box
+              display="flex"
+              alignItems="center"
+              justifyContent="space-between"
+            >
               <Box>
                 <Typography
                   variant="body2"
                   sx={{
-                    textDecoration: 'line-through',
-                    color: '#94a3b8',
-                    fontSize: '0.9rem',
-                    marginBottom: '4px',
+                    textDecoration: "line-through",
+                    color: "#94a3b8",
+                    fontSize: "0.9rem",
+                    marginBottom: "4px",
                   }}
                 >
                   {formatPrice(tour.originalPrice)} đ
@@ -316,9 +340,9 @@ const TourCard = ({ tour }) => {
                     variant="h6"
                     sx={{
                       fontWeight: 700,
-                      color: '#dc2626',
-                      fontSize: '1.4rem',
-                      letterSpacing: '-0.02em',
+                      color: "#dc2626",
+                      fontSize: "1.4rem",
+                      letterSpacing: "-0.02em",
                     }}
                   >
                     {formatPrice(tour.discountedPrice)} đ
@@ -328,8 +352,8 @@ const TourCard = ({ tour }) => {
                       label={`-${discountPercentage}%`}
                       size="small"
                       sx={{
-                        background: 'linear-gradient(45deg, #dc2626, #ef4444)',
-                        color: 'white',
+                        background: "linear-gradient(45deg, #dc2626, #ef4444)",
+                        color: "white",
                         fontWeight: 600,
                       }}
                     />
@@ -346,32 +370,33 @@ const TourCard = ({ tour }) => {
             variant="contained"
             onClick={handleViewDetail}
             sx={{
-              background: 'linear-gradient(45deg, #2563eb 30%, #60a5fa 90%)',
-              color: 'white',
+              background: "linear-gradient(45deg, #2563eb 30%, #60a5fa 90%)",
+              color: "white",
               py: 1.5,
-              fontSize: '1rem',
+              fontSize: "1rem",
               fontWeight: 600,
-              borderRadius: '12px',
-              transition: 'all 0.3s ease',
-              textTransform: 'none',
-              boxShadow: '0 4px 6px -1px rgba(37, 99, 235, 0.1), 0 2px 4px -1px rgba(37, 99, 235, 0.06)',
-              '&:hover': {
-                background: 'linear-gradient(45deg, #1d4ed8 30%, #3b82f6 90%)',
-                transform: 'translateY(-2px)',
-                boxShadow: '0 8px 12px -3px rgba(37, 99, 235, 0.2), 0 4px 6px -2px rgba(37, 99, 235, 0.1)',
+              borderRadius: "12px",
+              transition: "all 0.3s ease",
+              textTransform: "none",
+              boxShadow:
+                "0 4px 6px -1px rgba(37, 99, 235, 0.1), 0 2px 4px -1px rgba(37, 99, 235, 0.06)",
+              "&:hover": {
+                background: "linear-gradient(45deg, #1d4ed8 30%, #3b82f6 90%)",
+                transform: "translateY(-2px)",
+                boxShadow:
+                  "0 8px 12px -3px rgba(37, 99, 235, 0.2), 0 4px 6px -2px rgba(37, 99, 235, 0.1)",
               },
-              '&:active': {
-                transform: 'translateY(0)',
+              "&:active": {
+                transform: "translateY(0)",
               },
-              animation: 'blink 1s infinite',
-              
+              animation: "blink 1s infinite",
             }}
           >
             Xem chi tiết
           </Button>
         </Box>
       </Card>
-        <ChoosePopup
+      <ChoosePopup
         title="Đăng Nhập Cần Thiết"
         message="Bạn cần đăng nhập để thực hiện chức năng này. Bạn có muốn chuyển đến trang đăng nhập không?"
         open={isPopupOpen}

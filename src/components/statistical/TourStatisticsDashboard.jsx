@@ -36,10 +36,13 @@ import {
   ResponsiveContainer,
   AreaChart,
   Area,
-  Line
+  Line,
 } from "recharts";
 import { Calendar, TrendingUp, Star, MessageCircle, Users } from "lucide-react";
-import { reviewMonthlyStatis, statisticsTourReview } from "../../functions/statisticsTourReview";
+import {
+  reviewMonthlyStatis,
+  statisticsTourReview,
+} from "../../functions/statisticsTourReview";
 import axios from "axios";
 
 const TourStatisticsDashboard = () => {
@@ -63,11 +66,12 @@ const TourStatisticsDashboard = () => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const [tourResponse, reviewResponse, userStatsResponse] = await Promise.all([
-          statisticsTourReview(),
-          reviewMonthlyStatis(),
-          axios.get("http://localhost:8080/api/reviews/user-statistics")
-        ]);
+        const [tourResponse, reviewResponse, userStatsResponse] =
+          await Promise.all([
+            statisticsTourReview(),
+            reviewMonthlyStatis(),
+            axios.get("http://localhost:8080/api/reviews/user-statistics"),
+          ]);
 
         setData(tourResponse);
         setTimeSeriesData(reviewResponse);
@@ -85,7 +89,7 @@ const TourStatisticsDashboard = () => {
   // Data Processing
   const filteredData = data
     .filter((tour) =>
-      tour.tourName.toLowerCase().includes(searchTerm.toLowerCase())
+      tour.tourName.toLowerCase().includes(searchTerm.toLowerCase()),
     )
     .sort((a, b) => {
       if (sortBy === "totalReviews") return b.totalReviews - a.totalReviews;
@@ -95,7 +99,7 @@ const TourStatisticsDashboard = () => {
 
   const paginatedData = filteredData.slice(
     page * rowsPerPage,
-    page * rowsPerPage + rowsPerPage
+    page * rowsPerPage + rowsPerPage,
   );
 
   const toursWithReviews = filteredData.filter((tour) => tour.totalReviews > 0);
@@ -117,10 +121,12 @@ const TourStatisticsDashboard = () => {
     return acc;
   }, []);
 
-  const ratingDistributionData = totalRatingDistribution.map((count, index) => ({
-    rating: `${index + 1} sao`,
-    count: count,
-  }));
+  const ratingDistributionData = totalRatingDistribution.map(
+    (count, index) => ({
+      rating: `${index + 1} sao`,
+      count: count,
+    }),
+  );
 
   // Top Tours Processing
   const topTours = data
@@ -135,14 +141,14 @@ const TourStatisticsDashboard = () => {
   const userChartData = userStats
     .sort((a, b) => b.totalReviews - a.totalReviews)
     .slice(0, 10)
-    .map(user => ({
+    .map((user) => ({
       name: user.fullName,
       totalReviews: user.totalReviews,
     }));
 
   const paginatedUserStats = userStats.slice(
     userStatsPage * userStatsRowsPerPage,
-    userStatsPage * userStatsRowsPerPage + userStatsRowsPerPage
+    userStatsPage * userStatsRowsPerPage + userStatsRowsPerPage,
   );
 
   // Render Component
@@ -256,8 +262,16 @@ const TourStatisticsDashboard = () => {
                         x2="0"
                         y2="1"
                       >
-                        <stop offset="5%" stopColor="#45B7D1" stopOpacity={0.8} />
-                        <stop offset="95%" stopColor="#45B7D1" stopOpacity={0.1} />
+                        <stop
+                          offset="5%"
+                          stopColor="#45B7D1"
+                          stopOpacity={0.8}
+                        />
+                        <stop
+                          offset="95%"
+                          stopColor="#45B7D1"
+                          stopOpacity={0.1}
+                        />
                       </linearGradient>
                     </defs>
                     <CartesianGrid strokeDasharray="3 3" />
@@ -372,20 +386,20 @@ const TourStatisticsDashboard = () => {
                 </ResponsiveContainer>
               </Box>
               <Paper sx={{ mt: 3, p: 2, borderRadius: 2, boxShadow: 2 }}>
-        <TablePagination
-          component="div"
-          count={filteredData.length}
-          page={page}
-          onPageChange={(e, newPage) => setPage(newPage)}
-          rowsPerPage={rowsPerPage}
-          onRowsPerPageChange={(e) => {
-            setRowsPerPage(parseInt(e.target.value, 10));
-            setPage(0);
-          }}
-          rowsPerPageOptions={[5, 10, 25]}
-          labelRowsPerPage="Số tour mỗi trang"
-        />
-      </Paper>
+                <TablePagination
+                  component="div"
+                  count={filteredData.length}
+                  page={page}
+                  onPageChange={(e, newPage) => setPage(newPage)}
+                  rowsPerPage={rowsPerPage}
+                  onRowsPerPageChange={(e) => {
+                    setRowsPerPage(parseInt(e.target.value, 10));
+                    setPage(0);
+                  }}
+                  rowsPerPageOptions={[5, 10, 25]}
+                  labelRowsPerPage="Số tour mỗi trang"
+                />
+              </Paper>
             </CardContent>
           </Card>
         </Grid>
@@ -427,46 +441,44 @@ const TourStatisticsDashboard = () => {
         <Grid item xs={12}>
           <Card sx={{ borderRadius: 2, boxShadow: 2 }}>
             <CardContent> */}
-              <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 3 }}>
-                <Users size={24} color="#FF6B6B" />
-                <Typography variant="h6">
-                  Thống kê đánh giá theo người dùng
-                </Typography>
-              </Stack>
-              
-              {/* Bar Chart for User Statistics */}
-              <Box sx={{ width: "80%", height: 300, mb: 4 }}>
-                <ResponsiveContainer width="100%" height="100%">
-                  <BarChart
-                    data={userChartData}
-                    margin={{ top: 20, right: 30, left: 20, bottom: 70 }}
-                  >
-                    <CartesianGrid strokeDasharray="3 3" />
-                    <XAxis
-                      dataKey="name"
-                      angle={-45}
-                      textAnchor="end"
-                      height={100}
-                      interval={0}
-                      tick={{ fontSize: 12 }}
-                    />
-                    <YAxis />
-                    <Tooltip />
-                    <Legend />
-                    <Bar
-                      dataKey="totalReviews"
-                      fill="#FF6B6B"
-                      name="Số lượng đánh giá"
-                      radius={[4, 4, 0, 0]}
-                    />
-                  </BarChart>
-                </ResponsiveContainer>
-              </Box>
-            {/* </CardContent>
+      <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 3 }}>
+        <Users size={24} color="#FF6B6B" />
+        <Typography variant="h6">Thống kê đánh giá theo người dùng</Typography>
+      </Stack>
+
+      {/* Bar Chart for User Statistics */}
+      <Box sx={{ width: "80%", height: 300, mb: 4 }}>
+        <ResponsiveContainer width="100%" height="100%">
+          <BarChart
+            data={userChartData}
+            margin={{ top: 20, right: 30, left: 20, bottom: 70 }}
+          >
+            <CartesianGrid strokeDasharray="3 3" />
+            <XAxis
+              dataKey="name"
+              angle={-45}
+              textAnchor="end"
+              height={100}
+              interval={0}
+              tick={{ fontSize: 12 }}
+            />
+            <YAxis />
+            <Tooltip />
+            <Legend />
+            <Bar
+              dataKey="totalReviews"
+              fill="#FF6B6B"
+              name="Số lượng đánh giá"
+              radius={[4, 4, 0, 0]}
+            />
+          </BarChart>
+        </ResponsiveContainer>
+      </Box>
+      {/* </CardContent>
           </Card>
         </Grid>
       </Grid> */}
- {/* <Grid container spacing={3} sx={{ mt: 3 }}>
+      {/* <Grid container spacing={3} sx={{ mt: 3 }}>
         <Grid item xs={12}>
           <Card sx={{ borderRadius: 2, boxShadow: 2 }}>
             <CardContent>
@@ -476,87 +488,99 @@ const TourStatisticsDashboard = () => {
                   Thống kê đánh giá theo người dùng
                 </Typography>
               </Stack> */}
-               {/* User Statistics Table */}
-                <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 3 }}>
-                <Users size={24} color="#FF6B6B" />
-                <Typography variant="h6">
-                  Thống kê bình luận gần đây
-                </Typography>
-              </Stack>
-              <TableContainer sx={{ mt: 3 }}>
-                <Table sx={{ minWidth: 650 }} aria-label="user statistics table">
-                  <TableHead>
-                    <TableRow>
-                      <TableCell sx={{ fontWeight: 'bold' }}>Tên người dùng</TableCell>
-                      <TableCell align="right" sx={{ fontWeight: 'bold' }}>Số lượng đánh giá</TableCell>
-                      <TableCell align="right" sx={{ fontWeight: 'bold' }}>Đánh giá gần nhất</TableCell>
-                      <TableCell sx={{ fontWeight: 'bold' }}>Bình luận gần nhất</TableCell>
-                      <TableCell align="right" sx={{ fontWeight: 'bold' }}>Ngày đánh giá</TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {paginatedUserStats.map((user) => {
-                      const latestReview = user.reviews && user.reviews[0];
-                      return (
-                        <TableRow key={user.fullName} hover>
-                          <TableCell component="th" scope="row">
-                            {user.fullName}
-                          </TableCell>
-                          <TableCell align="right">
-                            <Chip
-                              label={user.totalReviews}
-                              color="primary"
-                              size="small"
-                              sx={{ bgcolor: '#FF6B6B' }}
-                            />
-                          </TableCell>
-                          <TableCell align="right">
-                            {latestReview ? (
-                              <Stack direction="row" spacing={1} justifyContent="flex-end" alignItems="center">
-                                <Star size={16} color="#FFD700" />
-                                <Typography>{latestReview.rating}</Typography>
-                              </Stack>
-                            ) : (
-                              "N/A"
-                            )}
-                          </TableCell>
-                          <TableCell>
-                            <Typography noWrap sx={{ maxWidth: 300 }}>
-                              {latestReview?.comment || "N/A"}
-                            </Typography>
-                          </TableCell>
-                          <TableCell align="right">
-                            {latestReview ? new Date(latestReview.reviewDate).toLocaleDateString('vi-VN') : "N/A"}
-                          </TableCell>
-                        </TableRow>
-                      );
-                    })}
-                  </TableBody>
-                </Table>
-              </TableContainer>
- <TablePagination
-                component="div"
-                count={userStats.length}
-                page={userStatsPage}
-                onPageChange={(e, newPage) => setUserStatsPage(newPage)}
-                rowsPerPage={userStatsRowsPerPage}
-                onRowsPerPageChange={(e) => {
-                  setUserStatsRowsPerPage(parseInt(e.target.value, 10));
-                  setUserStatsPage(0);
-                }}
-                rowsPerPageOptions={[5, 10, 25]}
-                labelRowsPerPage="Số người dùng mỗi trang"
-              />
-             
-               {/* </CardContent>
+      {/* User Statistics Table */}
+      <Stack direction="row" spacing={2} alignItems="center" sx={{ mb: 3 }}>
+        <Users size={24} color="#FF6B6B" />
+        <Typography variant="h6">Thống kê bình luận gần đây</Typography>
+      </Stack>
+      <TableContainer sx={{ mt: 3 }}>
+        <Table sx={{ minWidth: 650 }} aria-label="user statistics table">
+          <TableHead>
+            <TableRow>
+              <TableCell sx={{ fontWeight: "bold" }}>Tên người dùng</TableCell>
+              <TableCell align="right" sx={{ fontWeight: "bold" }}>
+                Số lượng đánh giá
+              </TableCell>
+              <TableCell align="right" sx={{ fontWeight: "bold" }}>
+                Đánh giá gần nhất
+              </TableCell>
+              <TableCell sx={{ fontWeight: "bold" }}>
+                Bình luận gần nhất
+              </TableCell>
+              <TableCell align="right" sx={{ fontWeight: "bold" }}>
+                Ngày đánh giá
+              </TableCell>
+            </TableRow>
+          </TableHead>
+          <TableBody>
+            {paginatedUserStats.map((user) => {
+              const latestReview = user.reviews && user.reviews[0];
+              return (
+                <TableRow key={user.fullName} hover>
+                  <TableCell component="th" scope="row">
+                    {user.fullName}
+                  </TableCell>
+                  <TableCell align="right">
+                    <Chip
+                      label={user.totalReviews}
+                      color="primary"
+                      size="small"
+                      sx={{ bgcolor: "#FF6B6B" }}
+                    />
+                  </TableCell>
+                  <TableCell align="right">
+                    {latestReview ? (
+                      <Stack
+                        direction="row"
+                        spacing={1}
+                        justifyContent="flex-end"
+                        alignItems="center"
+                      >
+                        <Star size={16} color="#FFD700" />
+                        <Typography>{latestReview.rating}</Typography>
+                      </Stack>
+                    ) : (
+                      "N/A"
+                    )}
+                  </TableCell>
+                  <TableCell>
+                    <Typography noWrap sx={{ maxWidth: 300 }}>
+                      {latestReview?.comment || "N/A"}
+                    </Typography>
+                  </TableCell>
+                  <TableCell align="right">
+                    {latestReview
+                      ? new Date(latestReview.reviewDate).toLocaleDateString(
+                          "vi-VN",
+                        )
+                      : "N/A"}
+                  </TableCell>
+                </TableRow>
+              );
+            })}
+          </TableBody>
+        </Table>
+      </TableContainer>
+      <TablePagination
+        component="div"
+        count={userStats.length}
+        page={userStatsPage}
+        onPageChange={(e, newPage) => setUserStatsPage(newPage)}
+        rowsPerPage={userStatsRowsPerPage}
+        onRowsPerPageChange={(e) => {
+          setUserStatsRowsPerPage(parseInt(e.target.value, 10));
+          setUserStatsPage(0);
+        }}
+        rowsPerPageOptions={[5, 10, 25]}
+        labelRowsPerPage="Số người dùng mỗi trang"
+      />
+
+      {/* </CardContent>
           </Card>
         </Grid>
       </Grid> */}
-             
-         
 
       {/* Tour Pagination */}
-      
     </Box>
   );
 };

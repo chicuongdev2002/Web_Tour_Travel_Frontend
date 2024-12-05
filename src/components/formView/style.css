@@ -1,33 +1,33 @@
-.form-view-container{
-    border-radius: 20px;
+.form-view-container {
+  border-radius: 20px;
 }
 
 .form-view-container .title {
-    height: 50px;
-    background-color: var(--titleBackground);
-    overflow: hidden;
-    border-top-left-radius: 20px;
-    border-top-right-radius: 20px;
+  height: 50px;
+  background-color: var(--titleBackground);
+  overflow: hidden;
+  border-top-left-radius: 20px;
+  border-top-right-radius: 20px;
 }
 
 .form-view-container .content {
-    padding-top: 10px;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-    position: relative;
+  padding-top: 10px;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  position: relative;
 }
 
 .form-view-container .content .bgContent {
-    padding-top: 10px;
-    width: 100%;
-    height: 100%;
-    border-bottom-left-radius: 20px;
-    border-bottom-right-radius: 20px;
-    z-index: -1;
-    opacity: 0.3;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
+  padding-top: 10px;
+  width: 100%;
+  height: 100%;
+  border-bottom-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  z-index: -1;
+  opacity: 0.3;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
 }

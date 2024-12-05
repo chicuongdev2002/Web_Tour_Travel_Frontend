@@ -1,8 +1,8 @@
 import React from "react";
 import NavHeader from "../components/navbar/NavHeader";
-import ScheduleTourBooking from "../components/customer/schedule/ScheduleTourBooking";
 import '../style/StylePage.css'
-function ScheduleTourPage() {
+import UserInfo from "./UserInfo";
+function UserInfoPage() {
   return (
     <div>
         <div className="position">
@@ -10,11 +10,11 @@ function ScheduleTourPage() {
         <NavHeader textColor="black" />
       </div>
       <div className="content">
-        <ScheduleTourBooking />
+        <UserInfo />
       </div>
     </div>
     </div>
   );
 }
 
-export default ScheduleTourPage;
+export default UserInfoPage;

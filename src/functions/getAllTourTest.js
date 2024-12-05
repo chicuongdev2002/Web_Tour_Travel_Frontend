@@ -29,7 +29,7 @@ const getAllTourTest = async (searchParams) => {
   if (endDate) params.endDate = endDate;
   if (minPrice) params.minPrice = minPrice;
   if (maxPrice) params.maxPrice = maxPrice;
-  if (userId) params.userId = userId; 
+  if (userId) params.userId = userId;
 
   const result = await axios.get(getAPI(GET_ALL_TOUR_TEST, params));
 

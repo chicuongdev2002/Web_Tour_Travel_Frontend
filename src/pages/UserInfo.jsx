@@ -16,8 +16,8 @@ import {
   DialogContent,
   DialogActions,
   DialogContentText,
-   useMediaQuery,
-    useTheme,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import {
   Delete as DeleteIcon,
@@ -42,14 +42,14 @@ const StyledCard = styled(Card)(({ theme }) => ({
   backdropFilter: "blur(10px)",
   boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
   transition: "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
-  [theme.breakpoints.up('sm')]: {
+  [theme.breakpoints.up("sm")]: {
     maxWidth: "70%",
     margin: "2rem auto",
   },
-  [theme.breakpoints.down('sm')]: {
+  [theme.breakpoints.down("sm")]: {
     margin: theme.spacing(1),
     width: "calc(100% - 16px)",
-  }
+  },
 }));
 
 const StyledTextField = styled(TextField)(({ theme }) => ({
@@ -63,14 +63,14 @@ const StyledTextField = styled(TextField)(({ theme }) => ({
       borderWidth: "2px",
     },
   },
-  [theme.breakpoints.down('sm')]: {
+  [theme.breakpoints.down("sm")]: {
     "& .MuiInputLabel-root": {
       fontSize: "0.9rem",
     },
     "& .MuiOutlinedInput-root": {
       fontSize: "0.9rem",
-    }
-  }
+    },
+  },
 }));
 
 const AnimatedButton = styled(Button)(({ theme }) => ({
@@ -79,10 +79,10 @@ const AnimatedButton = styled(Button)(({ theme }) => ({
     transform: "translateY(-2px)",
     boxShadow: "0 5px 15px rgba(0, 0, 0, 0.2)",
   },
-  [theme.breakpoints.down('sm')]: {
+  [theme.breakpoints.down("sm")]: {
     fontSize: "0.8rem",
     padding: theme.spacing(1, 2),
-  }
+  },
 }));
 
 function TabPanel({ children, value, index, ...other }) {
@@ -99,9 +99,9 @@ function TabPanel({ children, value, index, ...other }) {
   );
 }
 
-const UserProfile = () => {
+const UserInfo = () => {
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [tabValue, setTabValue] = useState(0);
   const [user, setUser] = useState(null);
   const [editing, setEditing] = useState(false);
@@ -228,8 +228,8 @@ const UserProfile = () => {
 
   return (
     <div className="user-profile-container">
-      <NavHeader textColor="black" />
-        <StyledCard>
+      {/* <NavHeader textColor="black" /> */}
+      <StyledCard>
         <CardHeader
           title="Thông tin cá nhân"
           titleTypographyProps={{
@@ -244,19 +244,21 @@ const UserProfile = () => {
           onChange={(e, newValue) => setTabValue(newValue)}
           centered
           variant={isMobile ? "fullWidth" : "standard"}
-          sx={{ 
-            borderBottom: 1, 
+          sx={{
+            borderBottom: 1,
             borderColor: "divider",
             "& .MuiTab-root": {
               fontSize: isMobile ? "0.8rem" : "inherit",
               minHeight: isMobile ? 48 : 64,
-            }
+            },
           }}
         >
           <Tab
             label={
               <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
-                <PersonIcon sx={{ fontSize: isMobile ? "1.2rem" : "inherit" }} />
+                <PersonIcon
+                  sx={{ fontSize: isMobile ? "1.2rem" : "inherit" }}
+                />
                 <span>Thông tin người dùng</span>
               </Box>
             }
@@ -316,13 +318,18 @@ const UserProfile = () => {
               />
 
               <Box sx={{ mt: 3 }}>
-                <Box sx={{ 
-                  display: "flex", 
-                  justifyContent: "space-between", 
-                  alignItems: "center",
-                  mb: 2 
-                }}>
-                  <Typography variant={isMobile ? "subtitle1" : "h6"} color="primary">
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    mb: 2,
+                  }}
+                >
+                  <Typography
+                    variant={isMobile ? "subtitle1" : "h6"}
+                    color="primary"
+                  >
                     Địa chỉ
                   </Typography>
                   {editing && (
@@ -372,12 +379,14 @@ const UserProfile = () => {
                 </Box>
               </Box>
 
-              <Box sx={{ 
-                display: "flex", 
-                gap: 2, 
-                mt: 4,
-                flexDirection: isMobile ? "column" : "row" 
-              }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  gap: 2,
+                  mt: 4,
+                  flexDirection: isMobile ? "column" : "row",
+                }}
+              >
                 {!editing ? (
                   <AnimatedButton
                     fullWidth
@@ -415,11 +424,13 @@ const UserProfile = () => {
           </TabPanel>
 
           <TabPanel value={tabValue} index={1}>
-            <Box sx={{ 
-              display: "flex", 
-              flexDirection: "column", 
-              gap: 2 
-            }}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 2,
+              }}
+            >
               <AnimatedButton
                 variant="contained"
                 startIcon={<LockIcon />}
@@ -503,14 +514,17 @@ const UserProfile = () => {
         <DialogTitle>Xác nhận xóa tài khoản</DialogTitle>
         <DialogContent>
           <DialogContentText>
-            Bạn có chắc chắn muốn xóa tài khoản? Hành động này không thể hoàn tác.
+            Bạn có chắc chắn muốn xóa tài khoản? Hành động này không thể hoàn
+            tác.
           </DialogContentText>
         </DialogContent>
         <DialogActions sx={{ p: 2 }}>
-          <Button onClick={() => setDeleteDialogOpen(false)}>
-            Hủy
-          </Button>
-          <Button onClick={handleDeleteAccount} color="error" variant="contained">
+          <Button onClick={() => setDeleteDialogOpen(false)}>Hủy</Button>
+          <Button
+            onClick={handleDeleteAccount}
+            color="error"
+            variant="contained"
+          >
             Xóa tài khoản
           </Button>
         </DialogActions>
@@ -531,4 +545,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default UserInfo;

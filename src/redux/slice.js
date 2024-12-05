@@ -24,7 +24,7 @@ const notifySlice = createSlice({
           ...state[index].messages,
         ];
       }
-    }
+    },
   },
 });
 
@@ -52,18 +52,18 @@ const initSocket = createSlice({
 });
 
 const paymentSlice = createSlice({
-    name: 'payment',
-    initialState: {
-        bookingId: '',
-        userId: '',
-        departureId: '',
+  name: "payment",
+  initialState: {
+    bookingId: "",
+    userId: "",
+    departureId: "",
+  },
+  reducers: {
+    savePayment: (state, action) => {
+      Object.assign(state, action.payload);
     },
-    reducers: {
-        savePayment: (state, action) => {
-            Object.assign(state, action.payload);
-        }
-    }
-})
+  },
+});
 
 export const { saveNotify, addNotify } = notifySlice.actions;
 export const { addNotification } = socketSlice.actions;
