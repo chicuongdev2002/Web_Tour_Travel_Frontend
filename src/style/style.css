@@ -196,3 +196,9 @@ footer {
   white-space: normal;
   text-align: start;
 }
+.gradient-icon {
+  background: linear-gradient(to right, #4caf50, #81c784);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}

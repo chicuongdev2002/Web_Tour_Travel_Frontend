@@ -32,6 +32,9 @@ import {
   TravelExplore as TravelExploreIcon,
   Info as InfoIcon,
   DateRange as DateRangeIcon,
+  Phone as PhoneIcon,
+  Facebook as FacebookIcon,
+  WhatsApp as WhatsAppIcon,
 } from "@mui/icons-material";
 import axios from "axios";
 import TourTimeline from "./TourTimeline";
@@ -99,14 +102,10 @@ const TourScheduleComponent = () => {
     });
   };
 
-  // const isTourStartDay = useMemo(() => {
-  //   return (date) => {
-  //     return tours.some((tour) => {
-  //       const startDate = new Date(tour.startDate);
-  //       return startDate.toDateString() === date.toDateString();
-  //     });
-  //   };
-  // }, [tours]);
+  const handlePhoneClick = (phone) => {
+    window.open(`tel:+${phone}`, "_self"); 
+  };
+
 
   const getTourCount = (date) => {
     return tours.filter((tour) => {
@@ -676,13 +675,36 @@ const TourScheduleComponent = () => {
                                   </TableCell>
                                 )}
                                  <TableCell>
-                                    <Typography
-                                      variant="body2"
-                                      color="text.secondary"
-                                    >
-                                      {customer.phone}
-                                    </Typography>
-                                  </TableCell>
+  <Typography
+    variant="body2"
+    color="text.secondary"
+    sx={{
+      display: 'flex', // Sử dụng Flexbox
+      alignItems: 'center', // Căn giữa theo chiều dọc
+    }}
+  >
+    {customer.phone}
+    <Tooltip title="Gọi ngay">
+    <IconButton
+      onClick={() => handlePhoneClick(customer.phone)}
+      color="primary"
+      sx={{
+        backgroundColor: "white",
+        borderRadius: "50%",
+        boxShadow: 2,
+        width: 20,
+        height: 20,
+        marginLeft: 1, 
+        "&:hover": {
+          boxShadow: 4,
+        },
+      }}
+    >
+      <PhoneIcon />
+    </IconButton>
+  </Tooltip>
+  </Typography>
+</TableCell>
                                 <TableCell>
                                   <Typography
                                     variant="body2"

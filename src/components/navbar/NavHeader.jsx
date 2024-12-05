@@ -4,6 +4,10 @@ import brand from "../../assets/logo.png";
 import "../../style/style.css";
 import { useNavigate } from "react-router-dom";
 import {
+  Avatar,
+  Button,
+} from "@mui/material";
+import {
   AccountCircle,
   AdminPanelSettings,
   BarChart,
@@ -13,6 +17,7 @@ import {
   Favorite,
   ExitToApp,
   CheckCircle,
+  Login,
 } from "@mui/icons-material";
 import MenuDropDown from "../dropDown/MenuDropDown";
 import { FaUserCircle } from "react-icons/fa";
@@ -114,62 +119,62 @@ function NavHeader({ textColor, opacity }) {
               { 
                 title: "Thông tin khách hàng", 
                 onClick: goToUserDetail,
-                icon: <AccountCircle className="mr-2" style={{ color: textColor }} />
+                icon: <AccountCircle className="mr-2 gradient-icon" />
               },
               user.role === "ADMIN" && {
                 title: "Trang dành cho admin",
                 onClick: goToAdminPage,
-                icon: <AdminPanelSettings className="mr-2" style={{ color: textColor }} />
+                icon: <AdminPanelSettings className="mr-2 gradient-icon" />
               },
               user.role === "TOURPROVIDER" && {
                 title: "Thống kê tour",
                 onClick: goToTourStatistics,
-                icon: <BarChart className="mr-2" style={{ color: textColor }} />
+                icon: <BarChart className="mr-2 gradient-icon" />
               },
               user.role === "TOURPROVIDER" && {
                 title: "Đăng bán tour",
                 onClick: goToSellTour,
-                icon: <Add className="mr-2" style={{ color: textColor }} />
+                icon: <Add className="mr-2 gradient-icon" />
               },
               user.role === "TOURGUIDE" && {
                 title: "Xem thông tin phân công",
                 onClick: goToAssignTourGuide,
-                icon: <ListAlt className="mr-2" style={{ color: textColor }} />
+                icon: <ListAlt className="mr-2 gradient-icon" />
               },
               user.role === "TOURGUIDE" && {
                 title: "Checkin khách hàng",
                 onClick: goToCheckin,
-                icon: <CheckCircle className="mr-2" style={{ color: textColor }} />
+                icon: <CheckCircle className="mr-2 gradient-icon" />
               },
               user.role === "TOURGUIDE" && {
                 title: "Lịch trình HDV",
                 onClick: goToScheduleTourGuide,
-                icon: <CalendarToday className="mr-2" style={{ color: textColor }} />
+                icon: <CalendarToday className="mr-2 gradient-icon" />
               },
               (user.role === "CUSTOMER" || user.role === "CUSTOMERVIP") && {
                 title: "Danh sách đơn đặt tour",
                 onClick: goToBookingList,
-                icon: <ListAlt className="mr-2" style={{ color: textColor }} />
+                icon: <ListAlt className="mr-2 gradient-icon" />
               },
               { 
                 title: "Danh sách tour yêu thích", 
                 onClick: goToFavoriteTour,
-                icon: <Favorite className="mr-2" style={{ color: textColor }} />
+                icon: <Favorite className="mr-2 gradient-icon" />
               },
               { 
                 title: "Lịch trình xuất phát", 
                 onClick: goToScheduleTour,
-                icon: <CalendarToday className="mr-2" style={{ color: textColor }} />
+                icon: <CalendarToday className="mr-2 gradient-icon" />
               },
               { 
                 title: "Đăng xuất", 
                 onClick: handleLogout,
-                icon: <ExitToApp className="mr-2" style={{ color: textColor }} />
+                icon: <ExitToApp className="mr-2 gradient-icon" />
               },
             ]}
           >
             <div>
-              <FaUserCircle color={textColor} size={30} />
+              <FaUserCircle className="gradient-icon" size={30} />
               <span
                 className="ml-2 one-line"
                 style={{ color: textColor, fontSize: 20 }}
@@ -179,7 +184,17 @@ function NavHeader({ textColor, opacity }) {
             </div>
           </MenuDropDown>
         ) : (
-          <Button variant="contained" color="primary" onClick={goToLogin}>
+          <Button
+            variant="contained"
+            color="primary"
+            startIcon={<Login />}
+            onClick={goToLogin}
+            sx={{
+              borderRadius: 20,
+              padding: "6px 16px",
+              fontSize: "16px",
+            }}
+          >
             Đăng nhập
           </Button>
         )}
