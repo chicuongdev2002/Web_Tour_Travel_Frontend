@@ -26,7 +26,8 @@ const GET_TOUR_MANAGER = REACT_APP_HOST + "/api/tours/list-tours";
 const APPROVE_TOUR = REACT_APP_HOST + "/api/tours/approve";
 const GET_ALL_TOUR_TEST = REACT_APP_HOST + "/api/tours/test";
 const STATIS_REVENUE_TOTAL = REACT_APP_HOST + "/api/tours/revenue-statistics";
-const STATIS_REVENUE_TOUR_TICKET = REACT_APP_HOST + "/api/tours/revenue-statistics-tour-and-ticket";
+const STATIS_REVENUE_TOUR_TICKET =
+  REACT_APP_HOST + "/api/tours/revenue-statistics-tour-and-ticket";
 const STATIS_REVENUE_MONTHLY = REACT_APP_HOST + "/api/tours/monthly-revenue";
 const STATIS_TOUR_REVIEW = REACT_APP_HOST + "/api/reviews/statistics-tour-review";
 const REVIEW_MONTHLY_STATIS = REACT_APP_HOST + "/api/reviews/monthly-statistics";
@@ -47,7 +48,7 @@ const getAPI = (api, params, paramId) => {
   if (paramId) {
     api += "/" + paramId;
   }
-  if(params === null) return api;
+  if (params === null) return api;
   let url = api + "?";
   for (const key in params) {
     url += key + "=" + params[key] + "&&";

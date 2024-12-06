@@ -21,8 +21,7 @@ const formatMoneyVND = (amount) => {
 };
 
 const formatDate = (date) => {
-  if(!date)
-     return '';
+  if (!date) return "";
   const formattedDate = format(
     new Date(date),
     "HH:mm eeee, 'ngày' dd 'tháng' MM 'năm' yyyy",
@@ -61,4 +60,10 @@ const getTimeDifference = (isoDate) => {
   }
 };
 
-export { formatMoney, formatMoneyVND, formatDate, convertISOToCustomFormat, getTimeDifference };
+export {
+  formatMoney,
+  formatMoneyVND,
+  formatDate,
+  convertISOToCustomFormat,
+  getTimeDifference,
+};

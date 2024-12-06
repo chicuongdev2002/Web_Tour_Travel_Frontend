@@ -81,17 +81,24 @@ function ChatComponent({ selected, editable }) {
             whiteSpace: "normal",
           }}
         >
-          {item.content.startsWith("$$##Cancel_Booking##$$")? 
-          <div className="divCenterColumn">
-            <p className="p-0">Tôi muốn huỷ booking</p>
-            <button className="bg-success" onClick={() => {
-              setOpen(true);
-              setBookingId(item.content.substring(22));
-            }}>Xem</button>
-          </div>
-          : <p className={`m-0 w-100 ${item.me ? "text-light" : "text-dark"}`}>
-            {item.content}
-          </p>}
+          {item.content.startsWith("$$##Cancel_Booking##$$") ? (
+            <div className="divCenterColumn">
+              <p className="p-0">Tôi muốn huỷ booking</p>
+              <button
+                className="bg-success"
+                onClick={() => {
+                  setOpen(true);
+                  setBookingId(item.content.substring(22));
+                }}
+              >
+                Xem
+              </button>
+            </div>
+          ) : (
+            <p className={`m-0 w-100 ${item.me ? "text-light" : "text-dark"}`}>
+              {item.content}
+            </p>
+          )}
           <p className={`m-0 w-100 ${item.me ? "text-light" : "text-dark"}`}>
             {time.substring(0, 5)}
           </p>
@@ -102,7 +109,7 @@ function ChatComponent({ selected, editable }) {
 
   const handleClose = () => {
     setOpen(false);
-  }
+  };
 
   return (
     <div className="divCenterColumn w-100" style={{ flexGrow: 1 }}>
@@ -153,7 +160,9 @@ function ChatComponent({ selected, editable }) {
           Send
         </button>
       </div>
-      {open && <BookingView open={open} onClose={handleClose} bookingId={bookingId} />}
+      {open && (
+        <BookingView open={open} onClose={handleClose} bookingId={bookingId} />
+      )}
     </div>
   );
 }

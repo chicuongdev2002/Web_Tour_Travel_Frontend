@@ -32,10 +32,14 @@ import CheckInApp from "./components/checkin/CheckInApp.jsx";
 import CheckInAppPage from "./pages/CheckInAppPage.jsx";
 import ScheduleTourBooking from "./components/customer/schedule/ScheduleTourBooking.jsx";
 import { savePayment } from "../src/redux/slice";
-import Payment from './pages/Payment.jsx';
+import Payment from "./pages/Payment.jsx";
 import ScheduleTourPage from "./pages/ScheduleTourPage.jsx";
 import BookingDetailUser from "./components/booking/BookingDetailUser.jsx";
 import TopTours from "./components/tour/TopTours.jsx";
+import TourScheduleComponent from "./components/tourguide/TourScheduleComponent.jsx";
+import ScheduleTourGuidePage from "./pages/ScheduleTourGuidePage.jsx";
+import TourGuideAssignmentPage from "./pages/TourGuideAssignmentPage.jsx";
+import UserInfoPage from "./pages/UserInfoPage.jsx";
 
 function App() {
   const user = JSON.parse(sessionStorage.getItem("user"));
@@ -46,7 +50,7 @@ function App() {
   const connectSocket = useSelector((state) => state.initSocket);
 
   useEffect(() => {
-    if(initSocket(connectSocket, handlePayment))
+    if (initSocket(connectSocket, handlePayment))
       dispatch(changeConnectSocket(true));
   }, [user, connectSocket]);
 
@@ -56,7 +60,7 @@ function App() {
 
   const handlePayment = (message) => {
     dispatch(savePayment(message));
-  }
+  };
 
   return (
     <BrowserRouter>
@@ -70,15 +74,19 @@ function App() {
         <Route path="/update-tour/:id" element={<UpdateTour />} />
         <Route path="/booking-list" element={<BookingList />} />
         <Route path="/test" element={<PageTestComponent />} />
-         <Route path="/user-detail" element={<UserInfo />} />
+        <Route path="/user-detail" element={<UserInfoPage />} />
         <Route path="/provider-detail" element={<TourProviderDetail />} />
-        <Route path="/tour-guide-assiment" element={<TourGuideAssignments />} />
+        <Route path="/tour-guide-assiment" element={<TourGuideAssignmentPage />} />
         <Route path="/search-page" element={<SearchPage />} />
-         <Route path="/favorite-tour" element={<FavoriteTourPage />} />
-          <Route path="/checkin" element={<CheckInAppPage />} />
-          <Route path="/schedule-tour-booking" element={<ScheduleTourPage />} />
-             <Route path="/booking-detail-user" element={<BookingDetailUser />} />
-               <Route path="/top-tours" element={<TopTours />} />
+        <Route path="/favorite-tour" element={<FavoriteTourPage />} />
+        <Route path="/checkin" element={<CheckInAppPage />} />
+        <Route path="/schedule-tour-booking" element={<ScheduleTourPage />} />
+        <Route path="/booking-detail-user" element={<BookingDetailUser />} />
+        <Route path="/top-tours" element={<TopTours />} />
+        <Route
+          path="/schedule-tour-guide"
+          element={<ScheduleTourGuidePage />}
+        />
         {/* <Route path="/add-destination" element={<AddDestination />} />
         <Route path="/tour-guide-manager" element={<TourGuideManagerPage />} />
         <Route path="/account-list" element={<AccountPage />} />

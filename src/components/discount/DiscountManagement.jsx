@@ -333,9 +333,11 @@ const DiscountManagement = ({ notTitle }) => {
 
   return (
     <div className="discount-management">
-      { !notTitle && <Typography variant="h4" component="h1">
-        Quản Lý Giảm Giá
-      </Typography>}
+      {!notTitle && (
+        <Typography variant="h4" component="h1">
+          Quản Lý Giảm Giá
+        </Typography>
+      )}
       <Button
         variant="contained"
         color="primary"

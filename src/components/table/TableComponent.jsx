@@ -7,29 +7,48 @@ function TableComponent({ headers, data, page, getData, onClickTr }) {
     <div className="booking-table">
       <Table striped bordered hover>
         <thead>
-          <tr style={{ backgroundColor: 'lightblue' }}>
-            {headers.map((header, index) => (
-              header.tooltip? 
-              <th title={header.tooltip} key={index} style={{ verticalAlign: 'middle'}}>
+          <tr style={{ backgroundColor: "lightblue" }}>
+            {headers.map((header, index) =>
+              header.tooltip ? (
+                <th
+                  title={header.tooltip}
+                  key={index}
+                  style={{ verticalAlign: "middle" }}
+                >
                   {header.title}
                 </th>
-              : <th colSpan={header.colSpan? header.colSpan : 1} key={index} style={{ verticalAlign: 'middle'}}>
-                  {header.object? header.object : header}
+              ) : (
+                <th
+                  colSpan={header.colSpan ? header.colSpan : 1}
+                  key={index}
+                  style={{ verticalAlign: "middle" }}
+                >
+                  {header.object ? header.object : header}
                 </th>
-            ))}
+              ),
+            )}
           </tr>
         </thead>
         <tbody>
           {data?.length > 0 ? (
             data.map((d, index) => (
               <tr key={index}>
-                {Object.keys(d).map((key, indexChild) => (
-                    d[key].onClick? 
-                      <td key={indexChild} onClick = {d[key].onClick}>{d[key].title}</td> : 
-                      <td key={indexChild} onClick = { () => {
-                          onClickTr.onClick(d[Object.keys(d)[0]])
-                      }}>{d[key]}</td>
-                ))}
+                {Object.keys(d).map((key, indexChild) =>
+                  d[key].onClick ? (
+                    <td key={indexChild} onClick={d[key].onClick}>
+                      {d[key].title}
+                    </td>
+                  ) : (
+                    <td
+                      key={indexChild}
+                      onClick={() => {
+                        onClickTr.onClick(d[Object.keys(d)[0]]);
+                      }}
+                    >
+                      {d[key]}
+                    </td>
+                  ),
+                )}
               </tr>
             ))
           ) : (

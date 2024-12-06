@@ -1,5 +1,10 @@
 import axios from "axios";
-import { GET_ALL_TOUR, GET_TOUR_PAGE, GET_TOUR_IN_DAY, getAPI } from "../config/host";
+import {
+  GET_ALL_TOUR,
+  GET_TOUR_PAGE,
+  GET_TOUR_IN_DAY,
+  getAPI,
+} from "../config/host";
 
 const getAllTour = async (searchParams) => {
   const {
@@ -34,13 +39,15 @@ const getTourPage = async (page, size, sortBy, sortDirection) => {
   if (size === undefined) size = 10;
   if (sortBy === undefined) sortBy = "tourName";
   if (sortDirection === undefined) sortDirection = "asc";
-  const result = await axios.get(getAPI(GET_TOUR_PAGE, {page, size, sortBy, sortDirection}));
+  const result = await axios.get(
+    getAPI(GET_TOUR_PAGE, { page, size, sortBy, sortDirection }),
+  );
   return result.data;
 };
 
 const getTourInDay = async () => {
   const result = await axios.get(GET_TOUR_IN_DAY);
   return result.data;
-}
+};
 
 export { getAllTour, getTourPage, getTourInDay };

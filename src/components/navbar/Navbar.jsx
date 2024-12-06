@@ -34,9 +34,9 @@ function NavbarComp({ textColor }) {
   function CustomNavBarItem({ item, onClick }) {
     return (
       <Nav.Link className="navbarElement">
-        <div className="divCenter" onClick={onClick}
-        >
-          <p className="text-link"
+        <div className="divCenter" onClick={onClick}>
+          <p
+            className="text-link"
             style={{
               fontSize: 25,
               margin: 0,
@@ -77,7 +77,8 @@ function NavbarComp({ textColor }) {
               item="Phân công HDV"
               onClick={() => navigate("/tour-guide-details")}
             /> */}
-            <CustomNavBarItem item="Đặt tour" 
+            <CustomNavBarItem
+              item="Đặt tour"
               onClick={() => navigate("/tour-list")}
             />
           </Nav>

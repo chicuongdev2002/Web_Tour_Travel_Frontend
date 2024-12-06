@@ -1,18 +1,18 @@
-import React, { useState, useEffect } from 'react'
-import InputText from '../../components/inputText/InputText'
-import Button from '@mui/material/Button';
-import { getAllDestination } from '../../functions/getDestination';
-import { POST_TOUR, UPLOAD_IMAGE } from '../../config/host';
-import { postData, uploadFile } from '../../functions/postData';
-import DestinationList from '../crudDestination/DestinationList';
-import ModalComponent from '../modal/ModalComponent';
-import moment from 'moment';
-import CustomPop from '../popupNotifications/CustomPop';
-import { useNavigate } from 'react-router-dom';
-import FormView from '../../components/formView/FormView';
-import { getListTourType } from '../../functions/getListTourType';
-import LocationSelectCustom from '../../components/location/LocationSelectCustom'
-import { getProvince, getDistrict } from '../../functions/getProvince'
+import React, { useState, useEffect } from "react";
+import InputText from "../../components/inputText/InputText";
+import Button from "@mui/material/Button";
+import { getAllDestination } from "../../functions/getDestination";
+import { POST_TOUR, UPLOAD_IMAGE } from "../../config/host";
+import { postData, uploadFile } from "../../functions/postData";
+import DestinationList from "../crudDestination/DestinationList";
+import ModalComponent from "../modal/ModalComponent";
+import moment from "moment";
+import CustomPop from "../popupNotifications/CustomPop";
+import { useNavigate } from "react-router-dom";
+import FormView from "../../components/formView/FormView";
+import { getListTourType } from "../../functions/getListTourType";
+import LocationSelectCustom from "../../components/location/LocationSelectCustom";
+import { getProvince, getDistrict } from "../../functions/getProvince";
 
 function AddTourComponent() {
   const navigate = useNavigate();
@@ -43,19 +43,19 @@ function AddTourComponent() {
   const [destinationSelected, setDestinationSelected] = useState({
     content: [],
   });
+  const user = JSON.parse(sessionStorage.getItem("user"));
 
   useEffect(() => {
-    getTourType()
-    getDataProvince()
+    getTourType();
+    getDataProvince();
   }, []);
 
   const getTourType = async () => {
     let result = await getListTourType();
-    let data = []
-    for (const key in result)
-      data.push({ [key]: result[key] })
+    let data = [];
+    for (const key in result) data.push({ [key]: result[key] });
     setTourType(data);
-  }
+  };
 
   const getDestination = async (page, size) => {
     const result = await getAllDestination(page, size);
@@ -82,24 +82,46 @@ function AddTourComponent() {
         }
       }
       let result = await postData(POST_TOUR, {
-        tour: { tourName, tourDescription: description, startLocation: district?  getProvinceName(province) + ", " + district : getProvinceName(province), tourType: type, duration },
-        departures: [{
-          startDate: moment(startDate, "DD/MM/YYYY HH:mm:ss").add(7, 'hours').toDate().toISOString(),
-          endDate: moment(endDate, "DD/MM/YYYY HH:mm:ss").add(7, 'hours').toDate().toISOString(),
-          maxParticipants,
-        }],
+        userId: user.userId,
+        tour: {
+          tourName,
+          tourDescription: description,
+          startLocation: district
+            ? getProvinceName(province) + ", " + district
+            : getProvinceName(province),
+          tourType: type,
+          duration,
+        },
+        departures: [
+          {
+            startDate: moment(startDate, "DD/MM/YYYY HH:mm:ss")
+              .add(7, "hours")
+              .toDate()
+              .toISOString(),
+            endDate: moment(endDate, "DD/MM/YYYY HH:mm:ss")
+              .add(7, "hours")
+              .toDate()
+              .toISOString(),
+            maxParticipants,
+          },
+        ],
         tourPricing: [
           { price: childrenPrice, participantType: "CHILDREN" },
           { price: adultPrice, participantType: "ADULTS" },
           { price: oldPrice, participantType: "ELDERLY" },
         ],
-        tourDestinations: [...destinationSelected.content.map(d => (
-          { destination: { destinationId: d.destinationId }, duration: d.duration }
-        ))],
-        images: [{
-          imageUrl: resultUpload
-        }]
-      })
+        tourDestinations: [
+          ...destinationSelected.content.map((d) => ({
+            destination: { destinationId: d.destinationId },
+            duration: d.duration,
+          })),
+        ],
+        images: [
+          {
+            imageUrl: resultUpload,
+          },
+        ],
+      });
       if (result) {
         setMessageNotify("Thêm tour thành công");
         setOpenNotify(1);
@@ -113,64 +135,112 @@ function AddTourComponent() {
     }
   };
 
-  const [province, setProvince] = useState(null)
-  const [provinces, setProvinces] = useState([])
-  const [district, setDistrict] = useState(null)
-  const [districts, setDistricts] = useState([])
+  const [province, setProvince] = useState(null);
+  const [provinces, setProvinces] = useState([]);
+  const [district, setDistrict] = useState(null);
+  const [districts, setDistricts] = useState([]);
 
   const getDataProvince = async () => {
-    const result = await getProvince()
-    let data = []
-    result.forEach(element => {
-      data.push({ [element.id]: element.name })
+    const result = await getProvince();
+    let data = [];
+    result.forEach((element) => {
+      data.push({ [element.id]: element.name });
     });
-    setProvinces(data)
-  }
+    setProvinces(data);
+  };
 
-  const getProvinceName = (provinceId) =>{
-    debugger
-    let result = provinces.filter(p => Object.keys(p)[0] == provinceId)
-    const kt = result[0][provinceId]
-    return kt
-  }
+  const getProvinceName = (provinceId) => {
+    debugger;
+    let result = provinces.filter((p) => Object.keys(p)[0] == provinceId);
+    const kt = result[0][provinceId];
+    return kt;
+  };
 
   const getDitricts = async (provinceId) => {
-    const result = await getDistrict(provinceId)
-    let data = []
-    result.forEach(element => {
-      data.push({ [element.name]: element.name })
+    const result = await getDistrict(provinceId);
+    let data = [];
+    result.forEach((element) => {
+      data.push({ [element.name]: element.name });
     });
-    setDistricts(data)
-  }
+    setDistricts(data);
+  };
 
   const onChangeProvince = (e) => {
-    setProvince(e)
-    getDitricts(e)
-  }
+    setProvince(e);
+    getDitricts(e);
+  };
 
-  const onChangeDitricts = (e) => setDistrict(e)
+  const onChangeDitricts = (e) => setDistrict(e);
 
   return (
-    <div className={`w-100 ${openDestination && openDeparture? "divRowBetweenNotAlign" : "divCenter"}`}>
-      <FormView title='Thêm tour' className='w-30' data={[
-          { label: 'Tên tour', object: { type: 'text', value: tourName, notForm: true,
-              onChange: (e) => setTourName(e.target.value) }},
-          { label: 'Mô tả', object: { type: 'text', value: description, 
-              onChange: (e) => setDescription(e.target.value) }},
-          { object: { type: 'div', value: <LocationSelectCustom label="Địa điểm khởi hành"
-            province={province} provinces={provinces} district={district} districts={districts}
-            onChangeProvince={onChangeProvince} onChangeDitricts={onChangeDitricts}
-            />}},
-          { label: 'Loại tour', object: { type: 'select', value: type, 
-              onChange: (e) => setType(e), listData: tourType}},
-          { label: 'Ảnh', object: { type: 'file', onChange: handleFileChange }},
-          { label: 'Thêm địa điểm', object: { type: 'button', className: 'w-100 my-3',
-            onClick: () => {
-              getDestination()
-              setOpenDestination(true) }}}]} />
-      {
-        openDestination &&
-        <FormView title='Chọn địa điểm' className='w-30'>
+    <div
+      className={`w-100 ${openDestination && openDeparture ? "divRowBetweenNotAlign" : "divCenter"}`}
+    >
+      <FormView
+        title="Thêm tour"
+        className="w-30"
+        data={[
+          {
+            label: "Tên tour",
+            object: {
+              type: "text",
+              value: tourName,
+              notForm: true,
+              onChange: (e) => setTourName(e.target.value),
+            },
+          },
+          {
+            label: "Mô tả",
+            object: {
+              type: "text",
+              value: description,
+              onChange: (e) => setDescription(e.target.value),
+            },
+          },
+          {
+            object: {
+              type: "div",
+              value: (
+                <LocationSelectCustom
+                  label="Địa điểm khởi hành"
+                  province={province}
+                  provinces={provinces}
+                  district={district}
+                  districts={districts}
+                  onChangeProvince={onChangeProvince}
+                  onChangeDitricts={onChangeDitricts}
+                />
+              ),
+            },
+          },
+          {
+            label: "Loại tour",
+            object: {
+              type: "select",
+              value: type,
+              onChange: (e) => setType(e),
+              listData: tourType,
+            },
+          },
+          {
+            label: "Ảnh",
+            object: { type: "file", onChange: handleFileChange },
+          },
+          {
+            label: "Thêm địa điểm",
+            object: {
+              type: "button",
+              className: "w-100 my-3",
+              onClick: () => {
+                getDestination();
+                setOpenDestination(true);
+              },
+            },
+          },
+        ]}
+      />
+      {openDestination && (
+        <FormView title="Chọn địa điểm" className="w-30">
           <div>
             <DestinationList
               data={destinationSelected}
@@ -223,7 +293,7 @@ function AddTourComponent() {
             </div>
           </div>
         </FormView>
-      }
+      )}
       {openDeparture && (
         <FormView title="Thêm lịch trình" className="w-30">
           <div style={{ marginTop: -20 }}>

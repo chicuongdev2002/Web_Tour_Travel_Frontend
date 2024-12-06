@@ -1,20 +1,18 @@
 import React from "react";
 import NavHeader from "../components/navbar/NavHeader";
-import ScheduleTourBooking from "../components/customer/schedule/ScheduleTourBooking";
+import TourScheduleComponent from "../components/tourguide/TourScheduleComponent";
 import '../style/StylePage.css'
-function ScheduleTourPage() {
+function ScheduleTourGuidePage() {
   return (
-    <div>
-        <div className="position">
+    <div className="position">
       <div className="nav-header">
         <NavHeader textColor="black" />
       </div>
       <div className="content">
-        <ScheduleTourBooking />
+        <TourScheduleComponent />
       </div>
-    </div>
     </div>
   );
 }
 
-export default ScheduleTourPage;
+export default ScheduleTourGuidePage;

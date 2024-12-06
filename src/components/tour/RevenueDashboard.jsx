@@ -50,14 +50,14 @@ import {
   startOfYear,
   endOfYear,
 } from "date-fns";
-import { 
-  Print, 
-  FileDownload, 
+import {
+  Print,
+  FileDownload,
   Settings,
   Close as CloseIcon,
-  FileDownload as ExcelIcon
+  FileDownload as ExcelIcon,
 } from "@mui/icons-material";
-import * as XLSX from 'xlsx';
+import * as XLSX from "xlsx";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 import {
@@ -159,7 +159,7 @@ const RevenueDashboard = () => {
     if (active && payload && payload.length) {
       const total = ticketRevenueData.reduce(
         (sum, item) => sum + item.value,
-        0
+        0,
       );
       const percentage = ((payload[0].value / total) * 100).toFixed(1);
 
@@ -189,13 +189,13 @@ const RevenueDashboard = () => {
 
       const totalRevenueResult = await fetchTotalRevenue(
         formattedStartDate,
-        formattedEndDate
+        formattedEndDate,
       );
       setTotalRevenueData(totalRevenueResult);
 
       const tourRevenueResult = await fetchTourRevenue(
         formattedStartDate,
-        formattedEndDate
+        formattedEndDate,
       );
       setTourRevenueData(tourRevenueResult);
 
@@ -203,13 +203,15 @@ const RevenueDashboard = () => {
       const fullYearData = Array.from({ length: 12 }, (_, i) => {
         const monthNumber = i + 1;
         const monthData = monthlyRevenueResult.find(
-          (m) => parseInt(m.month) === monthNumber
+          (m) => parseInt(m.month) === monthNumber,
         );
-        return monthData || {
-          month: monthNumber.toString(),
-          revenue: 0,
-          growthRate: 0,
-        };
+        return (
+          monthData || {
+            month: monthNumber.toString(),
+            revenue: 0,
+            growthRate: 0,
+          }
+        );
       });
 
       setMonthlyRevenueData(fullYearData);
@@ -223,103 +225,102 @@ const RevenueDashboard = () => {
     }
   };
 
-
   const handlePrint = () => {
     window.print();
   };
- const handleExportExcel = () => {
-  try {
-    // Tạo workbook mới
-    const wb = XLSX.utils.book_new();
+  const handleExportExcel = () => {
+    try {
+      // Tạo workbook mới
+      const wb = XLSX.utils.book_new();
 
-    // Sheet 1: Doanh thu theo ngày
-    const dailyRevenueSheet = totalRevenueData.map(item => ({
-      'Ngày': format(new Date(item.date), 'dd/MM/yyyy'),
-      'Doanh Thu (VND)': item.totalRevenue,
-    }));
-    const ws1 = XLSX.utils.json_to_sheet(dailyRevenueSheet);
-    XLSX.utils.book_append_sheet(wb, ws1, "Doanh Thu Theo Ngày");
+      // Sheet 1: Doanh thu theo ngày
+      const dailyRevenueSheet = totalRevenueData.map((item) => ({
+        Ngày: format(new Date(item.date), "dd/MM/yyyy"),
+        "Doanh Thu (VND)": item.totalRevenue,
+      }));
+      const ws1 = XLSX.utils.json_to_sheet(dailyRevenueSheet);
+      XLSX.utils.book_append_sheet(wb, ws1, "Doanh Thu Theo Ngày");
 
-    // Sheet 2: Tăng trưởng theo tháng
-    const monthlyGrowthSheet = monthlyRevenueData.map(item => ({
-      'Tháng': item.month,
-      'Doanh Thu (VND)': item.revenue,
-      'Tăng Trưởng (%)': item.growthRate,
-    }));
-    const ws2 = XLSX.utils.json_to_sheet(monthlyGrowthSheet);
-    XLSX.utils.book_append_sheet(wb, ws2, "Tăng Trưởng Theo Tháng");
+      // Sheet 2: Tăng trưởng theo tháng
+      const monthlyGrowthSheet = monthlyRevenueData.map((item) => ({
+        Tháng: item.month,
+        "Doanh Thu (VND)": item.revenue,
+        "Tăng Trưởng (%)": item.growthRate,
+      }));
+      const ws2 = XLSX.utils.json_to_sheet(monthlyGrowthSheet);
+      XLSX.utils.book_append_sheet(wb, ws2, "Tăng Trưởng Theo Tháng");
 
-    // Sheet 3: Doanh thu theo tour
-    const tourRevenueSheet = tourRevenueData.tours.map(item => ({
-      'Tên Tour': item.tourName,
-      'Doanh Thu (VND)': item.revenue,
-    }));
-    const ws3 = XLSX.utils.json_to_sheet(tourRevenueSheet);
-    XLSX.utils.book_append_sheet(wb, ws3, "Doanh Thu Theo Tour");
+      // Sheet 3: Doanh thu theo tour
+      const tourRevenueSheet = tourRevenueData.tours.map((item) => ({
+        "Tên Tour": item.tourName,
+        "Doanh Thu (VND)": item.revenue,
+      }));
+      const ws3 = XLSX.utils.json_to_sheet(tourRevenueSheet);
+      XLSX.utils.book_append_sheet(wb, ws3, "Doanh Thu Theo Tour");
 
-    // Sheet 4: Doanh thu theo loại vé
-    const ticketRevenueSheet = ticketRevenueData.map(item => ({
-      'Loại Vé': item.name,
-      'Doanh Thu (VND)': item.value,
-    }));
-    const ws4 = XLSX.utils.json_to_sheet(ticketRevenueSheet);
-    XLSX.utils.book_append_sheet(wb, ws4, "Doanh Thu Theo Loại Vé");
+      // Sheet 4: Doanh thu theo loại vé
+      const ticketRevenueSheet = ticketRevenueData.map((item) => ({
+        "Loại Vé": item.name,
+        "Doanh Thu (VND)": item.value,
+      }));
+      const ws4 = XLSX.utils.json_to_sheet(ticketRevenueSheet);
+      XLSX.utils.book_append_sheet(wb, ws4, "Doanh Thu Theo Loại Vé");
 
-    // Thêm styling cho các sheet
-    [ws1, ws2, ws3, ws4].forEach(ws => {
-      // Định dạng tiêu đề
-      const range = XLSX.utils.decode_range(ws['!ref']);
-      const headerStyle = {
-        font: { bold: true, color: { rgb: "FFFFFF" } },
-        fill: { fgColor: { rgb: "4F81BD" } },
-        alignment: { horizontal: "center" }
-      };
-
-      // Áp dụng style cho hàng đầu tiên
-      for (let C = range.s.c; C <= range.e.c; ++C) {
-        const address = XLSX.utils.encode_cell({ r: 0, c: C });
-        if (!ws[address]) continue;
-        ws[address].s = headerStyle;
-      }
-
-      // Điều chỉnh độ rộng cột
-      const cols = [];
-      for (let C = range.s.c; C <= range.e.c; ++C) {
-        cols.push({ wch: 25 }); // độ rộng 25 ký tự
-      }
-      ws['!cols'] = cols;
-
-      // Thêm màu nền cho các hàng dữ liệu
-      for (let R = 1; R <= range.e.r; ++R) {
-        const rowStyle = {
-          fill: { fgColor: { rgb: R % 2 === 0 ? "EAEAEA" : "FFFFFF" } } // Màu nền xen kẽ
+      // Thêm styling cho các sheet
+      [ws1, ws2, ws3, ws4].forEach((ws) => {
+        // Định dạng tiêu đề
+        const range = XLSX.utils.decode_range(ws["!ref"]);
+        const headerStyle = {
+          font: { bold: true, color: { rgb: "FFFFFF" } },
+          fill: { fgColor: { rgb: "4F81BD" } },
+          alignment: { horizontal: "center" },
         };
+
+        // Áp dụng style cho hàng đầu tiên
         for (let C = range.s.c; C <= range.e.c; ++C) {
-          const address = XLSX.utils.encode_cell({ r: R, c: C });
+          const address = XLSX.utils.encode_cell({ r: 0, c: C });
           if (!ws[address]) continue;
-          ws[address].s = rowStyle;
+          ws[address].s = headerStyle;
         }
-      }
-    });
 
-    // Xuất file
-    const fileName = `bao-cao-doanh-thu-${format(new Date(), 'dd-MM-yyyy')}.xlsx`;
-    XLSX.writeFile(wb, fileName);
+        // Điều chỉnh độ rộng cột
+        const cols = [];
+        for (let C = range.s.c; C <= range.e.c; ++C) {
+          cols.push({ wch: 25 }); // độ rộng 25 ký tự
+        }
+        ws["!cols"] = cols;
 
-    setSnackbar({
-      open: true,
-      message: "Xuất file Excel thành công",
-      severity: "success",
-    });
-  } catch (error) {
-    console.error("Lỗi khi xuất Excel:", error);
-    setSnackbar({
-      open: true,
-      message: "Có lỗi xảy ra khi xuất Excel",
-      severity: "error",
-    });
-  }
-};
+        // Thêm màu nền cho các hàng dữ liệu
+        for (let R = 1; R <= range.e.r; ++R) {
+          const rowStyle = {
+            fill: { fgColor: { rgb: R % 2 === 0 ? "EAEAEA" : "FFFFFF" } }, // Màu nền xen kẽ
+          };
+          for (let C = range.s.c; C <= range.e.c; ++C) {
+            const address = XLSX.utils.encode_cell({ r: R, c: C });
+            if (!ws[address]) continue;
+            ws[address].s = rowStyle;
+          }
+        }
+      });
+
+      // Xuất file
+      const fileName = `bao-cao-doanh-thu-${format(new Date(), "dd-MM-yyyy")}.xlsx`;
+      XLSX.writeFile(wb, fileName);
+
+      setSnackbar({
+        open: true,
+        message: "Xuất file Excel thành công",
+        severity: "success",
+      });
+    } catch (error) {
+      console.error("Lỗi khi xuất Excel:", error);
+      setSnackbar({
+        open: true,
+        message: "Có lỗi xảy ra khi xuất Excel",
+        severity: "error",
+      });
+    }
+  };
 
   const handleQuickFilter = (type) => {
     const now = new Date();
@@ -377,7 +378,7 @@ const RevenueDashboard = () => {
   ];
 
   const ticketRevenueData = Object.entries(
-    tourRevenueData.ticketRevenue || {}
+    tourRevenueData.ticketRevenue || {},
   ).map(([name, value]) => ({
     name:
       name === "ADULTS"
@@ -390,14 +391,26 @@ const RevenueDashboard = () => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <Container maxWidth="lg" sx={{ mt: 4, pb: 4 }} id="dashboard-container" ref={dashboardRef}>
-        <Box sx={{ display: "flex", justifyContent: "space-between", alignItems: "center", mb: 4 }}>
+      <Container
+        maxWidth="lg"
+        sx={{ mt: 4, pb: 4 }}
+        id="dashboard-container"
+        ref={dashboardRef}
+      >
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            mb: 4,
+          }}
+        >
           <Typography variant="h4" sx={{ fontWeight: "bold" }}>
             Bảng Thống Kê Doanh Thu
           </Typography>
 
           <Stack direction="row" spacing={2} className="no-print">
-              <Button
+            <Button
               variant="contained"
               startIcon={<ExcelIcon />}
               onClick={handleExportExcel}
@@ -451,8 +464,8 @@ const RevenueDashboard = () => {
             <Button
               variant="outlined"
               onClick={() => handleQuickFilter("month")}
-              sx={{ borderRadius: 2}}
-                >
+              sx={{ borderRadius: 2 }}
+            >
               Tháng này
             </Button>
             <Button
@@ -471,18 +484,39 @@ const RevenueDashboard = () => {
             <Grid item xs={12} md={6}>
               <Card sx={{ height: "100%", boxShadow: theme.shadows[3] }}>
                 <CardContent>
-                  <Typography variant="h6" gutterBottom sx={{ fontWeight: "medium" }}>
+                  <Typography
+                    variant="h6"
+                    gutterBottom
+                    sx={{ fontWeight: "medium" }}
+                  >
                     Tổng Doanh Thu Theo Ngày
                   </Typography>
                   <ResponsiveContainer width="100%" height={300}>
                     <AreaChart data={totalRevenueData}>
                       <defs>
-                        <linearGradient id="colorRevenue" x1="0" y1="0" x2="0" y2="1">
-                          <stop offset="5%" stopColor={theme.palette.primary.main} stopOpacity={0.8} />
-                          <stop offset="95%" stopColor={theme.palette.primary.main} stopOpacity={0.1} />
+                        <linearGradient
+                          id="colorRevenue"
+                          x1="0"
+                          y1="0"
+                          x2="0"
+                          y2="1"
+                        >
+                          <stop
+                            offset="5%"
+                            stopColor={theme.palette.primary.main}
+                            stopOpacity={0.8}
+                          />
+                          <stop
+                            offset="95%"
+                            stopColor={theme.palette.primary.main}
+                            stopOpacity={0.1}
+                          />
                         </linearGradient>
                       </defs>
-                      <CartesianGrid strokeDasharray="3 3" stroke={theme.palette.divider} />
+                      <CartesianGrid
+                        strokeDasharray="3 3"
+                        stroke={theme.palette.divider}
+                      />
                       <XAxis
                         dataKey="date"
                         stroke={theme.palette.text.secondary}
@@ -513,12 +547,19 @@ const RevenueDashboard = () => {
             <Grid item xs={12} md={6}>
               <Card sx={{ height: "100%", boxShadow: theme.shadows[3] }}>
                 <CardContent>
-                  <Typography variant="h6" gutterBottom sx={{ fontWeight: "medium" }}>
+                  <Typography
+                    variant="h6"
+                    gutterBottom
+                    sx={{ fontWeight: "medium" }}
+                  >
                     Tăng Trưởng Doanh Thu Theo Tháng
                   </Typography>
                   <ResponsiveContainer width="100%" height={300}>
                     <LineChart data={monthlyRevenueData}>
-                      <CartesianGrid strokeDasharray="3 3" stroke={theme.palette.divider} />
+                      <CartesianGrid
+                        strokeDasharray="3 3"
+                        stroke={theme.palette.divider}
+                      />
                       <XAxis
                         dataKey="month"
                         stroke={theme.palette.text.secondary}
@@ -544,7 +585,10 @@ const RevenueDashboard = () => {
                         dataKey="revenue"
                         stroke={theme.palette.primary.main}
                         strokeWidth={2}
-                        dot={{ fill: theme.palette.primary.main, strokeWidth: 2 }}
+                        dot={{
+                          fill: theme.palette.primary.main,
+                          strokeWidth: 2,
+                        }}
                         name="Doanh thu"
                       />
                       <Line
@@ -553,7 +597,10 @@ const RevenueDashboard = () => {
                         dataKey="growthRate"
                         stroke={theme.palette.success.main}
                         strokeWidth={2}
-                        dot={{ fill: theme.palette.success.main, strokeWidth: 2 }}
+                        dot={{
+                          fill: theme.palette.success.main,
+                          strokeWidth: 2,
+                        }}
                         name="Tăng trưởng"
                       />
                     </LineChart>
@@ -568,12 +615,19 @@ const RevenueDashboard = () => {
             <Grid item xs={12} md={6}>
               <Card sx={{ height: "100%", boxShadow: theme.shadows[3] }}>
                 <CardContent>
-                  <Typography variant="h6" gutterBottom sx={{ fontWeight: "medium" }}>
+                  <Typography
+                    variant="h6"
+                    gutterBottom
+                    sx={{ fontWeight: "medium" }}
+                  >
                     Doanh Thu Theo Tour
                   </Typography>
                   <ResponsiveContainer width="100%" height={300}>
                     <BarChart data={tourRevenueData.tours}>
-                      <CartesianGrid strokeDasharray="3 3" stroke={theme.palette.divider} />
+                      <CartesianGrid
+                        strokeDasharray="3 3"
+                        stroke={theme.palette.divider}
+                      />
                       <XAxis
                         dataKey="tourName"
                         stroke={theme.palette.text.secondary}
@@ -588,7 +642,11 @@ const RevenueDashboard = () => {
                         tickFormatter={formatRevenue}
                       />
                       <Tooltip content={<TourRevenueTooltip />} />
-                      <Bar dataKey="revenue" fill={theme.palette.primary.main} radius={[4, 4, 0, 0]} />
+                      <Bar
+                        dataKey="revenue"
+                        fill={theme.palette.primary.main}
+                        radius={[4, 4, 0, 0]}
+                      />
                     </BarChart>
                   </ResponsiveContainer>
                 </CardContent>
@@ -601,7 +659,11 @@ const RevenueDashboard = () => {
             <Grid item xs={12} md={6}>
               <Card sx={{ height: "100%", boxShadow: theme.shadows[3] }}>
                 <CardContent>
-                  <Typography variant="h6" gutterBottom sx={{ fontWeight: "medium" }}>
+                  <Typography
+                    variant="h6"
+                    gutterBottom
+                    sx={{ fontWeight: "medium" }}
+                  >
                     Doanh Thu Theo Loại Vé
                   </Typography>
                   <ResponsiveContainer width="100%" height={300}>

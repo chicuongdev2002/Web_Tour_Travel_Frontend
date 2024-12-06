@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Container,
   Grid,
@@ -14,75 +14,78 @@ import {
   CardContent,
   Tooltip,
   Button,
-} from '@mui/material';
-import { 
-  Favorite as FavoriteIcon, 
-  Timer as TimerIcon, 
+} from "@mui/material";
+import {
+  Favorite as FavoriteIcon,
+  Timer as TimerIcon,
   LocationOn as LocationIcon,
-  Add as AddIcon 
-} from '@mui/icons-material';
-import TourCard from '../tourCard/TourCard';
+  Add as AddIcon,
+} from "@mui/icons-material";
+import TourCard from "../tourCard/TourCard";
 
 const FavoriteTourStatistics = ({ tours }) => {
   const totalTours = tours.length;
-  const totalDestinations = [...new Set(tours.map(tour => tour.startLocation))].length;
-  const totalTourTypes = [...new Set(tours.map(tour => tour.tourType))].length;
+  const totalDestinations = [
+    ...new Set(tours.map((tour) => tour.startLocation)),
+  ].length;
+  const totalTourTypes = [...new Set(tours.map((tour) => tour.tourType))]
+    .length;
 
   const statisticItems = [
     {
       icon: <FavoriteIcon fontSize="large" />,
       value: totalTours,
-      label: 'Tổng số tour yêu thích',
-      color: 'primary.main',
+      label: "Tổng số tour yêu thích",
+      color: "primary.main",
     },
     {
       icon: <LocationIcon fontSize="large" />,
       value: totalDestinations,
-      label: 'Điểm đến khác nhau',
-      color: 'secondary.main',
+      label: "Điểm đến khác nhau",
+      color: "secondary.main",
     },
     {
       icon: <TimerIcon fontSize="large" />,
       value: totalTourTypes,
-      label: 'Loại tour khác nhau',
-      color: 'info.main',
-    }
+      label: "Loại tour khác nhau",
+      color: "info.main",
+    },
   ];
 
   return (
-    <Grid 
-      container 
-      spacing={2} 
-      sx={{ 
-        mb: 4, 
-        '& .MuiCard-root:hover': {
-          transform: 'scale(1.05)',
-          transition: 'transform 0.3s ease-in-out',
-          boxShadow: '0 4px 15px rgba(0,0,0,0.1)'
-        }
+    <Grid
+      container
+      spacing={2}
+      sx={{
+        mb: 4,
+        "& .MuiCard-root:hover": {
+          transform: "scale(1.05)",
+          transition: "transform 0.3s ease-in-out",
+          boxShadow: "0 4px 15px rgba(0,0,0,0.1)",
+        },
       }}
     >
       {statisticItems.map((item, index) => (
         <Grid item xs={12} sm={4} key={index}>
-          <Card 
+          <Card
             variant="outlined"
-            sx={{ 
-              transition: 'all 0.3s ease',
-              '&:hover': {
-                borderColor: 'primary.main'
-              }
+            sx={{
+              transition: "all 0.3s ease",
+              "&:hover": {
+                borderColor: "primary.main",
+              },
             }}
           >
             <CardContent>
-              <Stack 
-                direction="row" 
-                alignItems="center" 
+              <Stack
+                direction="row"
+                alignItems="center"
                 spacing={2}
                 sx={{ color: item.color }}
               >
                 {item.icon}
                 <Box>
-                  <Typography variant="h6" sx={{ fontWeight: 'bold' }}>
+                  <Typography variant="h6" sx={{ fontWeight: "bold" }}>
                     {item.value}
                   </Typography>
                   <Typography variant="body2" color="text.secondary">
@@ -110,17 +113,19 @@ const FavoriteTourListComponent = () => {
   const fetchFavoriteTours = async (currentPage) => {
     setLoading(true);
     try {
-      const response = await fetch(`http://localhost:8080/api/favorite-tours/favorites/${user.userId}`);
+      const response = await fetch(
+        `http://localhost:8080/api/favorite-tours/favorites/${user.userId}`,
+      );
       if (!response.ok) {
-        throw new Error('Failed to fetch favorite tours');
+        throw new Error("Failed to fetch favorite tours");
       }
-     
+
       const data = await response.json();
       if (data) {
         const startIndex = (currentPage - 1) * pageSize;
         const endIndex = startIndex + pageSize;
         const paginatedData = data.slice(startIndex, endIndex);
-        
+
         setDataCard(paginatedData);
         setTotalPages(Math.ceil(data.length / pageSize));
       } else {
@@ -128,7 +133,7 @@ const FavoriteTourListComponent = () => {
         setTotalPages(1);
       }
     } catch (error) {
-      console.error('Error fetching favorite tours:', error);
+      console.error("Error fetching favorite tours:", error);
       setDataCard([]);
       setTotalPages(1);
     } finally {
@@ -137,7 +142,7 @@ const FavoriteTourListComponent = () => {
   };
 
   const handleAddTour = () => {
-    navigate('/search-page');
+    navigate("/search-page");
   };
 
   useEffect(() => {
@@ -148,13 +153,13 @@ const FavoriteTourListComponent = () => {
 
   if (loading) {
     return (
-      <Box 
-        display="flex" 
-        justifyContent="center" 
-        alignItems="center" 
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
         minHeight="100vh"
         sx={{
-          background: 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)',
+          background: "linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)",
         }}
       >
         <CircularProgress size={60} thickness={4} />
@@ -165,8 +170,8 @@ const FavoriteTourListComponent = () => {
   return (
     <Box
       sx={{
-        minHeight: '100vh',
-        background: 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)',
+        minHeight: "100vh",
+        background: "linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)",
         pt: 4,
         pb: 8,
       }}
@@ -174,47 +179,47 @@ const FavoriteTourListComponent = () => {
       <Container maxWidth="lg">
         <Fade in timeout={800}>
           <Box>
-            <Stack 
-              direction="row" 
-              justifyContent="space-between" 
-              alignItems="center" 
+            <Stack
+              direction="row"
+              justifyContent="space-between"
+              alignItems="center"
               sx={{ mb: 4 }}
             >
-              <Typography 
-                variant="h4" 
-                sx={{ 
-                  textAlign: 'left',
-                  color: 'primary.main',
-                  fontWeight: 'bold'
+              <Typography
+                variant="h4"
+                sx={{
+                  textAlign: "left",
+                  color: "primary.main",
+                  fontWeight: "bold",
                 }}
               >
                 Tour Yêu Thích
               </Typography>
               <Tooltip title="Thêm tour mới vào danh sách yêu thích">
-                <Button 
-                  variant="contained" 
-                  color="primary" 
+                <Button
+                  variant="contained"
+                  color="primary"
                   startIcon={<AddIcon />}
                   onClick={handleAddTour}
                 >
-                 Khám phá tour mới ngay
+                  Khám phá tour mới ngay
                 </Button>
               </Tooltip>
             </Stack>
-            
+
             {dataCard.length > 0 && <FavoriteTourStatistics tours={dataCard} />}
-            
+
             {dataCard.length === 0 ? (
               <Fade in timeout={800}>
                 <Paper
                   elevation={3}
                   sx={{
                     p: 6,
-                    textAlign: 'center',
+                    textAlign: "center",
                     borderRadius: 4,
-                    background: 'rgba(255, 255, 255, 0.9)',
-                    backdropFilter: 'blur(10px)',
-                    boxShadow: '0 8px 32px rgba(0,0,0,0.1)'
+                    background: "rgba(255, 255, 255, 0.9)",
+                    backdropFilter: "blur(10px)",
+                    boxShadow: "0 8px 32px rgba(0,0,0,0.1)",
                   }}
                 >
                   <Typography variant="h5" gutterBottom color="primary">
@@ -223,9 +228,9 @@ const FavoriteTourListComponent = () => {
                   <Typography color="text.secondary" sx={{ mb: 3 }}>
                     Hãy thêm các tour bạn yêu thích vào danh sách này.
                   </Typography>
-                  <Button 
-                    variant="contained" 
-                    color="primary" 
+                  <Button
+                    variant="contained"
+                    color="primary"
                     startIcon={<AddIcon />}
                     onClick={handleAddTour}
                   >
@@ -234,16 +239,16 @@ const FavoriteTourListComponent = () => {
                 </Paper>
               </Fade>
             ) : (
-              <Grid 
-                container 
+              <Grid
+                container
                 spacing={3}
                 sx={{
-                  '& > .MuiGrid-item': {
-                    transition: 'all 0.3s ease',
-                    '&:hover': {
-                      transform: 'translateY(-10px)'
-                    }
-                  }
+                  "& > .MuiGrid-item": {
+                    transition: "all 0.3s ease",
+                    "&:hover": {
+                      transform: "translateY(-10px)",
+                    },
+                  },
                 }}
               >
                 {dataCard.map((tour, index) => (
@@ -259,7 +264,7 @@ const FavoriteTourListComponent = () => {
                             tourType: tour.tourType,
                             startDate: tour.startDate,
                             duration: `${tour.duration}N${tour.duration - 1}Đ`,
-                            originalPrice: '8,490,000',
+                            originalPrice: "8,490,000",
                             availableSeats: tour.availableSeats,
                             discountedPrice: tour.price,
                             favorite: true,
@@ -281,13 +286,13 @@ const FavoriteTourListComponent = () => {
                   size="large"
                   siblingCount={0}
                   sx={{
-                    '& .MuiPaginationItem-root': {
-                      transition: 'all 0.3s ease',
-                      '&:hover': {
-                        backgroundColor: 'primary.light',
-                        color: 'white'
-                      }
-                    }
+                    "& .MuiPaginationItem-root": {
+                      transition: "all 0.3s ease",
+                      "&:hover": {
+                        backgroundColor: "primary.light",
+                        color: "white",
+                      },
+                    },
                   }}
                 />
               </Box>
