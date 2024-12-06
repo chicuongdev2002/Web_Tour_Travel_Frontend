@@ -29,21 +29,21 @@ const STATIS_REVENUE_TOTAL = REACT_APP_HOST + "/api/tours/revenue-statistics";
 const STATIS_REVENUE_TOUR_TICKET =
   REACT_APP_HOST + "/api/tours/revenue-statistics-tour-and-ticket";
 const STATIS_REVENUE_MONTHLY = REACT_APP_HOST + "/api/tours/monthly-revenue";
-const STATIS_TOUR_REVIEW =
-  REACT_APP_HOST + "/api/reviews/statistics-tour-review";
-const REVIEW_MONTHLY_STATIS =
-  REACT_APP_HOST + "/api/reviews/monthly-statistics";
-const UPDATE_TOUR = REACT_APP_HOST + "/api/tours/updateTour";
-const UPDATE_TOUR_STATUS = REACT_APP_HOST + "/api/tours/updateStatus";
-const UPDATE_BOOKING_STATUS = REACT_APP_HOST + "/api/bookings/updateStatus";
-const UPLOAD_IMAGE = REACT_APP_HOST + "/api/tours/upload";
-const WEB_SOCKET = REACT_APP_HOST + "/ws";
-const GET_LINK_MOMO = REACT_APP_HOST + "/api/payment/momo";
-const GET_TOUR_IN_DAY = REACT_APP_HOST + "/api/departures/inDay";
-const GET_PAYMENT_BY_BOOKING = REACT_APP_HOST + "/api/payment/booking";
-const GET_TOUR_TYPE = REACT_APP_HOST + "/api/tours/tourType";
-const GET_BOOKING = REACT_APP_HOST + "/api/bookings/getBookingById";
-const CANCEL_BOOKING = REACT_APP_HOST + "/api/bookings/cancelBooking";
+const STATIS_TOUR_REVIEW = REACT_APP_HOST + "/api/reviews/statistics-tour-review";
+const REVIEW_MONTHLY_STATIS = REACT_APP_HOST + "/api/reviews/monthly-statistics";
+const UPDATE_TOUR = REACT_APP_HOST + '/api/tours/updateTour'
+const UPDATE_TOUR_STATUS = REACT_APP_HOST + '/api/tours/updateStatus'
+const UPDATE_BOOKING_STATUS = REACT_APP_HOST + '/api/bookings/updateStatus';
+const UPLOAD_IMAGE = REACT_APP_HOST + '/api/tours/upload';
+const WEB_SOCKET = REACT_APP_HOST + '/ws';
+const GET_LINK_MOMO = REACT_APP_HOST + '/api/payment/momo';
+const GET_TOUR_IN_DAY = REACT_APP_HOST + '/api/departures/inDay';
+const GET_PAYMENT_BY_BOOKING = REACT_APP_HOST + '/api/payment/booking'
+const GET_TOUR_TYPE = REACT_APP_HOST + '/api/tours/tourType'
+const GET_BOOKING = REACT_APP_HOST + '/api/bookings/getBookingById'
+const CANCEL_BOOKING = REACT_APP_HOST + '/api/bookings/cancelBooking'
+const API_CHAT = 'https://api.dify.ai/v1/chat-messages';
+const TOKEN_CHAT = 'Bearer app-wkO00LhNJwAYYs3dtIFaBoL9';
 const getAPI = (api, params, paramId) => {
   if (paramId) {
     api += "/" + paramId;
@@ -56,49 +56,16 @@ const getAPI = (api, params, paramId) => {
   return url;
 };
 
-export default REACT_APP_HOST;
-export {
-  GET_ALL_TOUR,
-  CHECK_ACCOUNT_EXISTS,
-  CHECK_USER_EXISTS,
-  BOOKING_TOUR,
-  GET_PAGE_BOOKING,
-  SEND_CODE_VERIFYCATION,
-  VERIFY_CODE,
-  LOGIN,
-  REGISTER,
-  RESET_PASSWORD,
-  SEARCH,
-  GET_TOUR_DETAIL,
-  GET_EMAIL,
-  GET_PAGE_DESTINATION,
-  POST_TOUR,
-  UPDATE_TOUR,
-  UPDATE_TOUR_STATUS,
-  UPDATE_BOOKING_STATUS,
-  UPLOAD_IMAGE,
-  CHANGE_PASSWORD,
-  ACCOUNT_UNLOCK,
-  ACCOUNT_LOCK,
-  GET_ACCOUNT,
-  GET_USER,
-  GET_NOTIFY,
-  WEB_SOCKET,
-  GET_LINK_MOMO,
-  GET_TOUR_PAGE,
-  GET_TOUR_IN_DAY,
-  GET_PAYMENT_BY_BOOKING,
-  DELETE_TOUR,
-  GET_TOUR_MANAGER,
-  APPROVE_TOUR,
-  STATIS_REVENUE_TOUR_TICKET,
-  STATIS_REVENUE_MONTHLY,
-  STATIS_TOUR_REVIEW,
-  REVIEW_MONTHLY_STATIS,
-  STATIS_REVENUE_TOTAL,
-  GET_ALL_TOUR_TEST,
-  GET_TOUR_TYPE,
-  GET_BOOKING,
-  CANCEL_BOOKING,
-  getAPI,
-};
+export default REACT_APP_HOST
+export { GET_ALL_TOUR, CHECK_ACCOUNT_EXISTS, CHECK_USER_EXISTS, BOOKING_TOUR, GET_PAGE_BOOKING, 
+    SEND_CODE_VERIFYCATION, VERIFY_CODE, LOGIN, REGISTER, RESET_PASSWORD, SEARCH, GET_TOUR_DETAIL,GET_EMAIL, 
+    GET_PAGE_DESTINATION, POST_TOUR, UPDATE_TOUR, UPDATE_TOUR_STATUS, UPDATE_BOOKING_STATUS, UPLOAD_IMAGE,CHANGE_PASSWORD,
+    ACCOUNT_UNLOCK,ACCOUNT_LOCK,GET_ACCOUNT,GET_USER, GET_NOTIFY, WEB_SOCKET, GET_LINK_MOMO, 
+    GET_TOUR_PAGE, GET_TOUR_IN_DAY, GET_PAYMENT_BY_BOOKING,DELETE_TOUR,GET_TOUR_MANAGER,APPROVE_TOUR,
+    STATIS_REVENUE_TOUR_TICKET,
+    STATIS_REVENUE_MONTHLY,
+    STATIS_TOUR_REVIEW,
+    REVIEW_MONTHLY_STATIS,
+    STATIS_REVENUE_TOTAL,
+    GET_ALL_TOUR_TEST, GET_TOUR_TYPE, GET_BOOKING, CANCEL_BOOKING, API_CHAT,
+    TOKEN_CHAT, getAPI };
