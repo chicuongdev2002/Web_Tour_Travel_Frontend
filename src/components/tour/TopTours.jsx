@@ -35,7 +35,7 @@ const TopTours = () => {
   const [isHovered, setIsHovered] = useState(false);
   const scrollPositionRef = useRef(0);
   const lastTimeRef = useRef(0);
-  const SCROLL_SPEED = 30; 
+  const SCROLL_SPEED = 30;
   const cascadeDown = keyframes`
     from {
       opacity: 0;
@@ -69,7 +69,6 @@ const TopTours = () => {
 
     fetchTours();
   }, []);
-
 
   useEffect(() => {
     if (!scrollRef.current || loading) return;
@@ -303,9 +302,9 @@ const TopTours = () => {
               <Typography variant="body2" color="text.secondary">
                 • Khởi hành từ {tour.startLocation || "Hà Nội"}
               </Typography>
-             <Button onClick={() => handleViewDetail(tour.tourId)}>
-                            Xem chi tiết
-                        </Button>
+              <Button onClick={() => handleViewDetail(tour.tourId)}>
+                Xem chi tiết
+              </Button>
             </Box>
           </Collapse>
         </CardContent>

@@ -56,9 +56,9 @@ export default function MenuDropDown({ children, options }) {
                 option.onClick();
               }}
               sx={{
-                display: 'flex', 
-                alignItems: 'center',
-                gap: 1
+                display: "flex",
+                alignItems: "center",
+                gap: 1,
               }}
             >
               {option.icon}

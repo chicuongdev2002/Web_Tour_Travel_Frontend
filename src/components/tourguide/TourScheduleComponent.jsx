@@ -103,9 +103,8 @@ const TourScheduleComponent = () => {
   };
 
   const handlePhoneClick = (phone) => {
-    window.open(`tel:+${phone}`, "_self"); 
+    window.open(`tel:+${phone}`, "_self");
   };
-
 
   const getTourCount = (date) => {
     return tours.filter((tour) => {
@@ -192,7 +191,8 @@ const TourScheduleComponent = () => {
   };
 
   const renderEmptyState = () => (
-    <Box elevation={3}
+    <Box
+      elevation={3}
       sx={{
         p: 4,
         height: "100%",
@@ -202,7 +202,8 @@ const TourScheduleComponent = () => {
         alignItems: "center",
         textAlign: "center",
         bgcolor: theme.palette.grey[50],
-      }}>
+      }}
+    >
       <DateRangeIcon
         sx={{
           fontSize: 48,
@@ -216,7 +217,7 @@ const TourScheduleComponent = () => {
       <Typography variant="body2" color="text.disabled" sx={{ maxWidth: 300 }}>
         Vui lòng chọn một ngày trên lịch để xem chi tiết chuyến đi
       </Typography>
-      </Box>
+    </Box>
   );
   const scrollbarStyles = `
   /* Custom Scrollbar Styles */
@@ -627,11 +628,11 @@ const TourScheduleComponent = () => {
                                   Email
                                 </TableCell>
                               )}
-                               <TableCell
-                                  sx={{ fontWeight: "bold", color: "white" }}
-                                >
-                                  Số điện thoại
-                                </TableCell>
+                              <TableCell
+                                sx={{ fontWeight: "bold", color: "white" }}
+                              >
+                                Số điện thoại
+                              </TableCell>
                               <TableCell
                                 sx={{ fontWeight: "bold", color: "white" }}
                               >
@@ -674,37 +675,39 @@ const TourScheduleComponent = () => {
                                     </Typography>
                                   </TableCell>
                                 )}
-                                 <TableCell>
-  <Typography
-    variant="body2"
-    color="text.secondary"
-    sx={{
-      display: 'flex', // Sử dụng Flexbox
-      alignItems: 'center', // Căn giữa theo chiều dọc
-    }}
-  >
-    {customer.phone}
-    <Tooltip title="Gọi ngay">
-    <IconButton
-      onClick={() => handlePhoneClick(customer.phone)}
-      color="primary"
-      sx={{
-        backgroundColor: "white",
-        borderRadius: "50%",
-        boxShadow: 2,
-        width: 20,
-        height: 20,
-        marginLeft: 1, 
-        "&:hover": {
-          boxShadow: 4,
-        },
-      }}
-    >
-      <PhoneIcon />
-    </IconButton>
-  </Tooltip>
-  </Typography>
-</TableCell>
+                                <TableCell>
+                                  <Typography
+                                    variant="body2"
+                                    color="text.secondary"
+                                    sx={{
+                                      display: "flex", // Sử dụng Flexbox
+                                      alignItems: "center", // Căn giữa theo chiều dọc
+                                    }}
+                                  >
+                                    {customer.phone}
+                                    <Tooltip title="Gọi ngay">
+                                      <IconButton
+                                        onClick={() =>
+                                          handlePhoneClick(customer.phone)
+                                        }
+                                        color="primary"
+                                        sx={{
+                                          backgroundColor: "white",
+                                          borderRadius: "50%",
+                                          boxShadow: 2,
+                                          width: 20,
+                                          height: 20,
+                                          marginLeft: 1,
+                                          "&:hover": {
+                                            boxShadow: 4,
+                                          },
+                                        }}
+                                      >
+                                        <PhoneIcon />
+                                      </IconButton>
+                                    </Tooltip>
+                                  </Typography>
+                                </TableCell>
                                 <TableCell>
                                   <Typography
                                     variant="body2"
@@ -731,13 +734,13 @@ const TourScheduleComponent = () => {
             renderEmptyState()
           )}
         </Grid>
-        <Grid item xs={12} md={3} sx={{ height: "100%",width:'100%' }}>
+        <Grid item xs={12} md={3} sx={{ height: "100%", width: "100%" }}>
           <Box
             elevation={2}
             sx={{
               p: 3,
               height: "100%",
-              width:'100%' ,
+              width: "100%",
               borderRadius: 3,
               bgcolor: theme.palette.background.paper,
               display: isLoading ? "none" : "flex",

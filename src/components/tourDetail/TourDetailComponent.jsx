@@ -21,8 +21,8 @@ import {
   Paper,
   Stack,
   Fade,
-   useMediaQuery,
-    useTheme,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import {
   Star as StarIcon,
@@ -34,7 +34,6 @@ import {
   LocationOn as LocationOnIcon,
   TravelExplore as TravelExploreIcon,
   AttachMoney as AttachMoneyIcon,
-  
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import SliderPaging from "../slider/SliderPaging";
@@ -130,7 +129,13 @@ const TourDetailComponent = ({ tourData }) => {
       <Grid container spacing={8}>
         <Grid item xs={12} md={6}>
           <Box
-            sx={{ mb: 3, boxShadow: 3, borderRadius: 2, overflow: "hidden",height: isMobile ? "400px" : "600px" }}
+            sx={{
+              mb: 3,
+              boxShadow: 3,
+              borderRadius: 2,
+              overflow: "hidden",
+              height: isMobile ? "400px" : "600px",
+            }}
           >
             <SliderPaging
               images={
@@ -138,7 +143,10 @@ const TourDetailComponent = ({ tourData }) => {
                   ? tourData.images.map((img) => img.imageUrl)
                   : [imageBasic]
               }
-              mainImgDimension={{ width: "100%", height: isMobile ? "auto" : "500px" }}
+              mainImgDimension={{
+                width: "100%",
+                height: isMobile ? "auto" : "500px",
+              }}
               thumbImgDimension={{ width: 70, height: 70 }}
             />
           </Box>
@@ -417,13 +425,13 @@ const TourDetailComponent = ({ tourData }) => {
           </Box>
         </Grid>
         <Grid item xs={12} md={2}>
-             <Box>
-        <Typography variant="h6" gutterBottom>
-          Tour nổi bật
-        </Typography>
-        <TopTours />
-      </Box>
-           </Grid>
+          <Box>
+            <Typography variant="h6" gutterBottom>
+              Tour nổi bật
+            </Typography>
+            <TopTours />
+          </Box>
+        </Grid>
       </Grid>
 
       {/* Detailed Itinerary Section */}

@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import TourDetailComponent from "../components/tourDetail/TourDetailComponent";
 import { getTourDetail } from "../functions/getTourDetails";
 import NavHeader from "../components/navbar/NavHeader";
-import '../style/StylePage.css'
+import "../style/StylePage.css";
 function TourDetails() {
   const { id } = useParams();
   const [tourData, setTourData] = useState(null);
@@ -56,12 +56,12 @@ function TourDetails() {
   }
 
   return (
-      <div className="position">
+    <div className="position">
       <div className="nav-header">
         <NavHeader textColor="black" />
       </div>
       <div className="content">
-      <TourDetailComponent tourData={tourData} />
+        <TourDetailComponent tourData={tourData} />
       </div>
     </div>
   );

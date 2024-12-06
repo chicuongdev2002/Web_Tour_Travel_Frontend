@@ -44,6 +44,9 @@ const GET_PAYMENT_BY_BOOKING = REACT_APP_HOST + "/api/payment/booking";
 const GET_TOUR_TYPE = REACT_APP_HOST + "/api/tours/tourType";
 const GET_BOOKING = REACT_APP_HOST + "/api/bookings/getBookingById";
 const CANCEL_BOOKING = REACT_APP_HOST + "/api/bookings/cancelBooking";
+const API_CHAT = "https://api.dify.ai/v1/chat-messages";
+const TOKEN_CHAT = "Bearer app-wkO00LhNJwAYYs3dtIFaBoL9";
+const REVIEW_ALL = REACT_APP_HOST + "/api/reviews";
 const getAPI = (api, params, paramId) => {
   if (paramId) {
     api += "/" + paramId;
@@ -100,5 +103,8 @@ export {
   GET_TOUR_TYPE,
   GET_BOOKING,
   CANCEL_BOOKING,
+  API_CHAT,
+  TOKEN_CHAT,
+  REVIEW_ALL,
   getAPI,
 };

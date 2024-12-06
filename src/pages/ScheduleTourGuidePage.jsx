@@ -1,7 +1,7 @@
 import React from "react";
 import NavHeader from "../components/navbar/NavHeader";
 import TourScheduleComponent from "../components/tourguide/TourScheduleComponent";
-import '../style/StylePage.css'
+import "../style/StylePage.css";
 function ScheduleTourGuidePage() {
   return (
     <div className="position">

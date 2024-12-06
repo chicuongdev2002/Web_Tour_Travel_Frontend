@@ -19,12 +19,12 @@ import {
   LinearProgress,
   Tooltip,
   Alert,
-  Snackbar
+  Snackbar,
 } from "@mui/material";
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
 import {
   Star as StarIcon,
   TrendingUp as TrendingUpIcon,
@@ -113,7 +113,7 @@ const FilterChip = styled(Chip)(({ theme }) => ({
 
 const ReviewComponent = ({ reviews, tourId }) => {
   const [openLoginModal, setOpenLoginModal] = useState(false);
-   const navigate = useNavigate();
+  const navigate = useNavigate();
   const user = JSON.parse(sessionStorage.getItem("user"));
   const [filterRating, setFilterRating] = useState(0);
   const [sortOrder, setSortOrder] = useState("newest");
@@ -342,10 +342,10 @@ const ReviewComponent = ({ reviews, tourId }) => {
 
   const handleAddComment = async () => {
     if (!newComment) return;
-  if (!user) {
-    localStorage.setItem('redirectAfterLogin', window.location.pathname);
-    setIsPopupOpen(true);
-  }
+    if (!user) {
+      localStorage.setItem("redirectAfterLogin", window.location.pathname);
+      setIsPopupOpen(true);
+    }
     const newReview = {
       userId: user.userId,
       tourId: tourId,
@@ -468,13 +468,13 @@ const ReviewComponent = ({ reviews, tourId }) => {
       console.error("Error updating comment:", error);
     }
   };
-    const handlePopupClose = () => {
+  const handlePopupClose = () => {
     setIsPopupOpen(false);
   };
 
   const handlePopupAccept = () => {
     setIsPopupOpen(false);
-    localStorage.setItem('redirectAfterLogin', window.location.pathname);
+    localStorage.setItem("redirectAfterLogin", window.location.pathname);
     navigate("/login-register");
   };
   return (
@@ -758,7 +758,7 @@ const ReviewComponent = ({ reviews, tourId }) => {
                 )}
               </Box>
               <Typography variant="body1" color="text.primary">
-                {review.comment}
+                {review.active ? review.comment : "Bình luận đã bị ẩn"}
               </Typography>
             </Box>
           ))}
@@ -880,14 +880,14 @@ const ReviewComponent = ({ reviews, tourId }) => {
               )}
             </Box>
           </Box>
-        <ChoosePopup
-        title="Đăng Nhập Cần Thiết"
-        message="Bạn cần đăng nhập để thực hiện chức năng này. Bạn có muốn chuyển đến trang đăng nhập không?"
-        open={isPopupOpen}
-        onclose={handlePopupClose}
-        onAccept={handlePopupAccept}
-        onReject={handlePopupClose}
-      />
+          <ChoosePopup
+            title="Đăng Nhập Cần Thiết"
+            message="Bạn cần đăng nhập để thực hiện chức năng này. Bạn có muốn chuyển đến trang đăng nhập không?"
+            open={isPopupOpen}
+            onclose={handlePopupClose}
+            onAccept={handlePopupAccept}
+            onReject={handlePopupClose}
+          />
         </Container>
       </Box>
     </ThemeProvider>

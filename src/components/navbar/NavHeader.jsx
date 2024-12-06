@@ -3,10 +3,7 @@ import NavbarComp from "../navbar/Navbar";
 import brand from "../../assets/logo.png";
 import "../../style/style.css";
 import { useNavigate } from "react-router-dom";
-import {
-  Avatar,
-  Button,
-} from "@mui/material";
+import { Avatar, Button } from "@mui/material";
 import {
   AccountCircle,
   AdminPanelSettings,
@@ -116,60 +113,60 @@ function NavHeader({ textColor, opacity }) {
         {user ? (
           <MenuDropDown
             options={[
-              { 
-                title: "Thông tin khách hàng", 
+              {
+                title: "Thông tin khách hàng",
                 onClick: goToUserDetail,
-                icon: <AccountCircle className="mr-2 gradient-icon" />
+                icon: <AccountCircle className="mr-2 gradient-icon" />,
               },
               user.role === "ADMIN" && {
                 title: "Trang dành cho admin",
                 onClick: goToAdminPage,
-                icon: <AdminPanelSettings className="mr-2 gradient-icon" />
+                icon: <AdminPanelSettings className="mr-2 gradient-icon" />,
               },
               user.role === "TOURPROVIDER" && {
                 title: "Thống kê tour",
                 onClick: goToTourStatistics,
-                icon: <BarChart className="mr-2 gradient-icon" />
+                icon: <BarChart className="mr-2 gradient-icon" />,
               },
               user.role === "TOURPROVIDER" && {
                 title: "Đăng bán tour",
                 onClick: goToSellTour,
-                icon: <Add className="mr-2 gradient-icon" />
+                icon: <Add className="mr-2 gradient-icon" />,
               },
               user.role === "TOURGUIDE" && {
                 title: "Xem thông tin phân công",
                 onClick: goToAssignTourGuide,
-                icon: <ListAlt className="mr-2 gradient-icon" />
+                icon: <ListAlt className="mr-2 gradient-icon" />,
               },
               user.role === "TOURGUIDE" && {
                 title: "Checkin khách hàng",
                 onClick: goToCheckin,
-                icon: <CheckCircle className="mr-2 gradient-icon" />
+                icon: <CheckCircle className="mr-2 gradient-icon" />,
               },
               user.role === "TOURGUIDE" && {
                 title: "Lịch trình HDV",
                 onClick: goToScheduleTourGuide,
-                icon: <CalendarToday className="mr-2 gradient-icon" />
+                icon: <CalendarToday className="mr-2 gradient-icon" />,
               },
               (user.role === "CUSTOMER" || user.role === "CUSTOMERVIP") && {
                 title: "Danh sách đơn đặt tour",
                 onClick: goToBookingList,
-                icon: <ListAlt className="mr-2 gradient-icon" />
+                icon: <ListAlt className="mr-2 gradient-icon" />,
               },
-              { 
-                title: "Danh sách tour yêu thích", 
+              {
+                title: "Danh sách tour yêu thích",
                 onClick: goToFavoriteTour,
-                icon: <Favorite className="mr-2 gradient-icon" />
+                icon: <Favorite className="mr-2 gradient-icon" />,
               },
-              { 
-                title: "Lịch trình xuất phát", 
+              {
+                title: "Lịch trình xuất phát",
                 onClick: goToScheduleTour,
-                icon: <CalendarToday className="mr-2 gradient-icon" />
+                icon: <CalendarToday className="mr-2 gradient-icon" />,
               },
-              { 
-                title: "Đăng xuất", 
+              {
+                title: "Đăng xuất",
                 onClick: handleLogout,
-                icon: <ExitToApp className="mr-2 gradient-icon" />
+                icon: <ExitToApp className="mr-2 gradient-icon" />,
               },
             ]}
           >

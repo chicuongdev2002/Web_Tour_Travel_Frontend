@@ -72,7 +72,7 @@ const TourCard = ({ tour }) => {
 
   const handlePopupAccept = () => {
     setIsPopupOpen(false);
-    localStorage.setItem('redirectAfterLogin', window.location.pathname);
+    localStorage.setItem("redirectAfterLogin", window.location.pathname);
     navigate("/login-register");
   };
 

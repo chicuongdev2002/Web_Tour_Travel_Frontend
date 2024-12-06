@@ -93,7 +93,7 @@ function FormView({
           className="bgContent"
           style={{
             backgroundImage: `url(${bgImg})`,
-            backgroundSize: "cover",
+            backgroundSize: "100% 100%",
             backgroundPosition: "center",
           }}
         ></div>
