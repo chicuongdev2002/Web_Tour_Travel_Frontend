@@ -19,7 +19,12 @@ import {
   LinearProgress,
   Tooltip,
   Alert,
+  Snackbar
 } from "@mui/material";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogTitle from '@mui/material/DialogTitle';
 import {
   Star as StarIcon,
   TrendingUp as TrendingUpIcon,
@@ -32,7 +37,8 @@ import {
 import { styled, createTheme, ThemeProvider } from "@mui/material/styles";
 import nlp from "compromise";
 import Sentiment from "sentiment";
-
+import { useNavigate } from "react-router-dom";
+import ChoosePopup from "../../popupNotifications/ChoosePopup";
 const theme = createTheme({
   palette: {
     primary: {
@@ -106,6 +112,8 @@ const FilterChip = styled(Chip)(({ theme }) => ({
 }));
 
 const ReviewComponent = ({ reviews, tourId }) => {
+  const [openLoginModal, setOpenLoginModal] = useState(false);
+   const navigate = useNavigate();
   const user = JSON.parse(sessionStorage.getItem("user"));
   const [filterRating, setFilterRating] = useState(0);
   const [sortOrder, setSortOrder] = useState("newest");
@@ -123,6 +131,7 @@ const ReviewComponent = ({ reviews, tourId }) => {
   const [originalReviews, setOriginalReviews] = useState(reviews);
   const [editingReviewId, setEditingReviewId] = useState(null);
   const [editRating, setEditRating] = useState(5);
+  const [isPopupOpen, setIsPopupOpen] = useState(false);
   const ratingOptions = [
     { value: 0, label: "Tất cả" },
     { value: 5, label: "5 sao" },
@@ -333,7 +342,10 @@ const ReviewComponent = ({ reviews, tourId }) => {
 
   const handleAddComment = async () => {
     if (!newComment) return;
-
+  if (!user) {
+    localStorage.setItem('redirectAfterLogin', window.location.pathname);
+    setIsPopupOpen(true);
+  }
     const newReview = {
       userId: user.userId,
       tourId: tourId,
@@ -456,7 +468,15 @@ const ReviewComponent = ({ reviews, tourId }) => {
       console.error("Error updating comment:", error);
     }
   };
+    const handlePopupClose = () => {
+    setIsPopupOpen(false);
+  };
 
+  const handlePopupAccept = () => {
+    setIsPopupOpen(false);
+    localStorage.setItem('redirectAfterLogin', window.location.pathname);
+    navigate("/login-register");
+  };
   return (
     <ThemeProvider theme={theme}>
       <Box sx={{ bgcolor: "background.default", minHeight: "100vh" }}>
@@ -860,6 +880,14 @@ const ReviewComponent = ({ reviews, tourId }) => {
               )}
             </Box>
           </Box>
+        <ChoosePopup
+        title="Đăng Nhập Cần Thiết"
+        message="Bạn cần đăng nhập để thực hiện chức năng này. Bạn có muốn chuyển đến trang đăng nhập không?"
+        open={isPopupOpen}
+        onclose={handlePopupClose}
+        onAccept={handlePopupAccept}
+        onReject={handlePopupClose}
+      />
         </Container>
       </Box>
     </ThemeProvider>

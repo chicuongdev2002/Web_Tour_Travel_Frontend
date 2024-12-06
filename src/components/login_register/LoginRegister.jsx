@@ -78,7 +78,15 @@ const LoginRegister = () => {
       console.log("Đăng nhập thành công:", result.userData);
       sessionStorage.setItem("user", JSON.stringify(result.userData));
       if (location.state) navigate("/booking", { state: location.state });
-      else navigate("/");
+      else{
+    const redirectUrl = localStorage.getItem('redirectAfterLogin') || '/';
+    localStorage.removeItem('redirectAfterLogin');
+    if(redirectUrl!=null){
+    navigate(redirectUrl);
+    }else{
+      navigate("/");
+    }
+      }
     } else {
       if (!result.isLoginSuccessful) {
         setFailedLoginAttempts((prev) => prev + 1);
