@@ -304,8 +304,32 @@ const TourScheduleComponent = () => {
           background-color: ${theme.palette.primary.light}40;
           border-radius: 8px;
         }
+           .responsive-table-container {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            &::-webkit-scrollbar {
+              height: 6px;
+            }
+            &::-webkit-scrollbar-thumb {
+              background-color: ${theme.palette.primary.main}40;
+              border-radius: 6px;
+            }
+          }
+          
+          @media (max-width: 600px) {
+            .MuiTableCell-root {
+              padding: 8px;
+              font-size: 0.8rem;
+            }
+            .MuiChip-root {
+              font-size: 0.7rem;
+              height: 24px;
+            }
+          }
+        
           ${scrollbarStyles}
-
+         
       `}
       </style>
       {/* <NavHeader textColor="black" /> */}
@@ -411,12 +435,14 @@ const TourScheduleComponent = () => {
                 className="custom-scrollbar"
                 sx={{ flexGrow: 1, overflow: "auto" }}
               >
+                <Box className="responsive-table-container" sx={{ mb: 3 }}>
                 <TableContainer
                   sx={{
                     width: "100%",
                     mb: 3,
                     borderRadius: 2,
                     border: `1px solid ${theme.palette.divider}`,
+                    minWidth: isMobile ? 600 : 'auto'
                   }}
                 >
                   <Table>
@@ -486,7 +512,7 @@ const TourScheduleComponent = () => {
                     </TableBody>
                   </Table>
                 </TableContainer>
-
+                </Box>
                 {selectedTourCustomers.length > 0 && (
                   <>
                     <Divider sx={{ my: 2 }} />
@@ -606,11 +632,13 @@ const TourScheduleComponent = () => {
                       <Box
                         className="custom-scrollbar"
                         sx={{ flexGrow: 1, overflow: "auto" }}
-                      ></Box>
+                      >
+                         <Box className="responsive-table-container" sx={{ mb: 3 }}>
                       <TableContainer
                         sx={{
                           borderRadius: 2,
                           border: `1px solid ${theme.palette.divider}`,
+                            overflowX: 'auto',
                         }}
                       >
                         <Table size={isMobile ? "small" : "medium"}>
@@ -621,13 +649,13 @@ const TourScheduleComponent = () => {
                               >
                                 Họ Tên
                               </TableCell>
-                              {!isMobile && (
+                              {/* {!isMobile && ( */}
                                 <TableCell
                                   sx={{ fontWeight: "bold", color: "white" }}
                                 >
                                   Email
                                 </TableCell>
-                              )}
+                              {/* )} */}
                               <TableCell
                                 sx={{ fontWeight: "bold", color: "white" }}
                               >
@@ -665,7 +693,7 @@ const TourScheduleComponent = () => {
                                     {customer.fullName}
                                   </Typography>
                                 </TableCell>
-                                {!isMobile && (
+                                {/* {!isMobile && ( */}
                                   <TableCell>
                                     <Typography
                                       variant="body2"
@@ -674,7 +702,7 @@ const TourScheduleComponent = () => {
                                       {customer.email}
                                     </Typography>
                                   </TableCell>
-                                )}
+                                {/* )} */}
                                 <TableCell>
                                   <Typography
                                     variant="body2"
@@ -724,6 +752,8 @@ const TourScheduleComponent = () => {
                           </TableBody>
                         </Table>
                       </TableContainer>
+                      </Box>
+                      </Box>
                     </Box>
                   </>
                 )}
