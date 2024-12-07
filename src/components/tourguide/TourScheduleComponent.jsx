@@ -39,11 +39,15 @@ import {
 import axios from "axios";
 import TourTimeline from "./TourTimeline";
 import NavHeader from "../navbar/NavHeader";
+import { Button } from "react-bootstrap";
+import AttendanceComponent from "./AttendanceComponent";
+import { getScheduleTourGuide } from "../../functions/getScheduleTourGuide";
 
 const TourScheduleComponent = () => {
   const [tours, setTours] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTours, setSelectedTours] = useState([]);
+  const [departureId,setDepartureId]=useState(null);
   const [selectedTourCustomers, setSelectedTourCustomers] = useState([]);
   const [error, setError] = useState(null);
   const [tourGuideId, setTourGuideId] = useState(null);
@@ -76,9 +80,7 @@ const TourScheduleComponent = () => {
 
       try {
         setIsLoading(true);
-        const response = await axios.get(
-          `http://localhost:8080/api/tour-guides/schedule/${tourGuideId}`,
-        );
+        const response=await getScheduleTourGuide(tourGuideId);
         setTours(response.data);
         setIsLoading(false);
       } catch (err) {
@@ -105,7 +107,6 @@ const TourScheduleComponent = () => {
   const handlePhoneClick = (phone) => {
     window.open(`tel:+${phone}`, "_self");
   };
-
   const getTourCount = (date) => {
     return tours.filter((tour) => {
       const startDate = new Date(tour.startDate);
@@ -120,7 +121,9 @@ const TourScheduleComponent = () => {
       return start.toDateString() === date.toDateString();
     });
     setSelectedTours(matchedTours);
-
+    console.log(matchedTours);
+    setDepartureId(matchedTours[0].departureId);
+    console.log(matchedTours[0].departureId);
     if (matchedTours.length === 1) {
       setSelectedTourCustomers(matchedTours[0].customers || []);
     } else {
@@ -430,6 +433,10 @@ const TourScheduleComponent = () => {
                 <Typography variant="h6" fontWeight="bold" color="primary">
                   Chi tiết chuyến đi ngày {selectedDate.toLocaleDateString()}
                 </Typography>
+                 <AttendanceComponent
+     departureId={departureId} 
+    userId={tourGuideId}
+  />
               </Stack>
               <Box
                 className="custom-scrollbar"
