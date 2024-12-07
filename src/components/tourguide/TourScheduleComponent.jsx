@@ -36,10 +36,7 @@ import {
   Facebook as FacebookIcon,
   WhatsApp as WhatsAppIcon,
 } from "@mui/icons-material";
-import axios from "axios";
 import TourTimeline from "./TourTimeline";
-import NavHeader from "../navbar/NavHeader";
-import { Button } from "react-bootstrap";
 import AttendanceComponent from "./AttendanceComponent";
 import { getScheduleTourGuide } from "../../functions/getScheduleTourGuide";
 
@@ -715,8 +712,8 @@ const TourScheduleComponent = () => {
                                     variant="body2"
                                     color="text.secondary"
                                     sx={{
-                                      display: "flex", // Sử dụng Flexbox
-                                      alignItems: "center", // Căn giữa theo chiều dọc
+                                      display: "flex",
+                                      alignItems: "center", 
                                     }}
                                   >
                                     {customer.phone}

@@ -39,6 +39,7 @@ import nlp from "compromise";
 import Sentiment from "sentiment";
 import { useNavigate } from "react-router-dom";
 import ChoosePopup from "../../popupNotifications/ChoosePopup";
+import { addReview, deleteReview, updateReview } from "../../../functions/crudReview";
 const theme = createTheme({
   palette: {
     primary: {
@@ -354,20 +355,7 @@ const ReviewComponent = ({ reviews, tourId }) => {
     };
 
     try {
-      // Gọi API để thêm bình luận mới
-      const response = await fetch("http://localhost:8080/api/reviews", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newReview),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to add comment");
-      }
-
-      const addedReview = await response.json();
+      const addedReview = await addReview(newReview);
       const reviewWithFullName = {
         ...addedReview,
         userName: user.fullName,
@@ -380,17 +368,7 @@ const ReviewComponent = ({ reviews, tourId }) => {
   };
   const handleDeleteComment = async (reviewId) => {
     try {
-      const response = await fetch(
-        `http://localhost:8080/api/reviews/${reviewId}`,
-        {
-          method: "DELETE",
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to delete comment");
-      }
-
+      await deleteReview(reviewId);
       // Cập nhật cả originalReviews và searchResults
       const updatedReviews = originalReviews.filter(
         (review) => review.reviewId !== reviewId,
@@ -404,7 +382,6 @@ const ReviewComponent = ({ reviews, tourId }) => {
         );
         setSearchResults(updatedSearchResults);
       }
-
       // Reset về trang 1 nếu trang hiện tại không còn review nào
       const updatedTotalPages = Math.ceil(
         updatedReviews.length / reviewsPerPage,
@@ -439,22 +416,7 @@ const ReviewComponent = ({ reviews, tourId }) => {
     };
 
     try {
-      const response = await fetch(
-        `http://localhost:8080/api/reviews/${editingReviewId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updatedReview),
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to update comment");
-      }
-
-      const updatedReviewData = await response.json();
+      const updatedReviewData = await updateReview(editingReviewId, updatedReview);
       const updatedReviews = originalReviews.map((review) =>
         review.reviewId === editingReviewId
           ? { ...updatedReviewData, userName: user.fullName }
