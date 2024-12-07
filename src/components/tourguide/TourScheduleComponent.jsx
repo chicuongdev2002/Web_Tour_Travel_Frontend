@@ -70,23 +70,31 @@ const TourScheduleComponent = () => {
       setIsLoading(false);
     }
   }, []);
+const fetchTourSchedule = async () => {
+  if (!tourGuideId) return;
+
+  try {
+    setIsLoading(true);
+    const response = await getScheduleTourGuide(tourGuideId);
+    setTours(response.data);
+    if (selectedDate) {
+      const matchedTours = response.data.filter((tour) => {
+        const start = new Date(tour.startDate);
+        return start.toDateString() === selectedDate.toDateString();
+      });
+      
+      setSelectedTours(matchedTours);
+      setAttendance(matchedTours[0]?.attendance || false);
+    }
+    setIsLoading(false);
+  } catch (err) {
+    console.error("Error fetching tour schedule:", err);
+    setError("Không thể tải lịch trình. Vui lòng thử lại sau.");
+    setIsLoading(false);
+  }
+};
 
   useEffect(() => {
-    const fetchTourSchedule = async () => {
-      if (!tourGuideId) return;
-
-      try {
-        setIsLoading(true);
-        const response=await getScheduleTourGuide(tourGuideId);
-        setTours(response.data);
-        setIsLoading(false);
-      } catch (err) {
-        console.error("Error fetching tour schedule:", err);
-        setError("Không thể tải lịch trình. Vui lòng thử lại sau.");
-        setIsLoading(false);
-      }
-    };
-
     fetchTourSchedule();
   }, [tourGuideId]);
 
@@ -435,6 +443,7 @@ const TourScheduleComponent = () => {
     userId={tourGuideId}
     departureDate={selectedDate}
     attendance={attendance}
+    onSuccess={fetchTourSchedule}
   />
                
               </Stack>
@@ -457,6 +466,9 @@ const TourScheduleComponent = () => {
                       <TableRow>
                         <TableCell sx={{ fontWeight: "bold", color: "white" }}>
                           Tên Tour
+                        </TableCell>
+                            <TableCell sx={{ fontWeight: "bold", color: "white" }}>
+                          Địa điểm bắt đầu
                         </TableCell>
                         <TableCell sx={{ fontWeight: "bold", color: "white" }}>
                           Ngày Bắt Đầu
@@ -483,6 +495,7 @@ const TourScheduleComponent = () => {
                           }}
                         >
                           <TableCell>{tour.tourName}</TableCell>
+                            <TableCell>{tour.startLocation}</TableCell>
                           <TableCell>
                             <Chip
                               label={formatDateTime(tour.startDate)}

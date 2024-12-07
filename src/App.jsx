@@ -28,6 +28,7 @@ import ScheduleTourGuidePage from "./pages/ScheduleTourGuidePage.jsx";
 import TourGuideAssignmentPage from "./pages/TourGuideAssignmentPage.jsx";
 import UserInfoPage from "./pages/UserInfoPage.jsx";
 import ProtectedRoute from "./route/ProtectedRoute.jsx"
+import TourProviderManagerPage from "./pages/TourProviderManagerPage.jsx";
 
 function App() {
   const user = JSON.parse(sessionStorage.getItem("user"));
@@ -89,6 +90,14 @@ function App() {
           element={
             <ProtectedRoute allowedRoles={["TOURPROVIDER",]}>
               <TourProviderDetail />
+            </ProtectedRoute>
+          }
+        />
+           <Route
+          path="/provider-manager"
+          element={
+            <ProtectedRoute allowedRoles={["TOURPROVIDER",]}>
+              <TourProviderManagerPage />
             </ProtectedRoute>
           }
         />

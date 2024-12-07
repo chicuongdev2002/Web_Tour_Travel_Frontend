@@ -18,7 +18,7 @@ import {
 } from "@mui/icons-material";
 import MenuDropDown from "../dropDown/MenuDropDown";
 import { FaUserCircle } from "react-icons/fa";
-
+import ApartmentIcon from '@mui/icons-material/Apartment';
 function NavHeader({ textColor, opacity }) {
   const [user, setUser] = useState(null);
   const dropdownRef = useRef(null);
@@ -49,7 +49,10 @@ function NavHeader({ textColor, opacity }) {
     navigate("/provider-detail");
     setDropdownVisible(false);
   };
-
+  const goToTourManager = () => {
+    navigate("/provider-manager");
+    setDropdownVisible(false);
+  };
   const goToSellTour = () => {
     navigate("/add-tour");
     setDropdownVisible(false);
@@ -127,6 +130,11 @@ function NavHeader({ textColor, opacity }) {
                 title: "Thống kê tour",
                 onClick: goToTourStatistics,
                 icon: <BarChart className="mr-2 gradient-icon" />,
+              },
+               user.role === "TOURPROVIDER" && {
+                title: "Quản lý tour",
+                onClick: goToTourManager,
+                icon: <ApartmentIcon className="mr-2 gradient-icon" />,
               },
               user.role === "TOURPROVIDER" && {
                 title: "Đăng bán tour",

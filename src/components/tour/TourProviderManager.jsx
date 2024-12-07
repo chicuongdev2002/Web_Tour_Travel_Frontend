@@ -43,7 +43,9 @@ import { format } from "date-fns";
 import { getTourManager } from "../../functions/getTourManager";
 import { approveTour } from "../../functions/approveTour";
 import { useNavigate } from "react-router-dom";
-import  image404 from "../../assets/404.png"
+import { getTourProvider } from "../../functions/getTourProvider";
+import image404 from "../../assets/404.png";
+import { deleteTour } from "../../functions/deleteTour";
 const participantTypeMap = {
   CHILDREN: "Trẻ em",
   ELDERLY: "Người cao tuổi",
@@ -62,7 +64,7 @@ const formatCurrency = (amount) => {
   }).format(amount);
 };
 
-const TourManager = () => {
+const TourProviderManager = () => {
   const navigate = useNavigate();
   const [tours, setTours] = useState([]);
   const [filteredTours, setFilteredTours] = useState([]);
@@ -78,12 +80,15 @@ const TourManager = () => {
   const [tourTypeFilter, setTourTypeFilter] = useState("");
   const [activeFilter, setActiveFilter] = useState("");
   const [priceRangeFilter, setPriceRangeFilter] = useState("");
+ const user=JSON.parse(sessionStorage.getItem("user"));
   const handleEditTour = (tour) => {
     navigate(`/update-tour/${tour.tourId}`, { state: tour });
   };
   const fetchTours = async (page) => {
     try {
-      const data = await getTourManager(page, pageInfo.pageSize);
+     
+      const userId=user.userId;
+      const data = await getTourProvider(userId,page, pageInfo.pageSize);
       setTours(data.content);
       setFilteredTours(data.content);
       setPageInfo({
@@ -157,8 +162,8 @@ const TourManager = () => {
     setSelectedTour(null);
   };
 
-  const handleApproveTour = async (tourId) => {
-    const isApproved = await approveTour(tourId);
+  const handleDeleteTour = async (tourId) => {
+    const isApproved = await deleteTour(tourId);
     if (isApproved) {
       fetchTours(pageInfo.currentPage);
     } else {
@@ -455,9 +460,9 @@ const TourManager = () => {
                   variant="contained"
                   color="success"
                   size="small"
-                  onClick={() => handleApproveTour(tour.tourId)}
+                  onClick={() => handleDeleteTour(tour.tourId)}
                 >
-                  Phê Duyệt
+                  Ngừng cung cấp
                 </Button>
               )}
             </Box>
@@ -586,4 +591,4 @@ const TourManager = () => {
   );
 };
 
-export default TourManager;
+export default TourProviderManager;

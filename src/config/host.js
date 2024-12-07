@@ -23,6 +23,7 @@ const ACCOUNT_LOCK = REACT_APP_HOST + "/api/accounts/lock";
 const ACCOUNT_UNLOCK = REACT_APP_HOST + "/api/accounts/unlock";
 const DELETE_TOUR = REACT_APP_HOST + "/api/tours/delete";
 const GET_TOUR_MANAGER = REACT_APP_HOST + "/api/tours/list-tours";
+const GET_TOUR_PROVIDER = REACT_APP_HOST + "/api/tours/provider";
 const APPROVE_TOUR = REACT_APP_HOST + "/api/tours/approve";
 const GET_ALL_TOUR_TEST = REACT_APP_HOST + "/api/tours/test";
 const STATIS_REVENUE_TOTAL = REACT_APP_HOST + "/api/tours/revenue-statistics";
@@ -110,5 +111,6 @@ export {
   REVIEW_ALL,
   ATTENDANCE,
   TOURGUIDE_SCHEDULE,
+  GET_TOUR_PROVIDER,
   getAPI,
 };

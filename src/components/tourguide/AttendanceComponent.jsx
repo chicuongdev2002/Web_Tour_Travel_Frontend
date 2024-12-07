@@ -1,4 +1,4 @@
-import React, { useState,useMemo  } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   Button,
   Dialog,
@@ -12,12 +12,12 @@ import { HowToReg as AttendanceIcon } from '@mui/icons-material';
 import axios from 'axios';
 import { markAttendance } from '../../functions/attendance';
 
-const AttendanceComponent = ({ departureId, userId,departureDate,attendance }) => {
+const AttendanceComponent = ({ departureId, userId, departureDate, attendance, onSuccess }) => {
   const [open, setOpen] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
   const [success, setSuccess] = useState(false);
-  const [isAttendance,setAttendance] = useState(attendance);
+  
   const isToday = (dateToCheck) => {
     const today = new Date();
     const checkDate = new Date(dateToCheck);
@@ -31,6 +31,7 @@ const AttendanceComponent = ({ departureId, userId,departureDate,attendance }) =
 
   // Memoize the isToday check to prevent unnecessary re-renders
   const isTodayDate = useMemo(() => isToday(departureDate), [departureDate]);
+
   const getCurrentLocation = () => {
     return new Promise((resolve, reject) => {
       if (!navigator.geolocation) {
@@ -104,7 +105,7 @@ const AttendanceComponent = ({ departureId, userId,departureDate,attendance }) =
       const result = await markAttendance(userId, departureId, locationData.address);
 
       if (result.success) {
-        setAttendance(true);
+        onSuccess();
         setSuccess(true);
         setTimeout(() => {
           setOpen(false);
@@ -135,9 +136,9 @@ const AttendanceComponent = ({ departureId, userId,departureDate,attendance }) =
         startIcon={<AttendanceIcon />}
         onClick={() => setOpen(true)}
         sx={{ borderRadius: 2 }}
-       disabled={!isTodayDate}
+        disabled={!isTodayDate || attendance}
       >
-        {isAttendance ? 'Đã điểm danh' : 'Điểm danh'}
+        {attendance ? 'Đã điểm danh' : 'Điểm danh'}
       </Button>
 
       <Dialog 

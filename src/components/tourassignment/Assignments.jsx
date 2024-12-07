@@ -101,7 +101,7 @@ const Assignments = () => {
     }
   };
   const handleCheckboxChange = (departureId, guideId) => {
-    const key = `${departureId}-${guideId}`; // Tạo một key duy nhất cho mỗi cặp
+    const key = `${departureId}-${guideId}`;
     setSelectedAssignments((prev) => {
       const newSelected = new Set(prev);
       if (newSelected.has(key)) {
@@ -174,13 +174,13 @@ const Assignments = () => {
     }
   };
   const handleChangePage = (event, newPage) => {
-    console.log("Changing page to:", newPage); // Log trang mới
+    console.log("Changing page to:", newPage);
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
     const newRowsPerPage = parseInt(event.target.value, 10);
-    console.log("Changing rows per page to:", newRowsPerPage); // Log số dòng mỗi trang
+    console.log("Changing rows per page to:", newRowsPerPage); 
     setRowsPerPage(newRowsPerPage);
     setPage(0);
   };
@@ -200,7 +200,7 @@ const Assignments = () => {
     return new Date(startDate) <= now && now <= new Date(endDate);
   };
 
-  const getStatusChip = (status, startDate, endDate) => {
+  const getStatusChip = (status, startDate, endDate,attendance) => {
     if (isTourOngoing(startDate, endDate)) {
       return (
         <Chip
@@ -212,6 +212,26 @@ const Assignments = () => {
       );
     }
 
+  if (attendance==false) {
+    return (
+      <Chip
+        icon={<Cancel />}
+        label="Chưa điểm danh"
+        color="error"
+        size="small"
+      />
+    );
+  }
+if(attendance){
+  return (
+    <Chip
+      icon={<CheckCircle />}
+      label="Đã điểm danh"
+      color="success"
+      size="small"
+    />
+  );
+}
     switch (status?.toUpperCase()) {
       case "TODO":
         return (
@@ -514,6 +534,15 @@ const Assignments = () => {
               >
                 HDV được phân công
               </TableCell>
+               <TableCell
+                sx={{
+                  fontWeight: "bold",
+                  bgcolor: "primary.main",
+                  color: "white",
+                }}
+              >
+                Điểm danh
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -548,12 +577,17 @@ const Assignments = () => {
                     assignment.status,
                     assignment.startDate,
                     assignment.endDate,
+                  
                   )}
                 </TableCell>
                 <TableCell>{formatDate(assignment.assignmentDate)}</TableCell>
                 <TableCell>{assignment.maxParticipants}</TableCell>
                 <TableCell>{assignment.availableSeats}</TableCell>
                 <TableCell>{assignment.guideName}</TableCell>
+                  <TableCell> {getStatusChip(
+                    null,null,null,
+                    assignment.attendance
+                  )}</TableCell>
               </TableRow>
             ))}
           </TableBody>
