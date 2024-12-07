@@ -49,7 +49,7 @@ const TourScheduleComponent = () => {
   const [error, setError] = useState(null);
   const [tourGuideId, setTourGuideId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-
+  const [attendance,setAttendance]=useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -118,9 +118,9 @@ const TourScheduleComponent = () => {
       return start.toDateString() === date.toDateString();
     });
     setSelectedTours(matchedTours);
-    console.log(matchedTours);
     setDepartureId(matchedTours[0].departureId);
-    console.log(matchedTours[0].departureId);
+    setAttendance(matchedTours[0].attendance);
+    console.log(matchedTours[0].attendance);
     if (matchedTours.length === 1) {
       setSelectedTourCustomers(matchedTours[0].customers || []);
     } else {
@@ -430,10 +430,13 @@ const TourScheduleComponent = () => {
                 <Typography variant="h6" fontWeight="bold" color="primary">
                   Chi tiết chuyến đi ngày {selectedDate.toLocaleDateString()}
                 </Typography>
-                 <AttendanceComponent
+  <AttendanceComponent
      departureId={departureId} 
     userId={tourGuideId}
+    departureDate={selectedDate}
+    attendance={attendance}
   />
+               
               </Stack>
               <Box
                 className="custom-scrollbar"
