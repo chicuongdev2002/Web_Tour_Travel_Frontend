@@ -358,89 +358,50 @@ function UpdateTourComponent({ data }) {
     setImages(images.filter((img, i) => i !== index));
   };
 
+  const scrollRef = useRef(null);
+
+  const handleScrollToBottom = () => {
+    if (scrollRef.current) {
+      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
+    }
+  };
+
   return (
-    <div>
-      <div
-        className={`w-100 ${openDestination ? "divRowBetweenNotAlign" : "divCenter"}`}
-      >
-        <FormView
-          title={`Cập nhật tour`}
-          className="w-50"
-          data={[
-            {
-              label: "Tên tour",
-              object: {
-                type: "text",
-                value: tourName,
-                notForm: true,
-                onChange: (e) => setTourName(e.target.value),
+    <div style={{ overflowY: 'auto' }}
+      ref={scrollRef}
+    >
+      <div className={`w-100 ${openDestination ? "divRowBetweenNotAlign" : "divCenter"}`}>
+        <FormView title={`Cập nhật tour`} className='w-50' data={[
+          { label: 'Tên tour', object: { type: 'text', value: tourName, notForm: true, onChange: (e) => setTourName(e.target.value) } },
+          { label: 'Mô tả', object: { type: 'text', value: description, onChange: (e) => setDescription(e.target.value) } },
+          { object: { type: 'div', value: <LocationSelectCustom label="Địa điểm khởi hành"
+            province={province} provinces={provinces} district={district} districts={districts}
+            onChangeProvince={onChangeProvince} onChangeDitricts={onChangeDitricts}
+            />}},
+          { label: 'Loại tour', object: { type: 'select', value: type, onChange: (e) => setType(e), listData: tourType } },
+          { label: 'Ảnh', object: {
+              type: 'image',
+              value: images,
+              style: {
+                width: 100,
+                height: 70,
+                marginLeft: 10
               },
-            },
-            {
-              label: "Mô tả",
-              object: {
-                type: "text",
-                value: description,
-                onChange: (e) => setDescription(e.target.value),
-              },
-            },
-            {
-              object: {
-                type: "div",
-                value: (
-                  <LocationSelectCustom
-                    label="Địa điểm khởi hành"
-                    province={province}
-                    provinces={provinces}
-                    district={district}
-                    districts={districts}
-                    onChangeProvince={onChangeProvince}
-                    onChangeDitricts={onChangeDitricts}
-                  />
-                ),
-              },
-            },
-            {
-              label: "Loại tour",
-              object: {
-                type: "select",
-                value: type,
-                onChange: (e) => setType(e),
-                listData: tourType,
-              },
-            },
-            {
-              label: "Ảnh",
-              object: {
-                type: "image",
-                value: images,
-                style: {
-                  width: 100,
-                  height: 70,
-                  marginLeft: 10,
-                },
-                onRemove: removeImage,
-              },
-            },
-            {
-              label: "Ảnh",
-              object: { type: "file", onChange: handleFileChange },
-            },
-            {
-              label: "Sửa địa điểm",
-              object: {
-                type: "button",
-                className: "w-100 my-3",
-                onClick: () => {
-                  getDestination();
-                  setOpenDestination(true);
-                },
-              },
-            },
-          ]}
-        />
-        {openDestination && (
-          <FormView title="Chọn địa điểm" className="w-50">
+              onRemove: removeImage
+          }},
+          { label: '', object: { type: 'file', onChange: handleFileChange } },
+          {
+            label: 'Sửa địa điểm', object: {
+              type: 'button', className: 'w-100 my-3', onClick: () => {
+                getDestination()
+                setOpenDestination(true)
+              }
+            }
+          }
+        ]} />
+        {
+          openDestination &&
+          <FormView title='Chọn địa điểm' className='w-50'>
             <div>
               <DestinationList
                 duration={duration}
@@ -475,20 +436,18 @@ function UpdateTourComponent({ data }) {
                   className="btn btn-primary w-50 mb-3 mr-1 mt-3"
                   variant="contained"
                   onClick={() => setOpen(true)}
-                >
-                  Thêm địa điểm
-                </Button>
-                <Button
-                  className="btn btn-primary w-50 mb-3 ml-1 mt-3"
-                  variant="contained"
-                  onClick={() => setOpenDeparture(true)}
-                >
-                  Xem lịch trình
-                </Button>
+                >Thêm địa điểm</Button>
+                <Button className='btn btn-primary w-50 mb-3 ml-1 mt-3' variant="contained"
+                  onClick={() => {
+                    setOpenDeparture(true)
+                    handleScrollToBottom()
+                  }
+                  }
+                >Xem lịch trình</Button>
               </div>
             </div>
           </FormView>
-        )}
+        }
         {open && (
           <ModalComponent
             open={open}

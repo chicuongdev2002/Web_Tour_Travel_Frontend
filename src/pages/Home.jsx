@@ -15,21 +15,22 @@ import reply from "../functions/replyChatbot";
 import constant from '../assets/constantManage'
 import QuickSearch from "../components/search/QuickSearch";
 import img from '../assets/left_flight.png'
+import { BeatLoader } from 'react-spinners';
 function Home() {
   if (global === undefined) {
     var global = window;
   }
+  const [typing, setTyping] = useState(false);
   const user = JSON.parse(global.localStorage.getItem('user'))
   const navigate = useNavigate();
   const [inputText, setInputText] = useState('')
   const [hide, setHide] = useState(true)
-  // const [data, setData] = useState([
-  //   { me: false, content: constant.HI, createDate: new Date() },
-  //   { me: false, content: constant.SEARCH_TOUR_2, onClick: constant.SEARCH_TOUR_2 },
-  //   { me: false, content: constant.CANCLE_TOUR_POLICY, onClick: constant.CANCLE_TOUR_POLICY },
-  //   { me: false, content: constant.PAYMENTS_METHOD, onClick: constant.PAYMENTS_METHOD },
-  // ])
-  const [data, setData] = useState([])
+  const [data, setData] = useState([
+    { me: false, content: constant.HI, createDate: new Date() },
+    { me: false, content: constant.SEARCH_TOUR_2, onClick: constant.SEARCH_TOUR_2 },
+    { me: false, content: constant.CANCLE_TOUR_POLICY, onClick: constant.CANCLE_TOUR_POLICY },
+    { me: false, content: constant.PAYMENTS_METHOD, onClick: constant.PAYMENTS_METHOD },
+  ])
   const buttonRef = useRef(null);
   const scrollRef = useRef(null);
   const settings = {
@@ -78,25 +79,27 @@ function Home() {
   const handleSend = (text) => {
     if(!text) text = inputText
     if(text === '') return
+    setTyping(true)
     setData(pre => [...pre, 
       { me: true, content: text, createDate: new Date() }
     ])
+    setInputText('')
     const dataRep = reply(text, user? user.userId : '123').then(data => {
       const lst = dataRep.data?? data
       setTimeout(() => {
+        setTyping(false)
         lst.forEach(item => {
           setData(pre => [...pre, item])
         })
       }, 500)
-      setInputText('')
       handleScrollToBottom()
     })
   }
 
   const BubbleChat = ({ item }) => {
-    const time = convertISOToCustomFormat(item.createDate)
+    const time = item.createDate? convertISOToCustomFormat(item.createDate) : null
     return (
-      <div title={time.substring(5)} className={`w-100 d-flex ${item.me ? 'justify-content-end' : 'justify-content-start'}`}>
+      <div title={time? time.substring(5) : null} className={`w-100 d-flex ${item.me ? 'justify-content-end' : 'justify-content-start'}`}>
         {
           item.onClick? 
             <div className='m-1'>
@@ -108,7 +111,7 @@ function Home() {
                 wordWrap: 'break-word', overflowWrap: 'break-word', whiteSpace: 'normal',
               }}>
               <p className={`m-0 w-100 ${item.me ? 'text-light' : 'text-dark'}`}>{item.content}</p>
-              <p className={`m-0 w-100 ${item.me ? 'text-light' : 'text-dark'}`}>{time.substring(0, 5)}</p>
+              {time && <p className={`m-0 w-100 ${item.me ? 'text-light' : 'text-dark'}`}>{time.substring(0, 5)}</p>}
             </div>
         }
       </div>
@@ -169,6 +172,10 @@ function Home() {
                   </div>
                 ))
               }
+              {
+                typing && (
+                  <BubbleChat item={{me: false, content: <BeatLoader color="black" size={10} />}} />
+              )}
             </div>
           </div>
           <div className='mt-2 pl-2 divRowBetween w-100' style={{ height: 60 }}>
