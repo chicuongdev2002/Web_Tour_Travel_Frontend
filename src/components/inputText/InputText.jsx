@@ -8,7 +8,13 @@ function InputText({ id, label, type, value, onChange, children, disable, notFor
     return (
         <FormControl className={className} style={{ width: '100%', marginTop: notForm? 0 : 20 }} variant="standard">
             { label && <InputLabel htmlFor={id} style={{ color: focus ? '' : 'black', fontSize: 18, fontWeight: 500 }}>{label}</InputLabel>}
-            <Input
+            { type=="file"?
+            <input
+            type="file"
+            accept="image/*"
+            onChange={(e) => onChange(e)}
+          />
+            : <Input
                 key={id}
                 type={type}
                 value={value}
@@ -29,7 +35,7 @@ function InputText({ id, label, type, value, onChange, children, disable, notFor
                         </InputAdornment>
                         : null
                 }
-            />
+            />}
         </FormControl>
     )
 }

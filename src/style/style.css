@@ -196,3 +196,13 @@ footer {
   white-space: normal;
   text-align: start;
 }
+
+.typing-bubble {
+  display: flex;
+  align-items: center;
+  background-color: #e0e0e0;
+  padding: 8px 12px;
+  border-radius: 10px;
+  max-width: 50%;
+  margin-top: 5px;
+}

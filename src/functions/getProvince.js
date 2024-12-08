@@ -1,7 +1,9 @@
 import axios from "axios";
 
-const getProvince = async () => {
+const getProvince = async (collapse) => {
     const result = await axios.get('https://open.oapi.vn/location/provinces?page=0&size=100')
+    if(collapse)
+        return result.data.data.map(province => ({ [province.name] : province.name }))
     return result.data.data
 }
 

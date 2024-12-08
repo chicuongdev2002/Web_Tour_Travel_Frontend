@@ -57,6 +57,7 @@ function FormView({ children, title, titleBackground, data, className, notBorder
             {children ? children :
                 data.map((item, index) => {
                     return (
+                        !item? null :
                         item.object ?
                             <div key={index}>
                                 { item.object.type === 'image' ?
