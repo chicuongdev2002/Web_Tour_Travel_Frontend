@@ -131,7 +131,7 @@ const CustomerManagement = ({ notTitle }) => {
 
   return (
     <div className="customer-management">
-      { !notTitle && <h1>Quản Lý Khách Hàng</h1>}
+      {!notTitle && <h1>Quản Lý Khách Hàng</h1>}
       {loading ? (
         <CircularProgress />
       ) : (

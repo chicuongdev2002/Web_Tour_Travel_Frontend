@@ -356,9 +356,11 @@ const AccountManagement = ({ notTitle }) => {
 
   return (
     <div className="account-management-paper">
-      { !notTitle && <Typography variant="h4" gutterBottom align="center">
-        Quản Lý Tài Khoản
-      </Typography>}
+      {!notTitle && (
+        <Typography variant="h4" gutterBottom align="center">
+          Quản Lý Tài Khoản
+        </Typography>
+      )}
       <AccountActions
         {...accountActions}
         handleOpenAddDialog={handleOpenAddDialog}

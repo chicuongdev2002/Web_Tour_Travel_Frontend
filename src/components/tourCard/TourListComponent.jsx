@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+import React, { useState, useEffect } from "react";
+import { useNavigate } from "react-router-dom";
 import {
   Container,
   Grid,
@@ -9,8 +9,8 @@ import {
   Paper,
   Fade,
   Pagination,
-} from '@mui/material';
-import TourCard from './TourCard';
+} from "@mui/material";
+import TourCard from "./TourCard";
 import { getAllTourTest } from "../../functions/getAllTourTest";
 
 const TourListComponent = ({ searchParams, showFavorites = false }) => {
@@ -24,12 +24,12 @@ const TourListComponent = ({ searchParams, showFavorites = false }) => {
   const fetchTours = async (currentPage) => {
     setLoading(true);
     try {
-      const hasFilters = Object.values(searchParams).some(param => param);
-      const user = JSON.parse(sessionStorage.getItem('user'));
+      const hasFilters = Object.values(searchParams).some((param) => param);
+      const user = JSON.parse(sessionStorage.getItem("user"));
       const params = {
         page: currentPage - 1,
         size: pageSize,
-        ...hasFilters ? searchParams : {},
+        ...(hasFilters ? searchParams : {}),
       };
       if (user && user.userId) {
         params.userId = user.userId;
@@ -39,24 +39,24 @@ const TourListComponent = ({ searchParams, showFavorites = false }) => {
       console.log(data);
       if (data && data.content) {
         // Lọc tour yêu thích nếu showFavorites được bật
-        const filteredTours = showFavorites 
-          ? data.content.filter(tour => Boolean(tour.favorite))
+        const filteredTours = showFavorites
+          ? data.content.filter((tour) => Boolean(tour.favorite))
           : data.content;
         console.log(filteredTours);
         setDataCard(filteredTours);
-        
+
         // Tính toán lại số trang dựa trên số lượng tour sau khi lọc
-        const filteredTotalPages = showFavorites 
+        const filteredTotalPages = showFavorites
           ? Math.ceil(filteredTours.length / pageSize)
           : data.page.totalPages || 1;
-        
+
         setTotalPages(filteredTotalPages || 1);
       } else {
         setDataCard([]);
         setTotalPages(1);
       }
     } catch (error) {
-      console.error('Error fetching tours:', error);
+      console.error("Error fetching tours:", error);
       setDataCard([]);
       setTotalPages(1);
     } finally {
@@ -70,14 +70,16 @@ const TourListComponent = ({ searchParams, showFavorites = false }) => {
 
   if (loading) {
     return (
-      <Box 
-        display="flex" 
-        justifyContent="center" 
-        alignItems="center" 
+      <Box
+        display="flex"
+        justifyContent="center"
+        alignItems="center"
         minHeight="100vh"
-        sx={{
-          // background: 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)',
-        }}
+        sx={
+          {
+            // background: 'linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%)',
+          }
+        }
       >
         <CircularProgress size={60} thickness={4} />
       </Box>
@@ -87,8 +89,8 @@ const TourListComponent = ({ searchParams, showFavorites = false }) => {
   return (
     <Box
       sx={{
-        minHeight: '100vh',
-      //  background: 'linear-gradient(to bottom, #00aaff, #e0f7fa)',
+        minHeight: "100vh",
+        //  background: 'linear-gradient(to bottom, #00aaff, #e0f7fa)',
         pt: 4,
         pb: 8,
       }}
@@ -102,19 +104,21 @@ const TourListComponent = ({ searchParams, showFavorites = false }) => {
                   elevation={0}
                   sx={{
                     p: 6,
-                    textAlign: 'center',
+                    textAlign: "center",
                     borderRadius: 4,
-                    background: 'rgba(255, 255, 255, 0.9)',
-                    backdropFilter: 'blur(10px)',
+                    background: "rgba(255, 255, 255, 0.9)",
+                    backdropFilter: "blur(10px)",
                   }}
                 >
                   <Typography variant="h5" gutterBottom color="primary">
-                    {showFavorites ? 'Không có tour yêu thích' : 'Không có kết quả'}
+                    {showFavorites
+                      ? "Không có tour yêu thích"
+                      : "Không có kết quả"}
                   </Typography>
                   <Typography color="text.secondary">
-                    {showFavorites 
-                      ? 'Bạn chưa có tour yêu thích nào.'
-                      : 'Vui lòng thử tìm kiếm lại với các tiêu chí khác.'}
+                    {showFavorites
+                      ? "Bạn chưa có tour yêu thích nào."
+                      : "Vui lòng thử tìm kiếm lại với các tiêu chí khác."}
                   </Typography>
                 </Paper>
               </Fade>
@@ -133,10 +137,10 @@ const TourListComponent = ({ searchParams, showFavorites = false }) => {
                             tourType: tour.tourType,
                             startDate: tour.startDate,
                             duration: `${tour.duration}N${tour.duration - 1}Đ`,
-                            originalPrice: '8,490,000',
+                            originalPrice: "8,490,000",
                             availableSeats: tour.availableSeats,
                             discountedPrice: tour.price,
-                            favorite: Boolean(tour.favorite),  
+                            favorite: Boolean(tour.favorite),
                           }}
                         />
                       </Box>

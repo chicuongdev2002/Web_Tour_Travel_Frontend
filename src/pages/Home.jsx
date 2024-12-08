@@ -140,7 +140,7 @@ function Home() {
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          marginTop: '-64px' // Điều chỉnh nếu cần để căn giữa hoàn hảo
+          marginTop: '-64px'
         }}>
           <QuickSearch />
         </div>

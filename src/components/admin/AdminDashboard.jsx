@@ -31,7 +31,7 @@ import {
   FilterList as FilterListIcon,
   Download as DownloadIcon,
   Chat as ChatIcon,
-  Warning as WarningIcon
+  Warning as WarningIcon,
 } from "@mui/icons-material";
 import {
   Box,
@@ -71,8 +71,8 @@ import {
   alpha,
   ButtonGroup,
   Stack,
-   Card, 
-   CardContent
+  Card,
+  CardContent,
 } from "@mui/material";
 
 // Import your components
@@ -124,11 +124,11 @@ const AdminDashboard = () => {
     };
     return user;
   });
- const [isAdmin, setIsAdmin] = useState(true);
+  const [isAdmin, setIsAdmin] = useState(true);
 
   useEffect(() => {
     if (!userData || userData.role !== "ADMIN") {
-      setIsAdmin(false); 
+      setIsAdmin(false);
     }
   }, [userData]);
 
@@ -246,7 +246,6 @@ const AdminDashboard = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-
   const getBreadcrumbName = (path) => {
     const currentPath = path.split("/").pop();
     const pathNameMap = {
@@ -265,7 +264,7 @@ const AdminDashboard = () => {
       "statis-tourguide": "Thống kê HDV",
       "statis-tour-reiview": "Thống kê đánh giá tour",
       "statis-tour-provider": "Thống kê tour đại lý",
-      "revenue": "Thống kê doanh thu",
+      revenue: "Thống kê doanh thu",
     };
 
     return (

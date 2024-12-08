@@ -16,6 +16,8 @@ import {
   DialogContent,
   DialogActions,
   DialogContentText,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import {
   Delete as DeleteIcon,
@@ -34,41 +36,55 @@ import SuccessPopup from "../components/popupNotifications/SuccessPopup";
 import FailPopup from "../components/popupNotifications/FailPopup";
 import changePassword from "../functions/changePassword";
 import updateUser from "../functions/updateUser";
-const StyledCard = styled(Card)({
-  maxWidth: "70%",
-  margin: "2rem auto",
+const StyledCard = styled(Card)(({ theme }) => ({
+  margin: theme.spacing(2),
   background: "rgba(255, 255, 255, 0.9)",
   backdropFilter: "blur(10px)",
   boxShadow: "0 8px 32px rgba(0, 0, 0, 0.1)",
   transition: "transform 0.3s ease-in-out, box-shadow 0.3s ease-in-out",
-  "&:hover": {
-    transform: "translateY(-5px)",
-    boxShadow: "0 12px 40px rgba(0, 0, 0, 0.15)",
+  [theme.breakpoints.up("sm")]: {
+    maxWidth: "70%",
+    margin: "2rem auto",
   },
-});
+  [theme.breakpoints.down("sm")]: {
+    margin: theme.spacing(1),
+    width: "calc(100% - 16px)",
+  },
+}));
 
-const StyledTextField = styled(TextField)({
-  marginBottom: "1rem",
+const StyledTextField = styled(TextField)(({ theme }) => ({
+  marginBottom: theme.spacing(2),
   "& .MuiOutlinedInput-root": {
     transition: "all 0.3s ease-in-out",
     "&:hover fieldset": {
-      borderColor: "#1976d2",
+      borderColor: theme.palette.primary.main,
     },
     "&.Mui-focused fieldset": {
       borderWidth: "2px",
     },
   },
-});
+  [theme.breakpoints.down("sm")]: {
+    "& .MuiInputLabel-root": {
+      fontSize: "0.9rem",
+    },
+    "& .MuiOutlinedInput-root": {
+      fontSize: "0.9rem",
+    },
+  },
+}));
 
-const AnimatedButton = styled(Button)({
+const AnimatedButton = styled(Button)(({ theme }) => ({
   transition: "all 0.3s ease-in-out",
   "&:hover": {
     transform: "translateY(-2px)",
     boxShadow: "0 5px 15px rgba(0, 0, 0, 0.2)",
   },
-});
+  [theme.breakpoints.down("sm")]: {
+    fontSize: "0.8rem",
+    padding: theme.spacing(1, 2),
+  },
+}));
 
-// TabPanel Component
 function TabPanel({ children, value, index, ...other }) {
   return (
     <div
@@ -78,12 +94,14 @@ function TabPanel({ children, value, index, ...other }) {
       aria-labelledby={`profile-tab-${index}`}
       {...other}
     >
-      {value === index && <Box sx={{ p: 3 }}>{children}</Box>}
+      {value === index && <Box sx={{ p: { xs: 2, sm: 3 } }}>{children}</Box>}
     </div>
   );
 }
 
-const UserProfile = () => {
+const UserInfo = () => {
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down("sm"));
   const [tabValue, setTabValue] = useState(0);
   const [user, setUser] = useState(null);
   const [editing, setEditing] = useState(false);
@@ -210,176 +228,214 @@ const UserProfile = () => {
 
   return (
     <div className="user-profile-container">
-      <NavHeader textColor="black" />
+      {/* <NavHeader textColor="black" /> */}
       <StyledCard>
         <CardHeader
           title="Thông tin cá nhân"
           titleTypographyProps={{
             align: "center",
-            variant: "h4",
+            variant: isMobile ? "h5" : "h4",
             color: "primary",
             style: { fontWeight: 600 },
           }}
         />
         <Tabs
           value={tabValue}
-          onChange={handleTabChange}
+          onChange={(e, newValue) => setTabValue(newValue)}
           centered
-          sx={{ borderBottom: 1, borderColor: "divider" }}
+          variant={isMobile ? "fullWidth" : "standard"}
+          sx={{
+            borderBottom: 1,
+            borderColor: "divider",
+            "& .MuiTab-root": {
+              fontSize: isMobile ? "0.8rem" : "inherit",
+              minHeight: isMobile ? 48 : 64,
+            },
+          }}
         >
           <Tab
-            label="Thông tin người dùng"
-            icon={<PersonIcon />}
-            iconPosition="start"
+            label={
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <PersonIcon
+                  sx={{ fontSize: isMobile ? "1.2rem" : "inherit" }}
+                />
+                <span>Thông tin người dùng</span>
+              </Box>
+            }
           />
-          <Tab label="Tài khoản" icon={<LockIcon />} iconPosition="start" />
+          <Tab
+            label={
+              <Box sx={{ display: "flex", alignItems: "center", gap: 1 }}>
+                <LockIcon sx={{ fontSize: isMobile ? "1.2rem" : "inherit" }} />
+                <span>Tài khoản</span>
+              </Box>
+            }
+          />
         </Tabs>
 
         <CardContent>
-          {/* User Information Tab */}
           <TabPanel value={tabValue} index={0}>
             {showAlert && (
               <Alert
                 severity="error"
-                style={{ marginBottom: "1rem" }}
+                sx={{ mb: 2 }}
                 onClose={() => setShowAlert(false)}
               >
                 Vui lòng điền đầy đủ thông tin bắt buộc
               </Alert>
             )}
 
-            <StyledTextField
-              fullWidth
-              label="Họ và tên"
-              name="fullName"
-              value={editing ? formData.fullName : user?.fullName}
-              onChange={editing ? handleInputChange : null}
-              disabled={!editing}
-            />
+            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+              <StyledTextField
+                fullWidth
+                label="Họ và tên"
+                name="fullName"
+                value={editing ? formData.fullName : user?.fullName}
+                onChange={editing ? handleInputChange : null}
+                disabled={!editing}
+                size={isMobile ? "small" : "medium"}
+              />
 
-            <StyledTextField
-              fullWidth
-              label="Email"
-              name="email"
-              type="email"
-              value={editing ? formData.email : user?.email}
-              onChange={editing ? handleInputChange : null}
-              disabled={!editing}
-            />
+              <StyledTextField
+                fullWidth
+                label="Email"
+                name="email"
+                type="email"
+                value={editing ? formData.email : user?.email}
+                onChange={editing ? handleInputChange : null}
+                disabled={!editing}
+                size={isMobile ? "small" : "medium"}
+              />
 
-            <StyledTextField
-              fullWidth
-              label="Số điện thoại"
-              name="phoneNumber"
-              value={editing ? formData.phoneNumber : user?.phoneNumber}
-              onChange={editing ? handleInputChange : null}
-              disabled={!editing}
-            />
+              <StyledTextField
+                fullWidth
+                label="Số điện thoại"
+                name="phoneNumber"
+                value={editing ? formData.phoneNumber : user?.phoneNumber}
+                onChange={editing ? handleInputChange : null}
+                disabled={!editing}
+                size={isMobile ? "small" : "medium"}
+              />
 
-            {/* Addresses Section */}
-            <div style={{ marginTop: "2rem" }}>
-              <div
-                style={{
+              <Box sx={{ mt: 3 }}>
+                <Box
+                  sx={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    alignItems: "center",
+                    mb: 2,
+                  }}
+                >
+                  <Typography
+                    variant={isMobile ? "subtitle1" : "h6"}
+                    color="primary"
+                  >
+                    Địa chỉ
+                  </Typography>
+                  {editing && (
+                    <AnimatedButton
+                      startIcon={<AddCircleIcon />}
+                      onClick={handleAddAddress}
+                      variant="outlined"
+                      size={isMobile ? "small" : "medium"}
+                    >
+                      Thêm địa chỉ
+                    </AnimatedButton>
+                  )}
+                </Box>
+
+                <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+                  {formData.addresses.map((address, index) => (
+                    <Box key={address.addressId} sx={{ position: "relative" }}>
+                      <StyledTextField
+                        fullWidth
+                        label={`Địa chỉ ${index + 1}`}
+                        value={editing ? address.address : address.address}
+                        onChange={(e) => {
+                          const newAddresses = [...formData.addresses];
+                          newAddresses[index].address = e.target.value;
+                          setFormData({ ...formData, addresses: newAddresses });
+                        }}
+                        disabled={!editing}
+                        size={isMobile ? "small" : "medium"}
+                      />
+                      {editing && (
+                        <IconButton
+                          size="small"
+                          sx={{
+                            position: "absolute",
+                            right: "10px",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                            color: "error.main",
+                          }}
+                          onClick={() => handleRemoveAddress(address.addressId)}
+                        >
+                          <DeleteIcon />
+                        </IconButton>
+                      )}
+                    </Box>
+                  ))}
+                </Box>
+              </Box>
+
+              <Box
+                sx={{
                   display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: "center",
-                  marginBottom: "1rem",
+                  gap: 2,
+                  mt: 4,
+                  flexDirection: isMobile ? "column" : "row",
                 }}
               >
-                <Typography variant="h6" color="primary">
-                  Địa chỉ
-                </Typography>
-                {editing && (
+                {!editing ? (
                   <AnimatedButton
-                    startIcon={<AddCircleIcon />}
-                    onClick={handleAddAddress}
-                    variant="outlined"
-                    size="small"
-                  >
-                    Thêm địa chỉ
-                  </AnimatedButton>
-                )}
-              </div>
-
-              {formData.addresses.map((address, index) => (
-                <div
-                  key={address.addressId}
-                  style={{ position: "relative", marginBottom: "1rem" }}
-                >
-                  <StyledTextField
                     fullWidth
-                    label={`Địa chỉ ${index + 1}`}
-                    value={editing ? address.address : address.address}
-                    onChange={(e) => {
-                      const newAddresses = [...formData.addresses];
-                      newAddresses[index].address = e.target.value;
-                      setFormData({ ...formData, addresses: newAddresses });
-                    }}
-                    disabled={!editing}
-                  />
-                  {editing && (
-                    <IconButton
-                      size="small"
-                      style={{
-                        position: "absolute",
-                        right: "10px",
-                        top: "50%",
-                        transform: "translateY(-50%)",
-                        color: "#f44336",
-                      }}
-                      onClick={() => handleRemoveAddress(address.addressId)}
-                    >
-                      <DeleteIcon />
-                    </IconButton>
-                  )}
-                </div>
-              ))}
-            </div>
-
-            {/* Action Buttons */}
-            <Box sx={{ display: "flex", gap: 2, mt: 4 }}>
-              {!editing ? (
-                <AnimatedButton
-                  fullWidth
-                  variant="contained"
-                  startIcon={<EditIcon />}
-                  onClick={() => setEditing(true)}
-                >
-                  Chỉnh sửa
-                </AnimatedButton>
-              ) : (
-                <>
-                  <AnimatedButton
-                    variant="outlined"
-                    startIcon={<CancelIcon />}
-                    onClick={() => {
-                      setEditing(false);
-                      setFormData(user);
-                    }}
-                    sx={{ flex: 1 }}
-                  >
-                    Hủy
-                  </AnimatedButton>
-                  <AnimatedButton
                     variant="contained"
-                    startIcon={<SaveIcon />}
-                    onClick={handleSave}
-                    sx={{ flex: 1 }}
+                    startIcon={<EditIcon />}
+                    onClick={() => setEditing(true)}
                   >
-                    Lưu
+                    Chỉnh sửa
                   </AnimatedButton>
-                </>
-              )}
+                ) : (
+                  <>
+                    <AnimatedButton
+                      variant="outlined"
+                      startIcon={<CancelIcon />}
+                      onClick={() => {
+                        setEditing(false);
+                        setFormData(user);
+                      }}
+                      sx={{ flex: 1 }}
+                    >
+                      Hủy
+                    </AnimatedButton>
+                    <AnimatedButton
+                      variant="contained"
+                      startIcon={<SaveIcon />}
+                      onClick={handleSave}
+                      sx={{ flex: 1 }}
+                    >
+                      Lưu
+                    </AnimatedButton>
+                  </>
+                )}
+              </Box>
             </Box>
           </TabPanel>
 
-          {/* Account Settings Tab */}
           <TabPanel value={tabValue} index={1}>
-            <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 2,
+              }}
+            >
               <AnimatedButton
                 variant="contained"
                 startIcon={<LockIcon />}
                 onClick={() => setChangePasswordDialogOpen(true)}
+                fullWidth
               >
                 Đổi mật khẩu
               </AnimatedButton>
@@ -389,6 +445,7 @@ const UserProfile = () => {
                 color="error"
                 startIcon={<DeleteIcon />}
                 onClick={() => setDeleteDialogOpen(true)}
+                fullWidth
               >
                 Xóa tài khoản
               </AnimatedButton>
@@ -397,46 +454,47 @@ const UserProfile = () => {
         </CardContent>
       </StyledCard>
 
-      {/* Change Password Dialog */}
       <Dialog
         open={changePasswordDialogOpen}
         onClose={() => setChangePasswordDialogOpen(false)}
+        fullScreen={isMobile}
+        maxWidth="sm"
+        fullWidth
       >
         <DialogTitle>Đổi mật khẩu</DialogTitle>
         <DialogContent>
-          <StyledTextField
-            autoFocus
-            margin="dense"
-            name="currentPassword"
-            label="Mật khẩu hiện tại"
-            type="password"
-            fullWidth
-            variant="outlined"
-            value={passwordData.currentPassword}
-            onChange={handlePasswordChange}
-          />
-          <StyledTextField
-            margin="dense"
-            name="newPassword"
-            label="Mật khẩu mới"
-            type="password"
-            fullWidth
-            variant="outlined"
-            value={passwordData.newPassword}
-            onChange={handlePasswordChange}
-          />
-          <StyledTextField
-            margin="dense"
-            name="confirmPassword"
-            label="Xác nhận mật khẩu mới"
-            type="password"
-            fullWidth
-            variant="outlined"
-            value={passwordData.confirmPassword}
-            onChange={handlePasswordChange}
-          />
+          <Box sx={{ display: "flex", flexDirection: "column", gap: 2, pt: 2 }}>
+            <StyledTextField
+              autoFocus
+              label="Mật khẩu hiện tại"
+              type="password"
+              fullWidth
+              name="currentPassword"
+              value={passwordData.currentPassword}
+              onChange={handlePasswordChange}
+              size={isMobile ? "small" : "medium"}
+            />
+            <StyledTextField
+              label="Mật khẩu mới"
+              type="password"
+              fullWidth
+              name="newPassword"
+              value={passwordData.newPassword}
+              onChange={handlePasswordChange}
+              size={isMobile ? "small" : "medium"}
+            />
+            <StyledTextField
+              label="Xác nhận mật khẩu mới"
+              type="password"
+              fullWidth
+              name="confirmPassword"
+              value={passwordData.confirmPassword}
+              onChange={handlePasswordChange}
+              size={isMobile ? "small" : "medium"}
+            />
+          </Box>
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={{ p: 2 }}>
           <Button onClick={() => setChangePasswordDialogOpen(false)}>
             Hủy
           </Button>
@@ -446,10 +504,12 @@ const UserProfile = () => {
         </DialogActions>
       </Dialog>
 
-      {/* Delete Account Dialog */}
       <Dialog
         open={deleteDialogOpen}
         onClose={() => setDeleteDialogOpen(false)}
+        fullScreen={isMobile}
+        maxWidth="sm"
+        fullWidth
       >
         <DialogTitle>Xác nhận xóa tài khoản</DialogTitle>
         <DialogContent>
@@ -458,7 +518,7 @@ const UserProfile = () => {
             tác.
           </DialogContentText>
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={{ p: 2 }}>
           <Button onClick={() => setDeleteDialogOpen(false)}>Hủy</Button>
           <Button
             onClick={handleDeleteAccount}
@@ -485,4 +545,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default UserInfo;

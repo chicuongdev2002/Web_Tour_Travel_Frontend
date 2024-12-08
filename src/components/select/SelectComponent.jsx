@@ -5,17 +5,29 @@ import FormControl from "@mui/material/FormControl";
 import Select from "@mui/material/Select";
 import "./style.css";
 
-function SelectComponent({ id, label, value, onChange, listData, notMarginTop }) {
+function SelectComponent({
+  id,
+  label,
+  value,
+  onChange,
+  listData,
+  notMarginTop,
+}) {
   const [focus, setFocus] = React.useState(false);
 
   return (
-    <FormControl style={{ width: "100%", marginTop: notMarginTop? 0 : 20 }} variant="standard">
-      { label && <InputLabel
-        id={id}
-        style={{ color: focus ? "#1976D2" : "black", fontSize: 18 }}
-      >
-        {label}
-      </InputLabel>}
+    <FormControl
+      style={{ width: "100%", marginTop: notMarginTop ? 0 : 20 }}
+      variant="standard"
+    >
+      {label && (
+        <InputLabel
+          id={id}
+          style={{ color: focus ? "#1976D2" : "black", fontSize: 18 }}
+        >
+          {label}
+        </InputLabel>
+      )}
       <Select
         labelId="demo-simple-select-standard-label"
         id="demo-simple-select-standard"
@@ -26,7 +38,11 @@ function SelectComponent({ id, label, value, onChange, listData, notMarginTop })
       >
         {listData.map((item, index) => {
           return (
-            <MenuItem style={{ maxWidth: 200 }} key={index} value={Object.keys(item)[0]}>
+            <MenuItem
+              style={{ maxWidth: 200 }}
+              key={index}
+              value={Object.keys(item)[0]}
+            >
               {Object.values(item)[0]}
             </MenuItem>
           );

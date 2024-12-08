@@ -167,7 +167,7 @@ const TourGuideAssignments = () => {
     <div
       style={{ width: "100vw", height: "100vh", backgroundColor: "#f5f5f5" }}
     >
-      <NavHeader textColor="black" />
+      {/* <NavHeader textColor="black" /> */}
       <Box
         sx={{
           width: "100%",

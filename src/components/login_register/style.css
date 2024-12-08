@@ -1,14 +1,164 @@
 .wrapper {
   position: relative;
-  width: 900px;
-  height: 550px;
+  width: 90%;
+  max-width: 900px;
+  height: auto;
+  min-height: 550px;
   border: 2px solid #000;
   border-radius: 10px;
-  box-shadow: 0 0 20px #000;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.15);
   overflow: hidden;
   z-index: 1;
-  min-width: 700px;
-  min-height: 300px;
+  margin: 20px auto;
+}
+
+/* Mobile-first media queries */
+@media screen and (max-width: 768px) {
+  .wrapper {
+    width: 95%;
+    min-width: unset;
+    height: auto;
+    min-height: 100vh;
+    margin: 0;
+    border: none;
+    border-radius: 0;
+  }
+
+  .wrapper .form-box {
+    width: 100%;
+    padding: 20px;
+    position: relative;
+    height: auto;
+  }
+
+  .wrapper .form-box.login,
+  .wrapper .form-box.register {
+    padding: 20px;
+    left: 0;
+    right: 0;
+  }
+
+  .wrapper .info-text {
+    display: none;
+  }
+
+  .wrapper .rotate-bg,
+  .wrapper .rotate-bg2 {
+    display: none;
+  }
+
+  /* Form elements */
+  form {
+    width: 100%;
+    padding: 15px;
+  }
+
+  .form-box h2 {
+    font-size: 24px;
+    margin-bottom: 30px;
+    text-align: center;
+  }
+
+  /* Input fields */
+  .input-box {
+    margin-bottom: 20px;
+  }
+
+  .input-box input {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+  }
+
+  /* Buttons */
+  .btn {
+    width: 100%;
+    padding: 12px;
+    font-size: 16px;
+    margin: 15px 0;
+  }
+
+  /* Links */
+  .linkTxt {
+    text-align: center;
+    margin: 15px 0;
+  }
+
+  /* Animation adjustments */
+  .wrapper.active .form-box.login .animation {
+    transform: translateX(-100%);
+  }
+
+  .wrapper.active .form-box.register .animation {
+    transform: translateX(0);
+  }
+
+  /* Google Login button */
+  .google-login {
+    width: 100%;
+    margin: 10px 0;
+  }
+
+  /* Error messages */
+  .error-message {
+    font-size: 14px;
+    padding: 8px;
+    margin: 10px 0;
+  }
+
+  /* Popup adjustments */
+  .popup {
+    width: 90%;
+    max-width: 300px;
+    padding: 15px;
+  }
+}
+
+/* Tablet adjustments */
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  .wrapper {
+    width: 95%;
+    max-width: 800px;
+  }
+
+  .wrapper .form-box.login,
+  .wrapper .form-box.register {
+    padding: 30px;
+  }
+
+  .info-text {
+    padding: 30px;
+  }
+}
+
+/* Loading state */
+.btn:disabled {
+  background-color: #cccccc;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+/* Success/Fail popup improvements */
+.success-popup,
+.fail-popup {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 90%;
+  max-width: 320px;
+  z-index: 1000;
+  padding: 20px;
+  border-radius: 8px;
+  text-align: center;
+}
+
+/* Smooth transitions */
+.form-box,
+.info-text,
+.btn,
+.input-box input {
+  transition: all 0.3s ease;
 }
 
 .wrapper .form-box {

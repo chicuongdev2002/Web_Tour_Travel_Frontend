@@ -28,7 +28,7 @@ const DepartureDates = ({ departures, onDateSelect }) => {
   const handleDepartureSelect = (departure) => {
     // Trigger the onDateSelect prop to update parent component's state
     onDateSelect && onDateSelect(departure);
-    
+
     // Close the modal
     clearSelection();
   };
@@ -80,7 +80,7 @@ const DepartureDates = ({ departures, onDateSelect }) => {
               key={departure.departureId}
               className="relative departure-date-box"
             >
-              <div 
+              <div
                 className="cursor-pointer"
                 onClick={() => handleDateClick(departure)}
               >
@@ -220,14 +220,15 @@ const DepartureDates = ({ departures, onDateSelect }) => {
             <div className="flex justify-between items-center mt-4">
               <div>
                 <p>
-                  <strong>Số chỗ còn:</strong> {selectedDeparture.availableSeats}
+                  <strong>Số chỗ còn:</strong>{" "}
+                  {selectedDeparture.availableSeats}
                 </p>
                 <p>
                   <strong>Tổng số người tham gia:</strong>{" "}
                   {selectedDeparture.maxParticipants}
                 </p>
               </div>
-              <button 
+              <button
                 onClick={() => handleDepartureSelect(selectedDeparture)}
                 className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
               >
