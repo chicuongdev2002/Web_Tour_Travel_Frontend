@@ -50,6 +50,9 @@ const TOKEN_CHAT = "Bearer app-wkO00LhNJwAYYs3dtIFaBoL9";
 const REVIEW_ALL = REACT_APP_HOST + "/api/reviews";
 const ATTENDANCE=REACT_APP_HOST+ "/api/tour-guides/attendance"
 const TOURGUIDE_SCHEDULE=REACT_APP_HOST+ "/api/tour-guides/schedule"
+const FAVORITE_TOUR=REACT_APP_HOST+ "/api/favorite-tours"
+const TOUR_GUIDE_ASSIGNMENT=REACT_APP_HOST+ "/api/tour-guides/assignments-all"
+const TOUR_GUIDE=REACT_APP_HOST+ "/api/tour-guides"
 const getAPI = (api, params, paramId) => {
   if (paramId) {
     api += "/" + paramId;
@@ -112,5 +115,8 @@ export {
   ATTENDANCE,
   TOURGUIDE_SCHEDULE,
   GET_TOUR_PROVIDER,
+  FAVORITE_TOUR,
+  TOUR_GUIDE_ASSIGNMENT,
+  TOUR_GUIDE,
   getAPI,
 };

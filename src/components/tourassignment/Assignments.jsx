@@ -36,6 +36,7 @@ import {
 } from "@mui/icons-material";
 import AssignTourGuideDialog from "./AssignTourGuideDialog";
 import * as XLSX from "xlsx";
+import { getTourAssignment } from "../../functions/assignment";
 // import SockJS from 'sockjs-client';
 // import { Stomp } from '@stomp/stompjs';
 const Assignments = () => {
@@ -65,9 +66,10 @@ const Assignments = () => {
   const fetchAssignments = async (page = 0, size = 0) => {
     setLoading(true);
     try {
-      const response = await axios.get(
-        `http://localhost:8080/api/tour-guides/assignments-all?page=${page}&size=${size}`,
-      );
+      // const response = await axios.get(
+      //   `http://localhost:8080/api/tour-guides/assignments-all?page=${page}&size=${size}`,
+      // );
+      const response=await getTourAssignment(page,size);
       console.log("Fetched assignments:", response.data);
       setAssignments(response.data.content);
       setTotalElements(response.data.page.totalElements);

@@ -24,6 +24,7 @@ import {
 import axios from "axios";
 import { keyframes } from "@emotion/react";
 import { useNavigate } from "react-router-dom";
+import { getTourFavorite } from "../../functions/getTourFavorite";
 const TopTours = () => {
   const navigate = useNavigate();
   const theme = useTheme();
@@ -52,9 +53,7 @@ const TopTours = () => {
       try {
         setLoading(true);
         setError(null);
-        const response = await axios.get(
-          "http://localhost:8080/api/favorite-tours",
-        );
+        const response=await getTourFavorite();
         const sortedTours = response.data.sort(
           (a, b) => b.averageRating - a.averageRating,
         );
