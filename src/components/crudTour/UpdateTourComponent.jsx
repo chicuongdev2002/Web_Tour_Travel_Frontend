@@ -303,18 +303,8 @@ function UpdateTourComponent({ data }) {
     setImages(images.filter((img, i) => i !== index))
   }
 
-  const scrollRef = useRef(null);
-
-  const handleScrollToBottom = () => {
-    if (scrollRef.current) {
-      scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
-    }
-  };
-
   return (
-    <div style={{ overflowY: 'auto' }}
-      ref={scrollRef}
-    >
+    <div>
       <div className={`w-100 ${openDestination ? "divRowBetweenNotAlign" : "divCenter"}`}>
         <FormView title={`Cập nhật tour`} className='w-50' data={[
           { label: 'Tên tour', object: { type: 'text', value: tourName, notForm: true, onChange: (e) => setTourName(e.target.value) } },
@@ -334,7 +324,7 @@ function UpdateTourComponent({ data }) {
               },
               onRemove: removeImage
           }},
-          { label: '', object: { type: 'file', onChange: handleFileChange } },
+          { label: 'Ảnh', object: { type: 'file', onChange: handleFileChange } },
           {
             label: 'Sửa địa điểm', object: {
               type: 'button', className: 'w-100 my-3', onClick: () => {
@@ -374,11 +364,7 @@ function UpdateTourComponent({ data }) {
                   onClick={() => setOpen(true)}
                 >Thêm địa điểm</Button>
                 <Button className='btn btn-primary w-50 mb-3 ml-1 mt-3' variant="contained"
-                  onClick={() => {
-                    setOpenDeparture(true)
-                    handleScrollToBottom()
-                  }
-                  }
+                  onClick={() => setOpenDeparture(true)}
                 >Xem lịch trình</Button>
               </div>
             </div>

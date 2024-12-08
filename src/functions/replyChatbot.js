@@ -3,9 +3,12 @@ import constant from '../assets/constantManage'
 import axios from 'axios'
 import { API_CHAT, TOKEN_CHAT } from '../config/host'
 const reply = async (message, userId) => {
-    // if("Cách đặt tour".includes(message.toLowerCase()))
+    // if(["hi", "hello", "chào", "xin chào", "chào bạn", "hello bạn", "hi bạn", "xin chào bạn"].includes(message.toLowerCase()))
     //     return [
-    //         { me: false, content: "nếu muốn đặt tour du lịch bạn hãy chọn vào “Đặt tour” -> chọn tour muốn đặt -> chọn lịch khởi hành mà bạn mong muốn -> thanh toán là xong", createDate: new Date() },
+    //         { me: false, content: constant.HI, createDate: new Date() },
+    //         { me: false, content: constant.SEARCH_TOUR_2, onClick: constant.SEARCH_TOUR_2 },
+    //         { me: false, content: constant.CANCLE_TOUR_POLICY, onClick: constant.CANCLE_TOUR_POLICY },
+    //         { me: false, content: constant.PAYMENTS_METHOD, onClick: constant.PAYMENTS_METHOD },
     //     ]
     return  [{ me: false, content: await getApiChat(message, userId), createDate: new Date() }]
 
