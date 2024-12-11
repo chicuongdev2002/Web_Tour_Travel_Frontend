@@ -26,6 +26,7 @@ import {
 import KpiDialog from "../dialog/KpiDialog";
 import AssessmentIcon from "@mui/icons-material/Assessment";
 import AssignmentIcon from "@mui/icons-material/Assignment";
+import { fetchAssignmentsTourGuide, fetchKPITourGuide, updateAssignmentStatusTourGuide } from "../../../functions/tourguidecrud";
 
 const AssignmentDialog = ({ open, onClose, userId, onDataUpdated }) => {
   const [assignments, setAssignments] = useState([]);
@@ -39,11 +40,8 @@ const AssignmentDialog = ({ open, onClose, userId, onDataUpdated }) => {
   const fetchAssignments = async () => {
     if (userId) {
       try {
-        const response = await fetch(
-          `http://localhost:8080/api/tour-guides/${userId}/assignments`,
-        );
-        const data = await response.json();
-        setAssignments(data);
+        const response = await fetchAssignmentsTourGuide(userId);
+        setAssignments(response);
       } catch (err) {
         setError("Không thể tải phân công. Vui lòng thử lại sau.");
       } finally {
@@ -59,11 +57,8 @@ const AssignmentDialog = ({ open, onClose, userId, onDataUpdated }) => {
   const fetchKPI = async () => {
     setLoading(true);
     try {
-      const response = await fetch(
-        `http://localhost:8080/api/tour-guides/${userId}/kpi`,
-      );
-      const data = await response.json();
-      setKpiData(data);
+      const response = await fetchKPITourGuide(userId);
+      setKpiData(response);
       setLoading(false);
       setOpenKpiModal(true);
     } catch (err) {
@@ -152,21 +147,7 @@ const AssignmentDialog = ({ open, onClose, userId, onDataUpdated }) => {
 
   const handleReassign = async (departureId) => {
     try {
-      const response = await fetch(
-        `http://localhost:8080/api/tour-guides/${userId}/assignments/${departureId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ status: "TODO" }),
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to reassign assignment");
-      }
-
+     const response = await updateAssignmentStatusTourGuide(userId, departureId, "TODO");
       await fetchAssignments();
     } catch (error) {
       setError("Không thể phân công lại. Vui lòng thử lại sau.");

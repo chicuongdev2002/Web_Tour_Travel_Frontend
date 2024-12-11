@@ -19,6 +19,7 @@ import { format } from "date-fns";
 import axios from "axios";
 import SuccessPopup from "../popupNotifications/SuccessPopup";
 import FailPopup from "../popupNotifications/FailPopup";
+import { assignmentTourGuide, getAllDeparture, getTourGuide } from "../../functions/assignmentCrud";
 const AssignTourGuideDialog = ({ open, onClose, onAssignmentComplete }) => {
   const [tours, setTours] = useState([]);
   const [guides, setGuides] = useState([]);
@@ -35,10 +36,8 @@ const AssignTourGuideDialog = ({ open, onClose, onAssignmentComplete }) => {
     const fetchData = async () => {
       setLoading(true);
       try {
-        const [toursResponse, guidesResponse] = await Promise.all([
-          axios.get("http://localhost:8080/api/tours/allWithDeparture"),
-          axios.get("http://localhost:8080/api/tour-guides"),
-        ]);
+        const toursResponse = await getAllDeparture();
+        const guidesResponse = await getTourGuide();
         setTours(toursResponse.data);
         setGuides(guidesResponse.data);
       } catch (error) {
@@ -74,14 +73,7 @@ const AssignTourGuideDialog = ({ open, onClose, onAssignmentComplete }) => {
     try {
       console.log(selectedGuides.map((guide) => guide.userId));
       console.log(selectedDeparture.departureId);
-
-      const res = await axios.post(
-        "http://localhost:8080/api/tour-guides/assign-tour-guide",
-        {
-          guideIds: selectedGuides.map((guide) => guide.userId),
-          departureId: selectedDeparture.departureId,
-        },
-      );
+      const res= await assignmentTourGuide(selectedGuides.map((guide) => guide.userId),selectedDeparture.departureId);
       console.log(res);
       setSuccessPopup({
         open: true,

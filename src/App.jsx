@@ -29,7 +29,9 @@ import TourGuideAssignmentPage from "./pages/TourGuideAssignmentPage.jsx";
 import UserInfoPage from "./pages/UserInfoPage.jsx";
 import ProtectedRoute from "./route/ProtectedRoute.jsx"
 import TourProviderManagerPage from "./pages/TourProviderManagerPage.jsx";
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+import CookieConsentBanner from "./components/cookie/CookieConsentBanner.jsx";
 function App() {
   const user = JSON.parse(sessionStorage.getItem("user"));
   const dispatch = useDispatch();
@@ -161,6 +163,8 @@ function App() {
         <Route path="/notify" element={<NotifyPage />} />
         <Route path="/payment" element={<Payment />} />
       </Routes>
+      <ToastContainer />
+      <CookieConsentBanner />
     </BrowserRouter>
   );
 }

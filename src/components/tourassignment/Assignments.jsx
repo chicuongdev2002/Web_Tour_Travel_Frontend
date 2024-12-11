@@ -36,9 +36,7 @@ import {
 } from "@mui/icons-material";
 import AssignTourGuideDialog from "./AssignTourGuideDialog";
 import * as XLSX from "xlsx";
-import { getTourAssignment } from "../../functions/assignment";
-// import SockJS from 'sockjs-client';
-// import { Stomp } from '@stomp/stompjs';
+import { deleteAssignment, getTourAssignment, getTourAssignmentSize999 } from "../../functions/assignment";
 const Assignments = () => {
   const [assignments, setAssignments] = useState([]);
   const [stompClient, setStompClient] = useState(null);
@@ -66,9 +64,6 @@ const Assignments = () => {
   const fetchAssignments = async (page = 0, size = 0) => {
     setLoading(true);
     try {
-      // const response = await axios.get(
-      //   `http://localhost:8080/api/tour-guides/assignments-all?page=${page}&size=${size}`,
-      // );
       const response=await getTourAssignment(page,size);
       console.log("Fetched assignments:", response.data);
       setAssignments(response.data.content);
@@ -92,10 +87,7 @@ const Assignments = () => {
 
   const fetchAllAssignments = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:8080/api/tour-guides/assignments-all?size=999999",
-      );
-      console.log("Fetched assignments:", response.data);
+      const response=await getTourAssignmentSize999();
       return response.data.content;
     } catch (err) {
       console.error("Error fetching all assignments:", err);
@@ -118,9 +110,7 @@ const Assignments = () => {
   const handleDeleteSelected = async () => {
     const deletePromises = Array.from(selectedAssignments).map(async (key) => {
       const [departureId, guideId] = key.split("-");
-      await axios.delete(
-        `http://localhost:8080/api/tour-guides/${guideId}/assignments/${departureId}`,
-      );
+      await deleteAssignment(guideId, departureId);
     });
 
     try {

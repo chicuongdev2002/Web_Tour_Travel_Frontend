@@ -19,6 +19,7 @@ import AssignmentTable from "./table/AssignmentTable";
 import AssignmentFilter from "./filter/AssignmentFilter";
 import KpiDialog from "./dialog/KpiDialog";
 import NavHeader from "../navbar/NavHeader";
+import { fetchAssignmentsTourGuide, fetchKPITourGuide, updateAssignmentStatusTourGuide } from "../../functions/tourguidecrud";
 const TourGuideAssignments = () => {
   const [assignments, setAssignments] = useState([]);
   const [error, setError] = useState(null);
@@ -43,22 +44,16 @@ const TourGuideAssignments = () => {
 
   const fetchAssignments = async (guideId) => {
     try {
-      const response = await fetch(
-        `http://localhost:8080/api/tour-guides/${guideId}/assignments`,
-      );
-      const data = await response.json();
-      setAssignments(data);
+      const response=await fetchAssignmentsTourGuide(guideId);
+      setAssignments(response);
     } catch (err) {
       setError("Không thể tải danh sách tour. Vui lòng thử lại sau.");
     }
   };
   const fetchKPI = async (guideId) => {
     try {
-      const response = await fetch(
-        `http://localhost:8080/api/tour-guides/${guideId}/kpi`,
-      );
-      const data = await response.json();
-      setKpiData(data);
+      const response=await fetchKPITourGuide(guideId);
+      setKpiData(response);
       setOpenKpiModal(true);
     } catch (err) {
       setError("Không thể tải KPI. Vui lòng thử lại sau.");
@@ -71,16 +66,7 @@ const TourGuideAssignments = () => {
   };
   const handleStatusChange = async (departureId, newStatus) => {
     try {
-      await fetch(
-        `http://localhost:8080/api/tour-guides/${user.userId}/assignments/${departureId}/status`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ status: newStatus }),
-        },
-      );
+      await updateAssignmentStatusTourGuide(user.userId, departureId, newStatus);
       fetchAssignments(user.userId);
     } catch (err) {
       setError("Không thể cập nhật trạng thái. Vui lòng thử lại sau.");

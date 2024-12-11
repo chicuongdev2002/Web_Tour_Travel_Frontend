@@ -1,40 +1,62 @@
-import axios from "axios";
-import { LOGIN, getAPI } from "../config/host";
+import axios from 'axios';
+import REACT_APP_HOST, { LOGIN } from '../config/host';
+
+const axiosInstance = axios.create({
+  baseURL: `${REACT_APP_HOST}`,
+  withCredentials: true  
+});
 
 const login = async (username, password) => {
-  let result = {};
   try {
-    const response = await axios.post(getAPI(LOGIN, { username, password }));
-    console.log(response);
-    if (response.status === 200) {
-      const data = response.data;
-      result = { isLoginSuccessful: true, loginError: "", userData: data };
-      console.log(result);
-    } else {
-      result = { isLoginSuccessful: false, loginError: "Đăng nhập thất bại" };
-    }
-  } catch (error) {
-    if (error.response) {
-      if (error.response.status === 401) {
-        result = {
-          isLoginSuccessful: false,
-          loginError: "Mật khẩu không chính xác",
-        };
-      } else if (error.response.status === 404) {
-        result = {
-          isLoginSuccessful: false,
-          loginError: "Tài khoản không tồn tại",
-        };
-      } else {
-        result = { isLoginSuccessful: false, loginError: "Đăng nhập thất bại" };
+    const response = await axiosInstance.post(`${LOGIN}`, 
+      new URLSearchParams({
+        username: username,
+        password: password
+      }),
+      {
+        headers: {
+          'Content-Type': 'application/x-www-form-urlencoded'
+        }
       }
-    } else {
-      result = { isLoginSuccessful: false, loginError: error.message };
+    );
+    
+    // Xử lý response
+    return { 
+      isLoginSuccessful: true, 
+      loginError: "", 
+      userData: response.data 
+    };
+  } catch (error) {
+    // Xử lý các trường hợp lỗi
+    if (error.response) {
+      switch (error.response.status) {
+        case 401:
+          return { 
+            isLoginSuccessful: false, 
+            loginError: "Mật khẩu không chính xác" 
+          };
+        case 404:
+          return { 
+            isLoginSuccessful: false, 
+            loginError: "Tài khoản không tồn tại" 
+          };
+        case 403:
+          return { 
+            isLoginSuccessful: false, 
+            loginError: "Tài khoản bị khóa" 
+          };
+        default:
+          return { 
+            isLoginSuccessful: false, 
+            loginError: "Đăng nhập thất bại" 
+          };
+      }
     }
-
-    console.error("API call failed:", error);
+    return { 
+      isLoginSuccessful: false, 
+      loginError: error.message 
+    };
   }
-  return result;
 };
 
 export default login;

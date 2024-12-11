@@ -18,6 +18,9 @@ import PhoneAndroidIcon from "@mui/icons-material/PhoneAndroid";
 import EmailIcon from "@mui/icons-material/Email";
 import SuccessPopup from "../popupNotifications/SuccessPopup";
 import FailPopup from "../popupNotifications/FailPopup";
+import { loginWithEmail } from "../../functions/loginWithEmail";
+import { storeAuthData } from "../../config/auth";
+import { toast } from 'react-toastify';
 const LoginRegister = () => {
   const location = useLocation();
   const [isActive, setIsActive] = useState(false);
@@ -75,8 +78,12 @@ const LoginRegister = () => {
     const result = await login(username, password);
     console.log(result);
     if (result.isLoginSuccessful) {
-      console.log("Đăng nhập thành công:", result.userData);
-      sessionStorage.setItem("user", JSON.stringify(result.userData));
+      // console.log("Đăng nhập thành công:", result.userData);
+      // sessionStorage.setItem("user", JSON.stringify(result.userData));
+      storeAuthData(
+      result.userData.user,
+      result.userData.accessToken, 
+    );
       if (location.state) navigate("/booking", { state: location.state });
       else {
         const redirectUrl = localStorage.getItem("redirectAfterLogin") || "/";
@@ -247,37 +254,14 @@ const LoginRegister = () => {
         credentialResponse.credential,
       );
       console.log("Decoded Google User:", credentialResponseDecoded);
-
-      // Tạo đối tượng người dùng Google
       const googleUser = {
         name: credentialResponseDecoded.name,
         email: credentialResponseDecoded.email,
         picture: credentialResponseDecoded.picture,
       };
-
-      // Gửi yêu cầu đến API để đăng nhập với email (gửi email như tham số trong URL)
-      const response = await fetch(
-        `http://localhost:8080/api/accounts/login-with-email?email=${encodeURIComponent(googleUser.email)}`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        },
-      );
-
-      console.log("API Response:", response);
-
-      // Kiểm tra tình trạng phản hồi
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-
-      // Nhận dữ liệu từ phản hồi
-      const result = await response.json();
+      const response = await loginWithEmail(encodeURIComponent(googleUser.email));
+      const result = response.data;
       console.log("API Response:", result);
-
-      // Lưu thông tin người dùng vào sessionStorage
       sessionStorage.setItem(
         "user",
         JSON.stringify({

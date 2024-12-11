@@ -2,6 +2,7 @@ import axios from "axios";
 import {
   STATIS_TOUR_REVIEW,
   REVIEW_MONTHLY_STATIS,
+  REVIEW_USER_STATISTICS,
   getAPI,
 } from "../config/host";
 
@@ -23,4 +24,13 @@ const reviewMonthlyStatis = async () => {
     throw new Error("Không thể lấy thông tin review: " + error.message);
   }
 };
-export { statisticsTourReview, reviewMonthlyStatis };
+const getReviewUser = async () => {
+  try {
+    const url = getAPI(REVIEW_USER_STATISTICS, null, null);
+    const response = await axios.get(url);
+    return response.data;
+  } catch (error) {
+    throw new Error("Không thể lấy thông tin review: " + error.message);
+  }
+};
+export { statisticsTourReview, reviewMonthlyStatis,getReviewUser };

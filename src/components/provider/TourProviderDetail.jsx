@@ -24,6 +24,7 @@ import {
 } from "recharts";
 import axios from "axios";
 import NavHeader from "../navbar/NavHeader";
+import { getTourProviderDetail } from "../../functions/getTourProviderDetail";
 
 const TourProviderDetail = () => {
   const [userData, setUserData] = useState([]);
@@ -36,12 +37,8 @@ const TourProviderDetail = () => {
       const user = sessionStorage.getItem("user"); 
       const userId = JSON.parse(user).userId;
       try {
-        const response = await axios.get(
-          `http://localhost:8080/api/tours/count-by-user/${userId}`,
-        );
+        const response=await getTourProviderDetail(userId);
         setUserData(response.data);
-
-        // Tour Type Analysis
         const tourTypeCounts = response.data.tours.reduce((acc, tour) => {
           const type = tour.tourType;
           acc[type] = (acc[type] || 0) + 1;

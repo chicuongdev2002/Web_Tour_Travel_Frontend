@@ -11,10 +11,17 @@ import {
 } from "@mui/material";
 import { Add as AddIcon } from "@mui/icons-material";
 import axios from "axios";
+import { updateTourGuide } from "../../../functions/tourGuideStatistics";
+import SuccessPopup from "../../popupNotifications/SuccessPopup";
+import FailPopup from "../../popupNotifications/FailPopup";
 
 const UpdateDialog = ({ open, onClose, tourGuide, onRefresh }) => {
   const [formData, setFormData] = useState({ addresses: [{ address: "" }] });
-
+  const [successPopup, setSuccessPopup] = useState({
+    open: false,
+    message: "",
+  });
+  const [failPopup, setFailPopup] = useState({ open: false, message: "" });
   useEffect(() => {
     if (tourGuide) {
       setFormData({
@@ -51,9 +58,25 @@ const UpdateDialog = ({ open, onClose, tourGuide, onRefresh }) => {
 
   const handleUpdate = async () => {
     try {
-      await axios.put(`http://localhost:8080/api/tour-guides`, formData);
+      const response = await updateTourGuide(formData);
+      if (response.success) {
+             setSuccessPopup({
+              open: true,
+              message: "Cập nhật thông tin thành công",
+            });
+             
+          } else {
+           
+            setFailPopup({
+              open: true,
+              message:"Cập nhật thông tin thất bại",
+            });
+    
+          }
+             setTimeout(() => {
       onRefresh();
       onClose();
+            }, 3000);
     } catch (error) {
       console.error("Error updating:", error);
     }
@@ -125,7 +148,20 @@ const UpdateDialog = ({ open, onClose, tourGuide, onRefresh }) => {
         <Button onClick={onClose}>Hủy</Button>
         <Button onClick={handleUpdate}>Cập nhật</Button>
       </DialogActions>
+        <SuccessPopup
+        open={successPopup.open}
+        message={successPopup.message}
+        onClose={() => setSuccessPopup({ open: false, message: "" })}
+        onClick={() => setSuccessPopup({ open: false, message: "" })}
+      />
+      <FailPopup
+        open={failPopup.open}
+        message={failPopup.message}
+        onClose={() => setFailPopup({ open: false, message: "" })}
+        onClick={() => setFailPopup({ open: false, message: "" })}
+      />
     </Dialog>
+   
   );
 };
 

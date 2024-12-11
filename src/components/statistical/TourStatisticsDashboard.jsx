@@ -40,6 +40,7 @@ import {
 } from "recharts";
 import { Calendar, TrendingUp, Star, MessageCircle, Users } from "lucide-react";
 import {
+  getReviewUser,
   reviewMonthlyStatis,
   statisticsTourReview,
 } from "../../functions/statisticsTourReview";
@@ -57,11 +58,8 @@ const TourStatisticsDashboard = () => {
   const [timeSeriesData, setTimeSeriesData] = useState([]);
   const [userStatsPage, setUserStatsPage] = useState(0);
   const [userStatsRowsPerPage, setUserStatsRowsPerPage] = useState(5);
-
-  // Colors for charts
   const COLORS = ["#FF6B6B", "#4ECDC4", "#45B7D1", "#96CEB4", "#FFEEAD"];
 
-  // Fetch Data
   useEffect(() => {
     const fetchData = async () => {
       setLoading(true);
@@ -70,12 +68,12 @@ const TourStatisticsDashboard = () => {
           await Promise.all([
             statisticsTourReview(),
             reviewMonthlyStatis(),
-            axios.get("http://localhost:8080/api/reviews/user-statistics"),
+            getReviewUser(),
           ]);
 
         setData(tourResponse);
         setTimeSeriesData(reviewResponse);
-        setUserStats(userStatsResponse.data);
+        setUserStats(userStatsResponse);
       } catch (error) {
         console.error("Error fetching data:", error);
       } finally {
@@ -86,7 +84,6 @@ const TourStatisticsDashboard = () => {
     fetchData();
   }, []);
 
-  // Data Processing
   const filteredData = data
     .filter((tour) =>
       tour.tourName.toLowerCase().includes(searchTerm.toLowerCase()),

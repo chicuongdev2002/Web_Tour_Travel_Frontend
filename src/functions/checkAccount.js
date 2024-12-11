@@ -1,3 +1,4 @@
+import axios from "axios";
 import { CHECK_ACCOUNT_EXISTS, getAPI } from "../config/host";
 
 const checkAccountExists = async (username) => {
@@ -6,15 +7,14 @@ const checkAccountExists = async (username) => {
   }
   let result = {};
   try {
-    const response = await fetch(getAPI(CHECK_ACCOUNT_EXISTS, null, username));
-    if (!response.ok) {
+    const response = await axios.get(getAPI(CHECK_ACCOUNT_EXISTS, null, username));
+    if (!response) {
       result = {
         accountExists: false,
         checkAccountError: "Không thể kiểm tra tài khoản.",
       };
       console.log(result);
     } else {
-      const exists = await response.json();
       result.accountExists = exists;
       result.checkAccountError = exists ? "Tài khoản đã tồn tại." : "";
       console.log(result);

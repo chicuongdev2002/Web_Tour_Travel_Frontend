@@ -54,6 +54,7 @@ import {
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
 import CalendarDialog from "./CalendarDialog";
+import { getItineraryByUserId } from "../../../functions/itineraryBooking";
 // Helper function to get coordinates for a location using OpenStreetMap Nominatim API
 const getCoordinatesForLocation = async (locationName) => {
   try {
@@ -630,18 +631,9 @@ const ScheduleTourBooking = () => {
       try {
         const user = JSON.parse(sessionStorage.getItem("user"));
         const userId = user.userId;
-        const response = await fetch(
-          `http://localhost:8080/api/bookings/itinerary/${userId}`,
-        );
-
-        if (!response.ok) {
-          throw new Error("Không thể tải lịch trình");
-        }
-
-        const data = await response.json();
+        const response=await getItineraryByUserId(userId);
+        const data = response.data;
         setItineraries(data.itinerary);
-
-        // Fetch destinations and coordinates
         const destinationsWithCoordinates = await Promise.all(
           data.itinerary.flatMap((tour) =>
             tour.destinations.map(async (dest, index) => {
@@ -664,7 +656,6 @@ const ScheduleTourBooking = () => {
           ),
         );
 
-        // Calculate routes
         const routesData = {};
         const tourGroups = destinationsWithCoordinates.reduce(
           (groups, dest) => {

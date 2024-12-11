@@ -30,6 +30,8 @@ import {
   BlurOn as ScannerIcon,
 } from "@mui/icons-material";
 import { motion, AnimatePresence } from "framer-motion";
+import { WEB_SOCKET } from "../../config/host";
+
 
 function CheckInApp() {
   const [showCamera, setShowCamera] = useState(false);
@@ -38,7 +40,7 @@ function CheckInApp() {
   const [isProcessing, setIsProcessing] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState("connecting");
 
-  const SOCKET_URL = "http://localhost:8080/ws";
+  const SOCKET_URL = WEB_SOCKET;
 
   const initializeStompClient = useCallback(() => {
     const socket = new SockJS(SOCKET_URL);

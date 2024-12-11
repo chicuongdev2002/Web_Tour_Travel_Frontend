@@ -124,29 +124,41 @@ function UpdateTourComponent({ data }) {
 
   const addButton = (departure) => {
     let d = departure.map((d) => {
+      debugger
       return {
         ...d,
-        update: (
-          <Button
-            className="btn btn-primary bg-success"
-            variant="contained"
-            onClick={() => handleFillUpdateTourModal(d)}
-          >
-            Cập nhật
-          </Button>
-        ),
-        delete: (
-          <Button
-            className="btn btn-danger bg-danger"
-            variant="contained"
-            onClick={() => {
-              setNotification(-2);
-              setDepartureSelected(d);
-            }}
-          >
-            Xóa
-          </Button>
-        ),
+        update: {
+          button: 'Cập nhật',
+          onClick: () => handleFillUpdateTourModal(d),
+          className: "btn btn-primary bg-success"
+        }
+          // <Button
+          //   className="btn btn-primary bg-success"
+          //   variant="contained"
+          //   onClick={() => handleFillUpdateTourModal(d)}
+          // >
+          //   Cập nhật
+          // </Button>
+        ,
+        delete: {
+          button: 'Xóa',
+          onClick: () => {
+            setNotification(-2);
+            setDepartureSelected(d);
+          },
+          className: "btn btn-danger bg-danger"
+        }
+          // <Button
+          //   className="btn btn-danger bg-danger"
+          //   variant="contained"
+          //   onClick={() => {
+          //     setNotification(-2);
+          //     setDepartureSelected(d);
+          //   }}
+          // >
+          //   Xóa
+          // </Button>
+        ,
       };
     });
     return d;
@@ -170,7 +182,6 @@ function UpdateTourComponent({ data }) {
   };
 
   const handleUpdateTour = async () => {
-    try {
       let resultUpload = null;
       if (file) {
         const formData = new FormData();
@@ -184,6 +195,7 @@ function UpdateTourComponent({ data }) {
           return;
         }
       }
+      debugger
       let dataRequest = {
         tour: {
           tourId: data.tourId,
@@ -240,7 +252,7 @@ function UpdateTourComponent({ data }) {
             }),
           ),
         tourDestinations: [
-          ...destinationSelected.content.map((d) => ({
+          ...destinationSelected?.content?.map((d) => ({
             destination: { destinationId: d.destinationId },
             duration: d.duration,
           })),
@@ -254,10 +266,7 @@ function UpdateTourComponent({ data }) {
       };
       if (putData(UPDATE_TOUR, dataRequest)) setNotification(1);
       else setNotification(0);
-    } catch (error) {
-      setNotification(0);
-      setMessageNotify("Đã xảy ra lỗi! Vui lòng thử lại sau");
-    }
+    
   };
 
   const getDataProvince = async () => {
@@ -374,10 +383,21 @@ function UpdateTourComponent({ data }) {
         <FormView title={`Cập nhật tour`} className='w-50' data={[
           { label: 'Tên tour', object: { type: 'text', value: tourName, notForm: true, onChange: (e) => setTourName(e.target.value) } },
           { label: 'Mô tả', object: { type: 'text', value: description, onChange: (e) => setDescription(e.target.value) } },
-          { object: { type: 'div', value: <LocationSelectCustom label="Địa điểm khởi hành"
-            province={province} provinces={provinces} district={district} districts={districts}
-            onChangeProvince={onChangeProvince} onChangeDitricts={onChangeDitricts}
-            />}},
+          { object: { type: 'location', value: 
+            {
+              label: "Địa điểm khởi hành",
+              province: province,
+              provinces: provinces,
+              district: district,
+              districts: districts,
+              onChangeProvince: onChangeProvince,
+              onChangeDitricts: onChangeDitricts
+            }
+          // <LocationSelectCustom label="Địa điểm khởi hành"
+          //   province={province} provinces={provinces} district={district} districts={districts}
+          //   onChangeProvince={onChangeProvince} onChangeDitricts={onChangeDitricts}
+          //   />
+          }},
           { label: 'Loại tour', object: { type: 'select', value: type, onChange: (e) => setType(e), listData: tourType } },
           { label: 'Ảnh', object: {
               type: 'image',
