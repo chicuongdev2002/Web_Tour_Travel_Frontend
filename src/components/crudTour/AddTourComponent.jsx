@@ -13,12 +13,15 @@ import FormView from "../../components/formView/FormView";
 import { getListTourType } from "../../functions/getListTourType";
 import LocationSelectCustom from "../../components/location/LocationSelectCustom";
 import { getProvince, getDistrict } from "../../functions/getProvince";
+import { ClipLoader } from 'react-spinners';
 
 function AddTourComponent() {
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
   const [tourName, setTourName] = useState("");
   const [tourType, setTourType] = useState([]);
   const [file, setFile] = useState(null);
+  const [image, setImage] = useState(null);
   const [description, setDescription] = useState("");
   const [type, setType] = useState("FAMILY");
   const [openNotify, setOpenNotify] = useState(-1);
@@ -64,9 +67,18 @@ function AddTourComponent() {
 
   const handleFileChange = (event) => {
     setFile(event.target.files[0]);
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImage(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
   };
 
   const handleAddTour = async () => {
+    setLoading(true);
     try {
       let resultUpload = null;
       if (file) {
@@ -74,6 +86,7 @@ function AddTourComponent() {
         formData.append("file", file);
         resultUpload = await uploadFile(UPLOAD_IMAGE, formData);
         if (!resultUpload) {
+          setLoading(false);
           setMessageNotify(
             "Đã xảy ra lỗi khi upload ảnh! Vui lòng thử lại sau",
           );
@@ -123,13 +136,16 @@ function AddTourComponent() {
         ],
       });
       if (result) {
+        setLoading(false);
         setMessageNotify("Thêm tour thành công");
         setOpenNotify(1);
       } else {
+        setLoading(false);
         setMessageNotify("Đã xảy ra lỗi! Vui lòng thử lại sau");
         setOpenNotify(0);
       }
     } catch (error) {
+      setLoading(false);
       setMessageNotify("Đã xảy ra lỗi! Vui lòng thử lại sau");
       setOpenNotify(0);
     }
@@ -149,12 +165,12 @@ function AddTourComponent() {
     setProvinces(data);
   };
 
-  const getProvinceName = (provinceId) => {
-    debugger;
-    let result = provinces.filter((p) => Object.keys(p)[0] == provinceId);
-    const kt = result[0][provinceId];
-    return kt;
-  };
+  const getProvinceName = (provinceId) =>{
+    let result = provinces.filter(p => Object.keys(p)[0] == provinceId)
+    const kt = result[0][provinceId]
+    return kt
+  }
+
 
   const getDitricts = async (provinceId) => {
     const result = await getDistrict(provinceId);
@@ -173,74 +189,34 @@ function AddTourComponent() {
   const onChangeDitricts = (e) => setDistrict(e);
 
   return (
-    <div
-      className={`w-100 ${openDestination && openDeparture ? "divRowBetweenNotAlign" : "divCenter"}`}
-    >
-      <FormView
-        title="Thêm tour"
-        className="w-30"
-        data={[
-          {
-            label: "Tên tour",
-            object: {
-              type: "text",
-              value: tourName,
-              notForm: true,
-              onChange: (e) => setTourName(e.target.value),
+    <div className={`w-100 pl-3 ${openDestination && openDeparture? "divRowBetweenNotAlign" : "divCenter"}`}>
+      <FormView title='Thêm tour' className={!openDestination? 'w-75' : (openDeparture? 'w-25' : 'w-50')} data={[
+          { label: 'Tên tour', object: { type: 'text', value: tourName, notForm: true,
+              onChange: (e) => setTourName(e.target.value) }},
+          { label: 'Mô tả', object: { type: 'text', value: description, 
+              onChange: (e) => setDescription(e.target.value) }},
+          { object: { type: 'div', value: <LocationSelectCustom label="Địa điểm khởi hành"
+            province={province} provinces={provinces} district={district} districts={districts}
+            onChangeProvince={onChangeProvince} onChangeDitricts={onChangeDitricts}
+            />}},
+          { label: 'Loại tour', object: { type: 'select', value: type, 
+              onChange: (e) => setType(e), listData: tourType}},
+          image && { label: '', object: { type: 'image', value: [{imageUrl: image}], 
+            style: {
+              width: 70,
+              height: 70,
+              marginLeft: 10
             },
-          },
-          {
-            label: "Mô tả",
-            object: {
-              type: "text",
-              value: description,
-              onChange: (e) => setDescription(e.target.value),
-            },
-          },
-          {
-            object: {
-              type: "div",
-              value: (
-                <LocationSelectCustom
-                  label="Địa điểm khởi hành"
-                  province={province}
-                  provinces={provinces}
-                  district={district}
-                  districts={districts}
-                  onChangeProvince={onChangeProvince}
-                  onChangeDitricts={onChangeDitricts}
-                />
-              ),
-            },
-          },
-          {
-            label: "Loại tour",
-            object: {
-              type: "select",
-              value: type,
-              onChange: (e) => setType(e),
-              listData: tourType,
-            },
-          },
-          {
-            label: "Ảnh",
-            object: { type: "file", onChange: handleFileChange },
-          },
-          {
-            label: "Thêm địa điểm",
-            object: {
-              type: "button",
-              className: "w-100 my-3",
-              onClick: () => {
-                getDestination();
-                setOpenDestination(true);
-              },
-            },
-          },
-        ]}
-      />
-      {openDestination && (
-        <FormView title="Chọn địa điểm" className="w-30">
+            onRemove: () => {setImage(null); setFile(null)}}},
+          { label: '', object: { type: 'file', onChange: handleFileChange }},
+          { label: 'Thêm địa điểm', object: { type: 'button', className: 'w-100 my-3',
+            onClick: () => {
+              getDestination()
+              if(openDeparture) setOpenDeparture(!openDeparture)
+              setOpenDestination(!openDestination) }}}]} />
+      {
+        openDestination &&
+        <FormView title='Chọn địa điểm' className={openDeparture? 'w-40' : 'w-50'}>
           <div>
             <DestinationList
               data={destinationSelected}
@@ -286,14 +262,14 @@ function AddTourComponent() {
               <Button
                 className="btn btn-primary w-50 mb-3 ml-1 mt-3"
                 variant="contained"
-                onClick={() => setOpenDeparture(true)}
+                onClick={() => setOpenDeparture(!openDeparture)}
               >
                 Thêm lịch trình
               </Button>
             </div>
           </div>
         </FormView>
-      )}
+      }
       {openDeparture && (
         <FormView title="Thêm lịch trình" className="w-30">
           <div style={{ marginTop: -20 }}>
@@ -426,6 +402,12 @@ function AddTourComponent() {
         onFail={() => setOpenNotify(-1)}
         messageFail={messageNotify}
       />
+      {
+        loading &&
+        <ModalComponent open={loading} onclose={null}>
+          <ClipLoader color="#000" loading={loading} size={50} />
+        </ModalComponent>
+      }
     </div>
   );
 }

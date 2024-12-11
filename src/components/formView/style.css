@@ -1,16 +1,16 @@
-.form-view-container {
-  border-radius: 20px;
-  border-width: 20px;
-  box-shadow: 10px 10px 15px 5px rgba(0, 0, 0, 0.3);
+.form-view-container{
+    border-radius: 20px;
+    border-width: 20px;
+    box-shadow: 10px 10px 15px 5px rgba(0, 0, 0, 0.3);
 }
 
 .form-view-container .title {
-  height: 50px;
-  background-color: var(--titleBackground);
-  overflow: hidden;
-  border-top-left-radius: 20px;
-  border-top-right-radius: 20px;
-  box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.3);
+    height: 50px;
+    background-color: var(--titleBackground);
+    overflow: hidden;
+    border-top-left-radius: 20px;
+    border-top-right-radius: 20px;
+    box-shadow: 0 5px 5px 0 rgba(0, 0, 0, 0.3);
 }
 
 .form-view-container .content {
