@@ -100,9 +100,9 @@ function Booking() {
       <NavHeader textColor="black" />
       <div className="divRowBetween align-items-start px-3">
         <div className="w-80">
+          <div className="divRow divCenter">
           <FormView title={tourDetail.tourName}>
-            <div className="divRowBetween">
-              <div className="w-60">
+              <div>
                 <p>Mã lịch trình: {selectedDeparture.departureId}</p>
                 <p>Loại tour: {tourDetail.tourType}</p>
                 <p>Điểm khởi hành: {tourDetail.startLocation}</p>
@@ -115,7 +115,8 @@ function Booking() {
                     tourDetail.destinations.map((d) => d.name).join(" ➪ ")}
                 </p>
               </div>
-              <FormView notIcon={true} title="Giá vé">
+          </FormView>
+          <FormView title="Giá vé">
                 <div>
                   <div className="divRowBetween">
                     <p className="flex-grow-1">Trẻ em: {childrenPrice} VND</p>
@@ -164,8 +165,7 @@ function Booking() {
                   </div>
                 </div>
               </FormView>
-            </div>
-          </FormView>
+          </div>
           <FormView
             title="Lưu ý"
             data={[
@@ -190,14 +190,14 @@ function Booking() {
                 label: { icon: <FaLocationDot size={25} /> },
                 value: user.addresses[0] ? user.addresses[0].address : "",
               },
-              {
-                label: "Ghi chú",
-                object: {
-                  type: "text",
-                  value: "",
-                  onChange: (e) => console.log(e.target.value),
-                },
-              },
+              // {
+              //   label: "Ghi chú",
+              //   object: {
+              //     type: "text",
+              //     value: "",
+              //     onChange: (e) => console.log(e.target.value),
+              //   },
+              // },
               {
                 label: "Đặt tour",
                 object: {
