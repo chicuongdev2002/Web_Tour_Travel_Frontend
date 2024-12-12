@@ -56,12 +56,12 @@ function TourDetails() {
   }
 
   return (
-      <div className="position">
+    <div className="position">
       <div className="nav-header">
         <NavHeader textColor="black" />
       </div>
       <div className="content">
-      <TourDetailComponent tourData={tourData} />
+        <TourDetailComponent tourData={tourData} />
       </div>
     </div>
   );

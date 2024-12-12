@@ -15,6 +15,7 @@
 
 .form-view-container .content {
   padding-top: 10px;
+  height: auto !important;
   border-bottom-left-radius: 20px;
   border-bottom-right-radius: 20px;
   position: relative;

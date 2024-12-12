@@ -40,6 +40,7 @@ import TourScheduleComponent from "./components/tourguide/TourScheduleComponent.
 import ScheduleTourGuidePage from "./pages/ScheduleTourGuidePage.jsx";
 import TourGuideAssignmentPage from "./pages/TourGuideAssignmentPage.jsx";
 import UserInfoPage from "./pages/UserInfoPage.jsx";
+import BookingDetails from './pages/BookingDetails.jsx';
 
 function App() {
   const user = JSON.parse(sessionStorage.getItem("user"));
@@ -83,6 +84,7 @@ function App() {
         <Route path="/schedule-tour-booking" element={<ScheduleTourPage />} />
         <Route path="/booking-detail-user" element={<BookingDetailUser />} />
         <Route path="/top-tours" element={<TopTours />} />
+        <Route path="/booking-details/:id" element={<BookingDetails />} />
         <Route
           path="/schedule-tour-guide"
           element={<ScheduleTourGuidePage />}

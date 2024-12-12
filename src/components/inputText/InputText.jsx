@@ -3,7 +3,7 @@ import Input from '@mui/material/Input';
 import InputLabel from '@mui/material/InputLabel';
 import FormControl from '@mui/material/FormControl';
 import InputAdornment from '@mui/material/InputAdornment';
-function InputText({ id, label, type, value, onChange, children, disable, notForm, min, className }) {
+function InputText({ id, label, type, multiline, value, onChange, children, disable, notForm, min, className }) {
   const [focus, setFocus] = React.useState(false);
   return (
     <FormControl className={className} style={{ width: '100%', marginTop: notForm ? 0 : 20 }} variant="standard">
@@ -16,6 +16,7 @@ function InputText({ id, label, type, value, onChange, children, disable, notFor
         />
         : <Input
           key={id}
+          multiline={multiline}
           type={type}
           value={value}
           onChange={(e) => {
