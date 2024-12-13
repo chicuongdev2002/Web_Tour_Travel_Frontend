@@ -22,8 +22,13 @@ const getAllBooking = async (page, size, userId, sortBy, sortDirection) => {
 };
 
 const bookingTour = async (data) => {
-  const response = await axios.post(getAPI(BOOKING_TOUR, data));
-  return response.data;
+  try{
+    debugger
+    const response = await axios.post(getAPI(BOOKING_TOUR, data));
+    return response.data;
+  } catch(e){
+    return e.response.data;
+  }
 };
 
 const updateBookingStatus = async (bookingId) => {
