@@ -22,6 +22,9 @@ import {
   Add as AddIcon,
 } from "@mui/icons-material";
 import TourCard from "../tourCard/TourCard";
+import axiosInstance from "../../config/axios";
+import axios from "axios";
+import { getFavoriteTour } from "../../functions/getFavoriteTour";
 
 const FavoriteTourStatistics = ({ tours }) => {
   const totalTours = tours.length;
@@ -113,14 +116,8 @@ const FavoriteTourListComponent = () => {
   const fetchFavoriteTours = async (currentPage) => {
     setLoading(true);
     try {
-      const response = await fetch(
-        `http://localhost:8080/api/favorite-tours/favorites/${user.userId}`,
-      );
-      if (!response.ok) {
-        throw new Error("Failed to fetch favorite tours");
-      }
-
-      const data = await response.json();
+      const response = await getFavoriteTour(user.userId);
+      const data = response.data;
       if (data) {
         const startIndex = (currentPage - 1) * pageSize;
         const endIndex = startIndex + pageSize;
@@ -263,8 +260,8 @@ const FavoriteTourListComponent = () => {
                             departureCity: tour.startLocation,
                             tourType: tour.tourType,
                             startDate: tour.startDate,
-                            duration: `${tour.duration}N${tour.duration - 1}Đ`,
-                            originalPrice: "8,490,000",
+                            duration: tour.duration,
+                            originalPrice: tour.originalPrice,
                             availableSeats: tour.availableSeats,
                             discountedPrice: tour.price,
                             favorite: true,

@@ -36,8 +36,7 @@ import {
 } from "@mui/icons-material";
 import AssignTourGuideDialog from "./AssignTourGuideDialog";
 import * as XLSX from "xlsx";
-// import SockJS from 'sockjs-client';
-// import { Stomp } from '@stomp/stompjs';
+import { deleteAssignment, getTourAssignment, getTourAssignmentSize999 } from "../../functions/assignment";
 const Assignments = () => {
   const [assignments, setAssignments] = useState([]);
   const [stompClient, setStompClient] = useState(null);
@@ -65,9 +64,7 @@ const Assignments = () => {
   const fetchAssignments = async (page = 0, size = 0) => {
     setLoading(true);
     try {
-      const response = await axios.get(
-        `http://localhost:8080/api/tour-guides/assignments-all?page=${page}&size=${size}`,
-      );
+      const response=await getTourAssignment(page,size);
       console.log("Fetched assignments:", response.data);
       setAssignments(response.data.content);
       setTotalElements(response.data.page.totalElements);
@@ -90,10 +87,7 @@ const Assignments = () => {
 
   const fetchAllAssignments = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:8080/api/tour-guides/assignments-all?size=999999",
-      );
-      console.log("Fetched assignments:", response.data);
+      const response=await getTourAssignmentSize999();
       return response.data.content;
     } catch (err) {
       console.error("Error fetching all assignments:", err);
@@ -101,7 +95,7 @@ const Assignments = () => {
     }
   };
   const handleCheckboxChange = (departureId, guideId) => {
-    const key = `${departureId}-${guideId}`; // Tạo một key duy nhất cho mỗi cặp
+    const key = `${departureId}-${guideId}`;
     setSelectedAssignments((prev) => {
       const newSelected = new Set(prev);
       if (newSelected.has(key)) {
@@ -116,9 +110,7 @@ const Assignments = () => {
   const handleDeleteSelected = async () => {
     const deletePromises = Array.from(selectedAssignments).map(async (key) => {
       const [departureId, guideId] = key.split("-");
-      await axios.delete(
-        `http://localhost:8080/api/tour-guides/${guideId}/assignments/${departureId}`,
-      );
+      await deleteAssignment(guideId, departureId);
     });
 
     try {
@@ -174,13 +166,13 @@ const Assignments = () => {
     }
   };
   const handleChangePage = (event, newPage) => {
-    console.log("Changing page to:", newPage); // Log trang mới
+    console.log("Changing page to:", newPage);
     setPage(newPage);
   };
 
   const handleChangeRowsPerPage = (event) => {
     const newRowsPerPage = parseInt(event.target.value, 10);
-    console.log("Changing rows per page to:", newRowsPerPage); // Log số dòng mỗi trang
+    console.log("Changing rows per page to:", newRowsPerPage); 
     setRowsPerPage(newRowsPerPage);
     setPage(0);
   };
@@ -200,7 +192,7 @@ const Assignments = () => {
     return new Date(startDate) <= now && now <= new Date(endDate);
   };
 
-  const getStatusChip = (status, startDate, endDate) => {
+  const getStatusChip = (status, startDate, endDate,attendance) => {
     if (isTourOngoing(startDate, endDate)) {
       return (
         <Chip
@@ -212,6 +204,26 @@ const Assignments = () => {
       );
     }
 
+  if (attendance==false) {
+    return (
+      <Chip
+        icon={<Cancel />}
+        label="Chưa điểm danh"
+        color="error"
+        size="small"
+      />
+    );
+  }
+if(attendance){
+  return (
+    <Chip
+      icon={<CheckCircle />}
+      label="Đã điểm danh"
+      color="success"
+      size="small"
+    />
+  );
+}
     switch (status?.toUpperCase()) {
       case "TODO":
         return (
@@ -514,6 +526,15 @@ const Assignments = () => {
               >
                 HDV được phân công
               </TableCell>
+               <TableCell
+                sx={{
+                  fontWeight: "bold",
+                  bgcolor: "primary.main",
+                  color: "white",
+                }}
+              >
+                Điểm danh
+              </TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -548,12 +569,17 @@ const Assignments = () => {
                     assignment.status,
                     assignment.startDate,
                     assignment.endDate,
+                  
                   )}
                 </TableCell>
                 <TableCell>{formatDate(assignment.assignmentDate)}</TableCell>
                 <TableCell>{assignment.maxParticipants}</TableCell>
                 <TableCell>{assignment.availableSeats}</TableCell>
                 <TableCell>{assignment.guideName}</TableCell>
+                  <TableCell> {getStatusChip(
+                    null,null,null,
+                    assignment.attendance
+                  )}</TableCell>
               </TableRow>
             ))}
           </TableBody>

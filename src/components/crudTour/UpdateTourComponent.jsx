@@ -64,6 +64,7 @@ function UpdateTourComponent({ data }) {
   const [bookingByTour, setBookingByTour] = useState([]);
 
   useEffect(() => {
+    debugger
     getBookingByTourId(data.tourId).then((d) => {
       setBookingByTour(d);
       if (d.length === 0) setAllowUpdate(true);
@@ -133,11 +134,14 @@ function UpdateTourComponent({ data }) {
   };
 
   const checkBooking = (departureId) => {
+    debugger
+    if(bookingByTour.length === 0) return false;
     return bookingByTour.filter((b) => b.departureId === departureId).length > 0
   }
 
   const addButton = (departure) => {
     let d = departure.map((d) => {
+      debugger
       return {
         ...d,
         update: (
@@ -201,6 +205,7 @@ function UpdateTourComponent({ data }) {
           return;
         }
       }
+      debugger
       let dataRequest = {
         tour: {
           tourId: data.tourId,

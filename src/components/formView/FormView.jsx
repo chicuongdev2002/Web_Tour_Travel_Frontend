@@ -18,6 +18,7 @@ import left_travel from '../../assets/left_travel.png'
 import right_plane from '../../assets/right_globe.png'
 import right_tour_guide from '../../assets/right_tour-guide.png'
 import right_travel from '../../assets/right_travel.png'
+import LocationSelectCustom from "../../components/location/LocationSelectCustom";
 
 function FormView({ children, title, titleBackground, data, className, notBorder, notIcon, disable }) {
     const listData = [airplane, bg_luggage, bus, map_location, road_trip, travel_bag]
@@ -60,7 +61,13 @@ function FormView({ children, title, titleBackground, data, className, notBorder
                         !item? null :
                         item.object ?
                             <div key={index}>
-                                { item.object.type === 'image' ?
+                                {  item.object.type === 'location'? 
+                                <LocationSelectCustom label={item.object.value.label}
+            province={item.object.value.province} provinces={item.object.value.provinces} district={item.object.value.district} districts={item.object.value.districts}
+            onChangeProvince={item.object.value.onChangeProvince} onChangeDitricts={item.object.value.onChangeDitricts}
+            />
+                                :
+                                item.object.type === 'image' ?
                                     <div style={{ marginTop: 20 }} className='divRow w-100'>
                                         <p>{item.label}</p>
                                         {item.object.value.map((img, index) => (

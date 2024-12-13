@@ -18,6 +18,8 @@ import {
 } from "@mui/material";
 import axios from "axios";
 import StarIcon from "@mui/icons-material/Star";
+import { getCustomers } from "../../../functions/customercrud";
+import { sendDiscountCode } from "../../../functions/discountCrud";
 
 const ITEMS_PER_PAGE = 5;
 
@@ -38,7 +40,7 @@ const CustomerSelectionModal = ({ discountIds, open, onClose }) => {
   useEffect(() => {
     const fetchCustomers = async () => {
       try {
-        const response = await axios.get("http://localhost:8080/api/users");
+        const response=await getCustomers();
         setCustomers(response.data);
       } catch (error) {
         console.error("Error fetching customers:", error);
@@ -67,15 +69,7 @@ const CustomerSelectionModal = ({ discountIds, open, onClose }) => {
 
     setLoading(true);
     try {
-      console.log(discountIds);
-      const response = await axios.post(
-        "http://localhost:8080/api/discounts/send-discount-code",
-        {
-          emails: selectedCustomers,
-          discountIds: discountIds,
-        },
-      );
-
+      const response = await sendDiscountCode(selectedCustomers, discountIds);
       const newSentEmails = [...new Set([...sentEmails, ...selectedCustomers])];
       setSentEmails(newSentEmails);
       localStorage.setItem("sentEmails", JSON.stringify(newSentEmails));

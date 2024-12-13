@@ -23,6 +23,7 @@ const ACCOUNT_LOCK = REACT_APP_HOST + "/api/accounts/lock";
 const ACCOUNT_UNLOCK = REACT_APP_HOST + "/api/accounts/unlock";
 const DELETE_TOUR = REACT_APP_HOST + "/api/tours/delete";
 const GET_TOUR_MANAGER = REACT_APP_HOST + "/api/tours/list-tours";
+const GET_TOUR_PROVIDER = REACT_APP_HOST + "/api/tours/provider";
 const APPROVE_TOUR = REACT_APP_HOST + "/api/tours/approve";
 const GET_ALL_TOUR_TEST = REACT_APP_HOST + "/api/tours/test";
 const STATIS_REVENUE_TOTAL = REACT_APP_HOST + "/api/tours/revenue-statistics";
@@ -45,6 +46,23 @@ const CANCEL_BOOKING = REACT_APP_HOST + '/api/bookings/cancelBooking'
 const POST_DESTINATION = REACT_APP_HOST + "/api/destinations/addDestination";
 const API_CHAT = 'https://api.dify.ai/v1/chat-messages';
 const TOKEN_CHAT = 'Bearer app-vvW7w3XIvr5tcfWlRnuyCvoV';
+const REVIEW_ALL = REACT_APP_HOST + "/api/reviews";
+const ATTENDANCE=REACT_APP_HOST+ "/api/tour-guides/attendance"
+const TOURGUIDE_SCHEDULE=REACT_APP_HOST+ "/api/tour-guides/schedule"
+const FAVORITE_TOUR=REACT_APP_HOST+ "/api/favorite-tours"
+const TOUR_GUIDE_ASSIGNMENT=REACT_APP_HOST+ "/api/tour-guides/assignments-all"
+const TOUR_GUIDE=REACT_APP_HOST+ "/api/tour-guides"
+const GET_DISCOUNT_TOUR=REACT_APP_HOST+ "/api/discounts"
+const ITINERARY_BOOKING_TOUR=REACT_APP_HOST+ "/api/bookings/itinerary"
+const TOUR_SIMPLE=REACT_APP_HOST+ "/api/tours/simple"
+const TOUR_PROVIDER_DETAILS=REACT_APP_HOST+ "/api/tours/count-by-user"
+const REVIEW_USER_STATISTICS=REACT_APP_HOST+ "/api/reviews/user-statistics"
+const LOGIN_WITH_EMAIL=REACT_APP_HOST+ "/api/accounts/login-with-email"
+const GET_ALL_DEPARTURE = REACT_APP_HOST + "/api/tours/allWithDeparture";
+const ASSIGNMENT_TOURGUIDE=REACT_APP_HOST+ "/api/tour-guides/assign-tour-guide"
+const BOOKING_DETAIL=REACT_APP_HOST+ "/api/bookings/user"
+const REFRESH_TOKEN_ENDPOINT = REACT_APP_HOST + "/api/accounts/refresh-token";
+const LOG_OUT = REACT_APP_HOST + "/api/accounts/logout"
 const GET_BOOKING_ID = REACT_APP_HOST + '/api/bookings/getBooking'
 const GET_BOOKING_BY_TOUR = REACT_APP_HOST + '/api/bookings/getByTourId'
 const getAPI = (api, params, paramId) => {
@@ -60,7 +78,7 @@ const getAPI = (api, params, paramId) => {
 };
 
 export default REACT_APP_HOST
-export { GET_ALL_TOUR, CHECK_ACCOUNT_EXISTS, CHECK_USER_EXISTS, BOOKING_TOUR, GET_PAGE_BOOKING, 
+export { REACT_APP_HOST,GET_ALL_TOUR, CHECK_ACCOUNT_EXISTS, CHECK_USER_EXISTS, BOOKING_TOUR, GET_PAGE_BOOKING, 
     SEND_CODE_VERIFYCATION, VERIFY_CODE, LOGIN, REGISTER, RESET_PASSWORD, SEARCH, GET_TOUR_DETAIL,GET_EMAIL, 
     GET_PAGE_DESTINATION, POST_TOUR, UPDATE_TOUR, UPDATE_TOUR_STATUS, UPDATE_BOOKING_STATUS, UPLOAD_IMAGE,CHANGE_PASSWORD,
     ACCOUNT_UNLOCK,ACCOUNT_LOCK,GET_ACCOUNT,GET_USER, GET_NOTIFY, WEB_SOCKET, GET_LINK_MOMO, 
@@ -71,4 +89,10 @@ export { GET_ALL_TOUR, CHECK_ACCOUNT_EXISTS, CHECK_USER_EXISTS, BOOKING_TOUR, GE
     REVIEW_MONTHLY_STATIS,
     STATIS_REVENUE_TOTAL,
     GET_ALL_TOUR_TEST, GET_TOUR_TYPE, GET_BOOKING, CANCEL_BOOKING, POST_DESTINATION, API_CHAT,
-    TOKEN_CHAT, GET_BOOKING_ID, GET_BOOKING_BY_TOUR, getAPI };
+    TOKEN_CHAT,REVIEW_ALL,
+  ATTENDANCE,
+  TOURGUIDE_SCHEDULE,
+  GET_TOUR_PROVIDER,
+  FAVORITE_TOUR,
+  TOUR_GUIDE_ASSIGNMENT,
+  TOUR_GUIDE,GET_DISCOUNT_TOUR,ITINERARY_BOOKING_TOUR,TOUR_SIMPLE, TOUR_PROVIDER_DETAILS,REVIEW_USER_STATISTICS,LOGIN_WITH_EMAIL,GET_ALL_DEPARTURE,ASSIGNMENT_TOURGUIDE,BOOKING_DETAIL,REFRESH_TOKEN_ENDPOINT,LOG_OUT,GET_BOOKING_ID,GET_BOOKING_BY_TOUR,getAPI };

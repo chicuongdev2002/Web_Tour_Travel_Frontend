@@ -30,6 +30,8 @@ import {
   BlurOn as ScannerIcon,
 } from "@mui/icons-material";
 import { motion, AnimatePresence } from "framer-motion";
+import { WEB_SOCKET } from "../../config/host";
+
 
 function CheckInApp() {
   const [showCamera, setShowCamera] = useState(false);
@@ -37,8 +39,8 @@ function CheckInApp() {
   const [stompClient, setStompClient] = useState(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [connectionStatus, setConnectionStatus] = useState("connecting");
-
-  const SOCKET_URL = "http://localhost:8080/ws";
+  const [isBookingDialogOpen, setIsBookingDialogOpen] = useState(false);
+  const SOCKET_URL = WEB_SOCKET;
 
   const initializeStompClient = useCallback(() => {
     const socket = new SockJS(SOCKET_URL);
@@ -94,6 +96,7 @@ function CheckInApp() {
         message: "Check-in thành công!",
         booking: response.booking,
       });
+      setIsBookingDialogOpen(true);
       setShowCamera(false);
     } else {
       setCheckInStatus({
@@ -380,8 +383,8 @@ function CheckInApp() {
 
               {checkInStatus?.booking && (
                 <Dialog
-                  open={!!checkInStatus?.booking}
-                  onClose={() => setCheckInStatus(null)}
+                   open={isBookingDialogOpen && !!checkInStatus?.booking}
+                onClose={() => setIsBookingDialogOpen(false)}
                   maxWidth="xs"
                   fullWidth
                 >
@@ -410,7 +413,7 @@ function CheckInApp() {
                         <Divider sx={{ my: 1 }} />
                         <Typography variant="body1">
                           <strong>HDV:</strong>{" "}
-                          {checkInStatus.booking.tourGuide.fullName}
+                          {checkInStatus.booking.tourGuide?.fullName}
                         </Typography>
                         <Divider sx={{ my: 1 }} />
                         <Typography variant="body1">
@@ -427,7 +430,7 @@ function CheckInApp() {
                   </DialogContent>
                   <DialogActions>
                     <Button
-                      onClick={() => setCheckInStatus(null)}
+                      onClick={() => setIsBookingDialogOpen(false)}
                       color="primary"
                       fullWidth
                       sx={{ m: 2 }}

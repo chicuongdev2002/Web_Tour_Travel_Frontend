@@ -1,6 +1,8 @@
+import { FAVORITE_TOUR } from "../config/host";
+
 export const deleteFavoriteTour = async (userId, tourId) => {
   const response = await fetch(
-    `http://localhost:8080/api/favorite-tours?userId=${userId}&tourId=${tourId}`,
+    `${FAVORITE_TOUR}?userId=${userId}&tourId=${tourId}`,
     {
       method: "DELETE",
       headers: {

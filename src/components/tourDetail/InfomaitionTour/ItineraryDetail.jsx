@@ -78,7 +78,7 @@ const ItineraryDetail = ({ destinations }) => {
             )}
 
             {/* Footer */}
-            <div className="itinerary-footer mt-4 pt-3 border-t border-gray-100 flex gap-6">
+            {/* <div className="itinerary-footer mt-4 pt-3 border-t border-gray-100 flex gap-6">
               <button className="itinerary-footer-button flex items-center gap-2 text-sm">
                 <ThumbsUp className="w-4 h-4" />
                 Hữu ích
@@ -91,7 +91,7 @@ const ItineraryDetail = ({ destinations }) => {
                 <Star className="w-4 h-4" />
                 Lưu
               </button>
-            </div>
+            </div> */}
           </div>
         </div>
       ))}

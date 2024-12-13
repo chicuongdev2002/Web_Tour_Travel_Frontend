@@ -19,12 +19,12 @@ import {
   LinearProgress,
   Tooltip,
   Alert,
-  Snackbar
+  Snackbar,
 } from "@mui/material";
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogTitle from '@mui/material/DialogTitle';
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogTitle from "@mui/material/DialogTitle";
 import {
   Star as StarIcon,
   TrendingUp as TrendingUpIcon,
@@ -39,6 +39,7 @@ import nlp from "compromise";
 import Sentiment from "sentiment";
 import { useNavigate } from "react-router-dom";
 import ChoosePopup from "../../popupNotifications/ChoosePopup";
+import { addReview, deleteReview, updateReview } from "../../../functions/crudReview";
 const theme = createTheme({
   palette: {
     primary: {
@@ -113,7 +114,7 @@ const FilterChip = styled(Chip)(({ theme }) => ({
 
 const ReviewComponent = ({ reviews, tourId }) => {
   const [openLoginModal, setOpenLoginModal] = useState(false);
-   const navigate = useNavigate();
+  const navigate = useNavigate();
   const user = JSON.parse(sessionStorage.getItem("user"));
   const [filterRating, setFilterRating] = useState(0);
   const [sortOrder, setSortOrder] = useState("newest");
@@ -342,10 +343,10 @@ const ReviewComponent = ({ reviews, tourId }) => {
 
   const handleAddComment = async () => {
     if (!newComment) return;
-  if (!user) {
-    localStorage.setItem('redirectAfterLogin', window.location.pathname);
-    setIsPopupOpen(true);
-  }
+    if (!user) {
+      localStorage.setItem("redirectAfterLogin", window.location.pathname);
+      setIsPopupOpen(true);
+    }
     const newReview = {
       userId: user.userId,
       tourId: tourId,
@@ -354,20 +355,7 @@ const ReviewComponent = ({ reviews, tourId }) => {
     };
 
     try {
-      // Gọi API để thêm bình luận mới
-      const response = await fetch("http://localhost:8080/api/reviews", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(newReview),
-      });
-
-      if (!response.ok) {
-        throw new Error("Failed to add comment");
-      }
-
-      const addedReview = await response.json();
+      const addedReview = await addReview(newReview);
       const reviewWithFullName = {
         ...addedReview,
         userName: user.fullName,
@@ -380,17 +368,7 @@ const ReviewComponent = ({ reviews, tourId }) => {
   };
   const handleDeleteComment = async (reviewId) => {
     try {
-      const response = await fetch(
-        `http://localhost:8080/api/reviews/${reviewId}`,
-        {
-          method: "DELETE",
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to delete comment");
-      }
-
+      await deleteReview(reviewId);
       // Cập nhật cả originalReviews và searchResults
       const updatedReviews = originalReviews.filter(
         (review) => review.reviewId !== reviewId,
@@ -404,7 +382,6 @@ const ReviewComponent = ({ reviews, tourId }) => {
         );
         setSearchResults(updatedSearchResults);
       }
-
       // Reset về trang 1 nếu trang hiện tại không còn review nào
       const updatedTotalPages = Math.ceil(
         updatedReviews.length / reviewsPerPage,
@@ -439,22 +416,7 @@ const ReviewComponent = ({ reviews, tourId }) => {
     };
 
     try {
-      const response = await fetch(
-        `http://localhost:8080/api/reviews/${editingReviewId}`,
-        {
-          method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(updatedReview),
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error("Failed to update comment");
-      }
-
-      const updatedReviewData = await response.json();
+      const updatedReviewData = await updateReview(editingReviewId, updatedReview);
       const updatedReviews = originalReviews.map((review) =>
         review.reviewId === editingReviewId
           ? { ...updatedReviewData, userName: user.fullName }
@@ -468,13 +430,13 @@ const ReviewComponent = ({ reviews, tourId }) => {
       console.error("Error updating comment:", error);
     }
   };
-    const handlePopupClose = () => {
+  const handlePopupClose = () => {
     setIsPopupOpen(false);
   };
 
   const handlePopupAccept = () => {
     setIsPopupOpen(false);
-    localStorage.setItem('redirectAfterLogin', window.location.pathname);
+    localStorage.setItem("redirectAfterLogin", window.location.pathname);
     navigate("/login-register");
   };
   return (
@@ -758,7 +720,7 @@ const ReviewComponent = ({ reviews, tourId }) => {
                 )}
               </Box>
               <Typography variant="body1" color="text.primary">
-                {review.comment}
+                {review.active ? review.comment : "Bình luận đã bị ẩn"}
               </Typography>
             </Box>
           ))}
@@ -880,14 +842,14 @@ const ReviewComponent = ({ reviews, tourId }) => {
               )}
             </Box>
           </Box>
-        <ChoosePopup
-        title="Đăng Nhập Cần Thiết"
-        message="Bạn cần đăng nhập để thực hiện chức năng này. Bạn có muốn chuyển đến trang đăng nhập không?"
-        open={isPopupOpen}
-        onclose={handlePopupClose}
-        onAccept={handlePopupAccept}
-        onReject={handlePopupClose}
-      />
+          <ChoosePopup
+            title="Đăng Nhập Cần Thiết"
+            message="Bạn cần đăng nhập để thực hiện chức năng này. Bạn có muốn chuyển đến trang đăng nhập không?"
+            open={isPopupOpen}
+            onclose={handlePopupClose}
+            onAccept={handlePopupAccept}
+            onReject={handlePopupClose}
+          />
         </Container>
       </Box>
     </ThemeProvider>

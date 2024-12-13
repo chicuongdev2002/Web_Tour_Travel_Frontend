@@ -32,6 +32,8 @@ import {
   Download as DownloadIcon,
   Chat as ChatIcon,
   Warning as WarningIcon,
+  RateReview as RateReviewIcon,
+  Home as HomeIcon 
 } from "@mui/icons-material";
 import {
   Box,
@@ -96,6 +98,7 @@ import TourStatistics from "../tour/TourAgencyStatistics";
 import RevenueDashboard from "../tour/RevenueDashboard";
 import TourAgencyStatistics from "../tour/TourAgencyStatistics";
 import BookingListComponent from "../booking/BookingListComponent";
+import ReviewManagementPage from "../../pages/ReviewManagementPage";
 const drawerWidth = 280;
 
 const AdminDashboard = () => {
@@ -203,6 +206,14 @@ const AdminDashboard = () => {
         { name: "Danh sách mã khuyến mãi", path: "/admin/discount-list" },
       ],
     },
+      {
+      id: "review",
+      name: "Quản lí bình luận",
+      icon: <RateReviewIcon />,
+      children: [
+        { name: "Danh sách bình luận", path: "/admin/review-manager" },
+      ],
+    },
     {
       id: "statistics",
       name: "Thống kê",
@@ -245,7 +256,10 @@ const AdminDashboard = () => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-
+const login=() => {
+    localStorage.setItem("redirectAfterLogin", window.location.pathname);
+    navigate("/login-register");
+};
   const getBreadcrumbName = (path) => {
     const currentPath = path.split("/").pop();
     const pathNameMap = {
@@ -264,7 +278,8 @@ const AdminDashboard = () => {
       "statis-tourguide": "Thống kê HDV",
       "statis-tour-reiview": "Thống kê đánh giá tour",
       "statis-tour-provider": "Thống kê tour đại lý",
-      revenue: "Thống kê doanh thu",
+      "revenue": "Thống kê doanh thu",
+      "review-manager": "Quản lí bình luận",
     };
 
     return (
@@ -298,7 +313,7 @@ const AdminDashboard = () => {
             </Typography>
             <Button
               variant="contained"
-              onClick={() => navigate("/login-register")}
+              onClick={() => login()}
               sx={{ mt: 3 }}
             >
               Đăng nhập
@@ -593,7 +608,11 @@ const AdminDashboard = () => {
                 </Badge>
               </IconButton>
             </Tooltip>
-
+  <Tooltip title="Về trang chủ">
+    <IconButton color="inherit" onClick={() => navigate('/')}>
+      <HomeIcon />
+    </IconButton>
+  </Tooltip>
             {/* Language Selector */}
             <Tooltip title="Ngôn ngữ">
               <IconButton color="inherit">
@@ -703,6 +722,7 @@ const AdminDashboard = () => {
           <Route path="/revenue" element={<RevenueDashboard />} />
           <Route path="/notify" element={<NotifyComponent />} />
           <Route path="/tour-manager" element={<TourManagerPage />} />
+          <Route path="/review-manager" element={<ReviewManagementPage />} />
         </Routes>
       </Box>
 
@@ -727,6 +747,12 @@ const AdminDashboard = () => {
             <PersonIcon fontSize="small" />
           </ListItemIcon>
           Thông tin cá nhân
+        </MenuItem>
+      <MenuItem onClick={() => navigate('/')}>
+          <ListItemIcon>
+           <HomeIcon fontSize="small" />
+          </ListItemIcon>
+          Trang chủ
         </MenuItem>
         <MenuItem onClick={handleOpenSettings}>
           <ListItemIcon>

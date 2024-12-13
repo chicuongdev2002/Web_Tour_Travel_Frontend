@@ -192,7 +192,7 @@ function SearchPage() {
     <ThemeProvider theme={theme}>
       <Box
         sx={{
-          background: "linear-gradient(to bottom, #00aaff, #e0f7fa)",
+          // background: "linear-gradient(to bottom, #00aaff, #e0f7fa)",
           minHeight: "100vh",
           pt: 2,
           overflowY: "auto",

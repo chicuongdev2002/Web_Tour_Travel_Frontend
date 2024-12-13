@@ -60,7 +60,7 @@ const CustomerTable = ({
   const [filterType, setFilterType] = useState("");
   const [sortColumn, setSortColumn] = useState("userId");
   const [sortDirection, setSortDirection] = useState("asc");
-  const [filteredCustomers, setFilteredCustomers] = useState(customers);
+ const [filteredCustomers, setFilteredCustomers] = useState(customers || []);
   const [anchorEl, setAnchorEl] = useState(null);
 
   const handleChangePage = (event, newPage) => {
@@ -267,7 +267,7 @@ const CustomerTable = ({
           </TableRow>
         </TableHead>
         <TableBody>
-          {filteredCustomers
+          {filteredCustomers?.length > 0 && filteredCustomers
             .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
             .map((customer) => (
               <TableRow

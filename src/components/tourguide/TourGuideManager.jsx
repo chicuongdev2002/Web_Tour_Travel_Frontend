@@ -7,6 +7,10 @@ import AssignmentDialog from "./dialog/AssignmentDialog";
 import DepartureDialog from "./dialog/DepartureDialog";
 import UpdateDialog from "./dialog/UpdateDialog";
 import { useNavigate } from "react-router-dom";
+import { getAllTourGuide } from "../../functions/tourguidecrud";
+import { assignmentTourGuide, getAllDeparture } from "../../functions/assignmentCrud";
+import SuccessPopup from "../popupNotifications/SuccessPopup";
+import FailPopup from "../popupNotifications/FailPopup";
 const TourGuideManager = () => {
   const navigate = useNavigate();
   const [tourGuides, setTourGuides] = useState([]);
@@ -24,13 +28,19 @@ const TourGuideManager = () => {
   const [updateAssignments, setUpdateAssignments] = useState(false);
   const [updateDialogOpen, setUpdateDialogOpen] = useState(false);
   const [selectedTourGuide, setSelectedTourGuide] = useState(null);
+    const [successPopup, setSuccessPopup] = useState({
+    open: false,
+    message: "",
+  });
+  const [failPopup, setFailPopup] = useState({ open: false, message: "" });
   useEffect(() => {
     fetchTourGuides();
   }, []);
   const fetchTourGuides = async () => {
     try {
-      const response = await axios.get("http://localhost:8080/api/tour-guides");
-      setTourGuides(response.data);
+
+      const response = await getAllTourGuide();
+        setTourGuides(response.data);
       setFilteredGuides(response.data);
     } catch (err) {
       setError("Không thể tải danh sách hướng dẫn viên.");
@@ -89,10 +99,7 @@ const TourGuideManager = () => {
 
   const handleAssignClick = async () => {
     try {
-      const response = await axios.get(
-        "http://localhost:8080/api/tours/allWithDeparture",
-      );
-      console.log(response.data);
+      const response = await getAllDeparture();
       setSelectedDeparture(response.data);
       setDepartureDialogOpen(true);
     } catch (error) {
@@ -107,18 +114,22 @@ const TourGuideManager = () => {
     });
 
     try {
-      await axios.post(
-        "http://localhost:8080/api/tour-guides/assign-tour-guide",
-        {
-          guideIds: selectedGuides,
-          departureId: selectedDepartureId,
-        },
-      );
+      const response = await assignmentTourGuide(selectedGuides, selectedDepartureId);
+      if(response.status===200){
+        setSuccessPopup({
+        open: true,
+        message: "Phân công tour thành công",
+      });
       setDepartureDialogOpen(false);
       setSelectedGuides([]);
       setUpdateAssignments((prev) => !prev);
+      }
+     
     } catch (error) {
-      console.error("Lỗi khi phân công tour:", error);
+       setFailPopup({
+        open: true,
+        message: error.response.data,
+      });
     }
   };
 
@@ -144,7 +155,7 @@ const TourGuideManager = () => {
     return <Typography color="error">{error}</Typography>;
   }
   const goToList = () => {
-    navigate("/list-assignment");
+    navigate("/admin/list-assignment");
   };
   return (
     <Container>
@@ -184,6 +195,18 @@ const TourGuideManager = () => {
         onClose={handleCloseUpdateDialog}
         tourGuide={selectedTourGuide}
         onRefresh={fetchTourGuides}
+      />
+       <SuccessPopup
+        open={successPopup.open}
+        message={successPopup.message}
+        onClose={() => setSuccessPopup({ open: false, message: "" })}
+        onClick={() => setSuccessPopup({ open: false, message: "" })}
+      />
+      <FailPopup
+        open={failPopup.open}
+        message={failPopup.message}
+        onClose={() => setFailPopup({ open: false, message: "" })}
+        onClick={() => setFailPopup({ open: false, message: "" })}
       />
     </Container>
   );

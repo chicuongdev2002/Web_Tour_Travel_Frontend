@@ -23,6 +23,7 @@ import {
   ResponsiveContainer,
 } from "recharts";
 import axios from "axios";
+import { getTourCountByUser } from "../../functions/getTourCountByUser";
 
 const TourAgencyStatistics = () => {
   const [userData, setUserData] = useState([]);
@@ -33,9 +34,7 @@ const TourAgencyStatistics = () => {
   useEffect(() => {
     const fetchTourData = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:8080/api/tours/count-by-user",
-        );
+        const response = await getTourCountByUser();
         setUserData(response.data);
 
         // Tour Type Analysis

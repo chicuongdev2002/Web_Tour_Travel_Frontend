@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import TourDetailComponent from "../components/tourDetail/TourDetailComponent";
 import { getTourDetail } from "../functions/getTourDetails";
 import NavHeader from "../components/navbar/NavHeader";
-import '../style/StylePage.css'
+import "../style/StylePage.css";
 function TourDetails() {
   const { id } = useParams();
   const [tourData, setTourData] = useState(null);

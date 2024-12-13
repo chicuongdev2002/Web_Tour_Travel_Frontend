@@ -30,6 +30,7 @@ import {
   CheckCircle as CheckCircleIcon,
   Error as ErrorIcon,
 } from "@mui/icons-material";
+import { getBookingDetail } from "../../functions/bookingDetails";
 
 const BookingDetailUser = () => {
   const theme = useTheme();
@@ -72,13 +73,10 @@ const BookingDetailUser = () => {
     const fetchBookings = async () => {
       if (user && user.userId) {
         try {
-          const response = await axios.get(
-            `http://localhost:8080/api/bookings/user/${user.userId}`,
-          );
+          const response = await getBookingDetail(user.userId);
           setBookings(response.data);
         } catch (error) {
           console.error("Lỗi khi lấy thông tin đặt chỗ", error);
-          // Consider adding a user-friendly error notification
         } finally {
           setLoading(false);
         }
@@ -130,15 +128,6 @@ const BookingDetailUser = () => {
         background: alpha(theme.palette.background.default, 0.9),
       }}
     >
-      {/* <Card 
-        elevation={6} 
-        sx={{ 
-          borderRadius: 3,
-          boxShadow: theme.shadows[4],
-          overflow: 'hidden'
-        }}
-      >
-        <CardContent sx={{ p: { xs: 2, sm: 3, md: 4 } }}> */}
       <Typography
         variant="h4"
         gutterBottom

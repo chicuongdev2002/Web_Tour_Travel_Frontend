@@ -82,7 +82,6 @@ const RevenueDashboard = () => {
     ticketRevenue: {},
   });
 
-  // New states for export features
   const [isExporting, setIsExporting] = useState(false);
   const [exportSettingsOpen, setExportSettingsOpen] = useState(false);
   const [selectedCharts, setSelectedCharts] = useState({

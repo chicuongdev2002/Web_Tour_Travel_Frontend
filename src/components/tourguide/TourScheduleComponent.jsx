@@ -36,19 +36,20 @@ import {
   Facebook as FacebookIcon,
   WhatsApp as WhatsAppIcon,
 } from "@mui/icons-material";
-import axios from "axios";
 import TourTimeline from "./TourTimeline";
-import NavHeader from "../navbar/NavHeader";
+import AttendanceComponent from "./AttendanceComponent";
+import { getScheduleTourGuide } from "../../functions/getScheduleTourGuide";
 
 const TourScheduleComponent = () => {
   const [tours, setTours] = useState([]);
   const [selectedDate, setSelectedDate] = useState(null);
   const [selectedTours, setSelectedTours] = useState([]);
+  const [departureId,setDepartureId]=useState(null);
   const [selectedTourCustomers, setSelectedTourCustomers] = useState([]);
   const [error, setError] = useState(null);
   const [tourGuideId, setTourGuideId] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
-
+  const [attendance,setAttendance]=useState(false);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down("md"));
 
@@ -69,25 +70,31 @@ const TourScheduleComponent = () => {
       setIsLoading(false);
     }
   }, []);
+const fetchTourSchedule = async () => {
+  if (!tourGuideId) return;
+
+  try {
+    setIsLoading(true);
+    const response = await getScheduleTourGuide(tourGuideId);
+    setTours(response.data);
+    if (selectedDate) {
+      const matchedTours = response.data.filter((tour) => {
+        const start = new Date(tour.startDate);
+        return start.toDateString() === selectedDate.toDateString();
+      });
+      
+      setSelectedTours(matchedTours);
+      setAttendance(matchedTours[0]?.attendance || false);
+    }
+    setIsLoading(false);
+  } catch (err) {
+    console.error("Error fetching tour schedule:", err);
+    setError("Không thể tải lịch trình. Vui lòng thử lại sau.");
+    setIsLoading(false);
+  }
+};
 
   useEffect(() => {
-    const fetchTourSchedule = async () => {
-      if (!tourGuideId) return;
-
-      try {
-        setIsLoading(true);
-        const response = await axios.get(
-          `http://localhost:8080/api/tour-guides/schedule/${tourGuideId}`,
-        );
-        setTours(response.data);
-        setIsLoading(false);
-      } catch (err) {
-        console.error("Error fetching tour schedule:", err);
-        setError("Không thể tải lịch trình. Vui lòng thử lại sau.");
-        setIsLoading(false);
-      }
-    };
-
     fetchTourSchedule();
   }, [tourGuideId]);
 
@@ -103,10 +110,8 @@ const TourScheduleComponent = () => {
   };
 
   const handlePhoneClick = (phone) => {
-    window.open(`tel:+${phone}`, "_self"); 
+    window.open(`tel:+${phone}`, "_self");
   };
-
-
   const getTourCount = (date) => {
     return tours.filter((tour) => {
       const startDate = new Date(tour.startDate);
@@ -121,7 +126,9 @@ const TourScheduleComponent = () => {
       return start.toDateString() === date.toDateString();
     });
     setSelectedTours(matchedTours);
-
+    setDepartureId(matchedTours[0].departureId);
+    setAttendance(matchedTours[0].attendance);
+    console.log(matchedTours[0].attendance);
     if (matchedTours.length === 1) {
       setSelectedTourCustomers(matchedTours[0].customers || []);
     } else {
@@ -192,7 +199,8 @@ const TourScheduleComponent = () => {
   };
 
   const renderEmptyState = () => (
-    <Box elevation={3}
+    <Box
+      elevation={3}
       sx={{
         p: 4,
         height: "100%",
@@ -202,7 +210,8 @@ const TourScheduleComponent = () => {
         alignItems: "center",
         textAlign: "center",
         bgcolor: theme.palette.grey[50],
-      }}>
+      }}
+    >
       <DateRangeIcon
         sx={{
           fontSize: 48,
@@ -216,7 +225,7 @@ const TourScheduleComponent = () => {
       <Typography variant="body2" color="text.disabled" sx={{ maxWidth: 300 }}>
         Vui lòng chọn một ngày trên lịch để xem chi tiết chuyến đi
       </Typography>
-      </Box>
+    </Box>
   );
   const scrollbarStyles = `
   /* Custom Scrollbar Styles */
@@ -303,8 +312,32 @@ const TourScheduleComponent = () => {
           background-color: ${theme.palette.primary.light}40;
           border-radius: 8px;
         }
+           .responsive-table-container {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            &::-webkit-scrollbar {
+              height: 6px;
+            }
+            &::-webkit-scrollbar-thumb {
+              background-color: ${theme.palette.primary.main}40;
+              border-radius: 6px;
+            }
+          }
+          
+          @media (max-width: 600px) {
+            .MuiTableCell-root {
+              padding: 8px;
+              font-size: 0.8rem;
+            }
+            .MuiChip-root {
+              font-size: 0.7rem;
+              height: 24px;
+            }
+          }
+        
           ${scrollbarStyles}
-
+         
       `}
       </style>
       {/* <NavHeader textColor="black" /> */}
@@ -405,17 +438,27 @@ const TourScheduleComponent = () => {
                 <Typography variant="h6" fontWeight="bold" color="primary">
                   Chi tiết chuyến đi ngày {selectedDate.toLocaleDateString()}
                 </Typography>
+  <AttendanceComponent
+     departureId={departureId} 
+    userId={tourGuideId}
+    departureDate={selectedDate}
+    attendance={attendance}
+    onSuccess={fetchTourSchedule}
+  />
+               
               </Stack>
               <Box
                 className="custom-scrollbar"
                 sx={{ flexGrow: 1, overflow: "auto" }}
               >
+                <Box className="responsive-table-container" sx={{ mb: 3 }}>
                 <TableContainer
                   sx={{
                     width: "100%",
                     mb: 3,
                     borderRadius: 2,
                     border: `1px solid ${theme.palette.divider}`,
+                    minWidth: isMobile ? 600 : 'auto'
                   }}
                 >
                   <Table>
@@ -423,6 +466,9 @@ const TourScheduleComponent = () => {
                       <TableRow>
                         <TableCell sx={{ fontWeight: "bold", color: "white" }}>
                           Tên Tour
+                        </TableCell>
+                            <TableCell sx={{ fontWeight: "bold", color: "white" }}>
+                          Địa điểm bắt đầu
                         </TableCell>
                         <TableCell sx={{ fontWeight: "bold", color: "white" }}>
                           Ngày Bắt Đầu
@@ -449,6 +495,7 @@ const TourScheduleComponent = () => {
                           }}
                         >
                           <TableCell>{tour.tourName}</TableCell>
+                            <TableCell>{tour.startLocation}</TableCell>
                           <TableCell>
                             <Chip
                               label={formatDateTime(tour.startDate)}
@@ -485,7 +532,7 @@ const TourScheduleComponent = () => {
                     </TableBody>
                   </Table>
                 </TableContainer>
-
+                </Box>
                 {selectedTourCustomers.length > 0 && (
                   <>
                     <Divider sx={{ my: 2 }} />
@@ -605,11 +652,13 @@ const TourScheduleComponent = () => {
                       <Box
                         className="custom-scrollbar"
                         sx={{ flexGrow: 1, overflow: "auto" }}
-                      ></Box>
+                      >
+                         <Box className="responsive-table-container" sx={{ mb: 3 }}>
                       <TableContainer
                         sx={{
                           borderRadius: 2,
                           border: `1px solid ${theme.palette.divider}`,
+                            overflowX: 'auto',
                         }}
                       >
                         <Table size={isMobile ? "small" : "medium"}>
@@ -620,18 +669,18 @@ const TourScheduleComponent = () => {
                               >
                                 Họ Tên
                               </TableCell>
-                              {!isMobile && (
+                              {/* {!isMobile && ( */}
                                 <TableCell
                                   sx={{ fontWeight: "bold", color: "white" }}
                                 >
                                   Email
                                 </TableCell>
-                              )}
-                               <TableCell
-                                  sx={{ fontWeight: "bold", color: "white" }}
-                                >
-                                  Số điện thoại
-                                </TableCell>
+                              {/* )} */}
+                              <TableCell
+                                sx={{ fontWeight: "bold", color: "white" }}
+                              >
+                                Số điện thoại
+                              </TableCell>
                               <TableCell
                                 sx={{ fontWeight: "bold", color: "white" }}
                               >
@@ -664,7 +713,7 @@ const TourScheduleComponent = () => {
                                     {customer.fullName}
                                   </Typography>
                                 </TableCell>
-                                {!isMobile && (
+                                {/* {!isMobile && ( */}
                                   <TableCell>
                                     <Typography
                                       variant="body2"
@@ -673,38 +722,40 @@ const TourScheduleComponent = () => {
                                       {customer.email}
                                     </Typography>
                                   </TableCell>
-                                )}
-                                 <TableCell>
-  <Typography
-    variant="body2"
-    color="text.secondary"
-    sx={{
-      display: 'flex', // Sử dụng Flexbox
-      alignItems: 'center', // Căn giữa theo chiều dọc
-    }}
-  >
-    {customer.phone}
-    <Tooltip title="Gọi ngay">
-    <IconButton
-      onClick={() => handlePhoneClick(customer.phone)}
-      color="primary"
-      sx={{
-        backgroundColor: "white",
-        borderRadius: "50%",
-        boxShadow: 2,
-        width: 20,
-        height: 20,
-        marginLeft: 1, 
-        "&:hover": {
-          boxShadow: 4,
-        },
-      }}
-    >
-      <PhoneIcon />
-    </IconButton>
-  </Tooltip>
-  </Typography>
-</TableCell>
+                                {/* )} */}
+                                <TableCell>
+                                  <Typography
+                                    variant="body2"
+                                    color="text.secondary"
+                                    sx={{
+                                      display: "flex",
+                                      alignItems: "center", 
+                                    }}
+                                  >
+                                    {customer.phone}
+                                    <Tooltip title="Gọi ngay">
+                                      <IconButton
+                                        onClick={() =>
+                                          handlePhoneClick(customer.phone)
+                                        }
+                                        color="primary"
+                                        sx={{
+                                          backgroundColor: "white",
+                                          borderRadius: "50%",
+                                          boxShadow: 2,
+                                          width: 20,
+                                          height: 20,
+                                          marginLeft: 1,
+                                          "&:hover": {
+                                            boxShadow: 4,
+                                          },
+                                        }}
+                                      >
+                                        <PhoneIcon />
+                                      </IconButton>
+                                    </Tooltip>
+                                  </Typography>
+                                </TableCell>
                                 <TableCell>
                                   <Typography
                                     variant="body2"
@@ -721,6 +772,8 @@ const TourScheduleComponent = () => {
                           </TableBody>
                         </Table>
                       </TableContainer>
+                      </Box>
+                      </Box>
                     </Box>
                   </>
                 )}
@@ -731,13 +784,13 @@ const TourScheduleComponent = () => {
             renderEmptyState()
           )}
         </Grid>
-        <Grid item xs={12} md={3} sx={{ height: "100%",width:'100%' }}>
+        <Grid item xs={12} md={3} sx={{ height: "100%", width: "100%" }}>
           <Box
             elevation={2}
             sx={{
               p: 3,
               height: "100%",
-              width:'100%' ,
+              width: "100%",
               borderRadius: 3,
               bgcolor: theme.palette.background.paper,
               display: isLoading ? "none" : "flex",

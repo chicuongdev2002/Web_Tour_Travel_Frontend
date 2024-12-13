@@ -395,7 +395,7 @@ function AddTourComponent() {
       <CustomPop
         notify={openNotify}
         onSuccess={() => {
-          navigate("/tour-list");
+          navigate("/provider-manager");
           setOpenNotify(-1);
         }}
         messageSuccess={"Thêm tour thành công"}

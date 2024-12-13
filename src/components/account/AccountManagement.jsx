@@ -11,6 +11,7 @@ import Filters from "./filter/Filters";
 import SuccessPopup from "../popupNotifications/SuccessPopup";
 import FailPopup from "../popupNotifications/FailPopup";
 import "./AccountManagement.css";
+import { addAccount, getAccount, getUserDetails, resetPasswords, updateAccountStatus, updateUserRole } from "../../functions/accountcrud";
 const AccountManagement = ({ notTitle }) => {
   const [accounts, setAccounts] = useState([]);
   const [roles, setRoles] = useState({});
@@ -98,14 +99,7 @@ const AccountManagement = ({ notTitle }) => {
   const fetchAccounts = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("http://localhost:8080/api/accounts", {
-        params: {
-          page,
-          size: pageSize,
-          role: roleFilter,
-          status: statusFilter,
-        },
-      });
+      const response = await getAccount(page, pageSize, roleFilter, statusFilter);
       console.log("Fetched accounts:", response.data);
       setAccounts(response.data.content);
       setTotalPages(response.data.page.totalPages);
@@ -122,11 +116,7 @@ const AccountManagement = ({ notTitle }) => {
   };
   const handleRoleChange = async (userId, newRole) => {
     try {
-      // Gọi API để cập nhật role
-      await axios.post(
-        `http://localhost:8080/api/accounts/upgrade/${userId}/${newRole}`,
-      );
-
+     const response = await updateUserRole(userId, newRole);
       // Cập nhật state roles local
       setRoles((prevRoles) => ({
         ...prevRoles,
@@ -147,9 +137,7 @@ const AccountManagement = ({ notTitle }) => {
   };
   const handleRowClick = async (userId) => {
     try {
-      const response = await axios.get(
-        `http://localhost:8080/api/accounts/${userId}`,
-      );
+      const response = await getUserDetails(userId);
       setUserDetails(response.data);
       setOpenUserDetailsDialog(true);
     } catch (error) {
@@ -159,39 +147,30 @@ const AccountManagement = ({ notTitle }) => {
 
   const confirmAction = async () => {
     setLoadingAction(true);
-    try {
-      const userIds = Array.isArray(selectedUserId)
-        ? selectedUserId
-        : [selectedUserId];
+    const userIds = Array.isArray(selectedUserId)
+      ? selectedUserId
+      : [selectedUserId];
 
-      if (userIds.length > 0) {
-        await Promise.all(
-          userIds.map((userId) => {
-            const endpoint =
-              actionType === "lock"
-                ? `http://localhost:8080/api/accounts/lock/${userId}`
-                : `http://localhost:8080/api/accounts/unlock/${userId}`;
-            return axios.post(endpoint);
-          }),
-        );
-
+    if (userIds.length > 0) {
+      const response = await updateAccountStatus(userIds, actionType);
+      
+      if (response.success) {
         fetchAccounts();
         setSelectedAccounts(new Set());
         setSuccessPopup({
           open: true,
           message: `${actionType === "lock" ? "Khóa" : "Mở khóa"} tài khoản thành công!`,
         });
+      } else {
+        setFailPopup({
+          open: true,
+          message: response.error,
+        });
       }
-    } catch (error) {
-      console.error(`Error ${actionType}ing accounts:`, error);
-      setFailPopup({
-        open: true,
-        message: `Không thể ${actionType === "lock" ? "khóa" : "mở khóa"} tài khoản. Vui lòng thử lại!`,
-      });
-    } finally {
-      setOpenDialog(false);
-      setLoadingAction(false);
     }
+
+    setOpenDialog(false);
+    setLoadingAction(false);
   };
 
   const handleOpenAddDialog = () => {
@@ -211,44 +190,24 @@ const AccountManagement = ({ notTitle }) => {
     if (!validateForm()) {
       return;
     }
-    try {
-      setLoading(true);
-      const res = await axios.post(
-        "http://localhost:8080/api/accounts/register",
-        accountData,
-      );
-
-      if (res.status === 201) {
-        setSuccessPopup({
-          open: true,
-          message: "Tạo tài khoản mới thành công!",
-        });
-        setOpenAddDialog(false);
-      } else {
-        setFailPopup({
-          open: true,
-          message: "Không thể tạo tài khoản. Vui lòng thử lại!",
-        });
-      }
-
-      await fetchAccounts();
-    } catch (error) {
-      console.error("Error adding account:", error);
-      if (error.response) {
-        const errorMessage = error.response.data.message;
-        setFailPopup({
-          open: true,
-          message: errorMessage || "Không thể tạo tài khoản. Vui lòng thử lại!",
-        });
-      } else {
-        setFailPopup({
-          open: true,
-          message: "Không thể tạo tài khoản. Vui lòng thử lại!",
-        });
-      }
-    } finally {
-      setLoading(false);
+    
+    setLoading(true);
+    const response = await addAccount(accountData);
+    
+    if (response.success) {
+      setSuccessPopup({
+        open: true,
+        message: "Tạo tài khoản mới thành công!",
+      });
+      setOpenAddDialog(false);
+      fetchAccounts();
+    } else {
+      setFailPopup({
+        open: true,
+        message: response.error,
+      });
     }
+    setLoading(false);
   };
 
   const handleSelectAccount = (userId) => {
@@ -298,9 +257,7 @@ const AccountManagement = ({ notTitle }) => {
               }
 
               if (newRole) {
-                return axios.post(
-                  `http://localhost:8080/api/accounts/upgrade/${userId}/${newRole}`,
-                );
+                  return updateUserRole(userId, newRole);
               }
             })
             .filter(Boolean);
@@ -321,30 +278,28 @@ const AccountManagement = ({ notTitle }) => {
         }
       }
     },
-    handleResetPassword: async () => {
+     handleResetPassword: async () => {
       if (selectedAccounts.size > 0) {
         const userIds = Array.from(selectedAccounts);
         console.log("Selected User IDs:", userIds);
         setLoadingReset(true);
-        try {
-          await axios.post(
-            `http://localhost:8080/api/accounts/admin-reset-password`,
-            { userIds },
-            {},
-          );
-          setLoadingReset(false);
+        
+        const response = await resetPasswords(userIds);
+        
+        if (response.success) {
           setSuccessPopup({
             open: true,
             message: "Mật khẩu đã được reset và gửi qua email.",
           });
           fetchAccounts();
-        } catch (error) {
-          console.error("Error resetting password:", error);
+        } else {
           setFailPopup({
             open: true,
-            message: "Không thể đặt lại mật khẩu. Vui lòng thử lại!",
+            message: response.error,
           });
         }
+        
+        setLoadingReset(false);
       } else {
         setFailPopup({
           open: true,

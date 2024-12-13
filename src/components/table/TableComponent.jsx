@@ -1,6 +1,7 @@
 import React from "react";
 import { Table } from "react-bootstrap";
 import { GrCaretPrevious, GrCaretNext } from "react-icons/gr";
+import Button from "@mui/material/Button";
 let i = 0;
 function TableComponent({ headers, data, page, getData, onClickTr }) {
   return (
@@ -34,6 +35,15 @@ function TableComponent({ headers, data, page, getData, onClickTr }) {
             data.map((d, index) => (
               <tr key={index}>
                 {Object.keys(d).map((key, indexChild) =>
+                  d[key].button? 
+                    <Button
+            className={d[key].className}
+            variant="contained"
+            onClick={d[key].onClick}
+          >
+            {d[key].button}
+          </Button>
+                  :
                   d[key].onClick ? (
                     <td key={indexChild} onClick={d[key].onClick}>
                       {d[key].title}
