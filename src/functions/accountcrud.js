@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { GET_ACCOUNT } from '../config/host';
-
+import axiosInstance from '../config/axios';
 export const getAccount = async (page = 0, pageSize = 5, roleFilter = '', statusFilter = '') => {
   try {
-    const response = await axios.get(`${GET_ACCOUNT}`, {
+    const response = await axiosInstance.get(`${GET_ACCOUNT}`, {
       params: {
         page,
         size: pageSize,

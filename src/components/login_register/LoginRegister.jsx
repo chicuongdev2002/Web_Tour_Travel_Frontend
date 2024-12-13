@@ -417,7 +417,7 @@ const LoginRegister = () => {
     }
   };
   return (
-    <div className="divCenter">
+    <div className="divCenter" style={{height:'100vh'}}>
       <div className={`wrapper ${isActive ? "active" : ""}`}>
         <span className="rotate-bg"></span>
         <span className="rotate-bg2"></span>
@@ -563,12 +563,12 @@ const LoginRegister = () => {
         </div>
 
         {/* Info Text for Login */}
-        <div className="info-text login">
-          <h2 className="animation" style={{ "--i": 0, "--j": 20 }}>
+        <div className="info-text login pl-5">
+          <h2 className="animation h5 ml-5" style={{ "--i": 0, "--j": 20 }}>
             Xuyên Việt Tour
           </h2>
           <p className="animation" style={{ "--i": 1, "--j": 21 }}>
-            Welcome Back!
+            Chào mừng bạn trở lại!
           </p>
         </div>
         {/* Register Form */}
