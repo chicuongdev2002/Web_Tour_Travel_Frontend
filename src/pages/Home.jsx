@@ -190,14 +190,14 @@ function Home() {
           </div>
         </div>}
       </DivSliderBackground>
-      {/* <div className="mt-4 px-3">
+      <div className="mt-4 px-3">
         <h1>Tour nổi bật trong tháng</h1>
         <SliderComponent images={images} settings={settings} callBack={callBack} />
         <h1 className="my-4">Tour trong ngày</h1>
         <SliderComponent images={tourInDay} settings={settings} callBack={callBack} />
         <h1 className="my-4">Tour giảm sốc</h1>
         <SliderComponent images={images} settings={settings} callBack={callBack} />
-      </div> */}
+      </div>
        <Footer />
     </div>
   );

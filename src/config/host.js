@@ -47,7 +47,6 @@ const API_CHAT = 'https://api.dify.ai/v1/chat-messages';
 const TOKEN_CHAT = 'Bearer app-vvW7w3XIvr5tcfWlRnuyCvoV';
 const GET_BOOKING_ID = REACT_APP_HOST + '/api/bookings/getBooking'
 const GET_BOOKING_BY_TOUR = REACT_APP_HOST + '/api/bookings/getByTourId'
-const USE_DISCOUNT = REACT_APP_HOST + '/api/discounts/useDiscount'
 const getAPI = (api, params, paramId) => {
   if (paramId) {
     api += "/" + paramId;
@@ -72,4 +71,4 @@ export { GET_ALL_TOUR, CHECK_ACCOUNT_EXISTS, CHECK_USER_EXISTS, BOOKING_TOUR, GE
     REVIEW_MONTHLY_STATIS,
     STATIS_REVENUE_TOTAL,
     GET_ALL_TOUR_TEST, GET_TOUR_TYPE, GET_BOOKING, CANCEL_BOOKING, POST_DESTINATION, API_CHAT,
-    TOKEN_CHAT, GET_BOOKING_ID, GET_BOOKING_BY_TOUR, USE_DISCOUNT, getAPI };
+    TOKEN_CHAT, GET_BOOKING_ID, GET_BOOKING_BY_TOUR, getAPI };

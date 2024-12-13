@@ -166,16 +166,14 @@ function Booking() {
                 </div>
               </FormView>
           </div>
-          <div className="divCenter">
-          <div className="w-60">
           <FormView
             title="Lưu ý"
             data={[
-              { label: "", value: "Hoàn tiền 100% nếu hủy tour trước 7 ngày. Hoàn tiền 50% nếu hủy tour trong vòng 3-7 ngày. Không hoàn tiền nếu hủy tour trong vòng 48 giờ. Hoàn tiền trong trường hợp tour bị hủy bởi công ty: Trong trường hợp tour bị hủy vì lý do bất khả kháng (thiên tai, dịch bệnh, sự kiện đột xuất…), khách hàng sẽ được hoàn lại toàn bộ số tiền đã thanh toán. Hoàn tiền nếu khách hàng không thể tham gia tour do vấn đề sức khỏe. : Khách hàng có thể yêu cầu hoàn tiền trong trường hợp có chứng nhận y tế xác nhận không thể tham gia tour, với điều kiện hủy ít nhất 3 ngày trước ngày khởi hành." },
+              { label: "Điều kiện hủy tour", value: "Không hủy" },
+              { label: "Điều kiện hoàn tiền", value: "Không hoàn tiền" },
+              { label: "Điều kiện thay đổi", value: "Không thay đổi" },
             ]}
           />
-          </div>
-          </div>
         </div>
         <div style={{ flexGrow: 1 }}>
           <FormView

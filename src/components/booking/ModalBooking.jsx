@@ -10,8 +10,6 @@ import { v4 as uuidv4 } from "uuid";
 import bookingTour from "../../functions/bookingTour";
 import { formatMoneyVND } from "../../functions/format";
 import { ClipLoader } from "react-spinners";
-import { FaSearch } from "react-icons/fa";
-import useDiscount from "../../functions/useDiscount";
 
 function ModalBooking({
   open,
@@ -20,12 +18,10 @@ function ModalBooking({
   onBookingSuccess,
   onBookingFail,
 }) {
-  const [code, setCode] = React.useState("");
   const [value, setValue] = React.useState("cash");
   const [pending, setPending] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
 
-  const [discountId, setDiscountId] = React.useState("");
   const handleChange = (event) => {
     setValue(event.target.value);
   };
@@ -42,18 +38,16 @@ function ModalBooking({
         participants: tour.participants,
         address: tour.address,
         paymentMethod: "cash",
-        discountId: discountId,
       };
       const result = await bookingTour(data);
-      debugger
-      if (result.bookingId) onBookingSuccess();
-      else onBookingFail(result);
+      if (result) onBookingSuccess();
+      else onBookingFail("Đã xảy ra lỗi!");
       setPending(false);
     } else {
       debugger;
       setPending(true);
       const result = await createLinkMomoPayment(
-        tour.price-discount,
+        tour.price,
         uuid,
         tour.user,
         tour.departure,
@@ -69,22 +63,8 @@ function ModalBooking({
     setIsLoading(false);
   };
 
-  const [discount, setDiscount] = React.useState(0);
-  const [messageNotify, setMessageNotify] = React.useState("");
-
-  const discountUse = () => {
-    useDiscount(code).then((res) => {
-      if (res) {
-        setDiscountId(res.discountCode);
-        setDiscount(res.discountAmount);
-        setCode("");
-        setMessageNotify("Áp dụng mã giảm giá thành công");
-      }
-    });
-  }
-
   return (
-    <ModalComponent open={open} onclose={pending ? null : () => {onclose(); setDiscount(0); setMessageNotify("")}}>
+    <ModalComponent open={open} onclose={pending ? null : onclose}>
       {isLoading ? (
         <div className="divCenterColumn">
           <h5 className="mx-3">Xin đợi một lát,</h5>
@@ -119,18 +99,8 @@ function ModalBooking({
               Điểm đến: {tour.destination?.join(" ➪ ")}
             </h5>
             <h5 style={{ textAlign: "start" }} className="m-0 my-2">
-              Giá vé: {formatMoneyVND(tour.price - discount)}
+              Giá vé: {formatMoneyVND(tour.price)}
             </h5>
-            <div className="divRow justify-content-start">
-              <h5>Mã giảm giá: </h5>
-              <input className="ml-2" value={code}
-                onChange={(e) => setCode(e.target.value)}
-              />
-              <button disabled={discount>0} className="ml-2 divCenter" style={{ height: 35 }}
-                onClick={discountUse}
-              ><FaSearch /></button>
-            </div>
-            { messageNotify && <h5 className="m-0 text-success">{messageNotify}</h5>}
             <div className="divRow">
               <h5 style={{ textAlign: "start" }} className="m-0 w-30 h-100">
                 Thanh toán:
