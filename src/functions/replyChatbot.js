@@ -25,6 +25,7 @@ const getApiChat = async (text, userId) => {
         'Content-Type': 'application/json'
       }
     })
+    debugger
     let i = 1
     let responseArr = response.data.split("data:")
     let dataFound = responseArr[responseArr.length - i]

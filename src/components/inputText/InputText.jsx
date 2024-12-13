@@ -11,6 +11,7 @@ function InputText({ id, label, type, multiline, value, onChange, children, disa
       {type == "file" ?
         <input
           type="file"
+          disabled={disable}
           accept="image/*"
           onChange={(e) => onChange(e)}
         />

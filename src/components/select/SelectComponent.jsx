@@ -12,6 +12,7 @@ function SelectComponent({
   onChange,
   listData,
   notMarginTop,
+  disable
 }) {
   const [focus, setFocus] = React.useState(false);
 
@@ -29,6 +30,7 @@ function SelectComponent({
         </InputLabel>
       )}
       <Select
+        disabled={disable}
         labelId="demo-simple-select-standard-label"
         id="demo-simple-select-standard"
         value={value ? value : ""}

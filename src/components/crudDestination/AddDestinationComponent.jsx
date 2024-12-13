@@ -43,6 +43,7 @@ function AddDestination() {
       if (file) {
         const formData = new FormData();
         formData.append("file", file);
+        debugger
         resultUpload = await uploadFile(UPLOAD_IMAGE, formData);
         if (!resultUpload) {
           setLoading(false);
@@ -57,7 +58,7 @@ function AddDestination() {
         name: destinationName,
         description: description,
         province: province,
-        image: resultUpload ? resultUpload.data : null,
+        image: resultUpload ? resultUpload : null,
       })
       if (result) {
         setLoading(false);
@@ -73,6 +74,15 @@ function AddDestination() {
       setMessageNotify("Đã xảy ra lỗi! Vui lòng thử lại sau");
       setOpenNotify(0);
     }
+  }
+
+  const handleAffterAdd = () => {
+    setDestinationName("");
+    setDescription("");
+    setProvince("");
+    setImage(null);
+    setFile(null);
+    setOpenNotify(-1);
   }
 
   return (
@@ -105,10 +115,7 @@ function AddDestination() {
       />
       <CustomPop
         notify={openNotify}
-        onSuccess={() => {
-          navigate("/tour-list");
-          setOpenNotify(-1);
-        }}
+        onSuccess={handleAffterAdd}
         messageSuccess={"Thêm địa điểm du lịch thành công"}
         onFail={() => setOpenNotify(-1)}
         messageFail={messageNotify}
