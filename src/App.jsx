@@ -32,6 +32,7 @@ import TourProviderManagerPage from "./pages/TourProviderManagerPage.jsx";
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CookieConsentBanner from "./components/cookie/CookieConsentBanner.jsx";
+import BookingDetails from './pages/BookingDetails.jsx';
 function App() {
   const user = JSON.parse(sessionStorage.getItem("user"));
   const dispatch = useDispatch();
@@ -128,6 +129,7 @@ function App() {
        </ProtectedRoute>
         } /> */}
           <Route path="/checkin" element={<CheckInAppPage />} />
+            <Route path="/booking-details/:id" element={<BookingDetails />} />
         <Route path="/schedule-tour-booking" element={<ScheduleTourPage />} /> 
         <Route 
         path="/booking-detail-user" 

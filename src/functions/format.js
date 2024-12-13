@@ -24,7 +24,7 @@ const formatDate = (date) => {
   if (!date) return "";
   const formattedDate = format(
     new Date(date),
-    "HH:mm eeee, 'ngày' dd 'tháng' MM 'năm' yyyy",
+    "HH:mm eeee, dd/MM/yyyy",
     { locale: vi },
   );
   return formattedDate;

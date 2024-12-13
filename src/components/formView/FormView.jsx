@@ -91,7 +91,9 @@ function FormView({ children, title, titleBackground, data, className, notBorder
                                         <SelectComponent label={item.label} listData={item.object.listData} value={item.object.value} onChange={item.object.onChange} />
                                     : item.object.type === 'div' ? item.object.value
                                     : <InputText notForm={item.object.notForm} id={index} label={item.label}
-                                        type={item.object.type} value={item.object.value}
+                                        type={item.object.type}
+                                        multiline={item.object.multiline? true : false}
+                                        value={item.object.value}
                                         disable={item.object.disable}
                                         min={item.object.min !== undefined ? item.object.min : null}
                                         className={item.object.className}
