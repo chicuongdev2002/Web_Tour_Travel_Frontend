@@ -10,6 +10,7 @@ const DestinationList = ({
   destinationSelected,
   changeDuration,
   duration,
+  disable
 }) => {
   return (
     <div className="destination-table">
@@ -45,7 +46,7 @@ const DestinationList = ({
                   <td>
                     <input
                       checked={
-                        destinationSelected.content.some(
+                        destinationSelected?.content?.some(
                           (d) => d.destinationId == destination.destinationId,
                         )
                           ? true
@@ -65,6 +66,7 @@ const DestinationList = ({
                         backgroundColor: "white",
                         color: "black",
                       }}
+                      disabled={disable}
                       type="number"
                       value={destination.duration}
                       onChange={(e) => changeDuration(e, destination)}

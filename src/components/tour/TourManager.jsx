@@ -46,6 +46,7 @@ import { approveTour } from "../../functions/approveTour";
 import { useNavigate } from "react-router-dom";
 import  image404 from "../../assets/404.png"
 import { deleteTour } from "../../functions/deleteTour";
+import { getTourDetail } from "../../functions/getTourDetails";
 const participantTypeMap = {
   CHILDREN: "Trẻ em",
   ELDERLY: "Người cao tuổi",
@@ -81,9 +82,10 @@ const TourManager = () => {
   const [activeFilter, setActiveFilter] = useState("");
   const [priceRangeFilter, setPriceRangeFilter] = useState("");
     const [loading, setLoading] = useState(false);
-  const handleEditTour = (tour) => {
-    console.log("Edit tour:", tour);
-    navigate(`/update-tour/${tour.tourId}`, { state: tour });
+  const handleEditTour = async (tour) => {
+    getTourDetail(tour.tourId).then((data) => {
+      navigate(`/update-tour/${tour.tourId}`, { state: data });
+    })
   };
   const fetchTours = async (page) => {
     try {

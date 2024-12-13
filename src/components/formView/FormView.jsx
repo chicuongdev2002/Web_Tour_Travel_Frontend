@@ -20,7 +20,7 @@ import right_tour_guide from '../../assets/right_tour-guide.png'
 import right_travel from '../../assets/right_travel.png'
 import LocationSelectCustom from "../../components/location/LocationSelectCustom";
 
-function FormView({ children, title, titleBackground, data, className, notBorder, notIcon }) {
+function FormView({ children, title, titleBackground, data, className, notBorder, notIcon, disable }) {
     const listData = [airplane, bg_luggage, bus, map_location, road_trip, travel_bag]
     const listIcon = [left_luggage, left_airplane, left_flight, left_travel_and_tourism, left_travel_luggage, left_travel,
         right_tour_guide, right_travel, right_plane]
@@ -77,24 +77,24 @@ function FormView({ children, title, titleBackground, data, className, notBorder
                                                     color: 'red', position: 'absolute', borderRadius: '50%', 
                                                     right: -10, top: -10, fontSize: 14 
                                                     }}
-                                                    onClick={() => item.object.onRemove(index)}>
+                                                    onClick={() => !disable && item.object.onRemove(index)}>
                                                     X
                                                 </button>}
-                                                <img style={item.object.style} src={img.imageUrl} alt={item.label} />
+                                                <img style={item.object.style} src={img.imageUrl?? img} alt={item.label} />
                                             </div>
                                         ))}
                                     </div>
                                     : item.object.type === 'button' ?
-                                    <Button className={item.object.className} variant="contained"
+                                    <Button className={item.object.className} disabled={item.object.disable} variant="contained"
                                         onClick={item.object.onClick}>{item.label}</Button>
                                     : item.object.type === 'select' ?
-                                        <SelectComponent label={item.label} listData={item.object.listData} value={item.object.value} onChange={item.object.onChange} />
+                                        <SelectComponent disable={disable} label={item.label} listData={item.object.listData} value={item.object.value} onChange={item.object.onChange} />
                                     : item.object.type === 'div' ? item.object.value
                                     : <InputText notForm={item.object.notForm} id={index} label={item.label}
                                         type={item.object.type}
                                         multiline={item.object.multiline? true : false}
                                         value={item.object.value}
-                                        disable={item.object.disable}
+                                        disable={disable?? item.object.disable}
                                         min={item.object.min !== undefined ? item.object.min : null}
                                         className={item.object.className}
                                         onChange={item.object.onChange} />

@@ -18,7 +18,7 @@ import { BsCashCoin } from "react-icons/bs";
 import { AiFillCheckCircle } from "react-icons/ai";
 import { IoReloadCircleSharp } from "react-icons/io5";
 
-function BookingListComponent() {
+function BookingListComponent({ data }) {
   const user = JSON.parse(sessionStorage.getItem("user"));
   const navigate = useNavigate();
   const [notify, setNotify] = useState(-1);
@@ -33,7 +33,10 @@ function BookingListComponent() {
   });
 
   useEffect(() => {
-    getBooking();
+    if(!data)
+      getBooking();
+    else
+      setBookings(data);
   }, []);
 
   const getBooking = useCallback(async (page, size) => {

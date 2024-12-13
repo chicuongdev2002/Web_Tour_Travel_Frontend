@@ -16,6 +16,8 @@ import ChoosePopup from "../popupNotifications/ChoosePopup";
 import { getListTourType } from "../../functions/getListTourType";
 import LocationSelectCustom from "../../components/location/LocationSelectCustom";
 import { getProvince, getDistrict } from "../../functions/getProvince";
+import { getBookingByTourId } from "../../functions/getBooking";
+import { formatDate } from "react-calendar/dist/cjs/shared/dateFormatter.js";
 
 function UpdateTourComponent({ data }) {
   console.log(data);
@@ -57,7 +59,16 @@ function UpdateTourComponent({ data }) {
   const [district, setDistrict] = useState(null);
   const [districts, setDistricts] = useState([]);
 
+  const [error, setError] = useState(null);
+  const [allowUpdate, setAllowUpdate] = useState(false);
+  const [bookingByTour, setBookingByTour] = useState([]);
+
   useEffect(() => {
+    debugger
+    getBookingByTourId(data.tourId).then((d) => {
+      setBookingByTour(d);
+      if (d.length === 0) setAllowUpdate(true);
+    })
     getTourType();
     getDataProvince().then((d) => {
       if (data.startLocation.split(",").length === 1) {
@@ -122,43 +133,40 @@ function UpdateTourComponent({ data }) {
     });
   };
 
+  const checkBooking = (departureId) => {
+    debugger
+    if(bookingByTour.length === 0) return false;
+    return bookingByTour.filter((b) => b.departureId === departureId).length > 0
+  }
+
   const addButton = (departure) => {
     let d = departure.map((d) => {
       debugger
       return {
         ...d,
-        update: {
-          button: 'Cập nhật',
-          onClick: () => handleFillUpdateTourModal(d),
-          className: "btn btn-primary bg-success"
-        }
-          // <Button
-          //   className="btn btn-primary bg-success"
-          //   variant="contained"
-          //   onClick={() => handleFillUpdateTourModal(d)}
-          // >
-          //   Cập nhật
-          // </Button>
-        ,
-        delete: {
-          button: 'Xóa',
-          onClick: () => {
-            setNotification(-2);
-            setDepartureSelected(d);
-          },
-          className: "btn btn-danger bg-danger"
-        }
-          // <Button
-          //   className="btn btn-danger bg-danger"
-          //   variant="contained"
-          //   onClick={() => {
-          //     setNotification(-2);
-          //     setDepartureSelected(d);
-          //   }}
-          // >
-          //   Xóa
-          // </Button>
-        ,
+        update: (
+          <Button
+            disabled={checkBooking(d.id)}
+            className="btn btn-primary bg-success"
+            variant="contained"
+            onClick={() => handleFillUpdateTourModal(d)}
+          >
+            Cập nhật
+          </Button>
+        ),
+        delete: (
+          <Button
+            disabled={checkBooking(d.id)}
+            className="btn btn-danger bg-danger"
+            variant="contained"
+            onClick={() => {
+              setNotification(-2);
+              setDepartureSelected(d);
+            }}
+          >
+            Xóa
+          </Button>
+        ),
       };
     });
     return d;
@@ -182,6 +190,8 @@ function UpdateTourComponent({ data }) {
   };
 
   const handleUpdateTour = async () => {
+    if(!province)
+      return setError("Vui lòng chọn tỉnh/thành phố")
       let resultUpload = null;
       if (file) {
         const formData = new FormData();
@@ -251,12 +261,12 @@ function UpdateTourComponent({ data }) {
               };
             }),
           ),
-        tourDestinations: [
-          ...destinationSelected?.content?.map((d) => ({
+        tourDestinations: destinationSelected? [
+          ...destinationSelected.content.map((d) => ({
             destination: { destinationId: d.destinationId },
             duration: d.duration,
           })),
-        ],
+        ] : [],
         images: [
           ...images,
           {
@@ -322,7 +332,7 @@ function UpdateTourComponent({ data }) {
 
   const handleFillAddTourModal = () => {
     setDepartureId("");
-    setStartDate("");
+    setStartDate(moment(new Date()).format("DD/MM/YYYY HH:mm:ss"));
     setEndDate("");
     setMaxParticipants(0);
     setChildrenPrice(0);
@@ -379,11 +389,15 @@ function UpdateTourComponent({ data }) {
     <div style={{ overflowY: 'auto' }}
       ref={scrollRef}
     >
+      {!allowUpdate && <div className="divRow justify-content-center w-100">
+        <h3 className="text-danger">TOUR ĐANG CÓ BOOKING, KHÔNG THỂ CẬP NHẬT</h3>
+        <Button className="ml-2 text-light bg-primary" onClick={() => navigate("/booking-list", {state: bookingByTour})}><h3 className="m-0">Xem</h3></Button>
+        </div>}
       <div className={`w-100 ${openDestination ? "divRowBetweenNotAlign" : "divCenter"}`}>
-        <FormView title={`Cập nhật tour`} className='w-50' data={[
+        <FormView title={`Cập nhật tour`} className='w-50' disable={!allowUpdate} data={[
           { label: 'Tên tour', object: { type: 'text', value: tourName, notForm: true, onChange: (e) => setTourName(e.target.value) } },
           { label: 'Mô tả', object: { type: 'text', multiline: true, value: description, onChange: (e) => setDescription(e.target.value) } },
-          { object: { type: 'div', value: <LocationSelectCustom label="Địa điểm khởi hành"
+          { object: { type: 'div', value: <LocationSelectCustom disable={!allowUpdate} label="Địa điểm khởi hành"
             province={province} provinces={provinces} district={district} districts={districts}
             onChangeProvince={onChangeProvince} onChangeDitricts={onChangeDitricts}
             />}},
@@ -410,9 +424,10 @@ function UpdateTourComponent({ data }) {
         ]} />
         {
           openDestination &&
-          <FormView title='Chọn địa điểm' className='w-50'>
+          <FormView title='Chọn địa điểm' disable={!allowUpdate} className='w-50'>
             <div>
               <DestinationList
+                disable={!allowUpdate}
                 duration={duration}
                 data={destinationSelected}
                 isDescription={false}
@@ -442,6 +457,7 @@ function UpdateTourComponent({ data }) {
               />
               <div className="divRowBetween">
                 <Button
+                  disabled={!allowUpdate}
                   className="btn btn-primary w-50 mb-3 mr-1 mt-3"
                   variant="contained"
                   onClick={() => setOpen(true)}
@@ -708,6 +724,7 @@ function UpdateTourComponent({ data }) {
         }}
         onReject={() => setNotification(-1)}
       />
+      {error && <p className="m-0 text-danger">{error}</p>}
       <Button
         className="btn btn-primary w-50 mt-3"
         variant="contained"
