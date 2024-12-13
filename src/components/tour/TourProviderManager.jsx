@@ -198,7 +198,11 @@ const TourProviderManager = () => {
                 <CardMedia
                   component="img"
                   height="400"
-                  image={selectedTour.images[0]}
+                                image={
+    selectedTour.images && selectedTour.images.length > 0 
+      ? selectedTour.images[0].imageUrl 
+      : image404
+  }
                   alt={selectedTour.tourName}
                   sx={{
                     objectFit: "cover",
@@ -215,13 +219,13 @@ const TourProviderManager = () => {
                       p: 2,
                     }}
                   >
-                    {selectedTour.images.slice(1, 4).map((image, index) => (
+                   {selectedTour.images.map((image, index) => (
                       <CardMedia
                         key={index}
                         component="img"
                         height="80"
                         width="80"
-                        image={image}
+                        image={image.imageUrl}
                         sx={{
                           borderRadius: 1,
                           objectFit: "cover",
@@ -280,7 +284,10 @@ const TourProviderManager = () => {
                 <Card
                   key={departure.departureId}
                   variant="outlined"
-                  sx={{ mb: 2 }}
+                  sx={{ mb: 2,
+                    opacity: departure.active ? 1 : 0.5, 
+                    textDecoration: departure.active ? "none" : "line-through",
+                   }}
                 >
                   <CardContent>
                     <Typography
@@ -368,7 +375,7 @@ const TourProviderManager = () => {
   const renderTourCard = (tour) => {
     const isDeleted = tour.tourType === "DELETE";
     const displayedTourType = tourTypeMap[tour.tourType] || "Không xác định";
-     const tourImage = tour.images.length > 0 ? tour.images[0] : image404; 
+    const tourImage = tour.images.length > 0 ? tour.images[0].imageUrl : image404;
     return (
       <Grid item xs={12} sm={6} md={4} key={tour.tourId}>
         <Card

@@ -120,13 +120,14 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route 
+        {/* <Route 
         path="/checkin" 
         element={
         <ProtectedRoute allowedRoles={["TOURGUIDE"]}>
         <CheckInAppPage />
        </ProtectedRoute>
-        } />
+        } /> */}
+          <Route path="/checkin" element={<CheckInAppPage />} />
         <Route path="/schedule-tour-booking" element={<ScheduleTourPage />} /> 
         <Route 
         path="/booking-detail-user" 

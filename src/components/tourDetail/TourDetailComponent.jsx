@@ -106,6 +106,7 @@ const TourDetailComponent = ({ tourData }) => {
 
   // Handle tour update navigation
   const goToUpdateTour = () => {
+    console.log("tourData", tourData);
     navigate(`/update-tour/${tourData.tourId}`, { state: tourData });
   };
 

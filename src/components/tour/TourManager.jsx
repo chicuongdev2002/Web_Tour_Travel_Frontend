@@ -26,6 +26,7 @@ import {
   FormControl,
   InputLabel,
   IconButton,
+   CircularProgress, 
 } from "@mui/material";
 import {
   Place,
@@ -44,6 +45,7 @@ import { getTourManager } from "../../functions/getTourManager";
 import { approveTour } from "../../functions/approveTour";
 import { useNavigate } from "react-router-dom";
 import  image404 from "../../assets/404.png"
+import { deleteTour } from "../../functions/deleteTour";
 const participantTypeMap = {
   CHILDREN: "Trẻ em",
   ELDERLY: "Người cao tuổi",
@@ -78,7 +80,9 @@ const TourManager = () => {
   const [tourTypeFilter, setTourTypeFilter] = useState("");
   const [activeFilter, setActiveFilter] = useState("");
   const [priceRangeFilter, setPriceRangeFilter] = useState("");
+    const [loading, setLoading] = useState(false);
   const handleEditTour = (tour) => {
+    console.log("Edit tour:", tour);
     navigate(`/update-tour/${tour.tourId}`, { state: tour });
   };
   const fetchTours = async (page) => {
@@ -157,15 +161,29 @@ const TourManager = () => {
     setSelectedTour(null);
   };
 
-  const handleApproveTour = async (tourId) => {
-    const isApproved = await approveTour(tourId);
-    if (isApproved) {
+   const handleApproveTour = async (tourId) => {
+    setLoading(true); 
+    try {
+      const isApproved = await approveTour(tourId);
+      if (isApproved) {
+        fetchTours(pageInfo.currentPage);
+      } else {
+        console.error("Failed to approve tour");
+      }
+    } catch (error) {
+      console.error("Error approving tour:", error);
+    } finally {
+      setLoading(false); 
+    }
+  };
+  const handleDeleteTour = async (tourId) => {
+    const isDelete = await deleteTour(tourId);
+    if (isDelete) {
       fetchTours(pageInfo.currentPage);
     } else {
       console.error("Failed to approve tour");
     }
   };
-
   const renderTourDetailsModal = () => {
     if (!selectedTour) return null;
 
@@ -193,7 +211,11 @@ const TourManager = () => {
                 <CardMedia
                   component="img"
                   height="400"
-                  image={selectedTour.images[0]}
+                   image={
+    selectedTour.images && selectedTour.images.length > 0 
+      ? selectedTour.images[0].imageUrl 
+      : image404
+  }
                   alt={selectedTour.tourName}
                   sx={{
                     objectFit: "cover",
@@ -210,13 +232,13 @@ const TourManager = () => {
                       p: 2,
                     }}
                   >
-                    {selectedTour.images.slice(1, 4).map((image, index) => (
+                    {selectedTour.images.map((image, index) => (
                       <CardMedia
                         key={index}
                         component="img"
                         height="80"
                         width="80"
-                        image={image}
+                        image={image.imageUrl}
                         sx={{
                           borderRadius: 1,
                           objectFit: "cover",
@@ -275,7 +297,11 @@ const TourManager = () => {
                 <Card
                   key={departure.departureId}
                   variant="outlined"
-                  sx={{ mb: 2 }}
+                  sx={{ 
+                    mb: 2, 
+                     opacity: departure.active ? 1 : 0.5, 
+                    textDecoration: departure.active ? "none" : "line-through",
+                  }}
                 >
                   <CardContent>
                     <Typography
@@ -363,7 +389,7 @@ const TourManager = () => {
   const renderTourCard = (tour) => {
     const isDeleted = tour.tourType === "DELETE";
     const displayedTourType = tourTypeMap[tour.tourType] || "Không xác định";
-     const tourImage = tour.images.length > 0 ? tour.images[0] : image404; 
+const tourImage = tour.images.length > 0 ? tour.images[0].imageUrl : image404;
     return (
       <Grid item xs={12} sm={6} md={4} key={tour.tourId}>
         <Card
@@ -428,7 +454,7 @@ const TourManager = () => {
                 display: "flex",
                 justifyContent: "space-between",
                 alignItems: "center",
-                mt: 2,
+                mt: 4,
               }}
             >
               <Chip
@@ -451,14 +477,26 @@ const TourManager = () => {
                 Chi tiết
               </Button>
               {!tour.active && !isDeleted && (
-                <Button
-                  variant="contained"
-                  color="success"
-                  size="small"
-                  onClick={() => handleApproveTour(tour.tourId)}
-                >
-                  Phê Duyệt
-                </Button>
+               <Button
+                variant="contained"
+                color="success"
+                size="small"
+                onClick={() => handleApproveTour(tour.tourId)}
+                disabled={loading}
+              >
+                {"Phê Duyệt"} 
+              </Button>
+              )}
+                 {!tour.active && !isDeleted && (
+               <Button
+                variant="contained"
+                color="error"
+                size="small"
+                onClick={() => handleDeleteTour(tour.tourId)}
+                disabled={loading}
+              >
+                {"Xóa Tour"} 
+              </Button>
               )}
             </Box>
           </CardContent>
@@ -582,6 +620,24 @@ const TourManager = () => {
       </Box>
 
       {renderTourDetailsModal()}
+      {loading && (
+        <Box
+          sx={{
+            position: "fixed",
+            top: 0,
+            left: 0,
+            width: "100%",
+            height: "100%",
+            bgcolor: "rgba(255, 255, 255, 0.8)",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            zIndex: 9999,
+          }}
+        >
+          <CircularProgress />
+        </Box>
+      )}
     </Container>
   );
 };

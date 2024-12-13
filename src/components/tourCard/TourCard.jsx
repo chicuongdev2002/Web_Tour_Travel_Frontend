@@ -27,6 +27,15 @@ import { addFavoriteTour } from "../../functions/addFavoriteTour";
 import { deleteFavoriteTour } from "../../functions/deleteFavoriteTour";
 import "./TourCard.css";
 import ChoosePopup from "../popupNotifications/ChoosePopup";
+
+const formatDuration = (durationHours) => {
+  const days = Math.floor(durationHours / 24);
+  const nights = days > 0 ? days : 0;
+  if (days === 0) {
+    return `${durationHours} giờ`;
+  }
+  return `${days} ngày ${nights} đêm`;
+};
 const TourCard = ({ tour }) => {
   const navigate = useNavigate();
   const [isFavorite, setIsFavorite] = useState(Boolean(tour.favorite));
@@ -48,7 +57,6 @@ const TourCard = ({ tour }) => {
     const user = JSON.parse(sessionStorage.getItem("user"));
 
     if (!user || !user.userId) {
-      // Show popup if the user is not logged in
       setIsPopupOpen(true);
       return;
     }
@@ -80,6 +88,7 @@ const TourCard = ({ tour }) => {
     e.stopPropagation();
     console.log("Share tour:", tour.title);
   };
+
 
   const getTourTypeDetails = (type) => {
     switch (type) {
@@ -114,6 +123,7 @@ const TourCard = ({ tour }) => {
   const discountPercentage = Math.round(
     (1 - tour.discountedPrice / tour.originalPrice) * 100,
   );
+const formattedDuration = formatDuration(tour.duration);
 
   return (
     <motion.div
@@ -312,7 +322,7 @@ const TourCard = ({ tour }) => {
                   fontWeight: 500,
                 }}
               >
-                {tour.duration}
+                {formattedDuration}
               </Typography>
             </Box>
           </Stack>
@@ -325,17 +335,21 @@ const TourCard = ({ tour }) => {
               justifyContent="space-between"
             >
               <Box>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    textDecoration: "line-through",
-                    color: "#94a3b8",
-                    fontSize: "0.9rem",
-                    marginBottom: "4px",
-                  }}
-                >
-                  {formatPrice(tour.originalPrice)} đ
-                </Typography>
+           
+                 {tour.originalPrice !== tour.discountedPrice && (
+        <Typography
+          variant="body2"
+          sx={{
+            textDecoration: "line-through",
+            color: "#94a3b8",
+            fontSize: "0.9rem",
+            marginBottom: "4px",
+          }}
+        >
+          {formatPrice(tour.originalPrice)} đ
+        </Typography>
+      )}
+              
                 <Box display="flex" alignItems="center" gap={2}>
                   <Typography
                     variant="h6"

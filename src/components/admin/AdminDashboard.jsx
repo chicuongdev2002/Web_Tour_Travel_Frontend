@@ -32,7 +32,8 @@ import {
   Download as DownloadIcon,
   Chat as ChatIcon,
   Warning as WarningIcon,
-  RateReview as RateReviewIcon
+  RateReview as RateReviewIcon,
+  Home as HomeIcon 
 } from "@mui/icons-material";
 import {
   Box,
@@ -607,7 +608,11 @@ const login=() => {
                 </Badge>
               </IconButton>
             </Tooltip>
-
+  <Tooltip title="Về trang chủ">
+    <IconButton color="inherit" onClick={() => navigate('/')}>
+      <HomeIcon />
+    </IconButton>
+  </Tooltip>
             {/* Language Selector */}
             <Tooltip title="Ngôn ngữ">
               <IconButton color="inherit">
@@ -742,6 +747,12 @@ const login=() => {
             <PersonIcon fontSize="small" />
           </ListItemIcon>
           Thông tin cá nhân
+        </MenuItem>
+      <MenuItem onClick={() => navigate('/')}>
+          <ListItemIcon>
+           <HomeIcon fontSize="small" />
+          </ListItemIcon>
+          Trang chủ
         </MenuItem>
         <MenuItem onClick={handleOpenSettings}>
           <ListItemIcon>
