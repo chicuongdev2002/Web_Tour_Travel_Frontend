@@ -177,7 +177,8 @@ const TourManager = () => {
     }
   };
   const handleDeleteTour = async (tourId) => {
-    const isDelete = await deleteTour(tourId);
+    const user=JSON.parse(sessionStorage.getItem("user"));
+    const isDelete = await deleteTour(tourId,user.userId);
     if (isDelete) {
       fetchTours(pageInfo.currentPage);
     } else {

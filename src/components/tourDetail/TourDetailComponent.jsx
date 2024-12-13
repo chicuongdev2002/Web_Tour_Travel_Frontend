@@ -46,6 +46,7 @@ import imageBasic from "../../assets/404.png";
 import { deleteData } from "../../functions/deleteData";
 import { UPDATE_TOUR_STATUS } from "../../config/host";
 import TopTours from "../tour/TopTours";
+import { deleteTour } from "../../functions/deleteTour";
 
 const TourDetailComponent = ({ tourData }) => {
   const navigate = useNavigate();
@@ -84,15 +85,12 @@ const TourDetailComponent = ({ tourData }) => {
       maximumFractionDigits: 0,
     }).format(price);
   };
-
-  // Participant type translation with more descriptive labels
   const participantTypeTranslation = {
     ADULTS: "Người lớn (Trên 12 tuổi)",
     CHILDREN: "Trẻ em (5-11 tuổi)",
     ELDERLY: "Người cao tuổi (Trên 60 tuổi)",
   };
 
-  // Handle booking navigation with enhanced state management
   const goToBooking = () => {
     const bookingState = {
       ...tourData,
@@ -104,18 +102,16 @@ const TourDetailComponent = ({ tourData }) => {
     });
   };
 
-  // Handle tour update navigation
   const goToUpdateTour = () => {
     console.log("tourData", tourData);
     navigate(`/update-tour/${tourData.tourId}`, { state: tourData });
   };
 
-  // Handle tour deletion with improved error handling
-  const deleteTour = async () => {
+  const deleteTourById = async () => {
     try {
-      const result = await deleteData(UPDATE_TOUR_STATUS, tourData.tourId);
+      // const result = await deleteData(UPDATE_TOUR_STATUS, tourData.tourId);
+      const result = await deleteTour( tourData.tourId,storedUser.userId);
       setDeleteStatus(result ? "success" : "error");
-
       if (result) {
         setTimeout(() => navigate("/tour-list"), 1500);
       }
@@ -485,7 +481,7 @@ const TourDetailComponent = ({ tourData }) => {
           </Button>
           <Button
             onClick={() => {
-              deleteTour();
+              deleteTourById();
               setOpenDeleteDialog(false);
             }}
             color="error"

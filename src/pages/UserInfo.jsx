@@ -177,6 +177,7 @@ const UserInfo = () => {
   const handleSave = async () => {
     const result = await updateUser(user.userId, formData);
     if (result.isUpdateSuccessful) {
+      sessionStorage.setItem("user", JSON.stringify(formData));
       setUser(formData);
       setEditing(false);
       setShowAlert(false);
