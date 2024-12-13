@@ -308,7 +308,6 @@ const formattedDuration = formatDuration(tour.duration);
                 {tour.startDate}
               </Typography>
             </Box>
-
             {/* Duration */}
             <Box display="flex" alignItems="center" gap={1.5}>
               <AccessTimeIcon
