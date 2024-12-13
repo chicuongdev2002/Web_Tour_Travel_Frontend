@@ -36,6 +36,7 @@ import SuccessPopup from "../components/popupNotifications/SuccessPopup";
 import FailPopup from "../components/popupNotifications/FailPopup";
 import changePassword from "../functions/changePassword";
 import updateUser from "../functions/updateUser";
+import { deleteUser } from "../functions/customercrud";
 const StyledCard = styled(Card)(({ theme }) => ({
   margin: theme.spacing(2),
   background: "rgba(255, 255, 255, 0.9)",
@@ -176,6 +177,7 @@ const UserInfo = () => {
   const handleSave = async () => {
     const result = await updateUser(user.userId, formData);
     if (result.isUpdateSuccessful) {
+      sessionStorage.setItem("user", JSON.stringify(formData));
       setUser(formData);
       setEditing(false);
       setShowAlert(false);
@@ -216,9 +218,16 @@ const UserInfo = () => {
 
   const handleDeleteAccount = async () => {
     try {
-      await axios.delete(`http://localhost:8080/api/users/${user.userId}`);
-      sessionStorage.clear();
-      window.location.href = "/login";
+      const response= await deleteUser(user.userId);
+      if (response.success) {
+        setTimeout(() => {
+          setPopupMessage("Xóa tài khoản thành công!");
+          setSuccessPopupOpen(true);
+                  }, 2000);
+          sessionStorage.clear();
+          window.location.href = "/login-register";
+
+      }
     } catch (error) {
       console.error("Error deleting account:", error);
       setPopupMessage("Xóa tài khoản thất bại!");

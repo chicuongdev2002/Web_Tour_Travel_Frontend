@@ -9,6 +9,9 @@ import SendIcon from "@mui/icons-material/Send";
 import DiscountListModal from "./modal/DiscountListModal";
 import { CircularProgress } from "@mui/material";
 import "./CustomerManagement.css";
+import { GET_USER } from "../../config/host";
+import { getCustomers, updateCustomer } from "../../functions/customercrud";
+import { getDiscount, sendDiscountCode } from "../../functions/discountCrud";
 const CustomerManagement = ({ notTitle }) => {
   const [customers, setCustomers] = useState([]);
   const [selectedCustomers, setSelectedCustomers] = useState([]);
@@ -30,7 +33,8 @@ const CustomerManagement = ({ notTitle }) => {
   const fetchCustomers = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("http://localhost:8080/api/users");
+      const response=await getCustomers();
+      console.log(response);
       setCustomers(response.data);
     } catch (error) {
       setAlert({
@@ -58,9 +62,17 @@ const CustomerManagement = ({ notTitle }) => {
   const handleOpenDiscountModal = async () => {
     setLoading(true);
     try {
-      const response = await axios.get("http://localhost:8080/api/discounts");
-      setDiscounts(response.data);
+      const response = await getDiscount();
+      if(response.success){
+      setDiscounts(response.data); 
       setDiscountModalOpen(true);
+      }else{
+        setAlert({
+          open: true,
+          message: response.error,
+          severity: "error",
+        });
+      }
     } catch (error) {
       setAlert({
         open: true,
@@ -84,14 +96,7 @@ const CustomerManagement = ({ notTitle }) => {
 
     try {
       setLoadingSend(true);
-      console.log(selectedEmails, discountIds);
-      const response = await axios.post(
-        "http://localhost:8080/api/discounts/send-discount-code",
-        {
-          emails: selectedEmails,
-          discountIds: discountIds,
-        },
-      );
+      const response = await sendDiscountCode(selectedEmails, discountIds);
       setAlert({
         open: true,
         message: "Gửi mã khuyến mãi thành công!",
@@ -109,10 +114,8 @@ const CustomerManagement = ({ notTitle }) => {
   };
   const handleUpdate = async () => {
     try {
-      await axios.put(
-        `http://localhost:8080/api/users/${currentCustomer.userId}`,
-        currentCustomer,
-      );
+      const response = await updateCustomer(currentCustomer.userId, currentCustomer);
+      if (response.success) {
       setAlert({
         open: true,
         message: "Cập nhật thành công!",
@@ -120,6 +123,13 @@ const CustomerManagement = ({ notTitle }) => {
       });
       fetchCustomers();
       setModalOpen(false);
+    }else{
+      setAlert({
+        open: true,
+        message: response.error,
+        severity: "error",
+      });
+    }
     } catch (error) {
       setAlert({
         open: true,

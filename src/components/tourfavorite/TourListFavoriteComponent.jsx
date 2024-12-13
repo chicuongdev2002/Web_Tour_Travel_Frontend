@@ -23,6 +23,7 @@ import {
   LocationOn,
 } from "@mui/icons-material";
 import axios from "axios";
+import { getAllFavoriteTour } from "../../functions/getFavoriteTour";
 
 const CARD_WIDTH = 100; // Slightly wider cards
 const ANIMATION_DURATION = 40000; // Slower animation for smoother effect
@@ -38,9 +39,8 @@ const TourListFavoriteComponent = () => {
   useEffect(() => {
     const fetchTours = async () => {
       try {
-        const response = await axios.get(
-          "http://localhost:8080/api/favorite-tours",
-        );
+        const response = await getAllFavoriteTour();
+        console.log(response);
         const duplicatedTours = [...response.data, ...response.data];
         setTours(duplicatedTours);
         setLoading(false);

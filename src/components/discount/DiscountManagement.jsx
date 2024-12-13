@@ -29,6 +29,8 @@ import SendIcon from "@mui/icons-material/Send";
 import CompareArrowsIcon from "@mui/icons-material/CompareArrows";
 import SuccessPopup from "../popupNotifications/SuccessPopup";
 import FailPopup from "../popupNotifications/FailPopup";
+import { createDiscount, deleteDiscount, getDiscount, updateDiscount } from "../../functions/discountCrud";
+import { getTourSimple } from "../../functions/getTourSimple";
 const DiscountManagement = ({ notTitle }) => {
   const [discounts, setDiscounts] = useState([]);
   const [tours, setTours] = useState([]);
@@ -75,10 +77,8 @@ const DiscountManagement = ({ notTitle }) => {
   const fetchDiscounts = async () => {
     try {
       setLoading(true);
-      const response = await fetch("http://localhost:8080/api/discounts");
-      if (!response.ok) throw new Error("Không thể tải giảm giá");
-      const data = await response.json();
-      setDiscounts(data);
+     const response=await getDiscount();
+      setDiscounts(response.data);
     } catch (err) {
       setFailPopup({
         open: true,
@@ -91,10 +91,8 @@ const DiscountManagement = ({ notTitle }) => {
 
   const fetchTours = async () => {
     try {
-      const response = await fetch("http://localhost:8080/api/tours/simple");
-      if (!response.ok) throw new Error("Không thể tải tour");
-      const data = await response.json();
-      setTours(data);
+      const response=await getTourSimple();
+      setTours(response.data);
     } catch (err) {
       setFailPopup({
         open: true,
@@ -145,51 +143,29 @@ const DiscountManagement = ({ notTitle }) => {
     });
   };
 
-  const handleSubmit = async (e) => {
+    const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!validateForm()) return;
+ const dataToSubmit = {
+    tourId: Number(formData.tourId),
+    discountAmount: formData.discountAmount,
+    startDate: formatDateForInput(formData.startDate),
+    endDate: formatDateForInput(formData.endDate),
+    countUse: formData.countUse,
+    discountCode: selectedDiscount?.discountCode,
+  };
+    let result;
+    if (isEditMode) {
+      result = await updateDiscount(selectedDiscount.id, dataToSubmit);
+    } else {
+      result = await createDiscount(dataToSubmit);
+    }
 
-    try {
-      setLoading(true);
-      const url = isEditMode
-        ? `http://localhost:8080/api/discounts/${selectedDiscount.id}`
-        : "http://localhost:8080/api/discounts";
-
-      const dataToSubmit = {
-        tourId: Number(formData.tourId),
-        discountAmount: formData.discountAmount,
-        startDate: formData.startDate,
-        endDate: formData.endDate,
-        countUse: formData.countUse,
-        discountCode: selectedDiscount?.discountCode,
-      };
-      console.log(dataToSubmit);
-      const response = await fetch(url, {
-        method: isEditMode ? "PUT" : "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(dataToSubmit),
-      });
-
-      if (!response.ok) throw new Error("Không thể lưu giảm giá");
-
-      // showAlert(isEditMode ? 'Cập nhật giảm giá thành công' : 'Tạo giảm giá mới thành công', 'success');
-      setSuccessPopup({
-        open: true,
-        message: isEditMode
-          ? "Cập nhật giảm giá thành công!"
-          : "Tạo giảm giá mới thành công!",
-      });
+    if (result.success) {
+           setSuccessPopup({ open: true, message: result.message });
       fetchDiscounts();
       closeModal();
-    } catch (err) {
-      setFailPopup({
-        open: true,
-        message: isEditMode
-          ? "Cập nhật giảm giá thất bại"
-          : "Tạo giảm giá thất bại",
-      });
-    } finally {
-      setLoading(false);
+    } else {
+      setFailPopup({ open: true, message: result.error });
     }
   };
   const toggleSelectAll = () => {
@@ -200,34 +176,13 @@ const DiscountManagement = ({ notTitle }) => {
     }
     setSelectAll(!selectAll);
   };
-  const handleDelete = async () => {
-    try {
-      setLoading(true);
-      for (const id of selectedDiscounts) {
-        const response = await fetch(
-          `http://localhost:8080/api/discounts/${id}`,
-          {
-            method: "DELETE",
-          },
-        );
-
-        if (!response.ok) throw new Error("Không thể xóa giảm giá");
-      }
-
-      setSuccessPopup({
-        open: true,
-        message: "Xóa giảm giá thành công!",
-      });
+const handleDelete = async (id) => {
+    const result = await deleteDiscount(id);
+    if (result.success) {
+      setSuccessPopup({ open: true, message: result.message });
       fetchDiscounts();
-      setIsDeleteModalOpen(false);
-      setSelectedDiscounts([]);
-    } catch (err) {
-      setFailPopup({
-        open: true,
-        message: "Xóa giảm giá thành công!",
-      });
-    } finally {
-      setLoading(false);
+    } else {
+      setFailPopup({ open: true, message: result.error });
     }
   };
 
@@ -289,17 +244,10 @@ const DiscountManagement = ({ notTitle }) => {
       });
     }
   };
-  const showAlert = (message, severity) => {
-    setAlert({ open: true, message, severity });
-    setTimeout(
-      () => setAlert({ open: false, message: "", severity: "" }),
-      5000,
-    );
-  };
 
-  const formatDateForInput = (dateString) => {
-    return new Date(dateString).toISOString().slice(0, 16);
-  };
+const formatDateForInput = (dateString) => {
+  return new Date(dateString).toISOString().slice(0, 19); 
+};
 
   const formatDateForDisplay = (dateString) => {
     return new Date(dateString).toLocaleDateString("vi-VN", {
@@ -471,7 +419,7 @@ const DiscountManagement = ({ notTitle }) => {
                       onChange={() => handleCheckboxChange(discount.id)}
                     />
                   </TableCell>
-                  <TableCell>{discount.discountCode}</TableCell>
+                  <TableCell>{discount?.discountCode}</TableCell>
                   <TableCell>{discount.tourName}</TableCell>
                   <TableCell>{discount.discountAmount}%</TableCell>
                   <TableCell>
@@ -513,9 +461,15 @@ const DiscountManagement = ({ notTitle }) => {
             {isEditMode ? "Chỉnh Sửa Giảm Giá" : "Thêm Giảm Giá Mới"}
           </Typography>
           <form onSubmit={handleSubmit}>
-            <Typography variant="body1">
-              Mã Giảm Giá: {selectedDiscount?.discountCode}
-            </Typography>
+           <TextField
+  label="Mã Giảm Giá"
+  value={selectedDiscount?.discountCode || ""}
+  InputProps={{
+    readOnly: true, 
+  }}
+  fullWidth
+  margin="normal"
+/>
             <FormControl fullWidth margin="normal">
               <InputLabel>Tour</InputLabel>
               <Select

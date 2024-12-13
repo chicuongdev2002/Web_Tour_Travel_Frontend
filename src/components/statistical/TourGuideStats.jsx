@@ -41,6 +41,7 @@ import {
   Download as DownloadIcon,
   Refresh as RefreshIcon,
 } from "@mui/icons-material";
+import { getTourGuideStatistic, getTourGuideWorkingHour } from "../../functions/tourGuideStatistics";
 
 const TourGuideStats = () => {
   const theme = useTheme();
@@ -93,19 +94,10 @@ const TourGuideStats = () => {
       const { startDate, endDate } = calculateDateRange(timeRange);
       const startISO = startDate.toISOString();
       const endISO = endDate.toISOString();
-
-      const [statsResponse, hoursResponse] = await Promise.all([
-        fetch("http://localhost:8080/api/tour-guides/statistics"),
-        fetch(
-          `http://localhost:8080/api/tour-guides/working-hours?startDate=${startISO}&endDate=${endISO}`,
-        ),
-      ]);
-
-      const statsResult = await statsResponse.json();
-      const hoursResult = await hoursResponse.json();
-
-      setData(statsResult);
-      setWorkingHours(hoursResult);
+       const statsResult=await getTourGuideStatistic();
+       const hoursResult=await getTourGuideWorkingHour(startISO,endISO);
+      setData(statsResult.data);
+      setWorkingHours(hoursResult.data);
     } catch (err) {
       setError(err.message);
     } finally {

@@ -21,8 +21,8 @@ import {
   Paper,
   Stack,
   Fade,
-   useMediaQuery,
-    useTheme,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import {
   Star as StarIcon,
@@ -34,7 +34,6 @@ import {
   LocationOn as LocationOnIcon,
   TravelExplore as TravelExploreIcon,
   AttachMoney as AttachMoneyIcon,
-  
 } from "@mui/icons-material";
 import { useNavigate } from "react-router-dom";
 import SliderPaging from "../slider/SliderPaging";
@@ -47,6 +46,7 @@ import imageBasic from "../../assets/404.png";
 import { deleteData } from "../../functions/deleteData";
 import { UPDATE_TOUR_STATUS } from "../../config/host";
 import TopTours from "../tour/TopTours";
+import { deleteTour } from "../../functions/deleteTour";
 
 const TourDetailComponent = ({ tourData }) => {
   const navigate = useNavigate();
@@ -85,15 +85,12 @@ const TourDetailComponent = ({ tourData }) => {
       maximumFractionDigits: 0,
     }).format(price);
   };
-
-  // Participant type translation with more descriptive labels
   const participantTypeTranslation = {
     ADULTS: "Người lớn (Trên 12 tuổi)",
     CHILDREN: "Trẻ em (5-11 tuổi)",
     ELDERLY: "Người cao tuổi (Trên 60 tuổi)",
   };
 
-  // Handle booking navigation with enhanced state management
   const goToBooking = () => {
     const bookingState = {
       ...tourData,
@@ -105,17 +102,16 @@ const TourDetailComponent = ({ tourData }) => {
     });
   };
 
-  // Handle tour update navigation
   const goToUpdateTour = () => {
+    console.log("tourData", tourData);
     navigate(`/update-tour/${tourData.tourId}`, { state: tourData });
   };
 
-  // Handle tour deletion with improved error handling
-  const deleteTour = async () => {
+  const deleteTourById = async () => {
     try {
-      const result = await deleteData(UPDATE_TOUR_STATUS, tourData.tourId);
+      // const result = await deleteData(UPDATE_TOUR_STATUS, tourData.tourId);
+      const result = await deleteTour( tourData.tourId,storedUser.userId);
       setDeleteStatus(result ? "success" : "error");
-
       if (result) {
         setTimeout(() => navigate("/tour-list"), 1500);
       }
@@ -130,7 +126,13 @@ const TourDetailComponent = ({ tourData }) => {
       <Grid container spacing={8}>
         <Grid item xs={12} md={6}>
           <Box
-            sx={{ mb: 3, boxShadow: 3, borderRadius: 2, overflow: "hidden",height: isMobile ? "400px" : "600px" }}
+            sx={{
+              mb: 3,
+              boxShadow: 3,
+              borderRadius: 2,
+              overflow: "hidden",
+              height: isMobile ? "400px" : "600px",
+            }}
           >
             <SliderPaging
               images={
@@ -138,7 +140,10 @@ const TourDetailComponent = ({ tourData }) => {
                   ? tourData.images.map((img) => img.imageUrl)
                   : [imageBasic]
               }
-              mainImgDimension={{ width: "100%", height: isMobile ? "auto" : "500px" }}
+              mainImgDimension={{
+                width: "100%",
+                height: isMobile ? "auto" : "500px",
+              }}
               thumbImgDimension={{ width: 70, height: 70 }}
             />
           </Box>
@@ -417,13 +422,13 @@ const TourDetailComponent = ({ tourData }) => {
           </Box>
         </Grid>
         <Grid item xs={12} md={2}>
-             <Box>
-        <Typography variant="h6" gutterBottom>
-          Tour nổi bật
-        </Typography>
-        <TopTours />
-      </Box>
-           </Grid>
+          <Box>
+            <Typography variant="h6" gutterBottom>
+              Tour nổi bật
+            </Typography>
+            <TopTours />
+          </Box>
+        </Grid>
       </Grid>
 
       {/* Detailed Itinerary Section */}
@@ -476,7 +481,7 @@ const TourDetailComponent = ({ tourData }) => {
           </Button>
           <Button
             onClick={() => {
-              deleteTour();
+              deleteTourById();
               setOpenDeleteDialog(false);
             }}
             color="error"

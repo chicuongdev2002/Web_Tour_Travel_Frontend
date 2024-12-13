@@ -12,6 +12,7 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
+import { updateAccount } from "../../../functions/accountcrud";
 
 const UserDetailsDialog = ({ open, onClose, userDetails, onUpdateSuccess }) => {
   const [isEditing, setIsEditing] = useState(false);
@@ -30,14 +31,7 @@ const UserDetailsDialog = ({ open, onClose, userDetails, onUpdateSuccess }) => {
 
   const handleSave = async () => {
     try {
-      const response = await fetch(`http://localhost:8080/api/accounts`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(editedUserDetails),
-      });
-
+      const response=await updateAccount(editedUserDetails);
       if (response.ok) {
         alert("Cập nhật thành công!");
         onUpdateSuccess();

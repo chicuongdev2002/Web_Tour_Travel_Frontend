@@ -24,6 +24,7 @@ import {
 } from "recharts";
 import axios from "axios";
 import NavHeader from "../navbar/NavHeader";
+import { getTourProviderDetail } from "../../functions/getTourProviderDetail";
 
 const TourProviderDetail = () => {
   const [userData, setUserData] = useState([]);
@@ -33,15 +34,11 @@ const TourProviderDetail = () => {
 
   useEffect(() => {
     const fetchTourData = async () => {
-      const user = sessionStorage.getItem("user"); // Retrieve userId from session
+      const user = sessionStorage.getItem("user"); 
       const userId = JSON.parse(user).userId;
       try {
-        const response = await axios.get(
-          `http://localhost:8080/api/tours/count-by-user/${userId}`, // Use userId in API call
-        );
+        const response=await getTourProviderDetail(userId);
         setUserData(response.data);
-
-        // Tour Type Analysis
         const tourTypeCounts = response.data.tours.reduce((acc, tour) => {
           const type = tour.tourType;
           acc[type] = (acc[type] || 0) + 1;
@@ -144,7 +141,7 @@ const TourProviderDetail = () => {
             <Card elevation={6} sx={{ borderRadius: 3 }}>
               <CardContent>
                 <Typography variant="h6" sx={{ color: "#2c3e50", mb: 2 }}>
-                  Số Lượng Tour Của Từng Đại Lý
+                  Số Lượng Tour 
                 </Typography>
                 <ResponsiveContainer width="100%" height={350}>
                   <BarChart data={[userData]}>
@@ -283,7 +280,7 @@ const TourProviderDetail = () => {
             <Card elevation={6} sx={{ borderRadius: 3 }}>
               <CardContent>
                 <Typography variant="h6" sx={{ color: "#2c3e50", mb: 2 }}>
-                  Doanh Thu Từng Đại Lý
+                  Doanh Thu
                 </Typography>
                 <ResponsiveContainer width="100%" height={350}>
                   <BarChart data={revenueUser}>
