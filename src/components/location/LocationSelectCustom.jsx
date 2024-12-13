@@ -9,6 +9,7 @@ function LocationSelectCustom({
   districts,
   onChangeProvince,
   onChangeDitricts,
+  disable
 }) {
   return (
     <div className="d-flex flex-column w-100" style={{ marginTop: 10 }}>
@@ -18,6 +19,7 @@ function LocationSelectCustom({
       <div className="divRow">
         <div className="w-50">
           <SelectComponent
+            disable={disable}
             notMarginTop={true}
             listData={provinces}
             value={province}
@@ -26,6 +28,7 @@ function LocationSelectCustom({
         </div>
         <div className="ml-2 w-50">
           <SelectComponent
+            disable={disable}
             notMarginTop={true}
             listData={districts}
             value={district}
