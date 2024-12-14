@@ -12,11 +12,16 @@ export default defineConfig({
   plugins: [react()],
   base: '/',
   server: {
-    port: 5173,
+    port: 10000,
     open: true,
   },
   build: {
     outDir: 'dist',
+    rollupOptions: {
+      output: {
+        manualChunks: undefined
+      }
+    }
   },
   resolve: {
     alias: {
