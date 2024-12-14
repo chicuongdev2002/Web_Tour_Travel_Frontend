@@ -105,6 +105,7 @@ export const resetPasswords = async (userIds) => {
 export const deleteAccount = async (userIds) => {
   try {
     await axios.delete(`${GET_ACCOUNT}`, { userIds });
+    console.log('userIds:',);
     return { success: true };
   } catch (error) {
     console.error('Error resetting passwords:', error);
