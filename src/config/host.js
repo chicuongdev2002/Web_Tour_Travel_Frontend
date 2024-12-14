@@ -1,4 +1,5 @@
-const REACT_APP_HOST = "http://localhost:8080";
+// const REACT_APP_HOST = "http://localhost:8080";
+const REACT_APP_HOST = "https://tourtravelbackend-production.up.railway.app";
 const GET_ALL_TOUR = REACT_APP_HOST + "/api/tours";
 const GET_TOUR_PAGE = REACT_APP_HOST + "/api/tours/page";
 const CHECK_ACCOUNT_EXISTS = REACT_APP_HOST + "/api/accounts/exists";

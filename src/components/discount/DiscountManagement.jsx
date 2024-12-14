@@ -278,7 +278,9 @@ const formatDateForInput = (dateString) => {
     indexOfLastDiscount,
   );
   const totalPages = Math.ceil(filteredDiscounts.length / itemsPerPage);
-
+// const formatDiscountAmount = (discountAmount) => {
+//  log
+// };
   return (
     <div className="discount-management">
       {!notTitle && (
@@ -421,7 +423,7 @@ const formatDateForInput = (dateString) => {
                   </TableCell>
                   <TableCell>{discount?.discountCode}</TableCell>
                   <TableCell>{discount.tourName}</TableCell>
-                  <TableCell>{discount.discountAmount}%</TableCell>
+                  <TableCell>{discount.discountAmount}</TableCell>
                   <TableCell>
                     <div className="date-range">
                       <div>Từ: {formatDateForDisplay(discount.startDate)}</div>
@@ -493,7 +495,7 @@ const formatDateForInput = (dateString) => {
               )}
             </FormControl>
             <TextField
-              label="Số Tiền Giảm Giá (%)"
+              label="Số Tiền Giảm Giá"
               type="number"
               value={formData.discountAmount}
               onChange={(e) =>
