@@ -8,6 +8,7 @@ const getBookingId = async (bookingId) => {
 };
 
 const getBookingByTourId = async (tourId) => {
+    debugger
     const url = getAPI(GET_BOOKING_BY_TOUR, {tourId});
     const response = await axios.get(url);
     return response.data;
