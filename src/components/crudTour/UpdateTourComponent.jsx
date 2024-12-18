@@ -64,8 +64,8 @@ function UpdateTourComponent({ data }) {
   const [bookingByTour, setBookingByTour] = useState([]);
 
   useEffect(() => {
-    debugger
     getBookingByTourId(data.tourId).then((d) => {
+      debugger
       setBookingByTour(d);
       if (d.length === 0) setAllowUpdate(true);
     })
@@ -134,19 +134,20 @@ function UpdateTourComponent({ data }) {
   };
 
   const checkBooking = (departureId) => {
-    debugger
     if(bookingByTour.length === 0) return false;
     return bookingByTour.filter((b) => b.departureId === departureId).length > 0
   }
 
   const addButton = (departure) => {
     let d = departure.map((d) => {
-      debugger
       return {
         ...d,
         update: (
           <Button
-            disabled={checkBooking(d.id)}
+            disabled={() => {
+              if(bookingByTour.length === 0) return false;
+    return bookingByTour.filter((b) => b.departureId === d.id).length > 0
+            }}
             className="btn btn-primary bg-success"
             variant="contained"
             onClick={() => handleFillUpdateTourModal(d)}
@@ -156,7 +157,10 @@ function UpdateTourComponent({ data }) {
         ),
         delete: (
           <Button
-            disabled={checkBooking(d.id)}
+            disabled={() => {
+              if(bookingByTour.length === 0) return false;
+    return bookingByTour.filter((b) => b.departureId === d.id).length > 0
+            }}
             className="btn btn-danger bg-danger"
             variant="contained"
             onClick={() => {
@@ -332,7 +336,7 @@ function UpdateTourComponent({ data }) {
 
   const handleFillAddTourModal = () => {
     setDepartureId("");
-    setStartDate(moment(new Date()).format("DD/MM/YYYY HH:mm:ss"));
+    setStartDate("");
     setEndDate("");
     setMaxParticipants(0);
     setChildrenPrice(0);

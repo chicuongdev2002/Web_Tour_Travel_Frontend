@@ -3,7 +3,10 @@ import REACT_APP_HOST, { LOGIN } from '../config/host';
 
 const axiosInstance = axios.create({
   baseURL: `${REACT_APP_HOST}`,
-  withCredentials: true  
+  withCredentials: true ,
+  // headers: {
+  //   'Content-Type': 'application/json'
+  // }
 });
 
 const login = async (username, password) => {
