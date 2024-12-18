@@ -45,9 +45,8 @@ function BookingListComponent({ data }) {
       size,
       user && user.role != "ADMIN" ? user.userId : 0,
     );
-    let t = result.content;
-    debugger;
-    setBookings(result.content);
+    let t = result.content.filter((b) => b);
+    setBookings(t);
     setPage(result.page);
   }, []);
 
@@ -59,16 +58,18 @@ function BookingListComponent({ data }) {
 
   const convertData = useCallback((data) => {
     return data?.map((d) => {
+      if(!d)
+        return null;
       return {
         "Booking ID": {
-          title: d.extendBooking.bookingId,
+          title: d?.extendBooking?.bookingId,
           onClick: () => {
             generateDataFormView(null, null, null, d);
             setNotify(-2);
           },
         },
         "Khách hàng": {
-          title: d.fullName,
+          title: d?.fullName,
           onClick: () => {
             generateDataFormView({
               fullName: d.fullName,
