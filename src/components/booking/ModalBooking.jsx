@@ -156,7 +156,7 @@ function ModalBooking({
               className="btn btn-primary"
               onClick={pending ? null : handleCreatePayment}
             >
-              {pending ? "Đang chờ thanh toán" : "OK"}
+              {pending ? "Đang tạo đơn đặt tour..." : "OK"}
             </button>
           </div>
         </FormView>
