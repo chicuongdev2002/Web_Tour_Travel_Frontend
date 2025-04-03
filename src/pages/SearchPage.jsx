@@ -32,7 +32,7 @@ import {
 } from "@mui/icons-material";
 import TopTours from "../components/tour/TopTours";
 import ContactLinks from "../components/contact/ContactLinks";
-
+import "../style/StylePage.css";
 // Theme configuration
 const theme = createTheme({
   palette: {
@@ -189,7 +189,13 @@ function SearchPage() {
   );
 
   return (
-    <ThemeProvider theme={theme}>
+       <div>
+      <div className="position">
+        <div className="nav-header">
+          <NavHeader textColor="black" />
+        </div>
+        <div className="content">
+          <ThemeProvider theme={theme}>
       <Box
         sx={{
           // background: "linear-gradient(to bottom, #00aaff, #e0f7fa)",
@@ -222,7 +228,6 @@ function SearchPage() {
             }
           `}
         </style>
-        <NavHeader textColor="black" />
         <Container maxWidth="xl">
           <ContactLinks />
           {isMobile && (
@@ -349,6 +354,10 @@ function SearchPage() {
         </ScrollTop>
       </Box>
     </ThemeProvider>
+        </div>
+      </div>
+    </div>
+   
   );
 }
 
