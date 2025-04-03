@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect} from "react";
 import "./style.css";
 import { useNavigate, useLocation } from "react-router-dom";
 import { GoogleLogin } from "@react-oauth/google";
@@ -63,16 +63,31 @@ const LoginRegister = () => {
   });
   const [failPopup, setFailPopup] = useState({ open: false, message: "" });
   const [isLoading, setIsLoading] = useState(false);
-  const handleRegisterClick = () => {
-    setIsActive(true);
-    setError("");
-  };
+  const [isMobile, setIsMobile] = useState(false);
+const handleRegisterClick = (e) => {
+  e.preventDefault();
+  setIsActive(true);
+  setError("");
+};
 
-  const handleForgetPasswordClick = () => {
-    setShowEmailInput(true);
-    setFailedLoginAttempts(3);
-    setIsForgotPasswordActive(true);
-  };
+const handleForgetPasswordClick = (e) => {
+  e.preventDefault();
+  setShowEmailInput(true);
+  setFailedLoginAttempts(3);
+  setIsForgotPasswordActive(true);
+};
+
+ 
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const handleLogin = async (e) => {
     e.preventDefault();
     const result = await login(username, password);
@@ -419,8 +434,8 @@ const LoginRegister = () => {
   return (
     <div className="divCenter" style={{height:'100vh'}}>
       <div className={`wrapper ${isActive ? "active" : ""}`}>
-        <span className="rotate-bg"></span>
-        <span className="rotate-bg2"></span>
+        {!isMobile && <span className="rotate-bg"></span>}
+        {!isMobile && <span className="rotate-bg2"></span>}
         {/* Login Form */}
         <div className="form-box login">
           <h2 className="title animation" style={{ "--i": 0, "--j": 21 }}>
@@ -532,23 +547,37 @@ const LoginRegister = () => {
                     : "Gửi mã xác minh"
                   : "Đăng nhập"}
             </button>
+           
             <div className="linkTxt animation" style={{ "--i": 5, "--j": 25 }}>
               <p>
                 Bạn chưa có tài khoản?{" "}
-                <a
-                  href="#"
-                  className="register-link"
-                  onClick={handleRegisterClick}
-                >
-                  Đăng kí
-                </a>
+             <a 
+  // href="#"
+  className="register-link"
+  onClick={handleRegisterClick}
+  onTouchStart={handleRegisterClick} 
+  style={{
+    cursor: 'pointer',
+    touchAction: 'manipulation',
+    WebkitTapHighlightColor: 'transparent', 
+    padding: '10px',
+    display: 'inline-block'
+  }}
+>
+  Đăng kí
+</a>
               </p>
               {!isForgotPasswordActive && (
                 <p>
                   <a
-                    href="#"
+                    // href="#"
                     className="register-link"
                     onClick={handleForgetPasswordClick}
+                      style={{
+                cursor: 'pointer', 
+                touchAction: 'manipulation',
+                 padding: '10px',
+              }}
                   >
                     Bạn quên mật khẩu ư?
                   </a>
@@ -563,14 +592,17 @@ const LoginRegister = () => {
         </div>
 
         {/* Info Text for Login */}
-        <div className="info-text login pl-5">
+            {!isMobile && (
+               <div className="info-text login pl-5">
           <h2 className="animation h5 ml-5" style={{ "--i": 0, "--j": 20 }}>
             Xuyên Việt Tour
           </h2>
           <p className="animation" style={{ "--i": 1, "--j": 21 }}>
             Chào mừng bạn trở lại!
           </p>
-        </div>
+        </div> 
+            )}
+       
         {/* Register Form */}
         <div className="form-box register">
           <h2 className="title animation" style={{ "--i": 17, "--j": 0 }}>
@@ -664,7 +696,7 @@ const LoginRegister = () => {
               <p>
                 Đã có tài khoản?{" "}
                 <a
-                  href="#"
+                  // href="#"
                   className="login-link"
                   onClick={() => setIsActive(false)}
                 >
@@ -683,7 +715,8 @@ const LoginRegister = () => {
         </div>
 
         {/* Info Text for Register */}
-        <div className="info-text register">
+          {!isMobile && (
+         <div className="info-text register">
           <h2 className="animation" style={{ "--i": 17, "--j": 0 }}>
             Welcome Back!
           </h2>
@@ -691,6 +724,7 @@ const LoginRegister = () => {
             Enter your personal details and start journey with us
           </p>
         </div>
+          )}
       </div>
       <SuccessPopup
         open={successPopup.open}

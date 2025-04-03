@@ -33,6 +33,7 @@ import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import CookieConsentBanner from "./components/cookie/CookieConsentBanner.jsx";
 import BookingDetails from './pages/BookingDetails.jsx';
+import ChatInterface from './components/chatbot/ChatInterface'
 function App() {
   const user = JSON.parse(sessionStorage.getItem("user"));
   const dispatch = useDispatch();
@@ -62,6 +63,7 @@ function App() {
         <Route path="/login-register" element={<Login />} />
         <Route path="/tour-list" element={<TourList />} />
         <Route path="/booking" element={<Booking />} />
+        <Route path="/chat" element={<ChatInterface />} />
         <Route
           path="/add-tour"
           element={

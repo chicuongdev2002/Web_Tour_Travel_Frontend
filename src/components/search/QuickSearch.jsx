@@ -13,6 +13,8 @@ import {
   styled,
   alpha,
   keyframes,
+  useMediaQuery,
+  useTheme,
 } from "@mui/material";
 import {
   Search as SearchIcon,
@@ -48,46 +50,55 @@ const float = keyframes`
 // Custom styled components
 const SearchPaper = styled(Paper)(({ theme }) => ({
   position: "relative",
-  borderRadius: 30,
+  borderRadius: 20, // Giảm borderRadius
   display: "flex",
   alignItems: "center",
   width: "100%",
-  maxWidth: 700,
+  maxWidth: theme.breakpoints.values.sm, // Giới hạn chiều rộng tối đa
   margin: "0 auto",
   transition: "all 0.3s ease-in-out",
-  boxShadow: "0 4px 20px rgba(0, 0, 0, 0.1)",
-  backdropFilter: "blur(8px)",
+  boxShadow: "0 2px 10px rgba(0, 0, 0, 0.1)", // Giảm boxShadow
+  backdropFilter: "blur(5px)",
   backgroundColor: alpha(theme.palette.background.paper, 0.9),
+  border: "2px solid transparent",
   "&:hover": {
     transform: "translateY(-2px)",
-    boxShadow: "0 6px 25px rgba(0, 0, 0, 0.15)",
+    boxShadow: "0 4px 15px rgba(0, 0, 0, 0.15)",
   },
-  border: "2px solid transparent",
   "&:focus-within": {
     border: `2px solid ${theme.palette.primary.main}`,
     boxShadow: `0 0 0 4px ${alpha(theme.palette.primary.main, 0.2)}`,
+  },
+  [theme.breakpoints.down('sm')]: {
+    maxWidth: "95%", // Điều chỉnh chiều rộng cho mobile
+    borderRadius: 15,
   },
 }));
 
 const StyledInputBase = styled(InputBase)(({ theme }) => ({
   width: "100%",
   "& .MuiInputBase-input": {
-    padding: "20px",
-    paddingLeft: theme.spacing(6),
-    paddingRight: theme.spacing(15),
-    fontSize: "1.2rem",
+    padding: "2px", // Giảm padding
+    paddingLeft: theme.spacing(5),
+    paddingRight: theme.spacing(10),
+    fontSize: "1rem", // Giảm kích thước font
     "&::placeholder": {
       color: alpha(theme.palette.text.primary, 0.6),
       opacity: 1,
+    },
+    [theme.breakpoints.down('sm')]: {
+      fontSize: "0.9rem", // Nhỏ hơn nữa trên mobile
+      paddingLeft: theme.spacing(4),
+      paddingRight: theme.spacing(8),
     },
   },
 }));
 
 const SearchButton = styled(IconButton)(({ theme }) => ({
   position: "absolute",
-  right: 8,
-  padding: "12px 28px",
-  borderRadius: 25,
+  right: 4, // Giảm khoảng cách
+  padding: "8px 20px", // Giảm padding
+  borderRadius: 20,
   backgroundColor: theme.palette.primary.main,
   color: theme.palette.primary.contrastText,
   animation: `${pulse} 2s infinite`,
@@ -98,38 +109,40 @@ const SearchButton = styled(IconButton)(({ theme }) => ({
   "& .MuiTypography-root": {
     marginLeft: theme.spacing(1),
     fontWeight: 600,
+    fontSize: "0.8rem", // Giảm kích thước font
+  },
+  [theme.breakpoints.down('sm')]: {
+    padding: "6px 15px", // Nhỏ hơn trên mobile
   },
 }));
 
 const AnimatedIcon = styled(FlightTakeoffIcon)(({ theme }) => ({
-  fontSize: 48,
+  fontSize: 36, // Giảm kích thước icon
   color: "#53A6D8",
   animation: `${float} 3s ease-in-out infinite`,
-}));
-
-const PopularDestination = styled(Chip)(({ theme }) => ({
-  backgroundColor: "transparent",
-  border: "1px solid rgba(255, 255, 255, 0.5)",
-  color: "white",
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.common.white, 0.1),
-    cursor: "pointer",
+  [theme.breakpoints.down('sm')]: {
+    fontSize: 28, // Nhỏ hơn trên mobile
   },
 }));
 
-const GradientBackground = styled(Box)({
+const GradientBackground = styled(Box)(({ theme }) => ({
   background: "linear-gradient(135deg, #1e3c72 0%, #2a5298 100%)",
   minHeight: "100vh",
   padding: "40px 0",
-});
+  [theme.breakpoints.down('sm')]: {
+    padding: "20px 0", // Giảm padding trên mobile
+  },
+}));
 
 const QuickSearch = () => {
   const [searchText, setSearchText] = useState("");
   const navigate = useNavigate();
+  const theme = useTheme();
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
   const popularDestinations = [
     "Hạ Long",
-    "Đà Nẵng",
+    "Đà Nẵng", 
     "Phú Quốc",
     "Nha Trang",
     "Sapa",
@@ -146,89 +159,115 @@ const QuickSearch = () => {
 
   return (
     // <GradientBackground>
-    <Container maxWidth="lg">
-      <Box sx={{ textAlign: "center", mb: 8, mt: 4 }}>
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
-            mb: 3,
-          }}
-        >
-          <AnimatedIcon />
+      <Container maxWidth="sm">
+        <Box sx={{ textAlign: "center", mb: isMobile ? 4 : 8, mt: isMobile ? 2 : 4 }}>
+          {!isMobile && (
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                mb: 3,
+              }}
+            >
+              <AnimatedIcon />
+              <Typography
+                variant={isMobile ? "h4" : "h2"}
+                component="h1"
+                fontWeight="bold"
+                color="white"
+                sx={{ 
+                  ml: 2, 
+                  textShadow: "2px 2px 4px rgba(0,0,0,0.2)",
+                  fontSize: isMobile ? "1.5rem" : undefined
+                }}
+              >
+                Khám Phá Điểm Đến Của Bạn
+              </Typography>
+            </Box>
+          )}
+
           <Typography
-            variant="h2"
-            component="h1"
-            fontWeight="bold"
+            variant={isMobile ? "subtitle1" : "h5"}
             color="white"
-            sx={{ ml: 2, textShadow: "2px 2px 4px rgba(0,0,0,0.2)" }}
+            sx={{
+              opacity: 0.9,
+              maxWidth: 600,
+              margin: "0 auto",
+              mb: 3,
+              textShadow: "1px 1px 2px rgba(0,0,0,0.2)",
+              fontSize: isMobile ? "0.9rem" : undefined,
+            }}
           >
-            Khám Phá Điểm Đến Của Bạn
+            Hãy bắt đầu hành trình khám phá Việt Nam của bạn ngay hôm nay
           </Typography>
+
+          <Fade in timeout={1000}>
+            <form onSubmit={handleSearch}>
+              <SearchPaper elevation={0}>
+                <LocationOnIcon sx={{ ml: 2, color: "text.secondary", fontSize: "small" }} />
+                <StyledInputBase
+                  placeholder="Bạn muốn đi đâu?"
+                  value={searchText}
+                  onChange={(e) => setSearchText(e.target.value)}
+                  fullWidth
+                />
+                <SearchButton type="submit" aria-label="search">
+                  <SearchIcon fontSize="small" />
+                  {!isMobile && <Typography variant="button">Tìm</Typography>}
+                </SearchButton>
+              </SearchPaper>
+            </form>
+          </Fade>
+
+          {popularDestinations.length > 0 && (
+            <Box sx={{ mt: isMobile ? 2 : 6, textAlign: "center" }}>
+              <Typography
+                variant={isMobile ? "subtitle2" : "h6"}
+                color="white"
+                sx={{
+                  mb: 2,
+                  opacity: 0.9,
+                  textShadow: "1px 1px 2px rgba(0,0,0,0.2)",
+                  fontSize: isMobile ? "0.8rem" : undefined,
+                }}
+              >
+                Khám phá hàng nghìn tour du lịch hấp dẫn trên khắp Việt Nam
+              </Typography>
+              <Stack
+                direction="row"
+                spacing={1}
+                justifyContent="center"
+                flexWrap="wrap"
+                sx={{ 
+                  gap: 1, 
+                  maxWidth: "100%",
+                  overflow: "auto",
+                  display: "flex",
+                  justifyContent: "center"
+                }}
+              >
+                {popularDestinations.map((destination) => (
+                  <Chip
+                    key={destination}
+                    label={destination}
+                    onClick={() => setSearchText(destination)}
+                    size={isMobile ? "small" : "medium"}
+                    variant="outlined"
+                    sx={{
+                      color: "white",
+                      borderColor: "rgba(255,255,255,0.5)",
+                      '&:hover': {
+                        backgroundColor: "rgba(255,255,255,0.1)"
+                      }
+                    }}
+                  />
+                ))}
+              </Stack>
+            </Box>
+          )}
         </Box>
-        <Typography
-          variant="h5"
-          color="white"
-          sx={{
-            opacity: 0.9,
-            maxWidth: 600,
-            margin: "0 auto",
-            textShadow: "1px 1px 2px rgba(0,0,0,0.2)",
-          }}
-        >
-          Hãy bắt đầu hành trình khám phá Việt Nam của bạn ngay hôm nay
-        </Typography>
-      </Box>
-
-      <Fade in timeout={1000}>
-        <form onSubmit={handleSearch}>
-          <SearchPaper elevation={0}>
-            <LocationOnIcon sx={{ ml: 3, color: "text.secondary" }} />
-            <StyledInputBase
-              placeholder="Bạn muốn đi đâu?"
-              value={searchText}
-              onChange={(e) => setSearchText(e.target.value)}
-              fullWidth
-            />
-            <SearchButton type="submit" aria-label="search">
-              <SearchIcon />
-              <Typography variant="button">Tìm</Typography>
-            </SearchButton>
-          </SearchPaper>
-        </form>
-      </Fade>
-
-      <Box sx={{ mt: 6, textAlign: "center" }}>
-        <Typography
-          variant="h6"
-          color="white"
-          sx={{
-            mb: 3,
-            opacity: 0.9,
-            textShadow: "1px 1px 2px rgba(0,0,0,0.2)",
-          }}
-        >
-          Khám phá hàng nghìn tour du lịch hấp dẫn trên khắp Việt Nam
-        </Typography>
-        <Stack
-          direction="row"
-          spacing={2}
-          justifyContent="center"
-          flexWrap="wrap"
-          sx={{ gap: 2 }}
-        >
-          {popularDestinations.map((destination) => (
-            <PopularDestination
-              key={destination}
-              label={destination}
-              onClick={() => setSearchText(destination)}
-              variant="outlined"
-            />
-          ))}
-        </Stack>
-      </Box>
-    </Container>
+      </Container>
     // </GradientBackground>
   );
 };

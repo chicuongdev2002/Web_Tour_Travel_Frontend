@@ -12,122 +12,64 @@
   margin: 20px auto;
 }
 
-/* Mobile-first media queries */
+/* Responsive Styles */
+/* Responsive Styles */
 @media screen and (max-width: 768px) {
   .wrapper {
-    width: 95%;
-    min-width: unset;
-    height: auto;
+    width: 100%;
     min-height: 100vh;
+    /* Đảm bảo chiều cao đầy đủ */
     margin: 0;
     border: none;
     border-radius: 0;
+    overflow-x: hidden;
   }
 
-  .wrapper .form-box {
+  .form-box {
     width: 100%;
-    padding: 20px;
+    padding: 20px 10px;
+    /* Giảm padding */
     position: relative;
-    height: auto;
+    z-index: 10;
   }
 
-  .wrapper .form-box.login,
-  .wrapper .form-box.register {
-    padding: 20px;
-    left: 0;
-    right: 0;
-  }
-
-  .wrapper .info-text {
-    display: none;
-  }
-
-  .wrapper .rotate-bg,
-  .wrapper .rotate-bg2 {
-    display: none;
-  }
-
-  /* Form elements */
   form {
     width: 100%;
-    padding: 15px;
+    padding: 10px;
+    /* Giảm padding */
   }
 
   .form-box h2 {
-    font-size: 20px;
-    margin-bottom: 30px;
+    font-size: 24px;
+    /* Tăng kích thước tiêu đề cho dễ nhìn */
     text-align: center;
   }
 
-  /* Input fields */
-  .input-box {
-    margin-bottom: 20px;
+  .error-message {
+    font-size: 14px;
+    padding: 8px;
+    color: red;
+    display: flex;
+    align-items: center;
+    border-radius: 5px;
+  }
+
+  .form-box .btn,
+  .linkTxt a {
+    padding: 15px;
+    margin: 5px 0;
+    /* Giảm margin giữa các nút */
+    min-height: 45px;
+    /* Giảm chiều cao tối thiểu */
+    touch-action: manipulation;
   }
 
   .input-box input {
     width: 100%;
-    padding: 12px;
+    padding: 10px;
+    /* Giảm padding */
     font-size: 16px;
-  }
-
-  /* Buttons */
-  .btn {
-    width: 100%;
-    padding: 12px;
-    font-size: 16px;
-    margin: 15px 0;
-  }
-
-  /* Links */
-  .linkTxt {
-    text-align: center;
-    margin: 15px 0;
-  }
-
-  /* Animation adjustments */
-  .wrapper.active .form-box.login .animation {
-    transform: translateX(-100%);
-  }
-
-  .wrapper.active .form-box.register .animation {
-    transform: translateX(0);
-  }
-
-  /* Google Login button */
-  .google-login {
-    width: 100%;
-    margin: 10px 0;
-  }
-
-  /* Error messages */
-  .error-message {
-    font-size: 14px;
-    padding: 8px;
-    margin: 10px 0;
-  }
-
-  /* Popup adjustments */
-  .popup {
-    width: 90%;
-    max-width: 300px;
-    padding: 15px;
-  }
-}
-
-/* Tablet adjustments */
-@media screen and (min-width: 769px) and (max-width: 1024px) {
-  .wrapper {
-    width: 95%;
-    max-width: 800px;
-  }
-
-  .wrapper .form-box.login,
-  .wrapper .form-box.register {
-    padding: 30px;
-  }
-
-  .info-text {
-    padding: 30px;
+    border-radius: 5px;
   }
 }
 
@@ -164,7 +106,7 @@
 .wrapper .form-box {
   position: absolute;
   top: 0;
-  width: 50%;
+  /* width: 50%; */
   height: 100%;
   display: flex;
   justify-content: center;
@@ -196,7 +138,11 @@ form .linkTxt {
   font-size: 14px;
   margin: 20px 0 10px;
 }
-
+.linkTxt a {
+  touch-action: manipulation;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
 .wrapper .form-box.login .animation {
   transform: translateX(0);
   transition: 0.7s ease;
